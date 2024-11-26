@@ -1,0 +1,31 @@
+.auth-container {
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 20px;
+
+  .form-container {
+    border: none;
+
+    padding: 20px;
+    background-color: transparent;
+
+    .form-toggle {
+      margin-bottom: 20px;
+      border-bottom: 1px solid rgb(212, 211, 211);
+      button {
+        flex: 1;
+        padding: 10px;
+        border: none;
+        background: transparent;
+        cursor: pointer;
+        font-weight: bold;
+        color: black;
+      }
+    }
+    .form-toggle button.active {
+      border-bottom: 3px solid #3b5998;
+      color: black;
+    }
+  }
+}
