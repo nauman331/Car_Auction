@@ -9,8 +9,8 @@ import toast from "react-hot-toast"
 
 const Signup = () => {
   const navigate = useNavigate();
-  const [showPassword, setShowPassword] = useState(false);
   const [role, setRole] = useState("Buyer");
+  const [showPassword, setShowPassword] = useState(false);
   const [user, setUser] = useState({
     name: "",
     email: "",

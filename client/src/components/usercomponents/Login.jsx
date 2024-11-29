@@ -7,7 +7,7 @@ import toast from "react-hot-toast"
 import { backendURL } from "../../utils/Exports";
 import { useDispatch } from "react-redux";
 import { setToken } from "../../store/slices/authSlice"
-import {useNavigate} from "react-router-dom"
+import {useNavigate, NavLink} from "react-router-dom"
 
 const Login = () => {
   const navigate = useNavigate()
@@ -88,7 +88,7 @@ const Login = () => {
         <label>
           <input type="checkbox" /> Remember
         </label>
-        <a href="#">Forgotten password?</a>
+        <NavLink to="/resetpassword">Forgotten password?</NavLink>
       </div>
       <button type="submit" className="btn-primary">
         Login{" "}
