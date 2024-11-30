@@ -1,0 +1,169 @@
+.footer-section {
+  background-color: #050b20;
+  padding: 40px 0 20px;
+  .footertopsection {
+    display: table;
+    width: 100%;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #6b6c7e;
+    margin-bottom: 50px;
+    .Products {
+      padding: 0 15px;
+      h3 {
+        font-family: "DM Sans";
+        font-style: normal;
+        font-weight: 500;
+        font-size: 20px;
+        line-height: 30px;
+        margin-bottom: 20px;
+        color: #ffffff;
+      }
+      ul {
+        list-style: none;
+        padding-left: 0;
+        li {
+          font-size: 16px;
+          font-family: "DM Sans";
+          margin-bottom: 10px;
+          line-height: 24px;
+          color: #ffffff;
+          font-weight: 400;
+          a {
+            font-family: "DM Sans";
+            font-style: normal;
+            font-weight: 400;
+            font-size: 15px;
+            line-height: 35px;
+            text-decoration: none;
+            color: #ffffff;
+          }
+        }
+      }
+    }
+    .mobileapp {
+      padding: 0 60px;
+      h3 {
+        font-family: "DM Sans";
+        font-style: normal;
+        font-weight: 500;
+        font-size: 20px;
+        line-height: 30px;
+        color: #ffffff;
+        margin-bottom: 30px;
+      }
+      .images {
+        img {
+          max-width: 100%;
+          object-fit: cover;
+          margin-bottom: 20px;
+        }
+      }
+      .contactwithus {
+        margin-top: 10px;
+        h4 {
+          font-family: "DM Sans";
+          font-style: normal;
+          font-weight: 500;
+          font-size: 20px;
+          line-height: 30px;
+          color: #ffffff;
+          margin-bottom: 20px;
+        }
+        .icon {
+          display: flex;
+
+          i {
+            border-radius: 50px;
+            color: #ffffff;
+            padding: 12px 12px;
+            width: 40px;
+            height: 40px;
+            text-align: center;
+            margin-right: 20px;
+            font-size: 15px;
+            background-color: #171c30;
+          }
+        }
+      }
+    }
+  }
+  .footer-text {
+    .logo {
+      margin-bottom: 20px;
+      img {
+        max-width: 100%;
+        object-fit: cover;
+      }
+    }
+    p {
+      /* Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id es */
+      font-family: "DM Sans";
+      font-style: normal;
+      font-weight: 400;
+      font-size: 15px;
+      line-height: 26px;
+      color: #ffffff;
+    }
+  }
+  .footer-information {
+    h4 {
+      /* Join BoxCar */
+      font-family: "DM Sans";
+      font-style: normal;
+      font-weight: 500;
+      font-size: 30px;
+      line-height: 45px;
+      color: #ffffff;
+    }
+    p {
+      /* Receive pricing updates, shopping tips & more! */
+      font-family: "DM Sans";
+      font-style: normal;
+      font-weight: 400;
+      font-size: 15px;
+      line-height: 26px;
+      color: #ffffff;
+    }
+    .footer-inputs {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      input {
+        background: #171c30;
+        border: none;
+        border-radius: 16px;
+        font-family: "DM Sans";
+        font-style: normal;
+        font-weight: 400;
+        font-size: 15px;
+        line-height: 26px;
+        padding: 15px 20px;
+        color: #ffffff !important;
+      }
+      button {
+        background-color: #405ff2;
+        padding: 15px 20px;
+        border: none;
+        border-radius: 16px;
+        a {
+          text-decoration: none;
+          color: #ffffff;
+          font-family: "DM Sans";
+          font-style: normal;
+          font-weight: 400;
+        }
+      }
+    }
+  }
+  .copyright {
+    p {
+      font-family: "DM Sans";
+      font-style: normal;
+      font-weight: 400;
+      font-size: 15px;
+      line-height: 26px;
+
+      color: #ffffff;
+    }
+  }
+}

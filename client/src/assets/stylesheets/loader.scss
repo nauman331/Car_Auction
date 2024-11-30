@@ -1,0 +1,27 @@
+
+.loader-section {
+  padding: 20px;
+
+  .loader-column {
+    text-align: center;
+    .loader-number {
+      font-family: "DM Sans";
+      font-style: normal;
+      font-weight: 700;
+      font-size: 38px;
+      line-height: 49px;
+      text-align: center;
+      color: #050b20;
+    }
+
+    .loader-label {
+      font-family: "DM Sans";
+      font-style: normal;
+      font-weight: 400;
+      font-size: 15px;
+      line-height: 28px;
+      text-align: center;
+      color: #050b20;
+    }
+  }
+}

@@ -1,0 +1,57 @@
+.Hero-section {
+  background-image: url("../images/Group\ 2.png");
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+  width: 100%;
+  min-height: 700px;
+  .hero-text-section {
+    padding: 130px 0 50px 0px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    p {
+      /* Shop Online. Pickup Today. It’s Fast, Simple and Easy.  Learn More. */
+      font-family: "DM Sans";
+      font-style: normal;
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 28px;
+      color: #ffffff;
+      margin-bottom: 10px;
+    }
+    h1 {
+      /* Fast, Simple and Easy */
+      font-family: "DM Sans";
+      font-style: normal;
+      font-weight: 700;
+      font-size: 70px;
+      line-height: 91px;
+
+      color: #ffffff;
+    }
+  }
+  .hero-tab-toggle {
+    display: flex;
+    justify-content: start;
+    margin-bottom: 30px;
+    border: none;
+    button {
+      padding: 4px 10px;
+      margin: 0 5px;
+      border: none;
+      background-color: transparent;
+      color: white;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 600;
+
+      transition: background-color 0.3s, color 0.3s;
+    }
+    button.active {
+      background-color: transparent;
+
+      border-bottom: 2px solid white;
+    }
+  }
+}
