@@ -1,39 +1,40 @@
 import React from "react";
 import FeaturesSection from "../usercomponents/feature-map";
+import img from "../../assets/images/tag (1) 1.png"
 
 const features = [
   {
-    image: require("../../images/tag (1) 1.png"),
+    image: img,
     title: "New Special",
     description:
       "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id es. Lorem ipsum dolor sit amet",
   },
   {
-    image: require("../../images/tag (1) 1.png"),
+    image: img,
     title: "Used Specials",
     description:
       "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id es. Lorem ipsum dolor sit amet.",
   },
   {
-    image: require("../../images/tag (1) 1.png"),
+    image: img,
     title: "Schedule Service",
     description:
       "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id es. Lorem ipsum dolor sit amet",
   },
   {
-    image: require("../../images/tag (1) 1.png"),
+    image: img,
     title: "Value Trade",
     description:
       "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id es. Lorem ipsum dolor sit amet",
   },
   {
-    image: require("../../images/tag (1) 1.png"),
+    image: img,
     title: "Transparent Pricing",
     description:
       "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id es. Lorem ipsum dolor sit amet",
   },
   {
-    image: require("../../images/tag (1) 1.png"),
+    image: img,
     title: "Expert Car Service",
     description:
       "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id es. Lorem ipsum dolor sit amet",

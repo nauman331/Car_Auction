@@ -1,5 +1,6 @@
 import React from "react";
 import "../../assets/stylesheets/car.scss";
+import img from "../../assets/images/right-up 1 (3).png"
 function CarSection() {
   const sections = [
     {
@@ -31,7 +32,7 @@ function CarSection() {
                 <div className="btn">
                   <a href="#">
                     {section.button}
-                    <img src={require("../../images/right-up 1 (3).png")} />
+                    <img src={img} />
                   </a>
                 </div>
               </div>

@@ -1,13 +1,21 @@
 import React from "react";
 import PremiumBrands from "../usercomponents/premiumbrands";
 import "../../assets/stylesheets/premiumbrand.scss";
+import img1 from "../../assets/images/premium 1.png";
+import img2 from "../../assets/images/premium 2.png";
+import img3 from "../../assets/images/premium 3.png";
+import img4 from "../../assets/images/premium 4.png";
+import img5 from "../../assets/images/premium 5.png";
+import img6 from "../../assets/images/premium 6.png";
+import img7 from "../../assets/images/right-up 1 (2).png";
+
 const brands = [
-  { name: "Audi", image: require("../images/premium 1.png") },
-  { name: "BMW", image: require("../images/premium 2.png") },
-  { name: "Ford", image: require("../images/premium 3.png") },
-  { name: "Mercedes Benz", image: require("../images/premium 4.png") },
-  { name: "Peugeot", image: require("../images/premium 5.png") },
-  { name: "Volkswagen", image: require("../images/premium 6.png") },
+  { name: "Audi", image: img1 },
+  { name: "BMW", image: img2 },
+  { name: "Ford", image: img3 },
+  { name: "Mercedes Benz", image: img4 },
+  { name: "Peugeot", image: img5 },
+  { name: "Volkswagen", image: img6 },
 ];
 
 function Premium() {
@@ -18,7 +26,7 @@ function Premium() {
         <div className="brand-btn">
           <a href="#">
             Show All Brands
-            <img src={require("../../images/right-up 1 (2).png")} />
+            <img src={img7} />
           </a>
         </div>
       </div>

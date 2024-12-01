@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import "../../assets/stylesheets/paggination.scss";
-import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import img1 from "../../assets/images/save.png";
+import img2 from "../../assets/images/right-up 1 (1).png";
 
 const PaginatedCards = ({ data, itemsPerPage }) => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -37,7 +39,7 @@ const PaginatedCards = ({ data, itemsPerPage }) => {
               <div className="image-section">
                 <img src={item.image} alt={item.title} />
                 <div className="icon-overlay">
-                  <img src={require("../../images/save.png")} alt="save" />
+                  <img src={img1} alt="save" />
                 </div>
               </div>
 
@@ -52,7 +54,7 @@ const PaginatedCards = ({ data, itemsPerPage }) => {
                 <div className="join-auction-btn">
                   <a href="#">
                     View Details
-                    <img src={require("../../images/right-up 1 (1).png")} />
+                    <img src={img2} />
                   </a>
                 </div>
               </div>
@@ -63,7 +65,7 @@ const PaginatedCards = ({ data, itemsPerPage }) => {
       {/* Pagination Controls */}
       <div className="pagination-controls">
         <button onClick={handlePrev} disabled={currentPage === 1}>
-          <FaChevronLeft
+          <ChevronLeft
             className={`icon ${currentPage === 1 ? "disabled" : ""}`}
           />
         </button>
@@ -71,7 +73,7 @@ const PaginatedCards = ({ data, itemsPerPage }) => {
           {currentPage} of {totalPages}
         </span>
         <button onClick={handleNext} disabled={currentPage === totalPages}>
-          <FaChevronRight
+          <ChevronRight
             className={`icon ${currentPage === totalPages ? "disabled" : ""}`}
           />
         </button>

@@ -1,11 +1,13 @@
 import React from "react";
 import "../../assets/stylesheets/livecar.scss";
+import img1 from "../../assets/images/images.png";
+import img2 from "../../assets/images/right-up 1.png";
 function Livecar() {
   return (
     <section className="Live-car-section">
       <div className="live-car-title">
         <div className="Live-car-image">
-          <img src={require("../../images/images.png")} />
+          <img src={img1} />
         </div>
 
         <div className="live-car-bg">
@@ -23,7 +25,7 @@ function Livecar() {
             <div className="btn">
               <a href="#">
                 Join Auction{" "}
-                <img src={require("../../images/right-up 1.png")} />
+                <img src={img2} />
               </a>
             </div>
           </div>

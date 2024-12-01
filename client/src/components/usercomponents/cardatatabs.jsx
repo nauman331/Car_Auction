@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "../../assets/stylesheets/carddatatabs.scss";
 import Vehicles from "../usercomponents/cardata";
+import img from "../../assets/images/right-up 1 (2).png"
 const CarTabs = () => {
   const [activeTab, setActiveTab] = useState("featured");
 
@@ -17,7 +18,7 @@ const CarTabs = () => {
             <a href="#">
               View All
               <img
-                src={require("../../images/right-up 1 (2).png")}
+                src={img}
                 alt="right-up"
               />
             </a>

@@ -51,7 +51,6 @@ const Home = () => {
   }, [token]);
 
   return (
-    // <div>Home</div>
     <div>
       <Herosection />
       <Browsebytype />

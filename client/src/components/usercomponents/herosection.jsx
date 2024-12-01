@@ -1,7 +1,7 @@
 import React from "react";
 import HeroTabs from "./herotab";
-import "../../assets/stylesheet/herosection.scss";
-import SearchBar from "../usercomponents/selectcars";
+import "../../assets/stylesheets/herosection.scss";
+import SearchBar from "./selectcars";
 const Herosection = () => {
   return (
     <section className="Hero-section">

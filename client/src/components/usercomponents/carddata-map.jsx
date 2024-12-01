@@ -1,5 +1,10 @@
 import React from "react";
 import "../../assets/stylesheets/carddata.scss";
+import img1 from "../../assets/images/save.png";
+import img2 from "../../assets/images/speedometer 1.png";
+import img3 from "../../assets/images/gasoline-pump 1.png";
+import img4 from "../../assets/images/gearbox 1.png";
+import img5 from "../../assets/images/right-up 1 (1).png";
 const Cardsing = ({ data }) => {
   return (
     <div>
@@ -15,7 +20,7 @@ const Cardsing = ({ data }) => {
                 <img src={item.image} alt={item.title} />
                 <div className="icons-overlay">
                   <img
-                    src={require("../../images/images/save.png")}
+                    src={img1}
                     alt="save"
                   />
                 </div>
@@ -31,15 +36,15 @@ const Cardsing = ({ data }) => {
                 <span className="detailsdata">
                   <ul>
                     <li>
-                      <img src={require("../../images/speedometer 1.png")} />
+                      <img src={img2} />
                       <h5> 26,786 kms</h5>
                     </li>
                     <li>
-                      <img src={require("../../images/gasoline-pump 1.png")} />
+                      <img src={img3} />
                       <h5>Petrol</h5>
                     </li>
                     <li>
-                      <img src={require("../../images/gearbox 1.png")} />
+                      <img src={img4} />
                       <h5>Automatic</h5>
                     </li>
                   </ul>
@@ -53,7 +58,7 @@ const Cardsing = ({ data }) => {
                     <a href="#">
                       View Details
                       <img
-                        src={require("../../images/right-up 1 (1).png")}
+                        src={img5}
                         alt="right-up"
                       />
                     </a>

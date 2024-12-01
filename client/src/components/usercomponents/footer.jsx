@@ -2,6 +2,9 @@ import React from "react";
 import ProductsList from "../usercomponents/footer-map";
 import "../../assets/stylesheets/footer.scss";
 import ContactButtons from "../usercomponents/contactbutton";
+import img1 from "../../assets/images/apple.png";
+import img2 from "../../assets/images/boxcars.png";
+import img3 from "../../assets/images/google.png";
 const Footer = () => {
   const productsData = [
     {
@@ -49,7 +52,7 @@ const Footer = () => {
           <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
             <div className="footer-text">
               <div className="logo">
-                <img src={require("../../images/images/boxcars.png")} />
+                <img src={img2} />
               </div>
               <p>
                 Excepteur sint occaecat cupidatat non proident, sunt <br></br>in
@@ -87,8 +90,8 @@ const Footer = () => {
                   <div className="mobileapp">
                     <h3>Our Mobile App</h3>
                     <div className="images">
-                      <img src={require("../../images/apple.png")} />
-                      <img src={require("../../images/google.png")} />
+                      <img src={img1} />
+                      <img src={img3} />
                     </div>
                     <div className="contactwithus">
                       <h4>Connect With Us</h4>
