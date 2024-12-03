@@ -14,7 +14,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 1rem;
+    padding: .2rem 1rem;
     .toggler {
         cursor: pointer;
     }
@@ -25,7 +25,9 @@ aside {
     width: 12rem;
     display: flex;
     flex-direction: column;
-    padding: 5rem 1rem;
+    padding-top: 3rem;
+    font-size: .7rem;
+    padding-left: 2rem;
     gap: 1rem;
     background-color: #050B20;
     .dash-link {
@@ -39,8 +41,8 @@ aside {
     }
 }
 .admin-outlet {
-    height: 33rem;
-    width: 67rem;
+    height: calc(90vh - 2rem);
+    width: calc(100vw - 18rem);
     margin-left: 15rem;
     padding: 1rem;
     background-color: #FFFFFF;
@@ -60,12 +62,16 @@ aside {
         .open-adminnav {
             left: 0%;
             transition: left 1s ease-in-out;
-            top: 3.5rem;
+            top: 3rem;
         }
         .admin-outlet {
             width: 100%;
             min-height: 100vh;
-            margin: 0%;
+            margin: 3rem 0%;
+            border-radius: 0px;
+        }
+        aside {
+            padding-left: 1rem;
         }
     }
 }
