@@ -27,17 +27,21 @@ aside {
     flex-direction: column;
     padding-top: 3rem;
     font-size: .7rem;
-    padding-left: 2rem;
-    gap: 1rem;
+    margin-left: 1rem;
     background-color: #050B20;
     .dash-link {
         display: flex;
         align-items: center;
         justify-content: flex-start;
         gap: 1rem;
+        border-radius: 10px;
         text-decoration: none;
         color: #FFFFFF;
         cursor: pointer;
+        padding: 0.5rem;
+        &:hover {
+            background-color: #0f1838;
+        }
     }
 }
 .admin-outlet {
@@ -57,12 +61,12 @@ aside {
         .close-adminnav {
             left: -100%;
             transition: left 1s ease-in-out;
-            top: 3rem;
+            top: 2.5rem;
         }
         .open-adminnav {
             left: 0%;
             transition: left 1s ease-in-out;
-            top: 3rem;
+            top: 2.5rem;
         }
         .admin-outlet {
             width: 100%;

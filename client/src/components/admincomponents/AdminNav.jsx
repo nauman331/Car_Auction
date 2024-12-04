@@ -7,7 +7,7 @@ import {
   SquareUser,
   LogOut,
   Menu,
-  X
+  X,
 } from "lucide-react";
 import { useState } from "react";
 
@@ -26,6 +26,12 @@ const menuItems = [
 const AdminNav = () => {
   const [open, setOpen] = useState(false);
 
+  const handleNavLinkClick = () => {
+    if (open) {
+      setOpen(false);
+    }
+  };
+
   return (
     <>
       <header className="admin-header">
@@ -38,12 +44,20 @@ const AdminNav = () => {
       </header>
       <aside className={open ? "open-adminnav" : "close-adminnav"}>
         {menuItems.map(({ to, icon, label }, index) => (
-          <NavLink to={to} className="dash-link" key={index}>
+          <NavLink
+            to={to}
+            className="dash-link"
+            key={index}
+            onClick={handleNavLinkClick}
+          >
             {icon}
             <span>{label}</span>
           </NavLink>
         ))}
-        <small className="dash-link">
+        <small
+          className="dash-link"
+          onClick={handleNavLinkClick}
+        >
           <LogOut style={{ transform: "rotate(180deg)" }} />
           <span>Log Out</span>
         </small>

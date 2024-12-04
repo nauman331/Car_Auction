@@ -1,227 +1,157 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import "../../assets/stylesheets/admin/addbuynow.scss";
-import {Upload } from "lucide-react"
+import { Upload, FileText, Image, Link2 } from "lucide-react";
 
-function AddBuyNow() {
-    
-  const [activeStep, setActiveStep] = useState("Car Details");
-  const steps = ["Car Details", "Price", "Features", "Media", "Location"];
+const AddBuyNow = () => {
+  const [step, setStep] = useState(1);
+
+  const handleNext = () => setStep((prev) => Math.min(prev + 1, 5));
 
   return (
     <div className="form-container">
-      {/* Form Header */}
-      <header className="form-header">
-        {steps.map((step) => (
-          <button
-            key={step}
-            className={`form-tab ${activeStep === step ? "active" : ""}`}
-            onClick={() => setActiveStep(step)}
+      <h5>Add New Buy Now Vehicle</h5>
+
+      {/* Header Tabs */}
+      <div className="tab-navigation">
+        {["Details", "Price", "Features", "Media", "Location"].map((tab, index) => (
+          <span
+            key={index}
+            className={step === index + 1 ? "active" : ""}
+            onClick={() => setStep(index + 1)}
           >
-            {step}
-          </button>
+            {tab}
+          </span>
         ))}
-      </header>
-
-      <form>
-        {activeStep === "Car Details" && (
-          <section className="form-section">
-            <h2>Car Details</h2>
-            <div className="grid">
-              <input type="text" placeholder="Listing Title" />
-              <input type="text" placeholder="VIN" />
-              <select>
-                <option>Select Damage</option>
-              </select>
-              <select>
-                <option>Select Type</option>
-              </select>
-              <select>
-                <option>Select Make</option>
-              </select>
-              <select>
-                <option>Select Model</option>
-              </select>
-              <input type="number" placeholder="Mileage" />
-              <select>
-                <option>Select Fuel</option>
-              </select>
-              <select>
-                <option>Select Transmission</option>
-              </select>
-              <input type="text" placeholder="Engine Size" />
-              <select>
-                <option>Select Color</option>
-              </select>
-              <textarea placeholder="Listing Description"></textarea>
-            </div>
-          </section>
-        )}
-
-        {activeStep === "Price" && (
-          <section className="form-section">
-            <h2>Price</h2>
-            <div className="grid">
-              <input type="text" placeholder="Buy Now Price" />
-              <input type="text" placeholder="Discounted Price" />
-            </div>
-          </section>
-        )}
-
-{activeStep === "Features" && (
-  <section className="form-section">
-    <h2>Features</h2>
-    <div className="features-grid">
-      <div className="feature-category">
-        <h4>Convenience</h4>
-        <label>
-          <input type="checkbox" /> Heated Seats
-        </label>
-        <label>
-          <input type="checkbox" /> Heated Steering Wheel
-        </label>
-        <label>
-          <input type="checkbox" /> Navigation System
-        </label>
-        <label>
-          <input type="checkbox" /> Tyre Pressure Monitoring System
-        </label>
       </div>
 
-      <div className="feature-category">
-        <h4>Entertainment</h4>
-        <label>
-          <input type="checkbox" /> Apple CarPlay/Android Auto
-        </label>
-        <label>
-          <input type="checkbox" /> Bluetooth
-        </label>
-        <label>
-          <input type="checkbox" /> HomeLink
-        </label>
-      </div>
-
-      <div className="feature-category">
-        <h4>Safety</h4>
-        <label>
-          <input type="checkbox" /> Airbag - Driver
-        </label>
-        <label>
-          <input type="checkbox" /> Airbag - Passenger
-        </label>
-        <label>
-          <input type="checkbox" /> Anti-lock Braking System
-        </label>
-        <label>
-          <input type="checkbox" /> Backup Camera
-        </label>
-      </div>
-
-      <div className="feature-category">
-        <h4>Interior</h4>
-        <label>
-          <input type="checkbox" /> Center Console
-        </label>
-        <label>
-          <input type="checkbox" /> Heated and Ventilated Front Seats
-        </label>
-        <label>
-          <input type="checkbox" /> Panoramic Moonroof
-        </label>
-        <label>
-          <input type="checkbox" /> Qi Wireless Charging
-        </label>
-      </div>
-
-      <div className="feature-category">
-        <h4>Exterior</h4>
-        <label>
-          <input type="checkbox" /> Alloy Wheels
-        </label>
-        <label>
-          <input type="checkbox" /> Brake Calipers - Silver Painted
-        </label>
-        <label>
-          <input type="checkbox" /> Rear Diffuser Body Colour
-        </label>
-        <label>
-          <input type="checkbox" /> Windows - Electric Front
-        </label>
-      </div>
-    </div>
-  </section>
-)}
-
-{activeStep === "Media" && (
-  <section className="form-section">
-    <h2>Media</h2>
-    <div className="media-section">
-      <div className="gallery">
-        <div className="image-upload">
-        <Upload className="upload-icon"/>
-        </div>
-        <div className="image-upload">
-          <Upload className="upload-icon"/>
-        </div>
-        <div className="image-upload">
-          <Upload className="upload-icon"/>
-        </div>
-        <div className="image-upload upload-box">Upload</div>
-      </div>
-
-      <div className="attachments">
-        <div className="attachment-box">
-          <button>View VIN Report</button>
-        </div>
-        <div className="attachment-box">
-          <button>Car Brochure</button>
-        </div>
-        <div className="attachment-box upload-box">Upload</div>
-      </div>
-
-      <div className="video-link">
-        <input type="text" placeholder="Enter YouTube or Vimeo URL" />
-      </div>
-    </div>
-  </section>
-)}
-
-        {activeStep === "Location" && (
-          <section className="form-section">
-            <h2>Location</h2>
-            <div className="grid">
-              <input type="text" placeholder="Friendly Address" />
-              <input type="text" placeholder="Map Location" />
-            </div>
-          </section>
-        )}
-
-        {/* Navigation Buttons */}
-        <div className="form-navigation">
-          <button
-            type="button"
-            onClick={() =>
-              setActiveStep(steps[Math.max(steps.indexOf(activeStep) - 1, 0)])
-            }
-            disabled={activeStep === steps[0]}
-          >
-            Previous
+      {/* Form Sections */}
+      {step === 1 && (
+        <div className="form-section">
+          <div className="form-grid">
+            <input placeholder="Listing Title" />
+            <input placeholder="VIN" />
+            <select>
+              <option>Select Damage</option>
+            </select>
+            <select>
+              <option>Select Type</option>
+            </select>
+            <select>
+              <option>Select Make</option>
+            </select>
+            <select>
+              <option>Select Model</option>
+            </select>
+            <select>
+              <option>Select Year</option>
+            </select>
+            <select>
+              <option>Select Drive Type</option>
+            </select>
+            <select>
+              <option>Select Transmission</option>
+            </select>
+            <input placeholder="Mileage" />
+            <select>
+              <option>Select Fuel</option>
+            </select>
+            <input placeholder="Engine Size" />
+            <select>
+              <option>Select Cylinder</option>
+            </select>
+            <select>
+              <option>Select Color</option>
+            </select>
+            <select>
+              <option>Select Door</option>
+            </select>
+            <textarea placeholder="Listing Description"></textarea>
+            <button className="next-button" onClick={handleNext}>
+            Next: Price
           </button>
-          <button
-            type="button"
-            onClick={() =>
-              setActiveStep(
-                steps[Math.min(steps.indexOf(activeStep) + 1, steps.length - 1)]
-              )
-            }
-            disabled={activeStep === steps[steps.length - 1]}
-          >
-            Next
+          </div>
+         
+        </div>
+      )}
+
+      {step === 2 && (
+        <div className="form-section">
+          <div className="form-grid">
+            <input placeholder="Buy Now Price" />
+            <input placeholder="Discounted Price" />
+          </div>
+          <button className="next-button" onClick={handleNext}>
+            Next: Features
           </button>
         </div>
-      </form>
-    </div>
+      )}
 
+      {step === 3 && (
+        <div className="form-section">
+          <div className="feature-grid">
+            {[
+              { title: "Convenience", items: ["Heated Seats", "Heated Steering Wheel", "Navigation System", "Tyre Pressure Monitoring System"] },
+              { title: "Entertainment", items: ["Apple CarPlay/Android Auto", "Bluetooth", "Home Link"] },
+              { title: "Safety", items: ["Airbag - Driver", "Airbag - Passenger", "Anti-Lock Breaking System", "Backup Camera", "Blind Spot Monitor"] },
+              { title: "Interior", items: ["Center Console", "Heated and Ventilated Front Seats", "Panoramic Moonroof", "Qi Wireless Charging", "Touch Screen Display"] },
+              { title: "Exterior", items: ["Alloy Wheels", "Brake Calipers - Silver Painted", "Rear Bumper High Gloss", "Rear Diffuser Body Color", "Windows - Electric Front"] },
+            ].map((group, idx) => (
+              <div key={idx}>
+                <h5>{group.title}</h5>
+                {group.items.map((item, index) => (
+                  <label key={index}>
+                    <input type="checkbox" /> <small>{item}</small>
+                  </label>
+                ))}
+              </div>
+            ))}
+          </div>
+          <button className="next-button" onClick={handleNext}>
+            Next: Media
+          </button>
+        </div>
+      )}
+
+      {step === 4 && (
+        <div className="form-section">
+          <div className="media-gallery">
+            <div className="image-box">
+              <Image size={24} />
+            </div>
+            <div className="image-box">
+              <Image size={24} />
+            </div>
+            <div className="image-box">
+              <Image size={24} />
+            </div>
+            <div className="image-box upload">
+              <Upload size={24} />
+              <span>Upload</span>
+            </div>
+          </div>
+          <div className="video-link">
+            <Link2 size={20} />
+            <input placeholder="Enter YouTube or Vimeo URL" />
+          </div>
+          <button className="next-button" onClick={handleNext}>
+            Next: Location
+          </button>
+        </div>
+      )}
+
+      {step === 5 && (
+        <div className="form-section">
+          <div className="form-grid">
+            <input placeholder="Friendly Address" />
+            <input placeholder="Map Location" />
+          </div>
+          <button className="next-button" onClick={() => alert("Form Submitted!")}>
+            Submit
+          </button>
+        </div>
+      )}
+    </div>
   );
-}
+};
 
 export default AddBuyNow;
