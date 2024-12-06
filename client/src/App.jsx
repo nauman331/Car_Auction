@@ -8,6 +8,7 @@ import Dashboard from "./components/admincomponents/Dashboard";
 import AddAuctionForm from "./components/admincomponents/AddAuction";
 import AddBuyNow from "./components/admincomponents/AddBuyNow/AddBuyNow";
 import CarListings from "./components/admincomponents/CarListings";
+import AuctionListings from "./components/admincomponents/AuctionListings";
 
 function App() {
   return (
@@ -20,9 +21,11 @@ function App() {
 
         <Route path="/admin" element={<AdminHome />}>
           <Route path="dashboard" element={<Dashboard />} />
-          <Route path="addauction" element={<AddAuctionForm /> } />
           <Route path="carlistings" element={<CarListings/> } />
+          <Route path="addauctionevent" element={<AddAuctionForm /> } />
           <Route path="addbuynow" element={<AddBuyNow /> } />
+          <Route path="auctionlistings" element={<AuctionListings/> } />
+          <Route path="addauction" element={<AddBuyNow /> } />
         </Route>
       </Routes>
     </>

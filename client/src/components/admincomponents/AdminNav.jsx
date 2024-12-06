@@ -13,8 +13,8 @@ import { useState } from "react";
 
 const menuItems = [
   { to: "/admin/dashboard", icon: <LayoutDashboard />, label: "Dashboard" },
-  { to: "/admin/", icon: <Car />, label: "Auctions Management" },
-  { to: "/admin/", icon: <CarFront />, label: "Auction Inventory" },
+  { to: "/admin/auctionlistings", icon: <Car />, label: "Auctions Management" },
+  { to: "/admin/addauction", icon: <CarFront />, label: "Auction Inventory" },
   { to: "/admin/carlistings", icon: <CarFront />, label: "Buy Now Inventory" },
   { to: "/admin/", icon: <CarFront />, label: "Category Options" },
   { to: "/admin/", icon: <CarFront />, label: "Orders" },

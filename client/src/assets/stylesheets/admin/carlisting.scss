@@ -88,7 +88,7 @@
           align-items: center;
   
           .car-image {
-            width: 80px;
+            width: 100px;
             height: 80px;
             border-radius: 10px;
             background-color: #ddd;
@@ -142,26 +142,32 @@
       justify-content: center;
       align-items: center;
       gap: 8px;
-  
+    
       .circle-btn {
         width: 32px;
         height: 32px;
         display: flex;
         justify-content: center;
         align-items: center;
-        border: 1px solid #ccc;
+        border: none;
         background-color: #fff;
         border-radius: 50%;
         cursor: pointer;
-  
+        &:first-child, &:last-child {
+            border: 1px solid #050B20;
+            background-color: #f0f0f0;
+            width: 50px;
+            border-radius: 20px;
+          }
         &.active {
-          background-color: #007bff;
+          background-color: #050B20;
           color: #fff;
-          border-color: #007bff;
+          border-color: #050B20;
         }
   
         &:hover {
           background-color: #f0f0f0;
+          color: #050B20;
         }
       }
   
