@@ -15,6 +15,7 @@
     align-items: center;
     justify-content: space-between;
     padding: .2rem 1rem;
+    z-index: 1000;
     .toggler {
         cursor: pointer;
     }
@@ -29,6 +30,7 @@ aside {
     font-size: .7rem;
     margin-left: 1rem;
     background-color: #050B20;
+    z-index: 999;
     .dash-link {
         display: flex;
         align-items: center;
@@ -45,12 +47,13 @@ aside {
     }
 }
 .admin-outlet {
-    height: calc(90vh - 2rem);
+    min-height: calc(90vh - 2rem);
     width: calc(100vw - 18rem);
     margin-left: 15rem;
-    padding: 1rem;
+    padding: 3rem;
     background-color: #FFFFFF;
     border-radius: 10px;
+    z-index: 1;
 }
 
 }
@@ -60,22 +63,28 @@ aside {
     padding: 0%;
         .close-adminnav {
             left: -100%;
-            transition: left 1s ease-in-out;
+            transition: left 1s ease-in-out, width 1s ease-in-out;
             top: 2.5rem;
         }
         .open-adminnav {
-            left: 0%;
-            transition: left 1s ease-in-out;
+            left: -5%;
+            transition: left 1s ease-in-out, width 1s ease-in-out;
             top: 2.5rem;
+            width: 80vw;
         }
         .admin-outlet {
             width: 100%;
             min-height: 100vh;
             margin: 3rem 0%;
             border-radius: 0px;
+            padding: 1rem;
         }
         aside {
-            padding-left: 1rem;
+            padding: 3rem;
+
+        }
+        .admin-header {
+            padding: .5rem 1rem;
         }
     }
 }

@@ -6,7 +6,7 @@ import ResetPassword from "./components/usercomponents/ResetPassword";
 import AdminHome from "./pages/adminpages/AdminHome";
 import Dashboard from "./components/admincomponents/Dashboard";
 import AddAuctionForm from "./components/admincomponents/AddAuction";
-import AddBuyNow from "./components/admincomponents/AddBuyNow";
+import AddBuyNow from "./components/admincomponents/AddBuyNow/AddBuyNow";
 
 function App() {
   return (
