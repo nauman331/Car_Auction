@@ -7,6 +7,7 @@ import AdminHome from "./pages/adminpages/AdminHome";
 import Dashboard from "./components/admincomponents/Dashboard";
 import AddAuctionForm from "./components/admincomponents/AddAuction";
 import AddBuyNow from "./components/admincomponents/AddBuyNow/AddBuyNow";
+import CarListings from "./components/admincomponents/CarListings";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         <Route path="/admin" element={<AdminHome />}>
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="addauction" element={<AddAuctionForm /> } />
+          <Route path="carlistings" element={<CarListings/> } />
           <Route path="addbuynow" element={<AddBuyNow /> } />
         </Route>
       </Routes>

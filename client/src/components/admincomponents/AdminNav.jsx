@@ -15,7 +15,7 @@ const menuItems = [
   { to: "/admin/dashboard", icon: <LayoutDashboard />, label: "Dashboard" },
   { to: "/admin/", icon: <Car />, label: "Auctions Management" },
   { to: "/admin/", icon: <CarFront />, label: "Auction Inventory" },
-  { to: "/admin/addbuynow", icon: <CarFront />, label: "Buy Now Inventory" },
+  { to: "/admin/carlistings", icon: <CarFront />, label: "Buy Now Inventory" },
   { to: "/admin/", icon: <CarFront />, label: "Category Options" },
   { to: "/admin/", icon: <CarFront />, label: "Orders" },
   { to: "/admin/", icon: <CarFront />, label: "Deposits" },

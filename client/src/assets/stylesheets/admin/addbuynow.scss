@@ -66,8 +66,7 @@
       background-color: #405FF2;
       color: #fff;
       border: none;
-      border-radius: 4px;
-      font-size: 1rem;
+      border-radius: 10px;
       cursor: pointer;
       margin-top: 1rem;
       margin-left: 48rem;
@@ -100,13 +99,16 @@
     }
 
     .media-gallery {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
       gap: 10px;
       margin-bottom: 20px;
     
       .image-box {
         height: 150px;
+        width: 200px;
         border-radius: 10px;
         border: 1px solid #e1e1e1;
         display: flex;
@@ -128,36 +130,6 @@
       }
     }
     
-    .media-attachments {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 20px;
-    
-      button {
-        display: flex;
-        align-items: center;
-        gap: 5px;
-        padding: 8px 12px;
-        border: 1px solid #e1e1e1;
-        border-radius: 4px;
-        cursor: pointer;
-        font-size: 0.9rem;
-    
-        svg {
-          color: #666;
-        }
-    
-        &.upload {
-          background: #007bff;
-          color: #fff;
-          border-color: #405FF2;
-    
-          svg {
-            color: #fff;
-          }
-        }
-      }
-    }
     
     .video-link {
       display: flex;

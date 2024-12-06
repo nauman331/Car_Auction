@@ -1,0 +1,208 @@
+.car-list-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+    gap: 1rem;
+    flex-wrap: wrap;
+    .add-vehicle-button {
+        padding: 10px 20px;
+        background-color: #405FF2;
+        color: #fff;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        text-decoration: none;
+        &:hover {
+          background-color: #0056b3;
+        }
+    }
+}
+
+.car-list-container {
+    font-family: Arial, sans-serif;
+    padding: 1rem;
+    border: 1px solid #e1e1e1;
+    border-radius: 10px;
+  
+    .car-list-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+  
+      input {
+        padding: 8px;
+        width: 60%;
+        max-width: 400px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+      }
+  
+      .sort-options {
+        display: flex;
+        align-items: center;
+  
+        span {
+          margin-right: 5px;
+          color: #aaa;
+        }
+  
+        select {
+          padding: 8px;
+          border: none;
+          cursor: pointer;
+        }
+      }
+    }
+  
+    .table-wrapper {
+      overflow-x: auto;
+  
+      .car-table {
+        width: 100%;
+        border-collapse: collapse;
+        min-width: 700px;
+  
+        thead th {
+          text-align: left;
+          background-color: #E9F2FF;
+          color: #405FF2;
+          font-weight: 400;
+          padding: 10px;
+          &:first-child{
+            border-radius: 10px 0px 0px 10px;
+          }
+          &:last-child{
+            border-radius: 0px 10px 10px 0px;
+          }
+        }
+  
+        tbody td {
+          padding: 10px;
+          border-bottom: 1px solid #ddd;
+        }
+  
+        .car-info {
+          display: flex;
+          align-items: center;
+  
+          .car-image {
+            width: 80px;
+            height: 80px;
+            border-radius: 10px;
+            background-color: #ddd;
+            margin-right: 10px;
+          }
+          .price {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        p {
+            text-decoration: line-through;
+        }
+        h6 {
+            margin-top: 7px;
+        }
+          }
+          p {
+            margin: 0;
+            font-size: 14px;
+  
+            &:first-child {
+              font-weight: bold;
+            }
+  
+            &:last-child {
+              color: #666;
+            }
+          }
+        }
+  
+        .action-buttons {
+          button {
+            padding: 5px 8px;
+            margin: 0 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            border: 1px solid #e1e1e1;
+            border-radius: 50%;
+            &:hover {
+              background-color: #e1e1e1;
+            }
+          }
+        }
+      }
+    }
+  
+    .pagination {
+      margin-top: 10px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+  
+      .circle-btn {
+        width: 32px;
+        height: 32px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: 1px solid #ccc;
+        background-color: #fff;
+        border-radius: 50%;
+        cursor: pointer;
+  
+        &.active {
+          background-color: #007bff;
+          color: #fff;
+          border-color: #007bff;
+        }
+  
+        &:hover {
+          background-color: #f0f0f0;
+        }
+      }
+  
+      .dots {
+        font-size: 16px;
+        color: #aaa;
+      }
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .car-list-header {
+      flex-direction: column;
+  
+      input {
+        width: 100%;
+        margin-bottom: 10px;
+      }
+  
+      .sort-options {
+        width: 100%;
+        justify-content: space-between;
+      }
+    }
+  
+    .table-wrapper {
+      font-size: 14px;
+  
+      .car-info {
+        flex-direction: column;
+        align-items: flex-start;
+  
+        .car-image {
+          margin-bottom: 5px;
+        }
+      }
+    }
+  
+    .pagination {
+      flex-wrap: wrap;
+      gap: 4px;
+    }
+  }
+  
