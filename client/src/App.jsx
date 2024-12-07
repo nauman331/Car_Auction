@@ -9,7 +9,8 @@ import AddAuctionForm from "./components/admincomponents/AddAuction";
 import AddBuyNow from "./components/admincomponents/AddBuyNow/AddBuyNow";
 import CarListings from "./components/admincomponents/CarListings";
 import AuctionListings from "./components/admincomponents/AuctionListings";
-
+import CategoryManagement from "./components/admincomponents/Categories";
+import Orders from "./components/admincomponents/Orders";
 function App() {
   return (
     <>
@@ -26,6 +27,8 @@ function App() {
           <Route path="addbuynow" element={<AddBuyNow /> } />
           <Route path="auctionlistings" element={<AuctionListings/> } />
           <Route path="addauction" element={<AddBuyNow /> } />
+          <Route path="managecategories" element={<CategoryManagement /> } />
+          <Route path="Orders" element={<Orders /> } />
         </Route>
       </Routes>
     </>
