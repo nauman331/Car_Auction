@@ -1,17 +1,17 @@
 import React, {useState} from 'react';
 import '../../assets/stylesheets/admin/carlisting.scss';
 import { ChevronLeft, ChevronRight, Trash, PencilLine, Search } from 'lucide-react';
+import {NavLink} from "react-router-dom"
 
 const cars = Array(500).fill({
   make: 'Mercedes-Benz, C Class',
-  lotno: '8735647477',
-  price: 'AED 5500',
-  ordertype: "Auction",
-  buyerid: '132438675849',
-  orderstatus: 'Payment Pending',
+  lotno: '03708',
+  price: 'AED 5600',
+  auction: "27638 Online...",
+  status: 'Ongoing',
 });
 
-const Orders = () => {  
+const AuctionInventory = () => {  
 
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 30;
@@ -86,21 +86,22 @@ const Orders = () => {
       <>
       <div className="car-list-top">
         <span>
-      <h3>Orders</h3>
-      <small>List of orders placed by user</small>
+      <h3>My Listings</h3>
+      <small>List of vehicles Uploaded fro Buy Now</small>
       </span>
+      <NavLink to="/admin/addauction" className="add-vehicle-button">Add New Vehicle ↗</NavLink>
     </div>
       <div className="car-list-container">
        
         <header className="car-list-header">
-        <div className="car-list-header-input">
+            <div className="car-list-header-input">
                 <Search />
           <input type="text" placeholder="Search Cars e.g., Audi Q7" />
             </div>
           <div className="sort-options">
-            <span>Type:</span>
+            <span>Sort By:</span>
             <select>
-              <option value="newest">All</option>
+              <option value="newest">Newest</option>
             </select>
           </div>
         </header>
@@ -109,10 +110,10 @@ const Orders = () => {
             <thead>
               <tr>
                 <th>Vehicle</th>
-                <th>Price</th>
-                <th>Order Type</th>
-                <th>Buyer ID</th>
-                <th>Order Status</th>
+                <th>Lot No.</th>
+                <th>Starting Price</th>
+                <th>Auction</th>
+                <th>Bidding Status</th>
                 <th>Action</th>
               </tr>
             </thead>
@@ -124,18 +125,16 @@ const Orders = () => {
                       <div className="car-image"></div>
                       <div className='car-name'>
                         <p>{car.make}</p>
-                        <p>Lot no:{car.lotno}</p>
-                        <div className="price">
-                        </div>
+                        <p>C300e AMG Line Night Ed Premium Pl...</p>
                       </div>
                     </div>
                   </td>
+                  <td>{car.lotno}</td>
                   <td>{car.price}</td>
-                  <td>{car.ordertype}</td>
-                  <td>{car.buyerid}</td>
-                  <td>{car.orderstatus}</td>
+                  <td>{car.auction}</td>
+                  <td>{car.status}</td>
                   <td className="action-buttons">
-                  <button>
+                    <button>
                       <Trash size={16} />
                     </button>
                     <button>
@@ -154,4 +153,4 @@ const Orders = () => {
   
 };
 
-export default Orders;
+export default AuctionInventory;

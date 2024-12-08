@@ -14,13 +14,13 @@ import { useState } from "react";
 const menuItems = [
   { to: "/admin/dashboard", icon: <LayoutDashboard />, label: "Dashboard" },
   { to: "/admin/auctionlistings", icon: <Car />, label: "Auctions Management" },
-  { to: "/admin/addauction", icon: <CarFront />, label: "Auction Inventory" },
+  { to: "/admin/auctioninventory", icon: <CarFront />, label: "Auction Inventory" },
   { to: "/admin/carlistings", icon: <CarFront />, label: "Buy Now Inventory" },
   { to: "/admin/managecategories", icon: <CarFront />, label: "Category Options" },
   { to: "/admin/orders", icon: <CarFront />, label: "Orders" },
   { to: "/admin/", icon: <CarFront />, label: "Deposits" },
   { to: "/admin/", icon: <CarFront />, label: "Users" },
-  { to: "/admin/", icon: <SquareUser />, label: "My Profile" },
+  { to: "/admin/profile", icon: <SquareUser />, label: "My Profile" },
 ];
 
 const AdminNav = () => {

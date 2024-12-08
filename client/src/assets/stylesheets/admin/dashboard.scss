@@ -1,91 +1,96 @@
 .info-boxes {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: 2rem;
+
+  .info-box {
+    width: 14rem;
+    height: 7rem;
+    border: 1px solid #e1e1e1;
+    border-radius: 10px;
     display: flex;
     align-items: center;
-    justify-content: center;
-    gap: 1rem;
-    flex-wrap: wrap;
-    margin-top: 2rem;
-  
-    .info-box {
-      width: 14rem;
-      height: 7rem;
-      border: 1px solid #E1E1E1;
-      border-radius: 10px;
+    justify-content: space-between;
+    padding: 1rem;
+
+    @each $index, $bg, $color in (1, #e9f2ff, #405ff2), (2, #ffe9f3, #405ff2),
+      (3, #eef1fb, #405ff2), (4, #f9fbfc, #405ff2)
+    {
+      .icon#{$index} {
+        background-color: $bg;
+        color: $color;
+        padding: 0.5rem;
+        border-radius: 50%;
+      }
+    }
+  }
+}
+
+.chart-and-notification {
+  margin-top: 1rem;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  flex-direction: row;
+  gap: 1rem;
+
+  .chart-container {
+    width: 600px;
+    height: 400px;
+    padding: 1rem;
+    border-radius: 10px;
+    border: 1px solid #e1e1e1;
+
+    canvas {
+      height: 100% !important;
+      width: 100% !important;
+    }
+  }
+
+  .notifications {
+    width: 320px;
+    padding: 1rem;
+    border-radius: 10px;
+    border: 1px solid #e1e1e1;
+    height: 400px;
+    .notification {
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      padding: 1rem;
-  
-      @each $index, $bg, $color in (1, #E9F2FF, #405FF2), (2, #FFE9F3, #405FF2), (3, #EEF1FB, #405FF2), (4, #F9FBFC, #405FF2) {
-        .icon#{$index} {
-          background-color: $bg;
-          color: $color;
-          padding: 0.5rem;
-          border-radius: 50%;
-        }
+      justify-content: start;
+      gap: 1rem;
+      .icon3 {
+        background-color: #eef1fb;
+        color: #405ff2;
+        padding: 0.5rem;
+        border-radius: 50%;
       }
     }
+    button {
+      background-color: transparent;
+      border: 1px solid #405ff2;
+      color: #405ff2;
+      width: 100%;
+      padding: 0.2rem;
+      border-radius: 10px;
+      margin-top: 1rem;
+    }
   }
+}
 
+@media (max-width: 768px) {
   .chart-and-notification {
-    margin-top: 1rem;
-    display: flex;
-    align-items: flex-start; 
-    justify-content: center; 
-    flex-direction: row;
-    gap: 1rem; 
-  
+    flex-direction: column;
     .chart-container {
-      width: 600px;
-      height: 300px;
-      padding: 1rem;
-      border-radius: 10px;
-      border: 1px solid #E1E1E1;
-  
-      canvas {
-        height: 100% !important;
-        width: 100% !important;
-      }
-    }
-  
-    .notifications {
-      width: 320px;
-      padding: 1rem;
-      border-radius: 10px;
-      border: 1px solid #E1E1E1;
-      .notification {
-        display: flex;
-        align-items: center;
-        justify-content: start;
-        gap: 1rem;
-      }
-      button {
-        background-color: transparent;
-        border: 1px solid #405FF2;
-        color: #405FF2;
-        width: 100%;
-        padding: .2rem;
-        border-radius: 10px;
-        margin-top: 1rem;
-      }
+      width: 100%;
     }
   }
-
-  @media (max-width: 768px) {
-    .chart-and-notification {
-        flex-direction: column;
-        .chart-container {
-            width: 100%;
-        }
-    }
-    .notifications {
-        width: 100% !important;
-    }
-    .info-box {
-        width: 100% !important;
-    }
+  .notifications {
+    width: 100% !important;
   }
-  
-  
-  
-  
+  .info-box {
+    width: 100% !important;
+  }
+}

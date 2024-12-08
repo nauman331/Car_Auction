@@ -31,12 +31,26 @@
       align-items: center;
       margin-bottom: 10px;
   
-      input {
+     .car-list-header-input {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
         padding: 8px;
         width: 60%;
         max-width: 400px;
-        border: 1px solid #ccc;
         border-radius: 4px;
+        input {
+          width: 100%;
+          border: none;
+          outline: none;
+          &::placeholder {
+            color: black;
+          }
+        }
+      input:focus {
+          outline: none;
+      }
       }
   
       .sort-options {
@@ -121,13 +135,16 @@
   
         .action-buttons {
           button {
-            padding: 5px 8px;
+            padding: 7px 10px;
             margin: 0 5px;
             background: none;
             border: none;
             cursor: pointer;
             border: 1px solid #e1e1e1;
-            border-radius: 50%;
+            border-radius: 16px;
+            &:first-child{
+              background-color: #F9FBFC;
+            }
             &:hover {
               background-color: #e1e1e1;
             }

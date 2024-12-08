@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import '../../assets/stylesheets/admin/carlisting.scss';
-import { ChevronLeft, ChevronRight, Trash, Edit } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Trash, PencilLine, Search } from 'lucide-react';
 import {NavLink} from "react-router-dom"
 
 const cars = Array(500).fill({
@@ -96,7 +96,10 @@ const CarListings = () => {
       <div className="car-list-container">
        
         <header className="car-list-header">
+        <div className="car-list-header-input">
+                <Search />
           <input type="text" placeholder="Search Cars e.g., Audi Q7" />
+            </div>
           <div className="sort-options">
             <span>Sort By:</span>
             <select>
@@ -137,11 +140,11 @@ const CarListings = () => {
                   <td>{car.transmission}</td>
                   <td>{car.fuelType}</td>
                   <td className="action-buttons">
-                    <button>
-                      <Edit size={16} />
+                  <button>
+                      <Trash size={16} />
                     </button>
                     <button>
-                      <Trash size={16} />
+                    <PencilLine size={16}/>
                     </button>
                   </td>
                 </tr>
