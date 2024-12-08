@@ -2,7 +2,6 @@ import { Routes, Route } from "react-router-dom";
 import Auth from "./pages/userpages/Auth";
 import Home from "./pages/userpages/Home";
 import OTPVerificationForm from "./components/usercomponents/OTPVerificationForm";
-import ResetPassword from "./components/usercomponents/ResetPassword";
 import AdminHome from "./pages/adminpages/AdminHome";
 import Dashboard from "./components/admincomponents/Dashboard";
 import AddAuctionForm from "./components/admincomponents/AddAuction";
@@ -13,15 +12,18 @@ import CategoryManagement from "./components/admincomponents/Categories";
 import Orders from "./components/admincomponents/Orders";
 import AuctionInventory from "./components/admincomponents/AuctionInventory";
 import Profile from "./components/admincomponents/Profile";
+import Verificationform from "./components/usercomponents/Verificationform";
+import ProtectedRoute from "./utils/ProtectedRoute";
 
 function App() {
   return (
     <>
+    <ProtectedRoute>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/auth" element={<Auth />} />
         <Route path="/verifyotp" element={<OTPVerificationForm />} />
-        <Route path="/resetpassword" element={<ResetPassword />} />
+        <Route path="/resetpassword" element={<Verificationform />} />
 
         <Route path="/admin" element={<AdminHome />}>
           <Route path="dashboard" element={<Dashboard />} />
@@ -36,6 +38,7 @@ function App() {
           <Route path="Profile" element={<Profile /> } />
         </Route>
       </Routes>
+      </ProtectedRoute>
     </>
   );
 }

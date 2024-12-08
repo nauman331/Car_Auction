@@ -1,41 +1,85 @@
 import React, { useState } from "react";
-import "../../assets/stylesheets/verification.scss";
+import "../../assets/stylesheets/verificationform.scss";
+import toast from "react-hot-toast";
+import {backendURL} from "../../utils/Exports"
+import {useNavigate} from "react-router-dom"
 
-const OTPVerification = () => {
+const Verificationform  = () => {
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [otp, setOtp] = useState("");
   const [isOtpSent, setIsOtpSent] = useState(false);
   const [isOtpValid, setIsOtpValid] = useState(false);
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [error, setError] = useState("");
 
-  const sendOtp = () => {
-    if (email) {
-      setIsOtpSent(true);
-      setError("");
-      alert("OTP sent to your email!");
-    } else {
-      setError("Please enter a valid email address.");
+
+  const sendOtp = async () => {
+  try {
+  const response = await fetch(`${backendURL}/user/password-reset`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body : JSON.stringify({email})
+  })
+  const res_data = await response.json();
+  if(response.ok){
+    setIsOtpSent(true)
+    toast.success(res_data.message)
+  } else {
+    toast.error(res_data.message)
+  }
+  } catch (error) {
+    toast.error("Error while Sending OTP!")
+  }
+  };
+
+  const verifyOtp = async () => {
+    try {
+      const response = await fetch(`${backendURL}/user/verify-reset-token`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({email, token: otp})
+      })
+      const res_data = await response.json();
+      if(response.ok){
+        setIsOtpValid(true);
+        toast.success(res_data.message)
+      } else {
+        toast.error(res_data.message)
+      }
+    } catch (error) {
+      toast.error("Error While verifying")
     }
   };
 
-  const verifyOtp = () => {
-    if (otp === "123456") {
-      setIsOtpValid(true);
-      setError("");
-    } else {
-      setError("Invalid OTP. Please try again.");
+  const updatePassword = async() => {
+    try {
+      if (newPassword !== confirmPassword) {
+        toast.error("Password & Confirm Passwords not matching");
+        return;
+      }
+      const response = await fetch(`${backendURL}/user/update-password`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({email, token: otp, password: newPassword})
+      })
+      const res_data = await response.json();
+      if(response.ok){
+        toast.success(res_data.message)
+        navigate("/")
+      } else {
+        toast.error(res_data.message)
+      }
+    } catch (error) {
+      toast.error("Error While Updating Password")
     }
-  };
-
-  const updatePassword = () => {
-    if (newPassword === confirmPassword && newPassword.length >= 6) {
-      alert("Password updated successfully!");
-      setError("");
-    } else {
-      setError("Passwords do not match or are too short.");
-    }
+   
   };
 
   return (
@@ -62,7 +106,6 @@ const OTPVerification = () => {
               />
             </div>
           )}
-          {error && <p>{error}</p>}
           <button
             className="send-otp-btn"
             onClick={isOtpSent ? verifyOtp : sendOtp}
@@ -89,7 +132,6 @@ const OTPVerification = () => {
               onChange={(e) => setConfirmPassword(e.target.value)}
             />
           </div>
-          {error && <p>{error}</p>}
           <button className="update-password-btn" onClick={updatePassword}>
             Update Password
           </button>
@@ -99,4 +141,4 @@ const OTPVerification = () => {
   );
 };
 
-export default OTPVerification;
+export default Verificationform ;

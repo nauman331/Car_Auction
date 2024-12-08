@@ -12,10 +12,12 @@ const Signup = () => {
   const [role, setRole] = useState("Buyer");
   const [showPassword, setShowPassword] = useState(false);
   const [user, setUser] = useState({
-    name: "",
+    firstName: "",
+    lastName: "",
     email: "",
     password: "",
     contact: "",
+    address: "",
   });
 
   const togglePasswordVisibility = () => {
@@ -66,10 +68,20 @@ const Signup = () => {
           type="text"
           autoComplete="off"
           onChange={handleInputChange}
-          name="name"
+          name="firstName"
           required
         />
-        <label>Username</label>
+        <label>First Name</label>
+      </div>
+      <div className="wrapper--input">
+        <input
+          type="text"
+          autoComplete="off"
+          onChange={handleInputChange}
+          name="lastName"
+          required
+        />
+        <label>Last Name</label>
       </div>
       <div className="wrapper--input input--email">
         <input
@@ -115,6 +127,16 @@ const Signup = () => {
           required
         />
         <label>Phone</label>
+      </div>
+      <div className="wrapper--input">
+        <input
+          type="text"
+          autoComplete="off"
+          onChange={handleInputChange}
+          name="address"
+          required
+        />
+        <label>Address</label>
       </div>
       <div className="role-selection">
         <label>
