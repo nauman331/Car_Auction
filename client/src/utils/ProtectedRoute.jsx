@@ -11,7 +11,7 @@ const ProtectedRoute = ({ children }) => {
 
     useEffect(() => {
 
-        if (token && pathname === "/auth") {
+        if (token && (pathname === "/auth" || pathname === "/resetpassword")) {
             navigate("/", { replace: true });
             toast("User already authenticated");
         } else if (
