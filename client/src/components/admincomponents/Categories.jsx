@@ -4,144 +4,104 @@ import { X } from "lucide-react";
 import { backendURL } from "../../utils/Exports";
 import { useSelector } from "react-redux";
 
-// Categories array to handle all category types and API endpoints
 const categories = [
-  { name: "Vehicle Types", apiKey: "vehicle-type", displayKey: "vehicleType" },
-  { name: "Vehicle Makes", apiKey: "vehicle-make", displayKey: "vehicleMake" },
-  { name: "Vehicle Models", apiKey: "vehicle-modal", displayKey: "vehicleModal" },
-  { name: "Vehicle Years", apiKey: "vehicle-year", displayKey: "vehicleYear" },
-  { name: "Drive Types", apiKey: "drive-type", displayKey: "driveType" },
-  { name: "Vehicle Transmission", apiKey: "vehicle-transmission", displayKey: "vehicleTransmission" },
-  { name: "Vehicle Fuel Types", apiKey: "vehicle-fuel-type", displayKey: "vehicleFuelType" },
-  { name: "Vehicle Cylinders", apiKey: "vehicle-cylinder", displayKey: "vehicleCylinder" },
-  { name: "Vehicle Engine Sizes", apiKey: "vehicle-engine-size", displayKey: "vehicleEngineSize" },
-  { name: "Vehicle Colors", apiKey: "vehicle-color", displayKey: "vehicleColors" },
-  { name: "Vehicle Damages", apiKey: "vehicle-damage", displayKey: "vehicleDamage" },
-  { name: "Auction Locations", apiKey: "auction-location", displayKey: "auctionLocation" },
+  { name: "Vehicle Types", key: "vehicle-type", field: "vehicleType" },
+  { name: "Vehicle Makes", key: "vehicle-make", field: "vehicleMake" },
+  { name: "Vehicle Models", key: "vehicle-modal", field: "vehicleModal" },
+  { name: "Vehicle Years", key: "vehicle-year", field: "vehicleYear" },
+  { name: "Drive Types", key: "drive-type", field: "driveType" },
+  { name: "Vehicle Transmission", key: "vehicle-transmission", field: "vehicleTransimission" },
+  { name: "Vehicle Fuel Types", key: "vehicle-fuel-type", field: "vehicleFuelTypes" },
+  { name: "Vehicle Cylinders", key: "vehicle-cylinder", field: "vehicleCylinders" },
+  { name: "Vehicle Engine Sizes", key: "vehicle-engine-size", field: "vehicleEngineSize" },
+  { name: "Vehicle Colors", key: "vehicle-color", field: "vehicleColors" },
+  { name: "Vehicle Damages", key: "vehicle-damage", field: "vehicleDamage" },
+  { name: "Auction Locations", key: "auction-location", field: "auctionLocation" },
 ];
 
 const CategoryManagement = () => {
-  const { token } = useSelector((state) => state.auth); // Get the user's token from Redux store
-  const [categoryData, setCategoryData] = useState({}); // Holds category data with input and items
+  const { token } = useSelector((state) => state.auth);
+  const [categoryData, setCategoryData] = useState({});
 
   useEffect(() => {
-    // Fetch all categories' items from the backend
     const fetchCategories = async () => {
       const headers = { "Content-Type": "application/json", Authorization: `Bearer ${token}` };
-
-      // Fetch data for each category
-      await Promise.all(
-        categories.map(async (category) => {
-          try {
-            const response = await fetch(`${backendURL}/${category.apiKey}`, { headers });
-            if (!response.ok) throw new Error("Failed to fetch data");
-
-            const data = await response.json();
-            console.log(data)
-            setCategoryData((prev) => ({
-              ...prev,
-              [category.apiKey]: { input: "", items: data },
-            }));
-          } catch (error) {
-            console.error(error);
-          }
-        })
-      );
+      const fetchData = async ({ key }) => {
+        const res = await fetch(`${backendURL}/${key}`, { headers });
+        if (res.ok) {
+          const data = await res.json();
+          setCategoryData((prev) => ({ ...prev, [key]: { input: "", items: data } }));
+        }
+      };
+      await Promise.all(categories.map(fetchData));
     };
-
     fetchCategories();
   }, [token]);
 
-  const handleInputChange = (apiKey, value) => {
-    setCategoryData((prev) => ({
-      ...prev,
-      [apiKey]: { ...prev[apiKey], input: value },
-    }));
-  };
+  const updateCategoryData = (key, data) =>
+    setCategoryData((prev) => ({ ...prev, [key]: { ...prev[key], ...data } }));
 
-  const handleAddItem = async (apiKey) => {
-    const inputValue = categoryData[apiKey]?.input;
-    if (!inputValue) return alert("Input cannot be empty!");
+  const handleInputChange = (key, value) => updateCategoryData(key, { input: value });
 
-    const categoryKey = apiKey.replace(/-(.)/g, (match, p1) => p1.toUpperCase()); // Convert to camelCase
-
-    try {
-      const response = await fetch(`${backendURL}/${apiKey}`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
-        body: JSON.stringify({ [categoryKey]: inputValue }),
-      });
-
-      if (!response.ok) throw new Error("Failed to add item");
-
-      const newItem = await response.json();
-      setCategoryData((prev) => ({
-        ...prev,
-        [apiKey]: { input: "", items: [...prev[apiKey].items, newItem] },
-      }));
-    } catch (error) {
-      console.error(error);
-      alert("Error adding item. Please try again.");
+  const handleAddItem = async (key, field) => {
+    const input = categoryData[key]?.input;
+    if (!input) return alert("Input cannot be empty!");
+    const res = await fetch(`${backendURL}/${key}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+      body: JSON.stringify({ [field]: input }),
+    });
+    if (res.ok) {
+      const newItem = await res.json();
+      updateCategoryData(key, { input: "", items: [...categoryData[key]?.items, newItem] });
+    } else {
+      alert("Error adding item.");
     }
   };
 
-  const handleDeleteItem = async (apiKey, id) => {
-    try {
-      const response = await fetch(`${backendURL}/${apiKey}/${id}`, {
-        method: "DELETE",
-        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+  const handleDeleteItem = async (key, id) => {
+    const res = await fetch(`${backendURL}/${key}/${id}`, {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+    });
+    if (res.ok) {
+      updateCategoryData(key, {
+        items: categoryData[key]?.items.filter((item) => item._id !== id),
       });
-
-      if (!response.ok) throw new Error("Failed to delete item");
-
-      setCategoryData((prev) => ({
-        ...prev,
-        [apiKey]: { ...prev[apiKey], items: prev[apiKey].items.filter((item) => item.id !== id) },
-      }));
-    } catch (error) {
-      console.error(error);
-      alert("Error deleting item. Please try again.");
+    } else {
+      alert("Error deleting item.");
     }
   };
 
   return (
-    <>
-      <div className="car-list-top">
-        <span>
-          <h3>Categories Management</h3>
-          <small>Fill the form Categories Details Below</small>
-        </span>
-      </div>
-      <div className="form-container">
-        <div className="form-section">
-          <div className="category-boxes">
-            {categories.map(({ name, apiKey, displayKey }, index) => (
-              <div className="category-box" key={index}>
-                <h5>{name}</h5>
-                <div className="input-container">
-                  <input
-                    type="text"
-                    placeholder={name}
-                    value={categoryData[apiKey]?.input || ""}
-                    onChange={(e) => handleInputChange(apiKey, e.target.value)}
-                  />
-                  <label htmlFor={`category-${index}`}>{name}</label>
-                  <button type="button" onClick={() => handleAddItem(apiKey)}>Add</button>
-                </div>
-                {categoryData[apiKey]?.items?.map((item) => (
-                  <h6 key={item._id}>
-                    {item[displayKey] || "Item not available"}
-                    <span onClick={() => handleDeleteItem(apiKey, item._id)}>
-                      <X />
-                    </span>
-                  </h6>
-                ))}
-              </div>
+    <div className="category-management">
+      <h3>Categories Management</h3>
+      <small>Fill the form Categories Details Below</small>
+      <div className="category-boxes">
+        {categories.map(({ name, key, field }) => (
+          <div className="category-box" key={key}>
+            <h5>{name}</h5>
+            <div className="input-container">
+              <input
+                type="text"
+                placeholder={name}
+                value={categoryData[key]?.input || ""}
+                onChange={(e) => handleInputChange(key, e.target.value)}
+              />
+              <button onClick={() => handleAddItem(key, field)}>Add</button>
+            </div>
+            {categoryData[key]?.items?.map((item) => (
+              <h6 key={item._id}>
+                {item[field] || "Item not available"}
+                <span onClick={() => handleDeleteItem(key, item._id)}>
+                  <X />
+                </span>
+              </h6>
             ))}
           </div>
-        </div>
+        ))}
       </div>
-    </>
+    </div>
   );
 };
 
