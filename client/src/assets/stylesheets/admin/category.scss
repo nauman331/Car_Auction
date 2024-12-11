@@ -12,37 +12,59 @@
     padding: 1rem;
     overflow-y: scroll;
     .input-container {
-        position: relative;
-        input {
-          width: 100%;
-          padding: 15px 10px;
-          font-size: 1rem;
-          border: 1px solid #e1e1e1;
-          border-radius: 10px;
-          background: none;
-          color: #333;
-          &::placeholder {
-            color: black;
-          }
-            & + label {
-              transform: translateY(-10px);
-              font-size: 0.7rem;
-              position: absolute;
-              top: 10px;
-              left: 12px;
-              color: #aaa;
-              transition: all 0.2s ease-in-out;
-              pointer-events: none;
-            }
+      position: relative;
+      input,
+      textarea, select {
+        width: 100%;
+        padding: 22px 10px;
+        height: 4rem;
+        border: 1px solid #e1e1e1;
+        border-radius: 10px;
+        background: none;
+        color: #333;
+       
+        &::placeholder {
+          color: black;
+          font-size: 12px;
         }
-        button{
-            background-color: transparent;
-            border: none;
-            position: absolute;
-            right: 1rem;
-            top: 1rem;
+        & + label {
+          transform: translateY(-5px);
+          font-size: 0.7rem;
+          position: absolute;
+          top: 10px;
+          left: 12px;
+          color: #aaa;
+          transition: all 0.2s ease-in-out;
+          pointer-events: none;
         }
-}
+      }
+
+      select {
+        appearance: none;
+        background: #fff url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="gray"%3E%3Cpath d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 011.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"%3E%3C/path%3E%3C/svg%3E') no-repeat right 12px center;
+        background-size: 1rem;
+      }
+      button{
+        background-color: transparent;
+        border: none;
+        position: absolute;
+        right: 1rem;
+        top: 1rem;
+    }
+    }
+
+    textarea {
+      height: 5rem !important;
+      padding: 1.5rem 0.5rem !important;
+      grid-template-columns: span 1 !important;
+      button{
+          background-color: transparent;
+          border: none;
+          position: absolute;
+          right: 1rem;
+          top: 1rem;
+      }
+    }
 h6 {
     border: 1px solid #e1e1e1;
     border-radius: 10px;

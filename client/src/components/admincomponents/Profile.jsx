@@ -2,95 +2,81 @@ import React, { useState } from "react";
 import { Image, Upload } from "lucide-react";
 import {backendURL} from "../../utils/Exports"
 import {useSelector} from "react-redux"
-
+import {CloudinaryUploader} from "../../utils/CloudinaryUploader";
+import toast from "react-hot-toast"
 const Profile = () => {
 
-    const token = useSelector((state)=>state.auth.token);
-    const userdata = useSelector((state)=>state.auth.userdata);
+    const {token, userdata} = useSelector((state)=>state.auth);
 
-  const [imageUrl, setImageUrl] = useState(""); // For storing the uploaded image URL
-  const [file, setFile] = useState(null); // For storing the selected file
+  const [file, setFile] = useState(null);
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    phone: "",
+    password: "",
+    address: ""
+  })
 
   const handleFileChange = async (event) => {
     const selectedFile = event.target.files[0];
     setFile(selectedFile);
-
-    if (selectedFile) {
-      // Automatically upload the image when a file is selected
-      await uploadImageToCloudinary(selectedFile);
-    }
+  };
+  const handleInputChange = (e) => {
+    let name = e.target.name;
+    let value = e.target.value;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
   };
 
-  const uploadImageToCloudinary = async (selectedFile) => {
-    const formData = new FormData();
-    formData.append("file", selectedFile);
-    formData.append("upload_preset", "car_auction");
-  
+
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const authorizationToken = `Bearer ${token}`;
+    let avatarImage = userdata.avatarImage;
     try {
-      const response = await fetch(
-        "https://api.cloudinary.com/v1_1/dq5jqnxju/image/upload",
-        {
-          method: "POST",
-          body: formData,
-        }
-      );
-  
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(`Failed to upload image to Cloudinary: ${errorData.error.message}`);
+      if(file){
+        const avatarImage = await CloudinaryUploader(file);
+        console.log(avatarImage);
       }
-  
-      const data = await response.json();
-      const uploadedImageUrl = data.secure_url;
-      setImageUrl(uploadedImageUrl);
-      console.log("Image uploaded to Cloudinary:", uploadedImageUrl);
-
-      await imageUrl && sendUrlToBackend(uploadedImageUrl);
-    } catch (error) {
-      console.error("Error uploading image:", error);
-    }
-  };
-  
-
-  const sendUrlToBackend = async (imageUrl) => {
-    const authorizationToken = `Bearer ${token}`
-    try {
       const response = await fetch(`${backendURL}/user/`, {
-        // Replace with your backend API endpoint
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
           Authorization: authorizationToken,
         },
-        body: JSON.stringify({ avatarImage: imageUrl }),
+        body: JSON.stringify({ avatarImage, ...formData }),
       });
-
+  const res_data = await response.json()
       if (!response.ok) {
-        throw new Error("Failed to send image URL to backend");
+        toast.error(res_data.message);
       }
-
-      alert("Image URL sent to backend successfully!");
+  
+      toast.success(res_data.message)
     } catch (error) {
-      console.error("Error sending image URL to backend:", error);
+      toast.error("Error while Uploading", error);
     }
   };
+  
 
   return (
     <>
       <div style={{ marginBottom: "1rem" }}>
         <h3>Edit Profile</h3>
-        <small>User ID: 2347833894</small>
+        <small>User ID: {userdata ? userdata.id: "Please Login"}</small>
         <br />
-        <small>Role: Admin</small>
+        <small>Role: {userdata ? userdata.role: "Please Login"}</small>
       </div>
 
       <div className="form-container">
-        <div className="form-section">
+        <form onSubmit={handleSubmit} className="form-section">
           <h6>Avatar</h6>
           <div className="media-gallery">
             <div className="image-box">
               {userdata ? (
-                <img src={userdata.avatarImage} alt="Avatar" style={{ width: "100px" }} />
+                <img src={userdata && userdata.avatarImage} alt="Avatar" style={{ width: "100px" }} />
               ) : (
                 <Image size={24} />
               )}
@@ -113,22 +99,24 @@ const Profile = () => {
           <hr />
           <div className="form-grid">
             {[
-              { id: "firstname", label: "First Name", value: "Ali" },
-              { id: "lastname", label: "Last Name", value: "Tufan" },
+              { id: "firstname", label: "First Name", value: userdata ? userdata.firstName: "Please Login", name: "firstName" },
+              { id: "lastname", label: "Last Name", value: userdata ? userdata.lastName: "Please Login", name: "lastName" },
               {
                 id: "Email",
                 label: "Email",
-                value: "example@example.com",
+                value: userdata ? userdata.email: "Please Login",
                 type: "email",
+                name: "email"
               },
-              { id: "phone", label: "Phone", value: "+77" },
+              { id: "phone", label: "Phone", value: userdata ? userdata.contact: "Please Login", name: "phone" },
               {
                 id: "password",
                 label: "Password",
                 value: "XX-XXXXX-XX",
-                extra: <button>Change Password</button>,
+                name: "password",
+                extra: <button><small>Change Password</small></button>,
               },
-              { id: "address", label: "Address", value: "e.g. Linkon Park" },
+              { id: "address", label: "Address", value: "e.g. Linkon Park", name: "address" },
               {
                 id: "description",
                 label: "Description",
@@ -140,7 +128,9 @@ const Profile = () => {
                 {textarea ? (
                   <textarea id={id} defaultValue={value} />
                 ) : (
-                  <input type={type} id={id} defaultValue={value} />
+                  <input type={type} id={id} defaultValue={value} 
+                  onChange={handleInputChange}
+                  />
                 )}
                 <label htmlFor={id}>{label}</label>
                 {extra}
@@ -148,7 +138,7 @@ const Profile = () => {
             ))}
           </div>
           <button className="next-button">Save Profile</button>
-        </div>
+        </form>
       </div>
     </>
   );

@@ -9,8 +9,8 @@ const ProtectedRoute = ({ children }) => {
     const { token, userdata } = useSelector((state) => state.auth);
     const { pathname } = location;
 
+    if(userdata && token) {
     useEffect(() => {
-
         if (token && (pathname === "/auth" || pathname === "/resetpassword")) {
             navigate("/", { replace: true });
             toast("User already authenticated");
@@ -27,6 +27,7 @@ const ProtectedRoute = ({ children }) => {
             navigate("/admin", { replace: true });
         }
     }, [token, userdata, pathname, navigate]);
+}
 
     return children;
 };

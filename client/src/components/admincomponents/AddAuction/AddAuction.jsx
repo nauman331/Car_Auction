@@ -5,16 +5,18 @@ import "../../../assets/stylesheets/admin/addbuynow.scss";
 import toast from "react-hot-toast";
 import {useSelector} from "react-redux"
 import {backendURL} from "../../../utils/Exports"
-const AddBuyNow = () => {
+const AddAuction = () => {
   const {token} = useSelector((state)=>state.auth)
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
     carImages: [],
+    auctionLot: "",
     carMake: "",
     carModal: "",
     vendor: "",
     friendlyLocation: "",
     mapLocation: "",
+    lotNo: "",
     carType: "",
     description: "",
     year: "",
@@ -24,16 +26,19 @@ const AddBuyNow = () => {
     driveType: "",
     damage: "",
     cylinders: "",
+    videoLink: "",
     engineSize: "",
     color: "",
     vin: "",
     price: "",
     discountedPrice: "",
-    sellingType: "fixed",
+    startingBid: "",
+    bidMargin: "",
+    sellingType: "auction",
     noOfDoors: "",
-    isVerified: false,
+    auctionStatus: false,
+    isVerified: true,
     isSold: false,
-    videoLink: "",
     features: {
         interior: [],
         exterior: [],
@@ -61,11 +66,13 @@ const AddBuyNow = () => {
         toast.success(res_data.message);
         setFormData({
           carImages: [],
+          auctionLot: "",
           carMake: "",
-          carModel: "",
+          carModal: "",
           vendor: "",
           friendlyLocation: "",
           mapLocation: "",
+          lotNo: "",
           carType: "",
           description: "",
           year: "",
@@ -75,25 +82,27 @@ const AddBuyNow = () => {
           driveType: "",
           damage: "",
           cylinders: "",
+          videoLink: "",
           engineSize: "",
           color: "",
-          videoLink: "",
           vin: "",
           price: "",
           discountedPrice: "",
-          sellingType: "fixed",
+          startingBid: "",
+          bidMargin: "",
+          sellingType: "auction",
           noOfDoors: "",
-          isVerified: false,
-          soldDate: "",
+          auctionStatus: false,
+          isVerified: true,
           isSold: false,
           features: {
-            interior: [],
-            exterior: [],
-            safety: [],
-            convenience: [],
-            entertainment: [],
-          },
-        });
+              interior: [],
+              exterior: [],
+              safety: [],
+              convenience: [],
+              entertainment: []
+          }
+      });
         setStep(1);
       } else {
         toast.error(res_data.errors[0].msg ||res_data.message);
@@ -114,7 +123,7 @@ const AddBuyNow = () => {
 
   return (
     <div className="form-container">
-      <h5>Add New Buy Now Vehicle</h5>
+      <h5>Add New Auction Vehicle</h5>
       <small>Fill the form vehicles details below</small>
       <StepsNavigation steps={steps} currentStep={step} onStepChange={setStep} />
       <div className="form-section">
@@ -132,4 +141,4 @@ const AddBuyNow = () => {
   );
 };
 
-export default AddBuyNow;
+export default AddAuction;

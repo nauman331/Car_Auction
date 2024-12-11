@@ -23,8 +23,8 @@ const StepContent = ({ step, formData, setFormData }) => {
 
 const carDetailsFields = [
     { id: "listingTitle", label: "Listing Title", type: "text", placeholder: "Volvo" },
+    { id: "auction", label: "Auction", type: "select", options: ["Auction no. 127(Sunday)"] },
     { id: "vin", label: "VIN", type: "text", placeholder: "05034.........." },
-    { id: "damage", label: "Damage", type: "text", placeholder: "Select Damage" },
     { id: "type", label: "Type", type: "select", options: ["Sedan"] },
     { id: "make", label: "Make", type: "select", options: ["Select Make"] },
     { id: "model", label: "Model", type: "select", options: ["Select Model"] },
@@ -37,12 +37,14 @@ const carDetailsFields = [
     { id: "engine size", label: "Engine Size", type: "select", options: ["Engine Size"] },
     { id: "color", label: "Color", type: "select", options: ["Select Color"] },
     { id: "door", label: "Door", type: "select", options: ["Select Door"] },
+    { id: "damage", label: "Damage", type: "select", options: ["Select Damage"] },
+    { id: "lot no", label: "Lot no.", type: "text", placeholder: "05034.........." },
     { id: "description", label: "Listing Discription", type: "textarea", placeholder: "Lorem Ipsum" },
   ];
 
 const priceFields = [
-    { id: "buynowPrice", label: "Buy Now Price", type:"text", placeholder: "AED 1000" },
-    { id: "discountedPrice", label: "Discounted Price",type:"text", placeholder: "AED 800" },
+    { id: "bidPrice", label: "Bid Starting Price ($)", type:"text", placeholder: "e.g. 1000" },
+    { id: "bidMargin", label: "Bid Margin",type:"text", placeholder: "1000" },
   ];
 
 const locationFields = [
