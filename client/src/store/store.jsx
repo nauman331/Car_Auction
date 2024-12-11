@@ -1,5 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import authReducer from "./slices/authSlice";
+import categoryReducer from "./slices/categorySlice";
 import { persistReducer, persistStore } from "redux-persist";
 import storage from "redux-persist/lib/storage"; // defaults to localStorage
 
@@ -9,12 +10,14 @@ const persistConfig = {
   storage,
 };
 
-// Persisted reducer
+// Persisted reducer for auth
 const persistedAuthReducer = persistReducer(persistConfig, authReducer);
 
+// Create the store
 const store = configureStore({
   reducer: {
-    auth: persistedAuthReducer,
+    auth: persistedAuthReducer, // Persisted auth reducer
+    category: categoryReducer, // Add the category reducer
   },
 });
 
