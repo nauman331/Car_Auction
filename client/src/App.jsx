@@ -29,9 +29,9 @@ function App() {
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="carlistings" element={<CarListings/> } />
           <Route path="addauctionevent" element={<AddAuctionForm /> } />
-          <Route path="addbuynow" element={<AddBuyNow type="fixed"/> } />
+          <Route path="addbuynow" element={<AddBuyNow sellingType="fixed"/> } />
           <Route path="auctionlistings" element={<AuctionListings /> } />
-          <Route path="addauction" element={<AddBuyNow type="auction"/> } />
+          <Route path="addauction" element={<AddBuyNow sellingType="auction"/> } />
           <Route path="auctioninventory" element={<AuctionInventory /> } />
           <Route path="managecategories" element={<CategoryManagement /> } />
           <Route path="Orders" element={<Orders /> } />

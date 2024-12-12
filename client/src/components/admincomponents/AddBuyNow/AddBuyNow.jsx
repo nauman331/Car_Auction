@@ -3,15 +3,17 @@ import StepsNavigation from "./StepsNavigation";
 import StepContent from "./StepsContent";
 import "../../../assets/stylesheets/admin/addbuynow.scss";
 import toast from "react-hot-toast";
-import {useSelector} from "react-redux"
-import {backendURL} from "../../../utils/Exports"
-const AddBuyNow = ({type}) => {
-  const {token, userdata} = useSelector((state)=>state.auth)
+import { useSelector } from "react-redux";
+import { backendURL } from "../../../utils/Exports";
+
+const AddBuyNow = ({ sellingType }) => {
+  const { token, userdata } = useSelector((state) => state.auth);
   const [step, setStep] = useState(1);
-  const [formData, setFormData] = useState({
+
+  const baseData = {
     carImages: [],
     carMake: "",
-    carModal: "",
+    carModel: "",
     vendor: userdata.id,
     friendlyLocation: "",
     mapLocation: "",
@@ -27,76 +29,32 @@ const AddBuyNow = ({type}) => {
     engineSize: "",
     color: "",
     vin: "",
-    price: "",
-    discountedPrice: "",
-    sellingType: type,
     noOfDoors: "",
-    isVerified: false,
     isSold: false,
     videoLink: "",
-    features: {
-        interior: [],
-        exterior: [],
-        safety: [],
-        convenience: [],
-        entertainment: []
-    }
-});
+    features: { interior: [], exterior: [], safety: [], convenience: [], entertainment: [] },
+  };
 
-  const handleNext = () => setStep((prev) => Math.min(prev + 1, 5));
+  const auctionData = sellingType === "auction"
+    ? { auctionLot: "", lotNo: "", auctionStatus: false, startingBid: "", bidMargin: "", isVerified: true }
+    : { price: "", discountedPrice: "", isVerified: false };
+
+  const [formData, setFormData] = useState({ ...baseData, sellingType, ...auctionData });
 
   const handleSubmit = async () => {
-    const authorizatioToken = `Bearer ${token}`
     try {
       const response = await fetch(`${backendURL}/car/`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: authorizatioToken
-        },
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
         body: JSON.stringify(formData),
       });
       const res_data = await response.json();
       if (response.ok) {
         toast.success("Car Added Successfully!");
-        setFormData({
-          carImages: [],
-          carMake: "",
-          carModel: "",
-          vendor: "",
-          friendlyLocation: "",
-          mapLocation: "",
-          carType: "",
-          description: "",
-          year: "",
-          mileage: "",
-          fuelType: "",
-          transmission: "",
-          driveType: "",
-          damage: "",
-          cylinders: "",
-          engineSize: "",
-          color: "",
-          videoLink: "",
-          vin: "",
-          price: "",
-          discountedPrice: "",
-          sellingType: "fixed",
-          noOfDoors: "",
-          isVerified: false,
-          soldDate: "",
-          isSold: false,
-          features: {
-            interior: [],
-            exterior: [],
-            safety: [],
-            convenience: [],
-            entertainment: [],
-          },
-        });
+        setFormData({ ...baseData, sellingType, ...auctionData });
         setStep(1);
       } else {
-        toast.error(res_data.errors[0].msg ||res_data.message);
+        toast.error(res_data?.errors?.[0]?.msg || res_data?.message || "Unknown error occurred.");
       }
     } catch (error) {
       toast.error("An error occurred. Please try again.");
@@ -104,28 +62,21 @@ const AddBuyNow = ({type}) => {
     }
   };
 
-  const steps = [
-    { label: "Car Details" },
-    { label: "Price" },
-    { label: "Features" },
-    { label: "Media" },
-    { label: "Location" },
-  ];
+  const steps = ["Car Details", "Price", "Features", "Media", "Location"];
 
   return (
     <div className="form-container">
-      <h5>{type === "fixed" ? "Add New Buy Now Vehicle" : "Add New Auction Vehicle"}</h5>
-      
+      <h5>{sellingType === "fixed" ? "Add New Buy Now Vehicle" : "Add New Auction Vehicle"}</h5>
       <small>Fill the form vehicles details below</small>
-      <StepsNavigation steps={steps} currentStep={step} onStepChange={setStep} />
+      <StepsNavigation steps={steps.map(label => ({ label }))} currentStep={step} onStepChange={setStep} />
       <div className="form-section">
-        <StepContent step={step} formData={formData} setFormData={setFormData} />
+        <StepContent step={step} formData={formData} setFormData={setFormData} sellingType={sellingType} />
         <div className="navigation-buttons">
           <button
             className="next-button"
-            onClick={step < steps.length ? handleNext : handleSubmit}
+            onClick={step < steps.length ? () => setStep(step + 1) : handleSubmit}
           >
-            {step < steps.length ? `Next: ${steps[step].label}` : "Submit"}
+            {step < steps.length ? `Next: ${steps[step]}` : "Submit"}
           </button>
         </div>
       </div>
