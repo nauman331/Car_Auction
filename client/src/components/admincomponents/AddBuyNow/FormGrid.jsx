@@ -14,12 +14,12 @@ const FormGrid = ({ fields, formData, setFormData }) => {
       {fields?.map(({ id, label, type, placeholder, options }, idx) => (
         
         <>
-          {type === "text" && (
+          {(type === "text" || type === "date" || type === "time") && (
             <div className="input-container" key={idx}>
             <input
               id={id}
               placeholder={placeholder}
-              type="text"
+              type={type}
               value={formData[id] || ""}
               onChange={handleChange}
             />

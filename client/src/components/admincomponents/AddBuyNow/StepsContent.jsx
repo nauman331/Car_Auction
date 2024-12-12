@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useSelector } from "react-redux";
 import FormGrid from "./FormGrid";
 import FeaturesGrid from "./FeaturesGrid";
@@ -6,8 +6,6 @@ import MediaUpload from "./MediaUpload";
 
 const StepContent = ({ step, formData, setFormData, sellingType }) => {
   const { categories } = useSelector((state) => state.category);
-
-  useEffect(() => console.log(categories), [categories]);
 
   const generateOptions = (key, labelKey) =>
     categories?.[key]?.map((item) => ({
