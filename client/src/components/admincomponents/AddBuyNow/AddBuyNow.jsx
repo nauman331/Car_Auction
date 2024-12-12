@@ -5,7 +5,7 @@ import "../../../assets/stylesheets/admin/addbuynow.scss";
 import toast from "react-hot-toast";
 import {useSelector} from "react-redux"
 import {backendURL} from "../../../utils/Exports"
-const AddBuyNow = () => {
+const AddBuyNow = ({type}) => {
   const {token, userdata} = useSelector((state)=>state.auth)
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
@@ -29,7 +29,7 @@ const AddBuyNow = () => {
     vin: "",
     price: "",
     discountedPrice: "",
-    sellingType: "fixed",
+    sellingType: type,
     noOfDoors: "",
     isVerified: false,
     isSold: false,
@@ -114,7 +114,8 @@ const AddBuyNow = () => {
 
   return (
     <div className="form-container">
-      <h5>Add New Buy Now Vehicle</h5>
+      <h5>{type === "fixed" ? "Add New Buy Now Vehicle" : "Add New Auction Vehicle"}</h5>
+      
       <small>Fill the form vehicles details below</small>
       <StepsNavigation steps={steps} currentStep={step} onStepChange={setStep} />
       <div className="form-section">

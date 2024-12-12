@@ -14,7 +14,6 @@ import AuctionInventory from "./components/admincomponents/AuctionInventory";
 import Profile from "./components/admincomponents/Profile";
 import Verificationform from "./components/usercomponents/Verificationform";
 import ProtectedRoute from "./utils/ProtectedRoute";
-import AddAuction from "./components/admincomponents/AddAuction/AddAuction";
 
 function App() {
   return (
@@ -30,9 +29,9 @@ function App() {
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="carlistings" element={<CarListings/> } />
           <Route path="addauctionevent" element={<AddAuctionForm /> } />
-          <Route path="addbuynow" element={<AddBuyNow /> } />
+          <Route path="addbuynow" element={<AddBuyNow type="fixed"/> } />
           <Route path="auctionlistings" element={<AuctionListings /> } />
-          <Route path="addauction" element={<AddAuction /> } />
+          <Route path="addauction" element={<AddBuyNow type="auction"/> } />
           <Route path="auctioninventory" element={<AuctionInventory /> } />
           <Route path="managecategories" element={<CategoryManagement /> } />
           <Route path="Orders" element={<Orders /> } />
