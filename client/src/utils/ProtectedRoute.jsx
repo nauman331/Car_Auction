@@ -24,7 +24,7 @@ const ProtectedRoute = ({ children }) => {
             (userdata.role === "superadmin" || userdata.role === "admin") &&
             !pathname.startsWith("/admin")
         ) {
-            navigate("/admin", { replace: true });
+            navigate("/admin/dashboard", { replace: true });
         }
     }, [token, userdata, pathname, navigate]);
 }

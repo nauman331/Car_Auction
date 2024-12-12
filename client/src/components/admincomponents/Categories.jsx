@@ -32,6 +32,7 @@ const categories = [
     field: "vehicleEngineSize",
   },
   { name: "Vehicle Colors", key: "vehicle-color", field: "vehicleColors" },
+  { name: "Vehicle Doors", key: "vehicle-door", field: "vehicleDoor" },
   { name: "Vehicle Damages", key: "vehicle-damage", field: "vehicleDamage" },
   {
     name: "Auction Locations",
@@ -61,7 +62,6 @@ const CategoryManagement = () => {
             [key]: { input: "", items: data },
           }));
 
-          // Dispatch the fetched categories to the Redux store
           dispatch(setCategories({ key, items: data }));
         }
       };

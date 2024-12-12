@@ -1,23 +1,37 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import '../../assets/stylesheets/admin/carlisting.scss';
 import { ChevronLeft, ChevronRight, Trash, PencilLine, Search } from 'lucide-react';
 import {NavLink} from "react-router-dom"
-
-const cars = Array(500).fill({
-  make: 'Mercedes-Benz, C Class',
-  model: 'Volvo',
-  year: 2023,
-  transmission: 'Automatic',
-  fuelType: 'Petrol',
-  price: '$399',
-  originalPrice: '$788',
-});
+import {backendURL} from "../../utils/Exports"
+import toast from "react-hot-toast";
 
 const CarListings = () => {  
 
     const [currentPage, setCurrentPage] = useState(1);
+    const [cars, setCars] = useState([])
     const itemsPerPage = 30;
     const totalPages = Math.ceil(cars.length / itemsPerPage);
+
+    const getAllCars = async () => {
+      try {
+        const response = await fetch(`${backendURL}/car`, {
+          method: "GET"
+        })
+        const res_data = await response.json()
+        if(!response.ok){
+          toast.error(res_data.message)
+        }
+        setCars(res_data);
+        console.log(res_data)
+      } catch (error) {
+        toast.error("Error Occured while getting all cars")
+      }
+    }
+
+    useEffect(() => {
+     getAllCars()
+    }, [])
+    
   
     const handlePageChange = (page) => {
       if (page >= 1 && page <= totalPages) {
@@ -121,24 +135,29 @@ const CarListings = () => {
             </thead>
             <tbody>
               {getDisplayedCars().map((car, index) => (
+                car.sellingType === "fixed" && (
                 <tr key={index}>
                   <td>
                     <div className="car-info">
-                      <div className="car-image"></div>
+                      <div className="car-image">
+                        <img src={car.carImages[0]} alt="..." 
+                        style={{width: "100%", height: "100%", objectFit: "cover"}}
+                        />
+                      </div>
                       <div className='car-name'>
-                        <p>{car.make}</p>
-                        <p>{car.year} C300e AMG Line Night Ed Premium Pl...</p>
+                        <p>{car.listingTitle || "No Title"}</p>
+                        <p>{car.description || "No Description"}</p>
                         <div className="price">
-                        <h6>{car.price}</h6>
-                        {car.originalPrice && <p>{car.originalPrice}</p>}
+                        <h6>{car.discountedPrice}</h6>
+                        {car.price && <p>{car.price}</p>}
                         </div>
                       </div>
                     </div>
                   </td>
-                  <td>{car.model}</td>
-                  <td>{car.year}</td>
-                  <td>{car.transmission}</td>
-                  <td>{car.fuelType}</td>
+                  <td><small>{car.carModal || "No Model"}</small></td>
+                  <td><small>{car.year || "No Year"}</small></td>
+                  <td><small>{car.transmission || "No Transmision"}</small></td>
+                  <td><small>{car.fuelType || "No Fuel Type"}</small></td>
                   <td className="action-buttons">
                   <button>
                       <Trash size={16} />
@@ -148,6 +167,7 @@ const CarListings = () => {
                     </button>
                   </td>
                 </tr>
+                )
               ))}
             </tbody>
           </table>

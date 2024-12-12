@@ -6,13 +6,13 @@ import toast from "react-hot-toast";
 import {useSelector} from "react-redux"
 import {backendURL} from "../../../utils/Exports"
 const AddBuyNow = () => {
-  const {token} = useSelector((state)=>state.auth)
+  const {token, userdata} = useSelector((state)=>state.auth)
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
     carImages: [],
     carMake: "",
     carModal: "",
-    vendor: "",
+    vendor: userdata.id,
     friendlyLocation: "",
     mapLocation: "",
     carType: "",
@@ -58,7 +58,7 @@ const AddBuyNow = () => {
       });
       const res_data = await response.json();
       if (response.ok) {
-        toast.success(res_data.message);
+        toast.success("Car Added Successfully!");
         setFormData({
           carImages: [],
           carMake: "",

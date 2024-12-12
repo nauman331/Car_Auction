@@ -5,19 +5,25 @@ import { persistReducer, persistStore } from "redux-persist";
 import storage from "redux-persist/lib/storage"; // defaults to localStorage
 
 // Config for redux-persist
-const persistConfig = {
+const authPersistConfig = {
   key: "auth",
   storage,
 };
 
-// Persisted reducer for auth
-const persistedAuthReducer = persistReducer(persistConfig, authReducer);
+const categoryPersistConfig = {
+  key: "category",
+  storage,
+};
+
+// Persisted reducers
+const persistedAuthReducer = persistReducer(authPersistConfig, authReducer);
+const persistedCategoryReducer = persistReducer(categoryPersistConfig, categoryReducer);
 
 // Create the store
 const store = configureStore({
   reducer: {
     auth: persistedAuthReducer, // Persisted auth reducer
-    category: categoryReducer, // Add the category reducer
+    category: persistedCategoryReducer, // Persisted category reducer
   },
 });
 
