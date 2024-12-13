@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import FormGrid from "./FormGrid";
 import FeaturesGrid from "./FeaturesGrid";
 import MediaUpload from "./MediaUpload";
 
 const StepContent = ({ step, formData, setFormData, sellingType }) => {
-  const { categories } = useSelector((state) => state.category);
+  const { categories, auctions } = useSelector((state) => state.category);
 
   const generateOptions = (key, labelKey) =>
     categories?.[key]?.map((item) => ({
@@ -13,10 +13,23 @@ const StepContent = ({ step, formData, setFormData, sellingType }) => {
       value: item._id,
     })) || [];
 
+    const generateAuctionOptions = () => 
+      auctions?.map((auction) => ({
+        label: auction.auctionTitle,
+        value: auction._id,
+      })) || [];
+    
+    
+
   const commonFields = {
     carDetailsFields: [
       { id: "listingTitle", label: "Listing Title", type: "text", placeholder: "Volvo" },
-      sellingType === "auction" && { id: "auctionLot", label: "Auction", type: "select" },
+      sellingType === "auction" && {
+        id: "auctionLot",
+        label: "Auction",
+        type: "select",
+        options: generateAuctionOptions(),
+      },
       { id: "vin", label: "VIN", type: "text", placeholder: "05034.........." },
       { id: "damage", label: "Damage", type: "select", options: generateOptions("vehicle-damage", "vehicleDamage") },
       { id: "carType", label: "Type", type: "select", options: generateOptions("vehicle-type", "vehicleType") },

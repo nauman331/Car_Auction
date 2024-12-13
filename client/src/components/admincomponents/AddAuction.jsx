@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import toast from "react-hot-toast"
 import {backendURL} from "../../utils/Exports"
 
+
 const AddAuctionForm = () => {
   const [formData, setFormData] = useState({
     auctionTitle: "",
@@ -72,10 +73,21 @@ const AddAuctionForm = () => {
   const handleUpload = async () => {
     const authorizationToken = `Bearer ${token}`;
   
-    formData.auctionDate = new Date(formData.auctionDate).toISOString(); // ISO Date Format
-    formData.totalVehicles = parseInt(formData.totalVehicles, 10); // Integer
-    formData.auctionNumber = parseInt(formData.auctionNumber, 10); // Integer
-    formData.auctionTitle = String(formData.auctionTitle); // Ensure string
+    const auctionDateTime = new Date(`${formData.auctionDate}T${formData.auctionTime}:00`);
+    
+    const options = {
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: true,
+    };
+    
+    const formattedTime = auctionDateTime.toLocaleTimeString('en-US', options);
+  
+    // Convert the auctionDate to ISO format (you already did this)
+    formData.auctionDate = new Date(formData.auctionDate).toISOString();
+    
+    // Add the formatted time to the formData
+    formData.auctionTime = formattedTime;
   
     if (!formData.statusText) {
       toast.error("Status Text is required.");
@@ -94,7 +106,7 @@ const AddAuctionForm = () => {
           "Content-Type": "application/json",
           Authorization: authorizationToken,
         },
-        body: JSON.stringify({ formData }),
+        body: JSON.stringify(formData),
       });
       const res_data = await response.json();
   

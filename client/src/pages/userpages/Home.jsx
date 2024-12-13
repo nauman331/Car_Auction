@@ -13,6 +13,7 @@ import Feature from "../../components/usercomponents/feature";
 import Premium from "../../components/usercomponents/premium";
 import Reachus from "../../components/usercomponents/reachus";
 import Footer from "../../components/usercomponents/footer";
+import { setAuctionsData } from "../../store/slices/categorySlice";
 
 const Home = () => {
   const token = useSelector((state) => state.auth.token);
@@ -43,6 +44,41 @@ const Home = () => {
       console.log("error in fetching user data", error);
     }
   };
+  const getAllAuctions = async () => {
+    try {
+      const response = await fetch (`${backendURL}/auction`, {
+        method: "GET"
+      })
+      const res_data = await response.json();
+      if(response.ok){
+        dispatch(setAuctionsData({ auctions: res_data }));
+      } else {
+        toast.error(res_data.message)
+      }
+    } catch (error) {
+      toast.error("Error in getting all cars")
+    }
+  }
+     const getAllCars = async () => {
+        try {
+          const response = await fetch(`${backendURL}/car`, {
+            method: "GET"
+          })
+          const res_data = await response.json()
+          if(!response.ok){
+            toast.error(res_data.message)
+          }
+          dispatch(setCarsData({ cars: res_data }));
+        } catch (error) {
+          toast.error("Error Occured while getting all cars")
+        }
+      }
+
+       
+  useEffect(() => {
+  getAllAuctions();
+  getAllCars();
+  }, [dispatch])
 
   useEffect(() => {
     if (token) {

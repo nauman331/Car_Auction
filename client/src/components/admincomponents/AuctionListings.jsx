@@ -1,39 +1,17 @@
 import React, {useState, useEffect} from 'react';
 import { ChevronLeft, ChevronRight, Trash, PencilLine, Search } from 'lucide-react';
 import {NavLink} from "react-router-dom"
-import toast from 'react-hot-toast';
-import { backendURL } from '../../utils/Exports';
-import { useDispatch, useSelector } from "react-redux";
-import { setAuctionsData } from "../../store/slices/categorySlice";
+import { useSelector } from "react-redux";
 
 
 const AuctionListings = () => {  
-  const dispatch = useDispatch();
+  
   const {auctions} = useSelector((state)=>state.category)
 
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 30;
     const totalPages = Math.ceil(auctions.length / itemsPerPage);
   
-const getAllAuctions = async () => {
-  try {
-    const response = await fetch (`${backendURL}/auction`, {
-      method: "GET"
-    })
-    const res_data = await response.json();
-    if(response.ok){
-      dispatch(setAuctionsData({ auctions: res_data }));
-    } else {
-      toast.error(res_data.message)
-    }
-  } catch (error) {
-    toast.error("Error in getting all cars")
-  }
-}
-
-useEffect(() => {
-getAllAuctions()
-}, [dispatch])
 
 
     const handlePageChange = (page) => {
@@ -141,13 +119,13 @@ getAllAuctions()
                 <tr key={index}>
                   <td>
                     <div className="car-info">
-                      <p>{auction.name}</p>
+                      <p>{auction.auctionTitle}</p>
                     </div>
                   </td>
-                  <td>{auction.location}</td>
+                  <td>{}</td>
                   <td>{auction.totalVehicles}</td>
-                  <td>{auction.date}</td>
-                  <td>{auction.status}</td>
+                  <td>{new Date(auction.auctionDate).toLocaleDateString()}<br /><small>{auction.auctionTime}</small></td>
+                  <td>{auction.statusText}</td>
                   <td className="action-buttons">
                   <button>
                       <Trash size={16} />
