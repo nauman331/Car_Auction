@@ -3,15 +3,25 @@ import { createSlice } from "@reduxjs/toolkit";
 export const categorySlice = createSlice({
   name: "category",
   initialState: {
-    categories: {}, // Changed to an object for better flexibility
+    categories: {}, 
+    cars: [],
+    auctions: []
   },
   reducers: {
     setCategories: (state, action) => {
       const { key, items } = action.payload;
-      state.categories[key] = items; // Store categories based on their keys
+      state.categories[key] = items; 
     },
+    setCarsData: (state, action) => {
+      const {cars} = action.payload;
+      state.cars = cars;
+    },
+    setAuctionsData: (state, action) => {
+      const {auctions} = action.payload;
+      state.auctions = auctions;
+    }
   },
 });
 
-export const { setCategories } = categorySlice.actions;
+export const { setCategories, setCarsData, setAuctionsData } = categorySlice.actions;
 export default categorySlice.reducer;

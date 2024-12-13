@@ -4,12 +4,16 @@ import { ChevronLeft, ChevronRight, Trash, PencilLine, Search } from 'lucide-rea
 import {NavLink} from "react-router-dom"
 import {backendURL} from "../../utils/Exports"
 import toast from "react-hot-toast";
+import { useDispatch, useSelector } from "react-redux";
+import { setCarsData } from "../../store/slices/categorySlice";
 
 const CarListings = () => {  
 
+  const dispatch = useDispatch();
+  const {cars} = useSelector((state)=>state.category)
+
     const [currentPage, setCurrentPage] = useState(1);
-    const [cars, setCars] = useState([])
-    const itemsPerPage = 30;
+        const itemsPerPage = 30;
     const totalPages = Math.ceil(cars.length / itemsPerPage);
 
     const getAllCars = async () => {
@@ -21,8 +25,7 @@ const CarListings = () => {
         if(!response.ok){
           toast.error(res_data.message)
         }
-        setCars(res_data);
-        console.log(res_data)
+        dispatch(setCarsData({ cars: res_data }));
       } catch (error) {
         toast.error("Error Occured while getting all cars")
       }
@@ -30,7 +33,7 @@ const CarListings = () => {
 
     useEffect(() => {
      getAllCars()
-    }, [])
+    }, [dispatch])
     
   
     const handlePageChange = (page) => {

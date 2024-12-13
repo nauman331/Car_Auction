@@ -1,31 +1,50 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { ChevronLeft, ChevronRight, Trash, PencilLine, Search } from 'lucide-react';
 import {NavLink} from "react-router-dom"
+import toast from 'react-hot-toast';
+import { backendURL } from '../../utils/Exports';
+import { useDispatch, useSelector } from "react-redux";
+import { setAuctionsData } from "../../store/slices/categorySlice";
 
-
-const cars = Array(500).fill({
-  name: '27,368 Online & Onsite Auction',
-  location: 'UAE',
-  totalVehicles: 56,
-  date: '10/11/2024',
-  status: 'Ongoing',
-});
 
 const AuctionListings = () => {  
+  const dispatch = useDispatch();
+  const {auctions} = useSelector((state)=>state.category)
 
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 30;
-    const totalPages = Math.ceil(cars.length / itemsPerPage);
+    const totalPages = Math.ceil(auctions.length / itemsPerPage);
   
+const getAllAuctions = async () => {
+  try {
+    const response = await fetch (`${backendURL}/auction`, {
+      method: "GET"
+    })
+    const res_data = await response.json();
+    if(response.ok){
+      dispatch(setAuctionsData({ auctions: res_data }));
+    } else {
+      toast.error(res_data.message)
+    }
+  } catch (error) {
+    toast.error("Error in getting all cars")
+  }
+}
+
+useEffect(() => {
+getAllAuctions()
+}, [dispatch])
+
+
     const handlePageChange = (page) => {
       if (page >= 1 && page <= totalPages) {
         setCurrentPage(page);
       }
     };
   
-    const getDisplayedCars = () => {
+    const getDisplayedAuctions = () => {
       const startIndex = (currentPage - 1) * itemsPerPage;
-      return cars.slice(startIndex, startIndex + itemsPerPage);
+      return auctions.slice(startIndex, startIndex + itemsPerPage);
     };
   
     const renderPagination = () => {
@@ -118,17 +137,17 @@ const AuctionListings = () => {
               </tr>
             </thead>
             <tbody>
-              {getDisplayedCars().map((car, index) => (
+              {getDisplayedAuctions().map((auction, index) => (
                 <tr key={index}>
                   <td>
                     <div className="car-info">
-                      <p>{car.name}</p>
+                      <p>{auction.name}</p>
                     </div>
                   </td>
-                  <td>{car.location}</td>
-                  <td>{car.totalVehicles}</td>
-                  <td>{car.date}</td>
-                  <td>{car.status}</td>
+                  <td>{auction.location}</td>
+                  <td>{auction.totalVehicles}</td>
+                  <td>{auction.date}</td>
+                  <td>{auction.status}</td>
                   <td className="action-buttons">
                   <button>
                       <Trash size={16} />

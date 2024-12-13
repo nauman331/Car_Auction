@@ -4,6 +4,7 @@ import { X } from "lucide-react";
 import { backendURL } from "../../utils/Exports";
 import { useSelector, useDispatch } from "react-redux";
 import { setCategories } from "../../store/slices/categorySlice";
+import toast from "react-hot-toast";
 
 const categories = [
   { name: "Vehicle Types", key: "vehicle-type", field: "vehicleType" },
@@ -63,6 +64,8 @@ const CategoryManagement = () => {
           }));
 
           dispatch(setCategories({ key, items: data }));
+        } else {
+          toast.error("Error while getting all categories")
         }
       };
 
@@ -79,7 +82,7 @@ const CategoryManagement = () => {
     updateCategoryData(key, { input: value });
   const handleAddItem = async (key, field) => {
     const input = categoryData[key]?.input;
-    if (!input) return alert("Input cannot be empty!");
+    if (!input) return toast.error("Input cannot be empty!");
     const res = await fetch(`${backendURL}/${key}`, {
       method: "POST",
       headers: {

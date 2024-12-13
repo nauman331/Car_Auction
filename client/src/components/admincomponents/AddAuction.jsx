@@ -1,20 +1,24 @@
 import { useState } from "react";
 import FormGrid from "./AddBuyNow/FormGrid";
 import { useSelector } from "react-redux";
+import toast from "react-hot-toast"
+import {backendURL} from "../../utils/Exports"
 
 const AddAuctionForm = () => {
   const [formData, setFormData] = useState({
     auctionTitle: "",
     auctionNumber: "",
-    auctionStatus: false,
-    statusText: "",
-    auctionDate: "",
+    // auctionStatus: false,
+    // statusText: "Not Started",
+    // auctionDate: "",
     auctionTime: "",
-    totalVehicles: "",
+    // noOfCars: "",
     location: "",
+    // cars: []
   });
 
   const { categories } = useSelector((state) => state.category);
+  const { token } = useSelector((state) => state.auth);
 
   const generateOptions = (key, labelKey) =>
     categories?.[key]?.map((item) => ({
@@ -36,7 +40,7 @@ const AddAuctionForm = () => {
       placeholder: "Enter auction number",
     },
     {
-      id: "totalVehicles",
+      id: "noOfCars",
       label: "Total Vehicles",
       type: "text",
       placeholder: "Enter total vehicles",
@@ -60,9 +64,26 @@ const AddAuctionForm = () => {
     },
   ];
 
-  const handleUpload = () => {
-    console.log("Auction Data:", auctionData);
-    // Add form submission logic here
+  const handleUpload = async () => {
+    const authorizationToken = `Bearer ${token}`
+    try {
+    const response = await fetch(`${backendURL}/auction`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: authorizationToken
+      },
+      body: JSON.stringify({formData})
+    })
+    const res_data = await response.json()
+    if(response.ok){
+      console.log(res_data)
+    } else {
+      toast.error(res_data?.errors?.[0]?.msg || res_data?.message || "Unknown error occurred.")
+    }
+    } catch (error) {
+      toast.error("Error in setting auction")
+    }
   };
 
   return (
@@ -75,7 +96,7 @@ const AddAuctionForm = () => {
       </div>
       <div className="form-container">
         <div className="form-section">
-          <FormGrid fields={AuctionFields} formData={setFormData} setFormData={setFormData} />
+          <FormGrid fields={AuctionFields} formData={formData} setFormData={setFormData} />
           <button className="next-button" onClick={handleUpload}>
             Upload
           </button>
