@@ -13,6 +13,7 @@ import Orders from "./components/admincomponents/Orders";
 import AuctionInventory from "./components/admincomponents/AuctionInventory";
 import Profile from "./components/admincomponents/Profile";
 import Verificationform from "./components/usercomponents/Verificationform";
+import AllUsers from "./components/admincomponents/AllUsers";
 import ProtectedRoute from "./utils/ProtectedRoute";
 import "react-confirm-alert/src/react-confirm-alert.css";
 
@@ -35,6 +36,7 @@ function App() {
           <Route path="addauction" element={<AddBuyNow sellingType="auction"/> } />
           <Route path="auctioninventory" element={<AuctionInventory /> } />
           <Route path="managecategories" element={<CategoryManagement /> } />
+          <Route path="allusers" element={<AllUsers /> } />
           <Route path="Orders" element={<Orders /> } />
           <Route path="Profile" element={<Profile /> } />
         </Route>

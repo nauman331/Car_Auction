@@ -167,16 +167,17 @@ const AuctionListings = () => {
                 <tr key={index}>
                   <td>
                     <div className="car-info">
-                      <p>{auction.auctionTitle}</p>
+                      <p>{auction.auctionTitle || "No Title"}</p>
                     </div>
                   </td>
-                  <td>{auction.totalVehicles}</td>
+                  <td>{auction.location || "No Location"}</td>
+                  <td>{auction.totalVehicles || "No Vehicles"}</td>
                   <td>
-                    {new Date(auction.auctionDate).toLocaleDateString()}
+                    {new Date(auction.auctionDate).toLocaleDateString() || "No Date"}
                     <br />
-                    <small>{auction.auctionTime}</small>
+                    <small>{auction.auctionTime || "No Time"}</small>
                   </td>
-                  <td>{auction.statusText}</td>
+                  <td>{auction.statusText || "No Status"}</td>
                   <td className="action-buttons">
                     <button onClick={() => confirmDelete(auction._id)}>
                       <Trash size={16} />

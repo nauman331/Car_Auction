@@ -5,6 +5,7 @@ import { backendURL } from "../../utils/Exports";
 import { useSelector, useDispatch } from "react-redux";
 import { setCategories } from "../../store/slices/categorySlice";
 import toast from "react-hot-toast";
+import LoadingSpinner from "../usercomponents/LoadingSpinner"
 
 const categories = [
   { name: "Vehicle Types", key: "vehicle-type", field: "vehicleType" },
@@ -46,9 +47,11 @@ const CategoryManagement = () => {
   const dispatch = useDispatch();
   const { token } = useSelector((state) => state.auth);
   const [categoryData, setCategoryData] = useState({});
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchCategories = async () => {
+      setLoading(true)
       const headers = {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
@@ -70,6 +73,7 @@ const CategoryManagement = () => {
       };
 
       await Promise.all(categories.map(fetchData));
+      setLoading(false)
     };
 
     fetchCategories();
@@ -83,6 +87,7 @@ const CategoryManagement = () => {
   const handleAddItem = async (key, field) => {
     const input = categoryData[key]?.input;
     if (!input) return toast.error("Input cannot be empty!");
+    
     const res = await fetch(`${backendURL}/${key}`, {
       method: "POST",
       headers: {
@@ -100,6 +105,7 @@ const CategoryManagement = () => {
     } else {
       alert("Error adding item.");
     }
+    
   };
 
   const handleDeleteItem = async (key, id) => {
@@ -119,7 +125,10 @@ const CategoryManagement = () => {
     }
   };
 
+
   return (
+    <>
+    { loading ? (<LoadingSpinner />) : (
     <div className="category-management">
       <h3>Categories Management</h3>
       <small>Fill the form Categories Details Below</small>
@@ -150,6 +159,8 @@ const CategoryManagement = () => {
         ))}
       </div>
     </div>
+      )}
+      </>
   );
 };
 

@@ -21,7 +21,7 @@ const menuItems = [
   { to: "/admin/managecategories", icon: <CarFront />, label: "Category Options" },
   { to: "/admin/orders", icon: <CarFront />, label: "Orders" },
   { to: "/admin/", icon: <CarFront />, label: "Deposits" },
-  { to: "/admin/", icon: <CarFront />, label: "Users" },
+  { to: "/admin/allusers", icon: <CarFront />, label: "Users" },
   { to: "/admin/profile", icon: <SquareUser />, label: "My Profile" },
 ];
 
