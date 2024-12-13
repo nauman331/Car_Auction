@@ -14,7 +14,7 @@ const FormGrid = ({ fields, formData, setFormData }) => {
       {fields?.map(({ id, label, type, placeholder, options }, idx) => (
         
         <>
-          {(type === "text" || type === "date" || type === "time") && (
+          {(type === "text" || type === "date" || type === "time" || type === "number") && (
             <div className="input-container" key={idx}>
             <input
               id={id}

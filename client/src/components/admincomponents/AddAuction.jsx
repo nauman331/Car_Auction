@@ -7,14 +7,13 @@ import {backendURL} from "../../utils/Exports"
 const AddAuctionForm = () => {
   const [formData, setFormData] = useState({
     auctionTitle: "",
-    auctionNumber: "",
-    // auctionStatus: false,
-    // statusText: "Not Started",
-    // auctionDate: "",
+    auctionNumber: 0,
+    auctionStatus: false,
+    statusText: "",
+    auctionDate: "",
     auctionTime: "",
-    // noOfCars: "",
-    location: "",
-    // cars: []
+    totalVehicles: 0,
+    location: ""
   });
 
   const { categories } = useSelector((state) => state.category);
@@ -34,15 +33,21 @@ const AddAuctionForm = () => {
       placeholder: "Enter auction title",
     },
     {
+      id: "statusText",
+      label: "Status Text",
+      type: "text",
+      placeholder: "Enter status Text",
+    },
+    {
       id: "auctionNumber",
       label: "Auction Number",
-      type: "text",
+      type: "number",
       placeholder: "Enter auction number",
     },
     {
-      id: "noOfCars",
+      id: "totalVehicles",
       label: "Total Vehicles",
-      type: "text",
+      type: "number",
       placeholder: "Enter total vehicles",
     },
     {
@@ -65,27 +70,44 @@ const AddAuctionForm = () => {
   ];
 
   const handleUpload = async () => {
-    const authorizationToken = `Bearer ${token}`
-    try {
-    const response = await fetch(`${backendURL}/auction`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: authorizationToken
-      },
-      body: JSON.stringify({formData})
-    })
-    const res_data = await response.json()
-    if(response.ok){
-      console.log(res_data)
-    } else {
-      toast.error(res_data?.errors?.[0]?.msg || res_data?.message || "Unknown error occurred.")
+    const authorizationToken = `Bearer ${token}`;
+  
+    formData.auctionDate = new Date(formData.auctionDate).toISOString(); // ISO Date Format
+    formData.totalVehicles = parseInt(formData.totalVehicles, 10); // Integer
+    formData.auctionNumber = parseInt(formData.auctionNumber, 10); // Integer
+    formData.auctionTitle = String(formData.auctionTitle); // Ensure string
+  
+    if (!formData.statusText) {
+      toast.error("Status Text is required.");
+      return;
     }
+  
+    if (!formData.auctionTime) {
+      toast.error("Auction Time is required.");
+      return;
+    }
+  
+    try {
+      const response = await fetch(`${backendURL}/auction`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: authorizationToken,
+        },
+        body: JSON.stringify({ formData }),
+      });
+      const res_data = await response.json();
+  
+      if (response.ok) {
+        console.log(res_data);
+      } else {
+        toast.error(res_data?.errors?.[0]?.msg || res_data?.message || "Unknown error occurred.");
+      }
     } catch (error) {
-      toast.error("Error in setting auction")
+      toast.error("Error in setting auction");
     }
   };
-
+  
   return (
     <>
       <div className="car-list-top">
