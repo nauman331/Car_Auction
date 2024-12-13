@@ -12,6 +12,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { deleteCar } from "../../store/slices/categorySlice";
 import toast from "react-hot-toast";
 import { backendURL } from "../../utils/Exports";
+import { confirmAlert } from "react-confirm-alert";
 
 const AuctionInventory = () => {
   const dispatch = useDispatch();
@@ -43,6 +44,23 @@ const AuctionInventory = () => {
       toast.error("Error while deleting");
     }
   };
+
+  const confirmDelete = (id) => {
+    confirmAlert({
+      title: "Confirm Deletion",
+      message: "Are you sure you want to delete this?",
+      buttons: [
+        {
+          label: "Yes",
+          onClick: () => deletCar(id),
+        },
+        {
+          label: "No",
+        },
+      ],
+    });
+  };
+
   const handlePageChange = (page) => {
     if (page >= 1 && page <= totalPages) {
       setCurrentPage(page);
@@ -114,7 +132,7 @@ const AuctionInventory = () => {
       <div className="car-list-top">
         <span>
           <h3>My Listings</h3>
-          <small>List of vehicles Uploaded fro Buy Now</small>
+          <small>List of vehicles Uploaded for Buy Now</small>
         </span>
         <NavLink to="/admin/addauction" className="add-vehicle-button">
           Add New Vehicle ↗
@@ -193,7 +211,7 @@ const AuctionInventory = () => {
                         </small>
                       </td>
                       <td className="action-buttons">
-                        <button onClick={() => deletCar(car._id)}>
+                        <button onClick={() => confirmDelete(car._id)}>
                           <Trash size={16} />
                         </button>
                         <button>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   ChevronLeft,
   ChevronRight,
@@ -10,6 +10,7 @@ import { deleteAuction } from "../../store/slices/categorySlice";
 import { NavLink } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import toast from "react-hot-toast";
+import { confirmAlert } from "react-confirm-alert";
 import { backendURL } from "../../utils/Exports";
 
 const AuctionListings = () => {
@@ -41,6 +42,22 @@ const AuctionListings = () => {
     } catch (error) {
       toast.error("Error while deleting");
     }
+  };
+
+  const confirmDelete = (id) => {
+    confirmAlert({
+      title: "Confirm Deletion",
+      message: "Are you sure you want to delete this?",
+      buttons: [
+        {
+          label: "Yes",
+          onClick: () => deletCar(id),
+        },
+        {
+          label: "No",
+        },
+      ],
+    });
   };
 
   const handlePageChange = (page) => {
@@ -161,7 +178,7 @@ const AuctionListings = () => {
                   </td>
                   <td>{auction.statusText}</td>
                   <td className="action-buttons">
-                    <button onClick={() => deletCar(auction._id)}>
+                    <button onClick={() => confirmDelete(auction._id)}>
                       <Trash size={16} />
                     </button>
                     <button>

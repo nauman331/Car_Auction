@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "../../assets/stylesheets/admin/carlisting.scss";
 import {
   ChevronLeft,
@@ -12,6 +12,8 @@ import { useSelector, useDispatch } from "react-redux";
 import toast from "react-hot-toast";
 import { backendURL } from "../../utils/Exports";
 import { deleteCar } from "../../store/slices/categorySlice";
+import { confirmAlert } from "react-confirm-alert";
+
 
 const CarListings = () => {
   const dispatch = useDispatch();
@@ -42,6 +44,22 @@ const CarListings = () => {
     } catch (error) {
       toast.error("Error while deleting");
     }
+  };
+
+  const handleDeleteClick = (id) => {
+    confirmAlert({
+      title: "Confirm to Delete",
+      message: "Are you sure you want to delete this?",
+      buttons: [
+        {
+          label: "Yes",
+          onClick: () => deletCar(id),
+        },
+        {
+          label: "No",
+        },
+      ],
+    });
   };
 
   const handlePageChange = (page) => {
@@ -187,7 +205,7 @@ const CarListings = () => {
                         <small>{car.fuelType || "No Fuel Type"}</small>
                       </td>
                       <td className="action-buttons">
-                        <button onClick={() => deletCar(car._id)}>
+                        <button onClick={() => handleDeleteClick(car._id)}>
                           <Trash size={16} />
                         </button>
                         <button>

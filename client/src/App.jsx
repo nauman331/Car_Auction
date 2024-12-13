@@ -14,6 +14,7 @@ import AuctionInventory from "./components/admincomponents/AuctionInventory";
 import Profile from "./components/admincomponents/Profile";
 import Verificationform from "./components/usercomponents/Verificationform";
 import ProtectedRoute from "./utils/ProtectedRoute";
+import "react-confirm-alert/src/react-confirm-alert.css";
 
 function App() {
   return (
