@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { backendURL } from "../../utils/Exports";
 import { setUser } from "../../store/slices/authSlice";
@@ -14,16 +14,20 @@ import Premium from "../../components/usercomponents/premium";
 import Reachus from "../../components/usercomponents/reachus";
 import Footer from "../../components/usercomponents/footer";
 import { setAuctionsData } from "../../store/slices/categorySlice";
+import { setCarsData } from "../../store/slices/categorySlice";
+import LoadingSpinner from "../../components/usercomponents/LoadingSpinner"
 
 const Home = () => {
   const token = useSelector((state) => state.auth.token);
   const dispatch = useDispatch();
+  const [loading, setLoading] = useState(true); // Loading state
 
+  // Fetch user data
   const getUserData = async () => {
     const authorizationToken = `Bearer ${token}`;
     try {
       if (!token) {
-        console.log("user not logged in");
+        console.log("User not logged in");
         return;
       }
       const response = await fetch(`${backendURL}/user/`, {
@@ -34,52 +38,60 @@ const Home = () => {
         },
       });
       const res_data = await response.json();
-      console.log(res_data);
       if (response.ok) {
         dispatch(setUser({ userdata: res_data }));
       } else {
-        console.warn("error in getting data");
+        console.warn("Error in getting user data");
       }
     } catch (error) {
-      console.log("error in fetching user data", error);
+      console.log("Error in fetching user data", error);
     }
   };
+
+  // Fetch all auctions
   const getAllAuctions = async () => {
     try {
-      const response = await fetch (`${backendURL}/auction`, {
-        method: "GET"
-      })
+      const response = await fetch(`${backendURL}/auction`, {
+        method: "GET",
+      });
       const res_data = await response.json();
-      if(response.ok){
+      if (response.ok) {
         dispatch(setAuctionsData({ auctions: res_data }));
       } else {
-        toast.error(res_data.message)
+        console.log(res_data.message);
       }
     } catch (error) {
-      toast.error("Error in getting all cars")
+      console.log("Error in getting all auctions");
     }
-  }
-     const getAllCars = async () => {
-        try {
-          const response = await fetch(`${backendURL}/car`, {
-            method: "GET"
-          })
-          const res_data = await response.json()
-          if(!response.ok){
-            toast.error(res_data.message)
-          }
-          dispatch(setCarsData({ cars: res_data }));
-        } catch (error) {
-          toast.error("Error Occured while getting all cars")
-        }
+  };
+
+  // Fetch all cars
+  const getAllCars = async () => {
+    try {
+      const response = await fetch(`${backendURL}/car`, {
+        method: "GET",
+      });
+      const res_data = await response.json();
+      if (response.ok) {
+        dispatch(setCarsData({ cars: res_data }));
+      } else {
+        console.log(res_data.message);
       }
+    } catch (error) {
+      console.log("Error occurred while getting all cars");
+    }
+  };
 
-       
+  // Fetch all data
   useEffect(() => {
-  getAllAuctions();
-  getAllCars();
-  }, [dispatch])
+    const fetchData = async () => {
+      await Promise.all([getAllAuctions(), getAllCars()]);
+      setLoading(false); // Stop loading when data is fetched
+    };
+    fetchData();
+  }, []);
 
+  // Fetch user data if token is available
   useEffect(() => {
     if (token) {
       getUserData();
@@ -88,17 +100,22 @@ const Home = () => {
 
   return (
     <div>
-      <Herosection />
-      <Browsebytype />
-      <CarTabs />
-      <Livecar />
-      <Loader />
-      <RecentlyAdded />
-      <CarSection />
-      <Feature />
-      <Premium />
-      <Reachus />
-      <Footer />
+      {loading ? (
+        <LoadingSpinner />
+      ) : (
+        <>
+          <Herosection />
+          <Browsebytype />
+          <CarTabs />
+          <Livecar />
+          <RecentlyAdded />
+          <CarSection />
+          <Feature />
+          <Premium />
+          <Reachus />
+          <Footer />
+        </>
+      )}
     </div>
   );
 };

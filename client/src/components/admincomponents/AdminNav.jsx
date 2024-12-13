@@ -10,6 +10,8 @@ import {
   X,
 } from "lucide-react";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { logOut } from "../../store/slices/authSlice";
 
 const menuItems = [
   { to: "/admin/dashboard", icon: <LayoutDashboard />, label: "Dashboard" },
@@ -24,6 +26,7 @@ const menuItems = [
 ];
 
 const AdminNav = () => {
+  const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
 
   const handleNavLinkClick = () => {
@@ -56,7 +59,7 @@ const AdminNav = () => {
         ))}
         <small
           className="dash-link"
-          onClick={handleNavLinkClick}
+          onClick={() => dispatch(logOut())}
         >
           <LogOut style={{ transform: "rotate(180deg)" }} />
           <span>Log Out</span>
