@@ -15,14 +15,19 @@ import { Modal, Button } from "react-bootstrap";
 
 const AuctionListings = () => {
   const dispatch = useDispatch();
-  const { auctions } = useSelector((state) => state.category);
   const { token } = useSelector((state) => state.auth);
+  const { auctions } = useSelector((state) => state.category);
 
   const [currentPage, setCurrentPage] = useState(1);
   const [showModal, setShowModal] = useState(false);
   const [auctionIdToDelete, setAuctionIdToDelete] = useState(null);
+  const [searchQuery, setSearchQuery] = useState(""); // State for search query
+
   const itemsPerPage = 30;
-  const totalPages = Math.ceil(auctions.length / itemsPerPage);
+  const filteredAuctions = auctions.filter((auction) =>
+    auction.auctionTitle?.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+  const totalPages = Math.ceil(filteredAuctions.length / itemsPerPage);
 
   const deletCar = async (id) => {
     const authorizationToken = `Bearer ${token}`;
@@ -70,7 +75,7 @@ const AuctionListings = () => {
 
   const getDisplayedAuctions = () => {
     const startIndex = (currentPage - 1) * itemsPerPage;
-    return auctions.slice(startIndex, startIndex + itemsPerPage);
+    return filteredAuctions.slice(startIndex, startIndex + itemsPerPage);
   };
 
   const renderPagination = () => {
@@ -143,7 +148,12 @@ const AuctionListings = () => {
         <header className="car-list-header">
           <div className="car-list-header-input">
             <Search />
-            <input type="text" placeholder="Search Cars e.g., Audi Q7" />
+            <input
+              type="text"
+              placeholder="Search Auctions e.g., Audi Q7"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
           </div>
           <div className="sort-options">
             <span>Auction:</span>
@@ -172,7 +182,9 @@ const AuctionListings = () => {
                       <p>{auction.auctionTitle || "No Title"}</p>
                     </div>
                   </td>
-                  <td>{auction.location || "No Location"}</td>
+                  <td>
+                    {auction.location && auction.location.auctionLocation || "No Location"}
+                  </td>
                   <td>{auction.totalVehicles || "No Vehicles"}</td>
                   <td>
                     {new Date(auction.auctionDate).toLocaleDateString() || "No Date"}

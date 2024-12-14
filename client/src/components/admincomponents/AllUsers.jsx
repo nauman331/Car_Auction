@@ -17,11 +17,13 @@ const AllUsers = () => {
   const authorizationToken = `Bearer ${token}`;
   const [currentPage, setCurrentPage] = useState(1);
   const [users, setUsers] = useState([]);
+  const [filteredUsers, setFilteredUsers] = useState([]);
   const [loading, setLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [userIdToDelete, setUserIdToDelete] = useState(null);
+  const [searchQuery, setSearchQuery] = useState("");
   const itemsPerPage = 30;
-  const totalPages = Math.ceil(users.length / itemsPerPage);
+  const totalPages = Math.ceil(filteredUsers.length / itemsPerPage);
 
   const deleteUser = async (id) => {
     try {
@@ -73,8 +75,8 @@ const AllUsers = () => {
         });
         const res_data = await response.json();
         if (response.ok) {
-          console.log(res_data);
           setUsers(res_data);
+          setFilteredUsers(res_data);
         } else {
           console.log(res_data.message);
         }
@@ -88,6 +90,18 @@ const AllUsers = () => {
     getAllUsers();
   }, [token]);
 
+  useEffect(() => {
+    if (searchQuery) {
+      const filtered = users.filter((user) =>
+        user._id?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        user.role?.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+      setFilteredUsers(filtered);
+    } else {
+      setFilteredUsers(users);
+    }
+  }, [searchQuery, users]);
+
   const handlePageChange = (page) => {
     if (page >= 1 && page <= totalPages) {
       setCurrentPage(page);
@@ -96,7 +110,7 @@ const AllUsers = () => {
 
   const getDisplayedUsers = () => {
     const startIndex = (currentPage - 1) * itemsPerPage;
-    return users.slice(startIndex, startIndex + itemsPerPage);
+    return filteredUsers.slice(startIndex, startIndex + itemsPerPage);
   };
 
   const renderPagination = () => {
@@ -170,7 +184,12 @@ const AllUsers = () => {
             <header className="car-list-header">
               <div className="car-list-header-input">
                 <Search />
-                <input type="text" placeholder="Search user by id" />
+                <input
+                  type="text"
+                  placeholder="Search user by id"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
               </div>
             </header>
             <div className="table-wrapper">
@@ -204,7 +223,6 @@ const AllUsers = () => {
                         </div>
                       </td>
                       <td>{user._id || "No User ID"}</td>
-
                       <td>
                         {new Date(user.createdAt).toLocaleDateString() ||
                           "No Date"}

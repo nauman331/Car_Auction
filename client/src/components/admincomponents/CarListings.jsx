@@ -12,8 +12,7 @@ import { useSelector, useDispatch } from "react-redux";
 import toast from "react-hot-toast";
 import { backendURL } from "../../utils/Exports";
 import { deleteCar } from "../../store/slices/categorySlice";
-import { Modal, Button } from "react-bootstrap"; // Importing Bootstrap components
-
+import { Modal, Button } from "react-bootstrap";
 
 const CarListings = () => {
   const dispatch = useDispatch();
@@ -21,6 +20,7 @@ const CarListings = () => {
   const { token } = useSelector((state) => state.auth);
 
   const [currentPage, setCurrentPage] = useState(1);
+  const [searchInput, setSearchInput] = useState(""); // State for search input
   const itemsPerPage = 30;
   const totalPages = Math.ceil(cars.length / itemsPerPage);
   const [showModal, setShowModal] = useState(false);
@@ -70,9 +70,25 @@ const CarListings = () => {
     }
   };
 
+  const getFilteredCars = () => {
+    if (!searchInput.trim()) {
+      return cars; // No filtering if input is empty
+    }
+    return cars.filter(
+      (car) =>
+        (car.listingTitle &&
+          car.listingTitle?.toLowerCase().includes(searchInput.toLowerCase())) ||
+        (car.carModal &&
+          car.carModal?.vehicleModal.toLowerCase().includes(searchInput.toLowerCase())) ||
+        (car.description &&
+          car.description?.toLowerCase().includes(searchInput.toLowerCase()))
+    );
+  };
+
   const getDisplayedCars = () => {
+    const filteredCars = getFilteredCars(); // Apply filtering logic
     const startIndex = (currentPage - 1) * itemsPerPage;
-    return cars.slice(startIndex, startIndex + itemsPerPage);
+    return filteredCars.slice(startIndex, startIndex + itemsPerPage);
   };
 
   const renderPagination = () => {
@@ -145,7 +161,12 @@ const CarListings = () => {
         <header className="car-list-header">
           <div className="car-list-header-input">
             <Search />
-            <input type="text" placeholder="Search Cars e.g., Audi Q7" />
+            <input
+              type="text"
+              placeholder="Search Cars e.g., Audi Q7"
+              value={searchInput}
+              onChange={(e) => setSearchInput(e.target.value)}
+            />
           </div>
           <div className="sort-options">
             <span>Sort By:</span>
@@ -223,7 +244,6 @@ const CarListings = () => {
         {renderPagination()}
       </div>
 
-      {/* Bootstrap Modal for Delete Confirmation */}
       <Modal show={showModal} onHide={handleCancelDelete}>
         <Modal.Header closeButton>
           <Modal.Title>Confirm to Delete</Modal.Title>

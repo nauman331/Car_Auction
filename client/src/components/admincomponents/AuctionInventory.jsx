@@ -22,8 +22,16 @@ const AuctionInventory = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [showModal, setShowModal] = useState(false);
   const [carIdToDelete, setCarIdToDelete] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
   const itemsPerPage = 30;
-  const totalPages = Math.ceil(cars.length / itemsPerPage);
+  const filteredCars = cars.filter(
+    (car) =>
+      car.listingTitle?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      car.description?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      car.lotNo?.toString().toLowerCase().includes(searchTerm.toLowerCase()) ||
+      car.auctionLot?.auctionTitle?.toLowerCase().includes(searchTerm.toLowerCase()) 
+  );
+  const totalPages = Math.ceil(filteredCars.length / itemsPerPage);
 
   const deletCar = async (id) => {
     const authorizationToken = `Bearer ${token}`;
@@ -71,7 +79,7 @@ const AuctionInventory = () => {
 
   const getDisplayedCars = () => {
     const startIndex = (currentPage - 1) * itemsPerPage;
-    return cars.slice(startIndex, startIndex + itemsPerPage);
+    return filteredCars.slice(startIndex, startIndex + itemsPerPage);
   };
 
   const renderPagination = () => {
@@ -144,7 +152,12 @@ const AuctionInventory = () => {
         <header className="car-list-header">
           <div className="car-list-header-input">
             <Search />
-            <input type="text" placeholder="Search Cars e.g., Audi Q7" />
+            <input
+              type="text"
+              placeholder="Search Cars e.g., Audi Q7"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
           </div>
           <div className="sort-options">
             <span>Sort By:</span>
