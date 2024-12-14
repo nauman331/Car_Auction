@@ -5,9 +5,11 @@ import "../../../assets/stylesheets/admin/addbuynow.scss";
 import toast from "react-hot-toast";
 import { useSelector, useDispatch } from "react-redux";
 import { backendURL } from "../../../utils/Exports";
-import { useNavigate } from "react-router-dom"; // Import useNavigate for redirection
+import { useNavigate } from "react-router-dom"; 
+import {setCarsData} from "../../../store/slices/categorySlice"
 
 const AddBuyNow = ({ sellingType }) => {
+  const dispatch = useDispatch()
   const { token, userdata } = useSelector((state) => state.auth);
   const navigate = useNavigate(); // Initialize navigate
   const [step, setStep] = useState(1);
@@ -44,9 +46,8 @@ const AddBuyNow = ({ sellingType }) => {
   const [formData, setFormData] = useState({ ...baseData, sellingType, ...auctionData });
 
   useEffect(() => {
-    // Check if token or userdata is not available (logged out)
     if (!token || !userdata?.id) {
-      navigate("/auth"); // Redirect to the auth page
+      navigate("/auth");
     }
   }, [token, userdata, navigate]);
 
@@ -61,6 +62,7 @@ const AddBuyNow = ({ sellingType }) => {
       if (response.ok) {
         toast.success("Car Added Successfully!");
         setFormData({ ...baseData, sellingType, ...auctionData });
+        dispatch(setCarsData({ cars: res_data }));
         setStep(1);
       } else {
         toast.error(res_data?.errors?.[0]?.msg || res_data?.message || "Unknown error occurred.");
