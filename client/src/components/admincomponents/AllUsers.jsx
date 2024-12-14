@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { ChevronLeft, ChevronRight, Trash, Search } from "lucide-react";
+import { ChevronLeft, ChevronRight, Trash, Search, PencilLine } from "lucide-react";
 import LoadingSpinner from "../usercomponents/LoadingSpinner";
 import { useSelector } from "react-redux";
 import toast from "react-hot-toast";
@@ -213,6 +213,9 @@ const AllUsers = () => {
                         <button onClick={() => confirmDelete(user._id)}>
                           <Trash size={16} />
                         </button>
+                        <button>
+                                                  <PencilLine size={16} />
+                                                </button>
                       </td>
                     </tr>
                   ))}

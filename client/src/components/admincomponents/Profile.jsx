@@ -1,12 +1,39 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Image, Upload } from "lucide-react";
-import {backendURL} from "../../utils/Exports"
-import {useSelector} from "react-redux"
-import {CloudinaryUploader} from "../../utils/CloudinaryUploader";
-import toast from "react-hot-toast"
-const Profile = () => {
+import { backendURL } from "../../utils/Exports";
+import { useSelector } from "react-redux";
+import { CloudinaryUploader } from "../../utils/CloudinaryUploader";
+import toast from "react-hot-toast";
 
-    const {token, userdata} = useSelector((state)=>state.auth);
+const Profile = () => {
+  const { token } = useSelector((state) => state.auth);
+  const [userdata, setUserdata] = useState([])
+  const authorizationToken = `Bearer ${token}`;
+
+  const getProfile = async () => {
+    try {
+      const response = await fetch(`${backendURL}/user/`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: authorizationToken,
+        },
+      });
+      const res_data = await response.json();
+      if (response.ok) {
+        setUserdata(res_data)
+      } else {
+        toast.error(res_data.message);
+      }
+    } catch (error) {
+      console.log("Error while getting profile", error);
+      toast.error("Error while fetching profile.");
+    }
+  };
+
+  useEffect(() => {
+    getProfile();
+  }, [token]); 
 
   const [file, setFile] = useState(null);
   const [formData, setFormData] = useState({
@@ -14,60 +41,60 @@ const Profile = () => {
     lastName: "",
     phone: "",
     password: "",
-    address: ""
-  })
+    address: "",
+  });
 
   const handleFileChange = async (event) => {
     const selectedFile = event.target.files[0];
     setFile(selectedFile);
   };
+
   const handleInputChange = (e) => {
-    let name = e.target.name;
-    let value = e.target.value;
+    const name = e.target.name;
+    const value = e.target.value;
     setFormData({
       ...formData,
       [name]: value,
     });
   };
 
-
-
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const authorizationToken = `Bearer ${token}`;
+
     let avatarImage = userdata.avatarImage;
+
     try {
-      if(file){
-        const avatarImage = await CloudinaryUploader(file);
+      if (file) {
+        avatarImage = await CloudinaryUploader(file);
         console.log(avatarImage);
       }
+
       const response = await fetch(`${backendURL}/user/`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
           Authorization: authorizationToken,
         },
-        body: JSON.stringify({ avatarImage, ...formData }),
+        body: JSON.stringify({ avatarImage: avatarImage.url, ...formData }),
       });
-  const res_data = await response.json()
+      const res_data = await response.json();
       if (!response.ok) {
         toast.error(res_data.message);
       }
-  
-      toast.success(res_data.message)
+
+      toast.success(res_data.message);
     } catch (error) {
-      toast.error("Error while Uploading", error);
+      toast.error("Error while uploading", error);
     }
   };
-  
 
   return (
     <>
       <div style={{ marginBottom: "1rem" }}>
         <h3>Edit Profile</h3>
-        <small>User ID: {userdata ? userdata.id: "Please Login"}</small>
+        <small>User ID: {userdata ? userdata.id : "Please Login"}</small>
         <br />
-        <small>Role: {userdata ? userdata.role: "Please Login"}</small>
+        <small>Role: {userdata ? userdata.role : "Please Login"}</small>
       </div>
 
       <div className="form-container">
@@ -76,7 +103,11 @@ const Profile = () => {
           <div className="media-gallery">
             <div className="image-box">
               {userdata ? (
-                <img src={userdata && userdata.avatarImage} alt="Avatar" style={{ width: "100px" }} />
+                <img
+                  src={userdata.avatarImage}
+                  alt="Avatar"
+                  style={{ width: "100px" }}
+                />
               ) : (
                 <Image size={24} />
               )}
@@ -99,24 +130,48 @@ const Profile = () => {
           <hr />
           <div className="form-grid">
             {[
-              { id: "firstname", label: "First Name", value: userdata ? userdata.firstName: "Please Login", name: "firstName" },
-              { id: "lastname", label: "Last Name", value: userdata ? userdata.lastName: "Please Login", name: "lastName" },
+              {
+                id: "firstname",
+                label: "First Name",
+                value: userdata ? userdata.firstName : "Please Login",
+                name: "firstName",
+              },
+              {
+                id: "lastname",
+                label: "Last Name",
+                value: userdata ? userdata.lastName : "Please Login",
+                name: "lastName",
+              },
               {
                 id: "Email",
                 label: "Email",
-                value: userdata ? userdata.email: "Please Login",
+                value: userdata ? userdata.email : "Please Login",
                 type: "email",
-                name: "email"
+                name: "email",
               },
-              { id: "phone", label: "Phone", value: userdata ? userdata.contact: "Please Login", name: "phone" },
+              {
+                id: "phone",
+                label: "Phone",
+                value: userdata ? userdata.contact : "Please Login",
+                name: "phone",
+              },
               {
                 id: "password",
                 label: "Password",
                 value: "XX-XXXXX-XX",
                 name: "password",
-                extra: <button><small>Change Password</small></button>,
+                extra: (
+                  <button>
+                    <small>Change Password</small>
+                  </button>
+                ),
               },
-              { id: "address", label: "Address", value: "e.g. Linkon Park", name: "address" },
+              {
+                id: "address",
+                label: "Address",
+                value: "e.g. Linkon Park",
+                name: "address",
+              },
               {
                 id: "description",
                 label: "Description",
@@ -128,8 +183,11 @@ const Profile = () => {
                 {textarea ? (
                   <textarea id={id} defaultValue={value} />
                 ) : (
-                  <input type={type} id={id} defaultValue={value} 
-                  onChange={handleInputChange}
+                  <input
+                    type={type}
+                    id={id}
+                    defaultValue={value}
+                    onChange={handleInputChange}
                   />
                 )}
                 <label htmlFor={id}>{label}</label>
