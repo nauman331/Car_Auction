@@ -12,10 +12,10 @@ import CategoryManagement from "./components/admincomponents/Categories";
 import Orders from "./components/admincomponents/Orders";
 import AuctionInventory from "./components/admincomponents/AuctionInventory";
 import Profile from "./components/admincomponents/Profile";
-import Verificationform from "./components/usercomponents/Verificationform";
 import AllUsers from "./components/admincomponents/AllUsers";
 import ProtectedRoute from "./utils/ProtectedRoute";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Verificationform from "./components/usercomponents/Verificationform"
 
 function App() {
   return (
