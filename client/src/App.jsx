@@ -15,7 +15,7 @@ import Profile from "./components/admincomponents/Profile";
 import Verificationform from "./components/usercomponents/Verificationform";
 import AllUsers from "./components/admincomponents/AllUsers";
 import ProtectedRoute from "./utils/ProtectedRoute";
-import "react-confirm-alert/src/react-confirm-alert.css";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
   return (

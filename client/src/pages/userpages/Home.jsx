@@ -15,12 +15,73 @@ import Reachus from "../../components/usercomponents/reachus";
 import Footer from "../../components/usercomponents/footer";
 import { setAuctionsData } from "../../store/slices/categorySlice";
 import { setCarsData } from "../../store/slices/categorySlice";
-import LoadingSpinner from "../../components/usercomponents/LoadingSpinner"
+import { setCategories } from "../../store/slices/categorySlice";
+import LoadingSpinner from "../../components/usercomponents/LoadingSpinner";
 
 const Home = () => {
   const token = useSelector((state) => state.auth.token);
   const dispatch = useDispatch();
-  const [loading, setLoading] = useState(true); // Loading state
+  const [loading, setLoading] = useState(true);
+
+  // Fetch categories
+  const getCategories = async () => {
+    const headers = {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    };
+
+    const categories = [
+      { name: "Vehicle Types", key: "vehicle-type", field: "vehicleType" },
+      { name: "Vehicle Makes", key: "vehicle-make", field: "vehicleMake" },
+      { name: "Vehicle Models", key: "vehicle-modal", field: "vehicleModal" },
+      { name: "Vehicle Years", key: "vehicle-year", field: "vehicleYear" },
+      { name: "Drive Types", key: "drive-type", field: "driveType" },
+      {
+        name: "Vehicle Transmission",
+        key: "vehicle-transmission",
+        field: "vehicleTransimission",
+      },
+      {
+        name: "Vehicle Fuel Types",
+        key: "vehicle-fuel-type",
+        field: "vehicleFuelTypes",
+      },
+      {
+        name: "Vehicle Cylinders",
+        key: "vehicle-cylinder",
+        field: "vehicleCylinders",
+      },
+      {
+        name: "Vehicle Engine Sizes",
+        key: "vehicle-engine-size",
+        field: "vehicleEngineSize",
+      },
+      { name: "Vehicle Colors", key: "vehicle-color", field: "vehicleColors" },
+      { name: "Vehicle Doors", key: "vehicle-door", field: "vehicleDoor" },
+      {
+        name: "Vehicle Damages",
+        key: "vehicle-damage",
+        field: "vehicleDamage",
+      },
+      {
+        name: "Auction Locations",
+        key: "auction-location",
+        field: "auctionLocation",
+      },
+    ];
+
+    await Promise.all(
+      categories.map(async ({ key }) => {
+        const res = await fetch(`${backendURL}/${key}`, { headers });
+        if (res.ok) {
+          const data = await res.json();
+          dispatch(setCategories({ key, items: data }));
+        } else {
+          console.log("Error fetching categories for", key);
+        }
+      })
+    );
+  };
 
   // Fetch user data
   const getUserData = async () => {
@@ -82,14 +143,13 @@ const Home = () => {
     }
   };
 
-  // Fetch all data
   useEffect(() => {
     const fetchData = async () => {
-      await Promise.all([getAllAuctions(), getAllCars()]);
-      setLoading(false); // Stop loading when data is fetched
+      await Promise.all([getAllAuctions(), getAllCars(), getCategories()]);
+      setLoading(false);
     };
     fetchData();
-  }, []);
+  }, [token, dispatch]);
 
   // Fetch user data if token is available
   useEffect(() => {

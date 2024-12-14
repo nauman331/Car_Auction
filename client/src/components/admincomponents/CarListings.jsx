@@ -12,7 +12,7 @@ import { useSelector, useDispatch } from "react-redux";
 import toast from "react-hot-toast";
 import { backendURL } from "../../utils/Exports";
 import { deleteCar } from "../../store/slices/categorySlice";
-import { confirmAlert } from "react-confirm-alert";
+import { Modal, Button } from "react-bootstrap"; // Importing Bootstrap components
 
 
 const CarListings = () => {
@@ -23,6 +23,8 @@ const CarListings = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 30;
   const totalPages = Math.ceil(cars.length / itemsPerPage);
+  const [showModal, setShowModal] = useState(false);
+  const [carIdToDelete, setCarIdToDelete] = useState(null);
 
   const deletCar = async (id) => {
     const authorizationToken = `Bearer ${token}`;
@@ -47,19 +49,19 @@ const CarListings = () => {
   };
 
   const handleDeleteClick = (id) => {
-    confirmAlert({
-      title: "Confirm to Delete",
-      message: "Are you sure you want to delete this?",
-      buttons: [
-        {
-          label: "Yes",
-          onClick: () => deletCar(id),
-        },
-        {
-          label: "No",
-        },
-      ],
-    });
+    setCarIdToDelete(id);
+    setShowModal(true);
+  };
+
+  const handleConfirmDelete = () => {
+    if (carIdToDelete) {
+      deletCar(carIdToDelete);
+      setShowModal(false);
+    }
+  };
+
+  const handleCancelDelete = () => {
+    setShowModal(false);
   };
 
   const handlePageChange = (page) => {
@@ -133,7 +135,7 @@ const CarListings = () => {
       <div className="car-list-top">
         <span>
           <h3>My Listings</h3>
-          <small>List of vehicles Uploaded fro Buy Now</small>
+          <small>List of vehicles Uploaded for Buy Now</small>
         </span>
         <NavLink to="/admin/addbuynow" className="add-vehicle-button">
           Add New Vehicle ↗
@@ -199,7 +201,7 @@ const CarListings = () => {
                         <small>{car.year || "No Year"}</small>
                       </td>
                       <td>
-                        <small>{car.transmission || "No Transmision"}</small>
+                        <small>{car.transmission || "No Transmission"}</small>
                       </td>
                       <td>
                         <small>{car.fuelType || "No Fuel Type"}</small>
@@ -220,6 +222,24 @@ const CarListings = () => {
         </div>
         {renderPagination()}
       </div>
+
+      {/* Bootstrap Modal for Delete Confirmation */}
+      <Modal show={showModal} onHide={handleCancelDelete}>
+        <Modal.Header closeButton>
+          <Modal.Title>Confirm to Delete</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          Are you sure you want to delete this car listing?
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCancelDelete}>
+            No
+          </Button>
+          <Button variant="danger" onClick={handleConfirmDelete}>
+            Yes
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </>
   );
 };

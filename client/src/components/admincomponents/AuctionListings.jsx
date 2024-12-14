@@ -10,8 +10,8 @@ import { deleteAuction } from "../../store/slices/categorySlice";
 import { NavLink } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import toast from "react-hot-toast";
-import { confirmAlert } from "react-confirm-alert";
 import { backendURL } from "../../utils/Exports";
+import { Modal, Button } from "react-bootstrap";
 
 const AuctionListings = () => {
   const dispatch = useDispatch();
@@ -19,6 +19,8 @@ const AuctionListings = () => {
   const { token } = useSelector((state) => state.auth);
 
   const [currentPage, setCurrentPage] = useState(1);
+  const [showModal, setShowModal] = useState(false);
+  const [auctionIdToDelete, setAuctionIdToDelete] = useState(null);
   const itemsPerPage = 30;
   const totalPages = Math.ceil(auctions.length / itemsPerPage);
 
@@ -36,6 +38,8 @@ const AuctionListings = () => {
       if (response.ok) {
         dispatch(deleteAuction(id));
         toast.success(res_data.message);
+        setShowModal(false);
+        setAuctionIdToDelete(null); // Clear the ID after deletion
       } else {
         toast.error(res_data.message);
       }
@@ -45,19 +49,17 @@ const AuctionListings = () => {
   };
 
   const confirmDelete = (id) => {
-    confirmAlert({
-      title: "Confirm Deletion",
-      message: "Are you sure you want to delete this?",
-      buttons: [
-        {
-          label: "Yes",
-          onClick: () => deletCar(id),
-        },
-        {
-          label: "No",
-        },
-      ],
-    });
+    setAuctionIdToDelete(id);
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+    setAuctionIdToDelete(null);
+  };
+
+  const handleDeleteConfirm = () => {
+    deletCar(auctionIdToDelete);
   };
 
   const handlePageChange = (page) => {
@@ -193,6 +195,22 @@ const AuctionListings = () => {
         </div>
         {renderPagination()}
       </div>
+
+      {/* Modal for delete confirmation */}
+      <Modal show={showModal} onHide={handleCloseModal}>
+        <Modal.Header closeButton>
+          <Modal.Title>Confirm Deletion</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Are you sure you want to delete this auction event?</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCloseModal}>
+            No
+          </Button>
+          <Button variant="danger" onClick={handleDeleteConfirm}>
+            Yes
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </>
   );
 };

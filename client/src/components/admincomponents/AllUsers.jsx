@@ -1,16 +1,10 @@
-import React, { useEffect, useState } from "react";
-import {
-  ChevronLeft,
-  ChevronRight,
-  Trash,
-  PencilLine,
-  Search,
-} from "lucide-react";
+import React, { useState, useEffect } from "react";
+import { ChevronLeft, ChevronRight, Trash, Search } from "lucide-react";
 import LoadingSpinner from "../usercomponents/LoadingSpinner";
 import { useSelector } from "react-redux";
 import toast from "react-hot-toast";
-import { confirmAlert } from "react-confirm-alert";
 import { backendURL } from "../../utils/Exports";
+import { Modal, Button } from "react-bootstrap";
 
 const AllUsers = () => {
   const { token } = useSelector((state) => state.auth);
@@ -18,6 +12,8 @@ const AllUsers = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [userIdToDelete, setUserIdToDelete] = useState(null);
   const itemsPerPage = 30;
   const totalPages = Math.ceil(users.length / itemsPerPage);
 
@@ -43,19 +39,19 @@ const AllUsers = () => {
   };
 
   const confirmDelete = (id) => {
-    confirmAlert({
-      title: "Confirm Deletion",
-      message: "Are you sure you want to delete this?",
-      buttons: [
-        {
-          label: "Yes",
-          onClick: () => deleteUser(id),
-        },
-        {
-          label: "No",
-        },
-      ],
-    });
+    setUserIdToDelete(id);
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+    setUserIdToDelete(null);
+  };
+
+  const handleDeleteConfirm = () => {
+    deleteUser(userIdToDelete);
+    setShowModal(false);
+    setUserIdToDelete(null);
   };
 
   useEffect(() => {
@@ -76,7 +72,6 @@ const AllUsers = () => {
         } else {
           console.log(res_data.message);
         }
-       
       } catch (error) {
         console.log("Error in getting users");
       } finally {
@@ -93,7 +88,7 @@ const AllUsers = () => {
     }
   };
 
-  const getDisplayedAuctions = () => {
+  const getDisplayedUsers = () => {
     const startIndex = (currentPage - 1) * itemsPerPage;
     return users.slice(startIndex, startIndex + itemsPerPage);
   };
@@ -171,12 +166,6 @@ const AllUsers = () => {
                 <Search />
                 <input type="text" placeholder="Search user by id" />
               </div>
-              <div className="sort-options">
-                <span>Users:</span>
-                <select>
-                  <option value="all">All</option>
-                </select>
-              </div>
             </header>
             <div className="table-wrapper">
               <table className="car-table">
@@ -191,7 +180,7 @@ const AllUsers = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {getDisplayedAuctions().map((user, index) => (
+                  {getDisplayedUsers().map((user, index) => (
                     <tr key={index}>
                       <td>
                         <div className="car-info">
@@ -232,6 +221,22 @@ const AllUsers = () => {
             </div>
             {renderPagination()}
           </div>
+
+          {/* Modal for delete confirmation */}
+          <Modal show={showModal} onHide={handleCloseModal}>
+            <Modal.Header closeButton>
+              <Modal.Title>Confirm Deletion</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>Are you sure you want to delete this user?</Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={handleCloseModal}>
+                No
+              </Button>
+              <Button variant="danger" onClick={handleDeleteConfirm}>
+                Yes
+              </Button>
+            </Modal.Footer>
+          </Modal>
         </>
       )}
     </>

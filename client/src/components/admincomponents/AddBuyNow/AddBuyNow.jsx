@@ -1,20 +1,22 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import StepsNavigation from "./StepsNavigation";
 import StepContent from "./StepsContent";
 import "../../../assets/stylesheets/admin/addbuynow.scss";
 import toast from "react-hot-toast";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { backendURL } from "../../../utils/Exports";
+import { useNavigate } from "react-router-dom"; // Import useNavigate for redirection
 
 const AddBuyNow = ({ sellingType }) => {
   const { token, userdata } = useSelector((state) => state.auth);
+  const navigate = useNavigate(); // Initialize navigate
   const [step, setStep] = useState(1);
 
   const baseData = {
     carImages: [],
     carMake: "",
     carModel: "",
-    vendor: userdata.id,
+    vendor: userdata?.id || "", // Use optional chaining or fallback value
     friendlyLocation: "",
     mapLocation: "",
     carType: "",
@@ -40,6 +42,13 @@ const AddBuyNow = ({ sellingType }) => {
     : { price: "", discountedPrice: "", isVerified: false };
 
   const [formData, setFormData] = useState({ ...baseData, sellingType, ...auctionData });
+
+  useEffect(() => {
+    // Check if token or userdata is not available (logged out)
+    if (!token || !userdata?.id) {
+      navigate("/auth"); // Redirect to the auth page
+    }
+  }, [token, userdata, navigate]);
 
   const handleSubmit = async () => {
     try {

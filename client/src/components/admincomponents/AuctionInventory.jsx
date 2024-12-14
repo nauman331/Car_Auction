@@ -12,7 +12,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { deleteCar } from "../../store/slices/categorySlice";
 import toast from "react-hot-toast";
 import { backendURL } from "../../utils/Exports";
-import { confirmAlert } from "react-confirm-alert";
+import { Modal, Button } from "react-bootstrap";
 
 const AuctionInventory = () => {
   const dispatch = useDispatch();
@@ -20,6 +20,8 @@ const AuctionInventory = () => {
   const { token } = useSelector((state) => state.auth);
 
   const [currentPage, setCurrentPage] = useState(1);
+  const [showModal, setShowModal] = useState(false);
+  const [carIdToDelete, setCarIdToDelete] = useState(null);
   const itemsPerPage = 30;
   const totalPages = Math.ceil(cars.length / itemsPerPage);
 
@@ -37,6 +39,8 @@ const AuctionInventory = () => {
       if (response.ok) {
         dispatch(deleteCar(id));
         toast.success(res_data.message);
+        setShowModal(false); // Close the modal after deletion
+        setCarIdToDelete(null); // Clear the ID after deletion
       } else {
         toast.error(res_data.message);
       }
@@ -46,19 +50,17 @@ const AuctionInventory = () => {
   };
 
   const confirmDelete = (id) => {
-    confirmAlert({
-      title: "Confirm Deletion",
-      message: "Are you sure you want to delete this?",
-      buttons: [
-        {
-          label: "Yes",
-          onClick: () => deletCar(id),
-        },
-        {
-          label: "No",
-        },
-      ],
-    });
+    setCarIdToDelete(id);
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+    setCarIdToDelete(null);
+  };
+
+  const handleDeleteConfirm = () => {
+    deletCar(carIdToDelete);
   };
 
   const handlePageChange = (page) => {
@@ -226,6 +228,22 @@ const AuctionInventory = () => {
         </div>
         {renderPagination()}
       </div>
+
+      {/* Modal for delete confirmation */}
+      <Modal show={showModal} onHide={handleCloseModal}>
+        <Modal.Header closeButton>
+          <Modal.Title>Confirm Deletion</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Are you sure you want to delete this car listing?</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCloseModal}>
+            No
+          </Button>
+          <Button variant="danger" onClick={handleDeleteConfirm}>
+            Yes
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </>
   );
 };
