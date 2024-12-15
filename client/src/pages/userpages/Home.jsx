@@ -14,17 +14,14 @@ import Premium from "../../components/usercomponents/premium";
 import Reachus from "../../components/usercomponents/reachus";
 import Footer from "../../components/usercomponents/footer";
 import { setAuctionsData } from "../../store/slices/categorySlice";
-import { setCarsData } from "../../store/slices/categorySlice";
-import { setCategories } from "../../store/slices/categorySlice";
+import { setCarsData, setAllUsers } from "../../store/slices/categorySlice";
 import LoadingSpinner from "../../components/usercomponents/LoadingSpinner";
 
 const Home = () => {
-  const token = useSelector((state) => state.auth.token);
+  const {token} = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
 
-
-  // Fetch user data
   const getUserData = async () => {
     const authorizationToken = `Bearer ${token}`;
     try {
@@ -84,9 +81,35 @@ const Home = () => {
     }
   };
 
+  const getAllUsers = async () => {
+    const authorizationToken = `Bearer ${token}`
+    try {
+      setLoading(true);
+      const response = await fetch(`${backendURL}/user/all`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: authorizationToken,
+        },
+      });
+      const res_data = await response.json();
+      if (response.ok) {
+        console.log(res_data)
+        dispatch(setAllUsers({allusers: res_data}))
+      } else {
+        console.log(res_data.message);
+      }
+    } catch (error) {
+      console.log("Error in getting users");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+
   useEffect(() => {
     const fetchData = async () => {
-      await Promise.all([getAllAuctions(), getAllCars()]);
+      await Promise.all([getAllAuctions(), getAllCars(), getAllUsers()]);
       setLoading(false);
     };
     fetchData();

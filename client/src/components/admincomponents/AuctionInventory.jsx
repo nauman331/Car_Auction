@@ -1,18 +1,14 @@
+// Pagination Component
 import React, { useState } from "react";
 import "../../assets/stylesheets/admin/carlisting.scss";
-import {
-  ChevronLeft,
-  ChevronRight,
-  Trash,
-  PencilLine,
-  Search,
-} from "lucide-react";
+import { Trash, PencilLine, Search } from "lucide-react";
 import { NavLink } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { deleteCar } from "../../store/slices/categorySlice";
 import toast from "react-hot-toast";
 import { backendURL } from "../../utils/Exports";
 import { Modal, Button } from "react-bootstrap";
+import Pagination from "./Pagination"; // Import Pagination Component
 
 const AuctionInventory = () => {
   const dispatch = useDispatch();
@@ -24,14 +20,14 @@ const AuctionInventory = () => {
   const [carIdToDelete, setCarIdToDelete] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const itemsPerPage = 30;
+
   const filteredCars = cars.filter(
     (car) =>
       car.listingTitle?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       car.description?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       car.lotNo?.toString().toLowerCase().includes(searchTerm.toLowerCase()) ||
-      car.auctionLot?.auctionTitle?.toLowerCase().includes(searchTerm.toLowerCase()) 
+      car.auctionLot?.auctionTitle?.toLowerCase().includes(searchTerm.toLowerCase())
   );
-  const totalPages = Math.ceil(filteredCars.length / itemsPerPage);
 
   const deletCar = async (id) => {
     const authorizationToken = `Bearer ${token}`;
@@ -72,69 +68,12 @@ const AuctionInventory = () => {
   };
 
   const handlePageChange = (page) => {
-    if (page >= 1 && page <= totalPages) {
-      setCurrentPage(page);
-    }
+    setCurrentPage(page);
   };
 
   const getDisplayedCars = () => {
     const startIndex = (currentPage - 1) * itemsPerPage;
     return filteredCars.slice(startIndex, startIndex + itemsPerPage);
-  };
-
-  const renderPagination = () => {
-    const visiblePages = [];
-    const pageRange = 2;
-
-    for (let i = 1; i <= totalPages; i++) {
-      if (
-        i === 1 ||
-        i === totalPages ||
-        (i >= currentPage - pageRange && i <= currentPage + pageRange)
-      ) {
-        visiblePages.push(i);
-      } else if (
-        (i === currentPage - pageRange - 1 ||
-          i === currentPage + pageRange + 1) &&
-        !visiblePages.includes("...")
-      ) {
-        visiblePages.push("...");
-      }
-    }
-
-    return (
-      <div className="pagination">
-        <button
-          className="circle-btn"
-          onClick={() => handlePageChange(currentPage - 1)}
-          disabled={currentPage === 1}
-        >
-          <ChevronLeft />
-        </button>
-        {visiblePages.map((page, index) =>
-          page === "..." ? (
-            <span key={index} className="dots">
-              ...
-            </span>
-          ) : (
-            <button
-              key={index}
-              className={`circle-btn ${page === currentPage ? "active" : ""}`}
-              onClick={() => handlePageChange(page)}
-            >
-              {page}
-            </button>
-          )
-        )}
-        <button
-          className="circle-btn"
-          onClick={() => handlePageChange(currentPage + 1)}
-          disabled={currentPage === totalPages}
-        >
-          <ChevronRight />
-        </button>
-      </div>
-    );
   };
 
   return (
@@ -239,7 +178,11 @@ const AuctionInventory = () => {
             </tbody>
           </table>
         </div>
-        {renderPagination()}
+        <Pagination
+          currentPage={currentPage}
+          totalPages={Math.ceil(filteredCars.length / itemsPerPage)}
+          onPageChange={handlePageChange}
+        />
       </div>
 
       {/* Modal for delete confirmation */}

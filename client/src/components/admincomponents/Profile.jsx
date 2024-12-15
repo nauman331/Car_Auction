@@ -1,39 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Image, Upload } from "lucide-react";
 import { backendURL } from "../../utils/Exports";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { CloudinaryUploader } from "../../utils/CloudinaryUploader";
 import toast from "react-hot-toast";
+import {setUser} from "../../store/slices/authSlice"
 
 const Profile = () => {
-  const { token } = useSelector((state) => state.auth);
-  const [userdata, setUserdata] = useState([])
-  const authorizationToken = `Bearer ${token}`;
-
-  const getProfile = async () => {
-    try {
-      const response = await fetch(`${backendURL}/user/`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: authorizationToken,
-        },
-      });
-      const res_data = await response.json();
-      if (response.ok) {
-        setUserdata(res_data)
-      } else {
-        toast.error(res_data.message);
-      }
-    } catch (error) {
-      console.log("Error while getting profile", error);
-      toast.error("Error while fetching profile.");
-    }
-  };
-
-  useEffect(() => {
-    getProfile();
-  }, [token]); 
+  const dispatch = useDispatch()
+  const { token, userdata } = useSelector((state) => state.auth);
+  
 
   const [file, setFile] = useState(null);
   const [formData, setFormData] = useState({
@@ -60,9 +36,8 @@ const Profile = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
+    const authorizationToken = `Bearer ${token}`;
     let avatarImage = userdata.avatarImage;
-
     try {
       if (file) {
         avatarImage = await CloudinaryUploader(file);
@@ -75,14 +50,16 @@ const Profile = () => {
           "Content-Type": "application/json",
           Authorization: authorizationToken,
         },
-        body: JSON.stringify({ avatarImage: avatarImage.url, ...formData }),
+        body: JSON.stringify({ ...formData, avatarImage: avatarImage.url  }),
       });
       const res_data = await response.json();
       if (!response.ok) {
         toast.error(res_data.message);
+      } else {
+        toast.success(res_data.message);
+        dispatch(setUser({userdata: res_data}))
       }
-
-      toast.success(res_data.message);
+    
     } catch (error) {
       toast.error("Error while uploading", error);
     }

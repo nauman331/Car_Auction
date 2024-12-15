@@ -1,106 +1,52 @@
-import React, {useState} from 'react';
+// Orders Component
+import React, { useState } from 'react';
 import '../../assets/stylesheets/admin/carlisting.scss';
-import { ChevronLeft, ChevronRight, Trash, PencilLine, Search } from 'lucide-react';
+import { Trash, PencilLine, Search } from 'lucide-react';
+import Pagination from './Pagination'; // Import the Pagination component
 
 const cars = Array(500).fill({
   make: 'Mercedes-Benz, C Class',
   lotno: '8735647477',
   price: 'AED 5500',
-  ordertype: "Auction",
+  ordertype: 'Auction',
   buyerid: '132438675849',
   orderstatus: 'Payment Pending',
 });
 
-const Orders = () => {  
+const Orders = () => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 30;
+  const totalPages = Math.ceil(cars.length / itemsPerPage);
 
-    const [currentPage, setCurrentPage] = useState(1);
-    const itemsPerPage = 30;
-    const totalPages = Math.ceil(cars.length / itemsPerPage);
-  
-    const handlePageChange = (page) => {
-      if (page >= 1 && page <= totalPages) {
-        setCurrentPage(page);
-      }
-    };
-  
-    const getDisplayedCars = () => {
-      const startIndex = (currentPage - 1) * itemsPerPage;
-      return cars.slice(startIndex, startIndex + itemsPerPage);
-    };
-  
-    const renderPagination = () => {
-      const visiblePages = [];
-      const pageRange = 2;
-  
-      for (let i = 1; i <= totalPages; i++) {
-        if (
-          i === 1 || 
-          i === totalPages || 
-          (i >= currentPage - pageRange && i <= currentPage + pageRange)
-        ) {
-          visiblePages.push(i);
-        } else if (
-          (i === currentPage - pageRange - 1 || i === currentPage + pageRange + 1) &&
-          !visiblePages.includes('...')
-        ) {
-          visiblePages.push('...');
-        }
-      }
-  
-      return (
-        <div className="pagination">
-          <button
-            className="circle-btn"
-            onClick={() => handlePageChange(currentPage - 1)}
-            disabled={currentPage === 1}
-          >
-            <ChevronLeft />
-          </button>
-          {visiblePages.map((page, index) =>
-            page === '...' ? (
-              <span key={index} className="dots">
-                ...
-              </span>
-            ) : (
-              <button
-                key={index}
-                className={`circle-btn ${page === currentPage ? 'active' : ''}`}
-                onClick={() => handlePageChange(page)}
-              >
-                {page}
-              </button>
-            )
-          )}
-          <button
-            className="circle-btn"
-            onClick={() => handlePageChange(currentPage + 1)}
-            disabled={currentPage === totalPages}
-          >
-            <ChevronRight />
-          </button>
-        </div>
-      );
-    };
-  
-    return (
-      <>
+  const handlePageChange = (page) => {
+    if (page >= 1 && page <= totalPages) {
+      setCurrentPage(page);
+    }
+  };
+
+  const getDisplayedCars = () => {
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    return cars.slice(startIndex, startIndex + itemsPerPage);
+  };
+
+  return (
+    <>
       <div className="car-list-top">
         <span>
-      <h3>Orders</h3>
-      <small>List of orders placed by user</small>
-      </span>
-    </div>
+          <h3>Orders</h3>
+          <small>List of orders placed by users</small>
+        </span>
+      </div>
       <div className="car-list-container">
-       
         <header className="car-list-header">
-        <div className="car-list-header-input">
-                <Search />
-          <input type="text" placeholder="Search Cars e.g., Audi Q7" />
-            </div>
+          <div className="car-list-header-input">
+            <Search />
+            <input type="text" placeholder="Search Orders e.g., Lot No" />
+          </div>
           <div className="sort-options">
             <span>Type:</span>
             <select>
-              <option value="newest">All</option>
+              <option value="all">All</option>
             </select>
           </div>
         </header>
@@ -122,11 +68,9 @@ const Orders = () => {
                   <td>
                     <div className="car-info">
                       <div className="car-image"></div>
-                      <div className='car-name'>
+                      <div className="car-name">
                         <p>{car.make}</p>
-                        <p>Lot no:{car.lotno}</p>
-                        <div className="price">
-                        </div>
+                        <p>Lot no: {car.lotno}</p>
                       </div>
                     </div>
                   </td>
@@ -135,11 +79,11 @@ const Orders = () => {
                   <td>{car.buyerid}</td>
                   <td>{car.orderstatus}</td>
                   <td className="action-buttons">
-                  <button>
+                    <button>
                       <Trash size={16} />
                     </button>
                     <button>
-                    <PencilLine size={16}/>
+                      <PencilLine size={16} />
                     </button>
                   </td>
                 </tr>
@@ -147,11 +91,14 @@ const Orders = () => {
             </tbody>
           </table>
         </div>
-        {renderPagination()}
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={handlePageChange}
+        />
       </div>
-      </>
-    );
-  
+    </>
+  );
 };
 
 export default Orders;

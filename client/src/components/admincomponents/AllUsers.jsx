@@ -1,24 +1,23 @@
 import React, { useState, useEffect } from "react";
 import {
-  ChevronLeft,
-  ChevronRight,
   Trash,
   Search,
   PencilLine,
 } from "lucide-react";
-import LoadingSpinner from "../usercomponents/LoadingSpinner";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import toast from "react-hot-toast";
 import { backendURL } from "../../utils/Exports";
 import { Modal, Button } from "react-bootstrap";
+import Pagination from "./Pagination";
+import {deleteUser} from "../../store/slices/categorySlice";
 
 const AllUsers = () => {
+  const dispatch = useDispatch();
   const { token } = useSelector((state) => state.auth);
+  const { allusers } = useSelector((state) => state.category);
   const authorizationToken = `Bearer ${token}`;
   const [currentPage, setCurrentPage] = useState(1);
-  const [users, setUsers] = useState([]);
   const [filteredUsers, setFilteredUsers] = useState([]);
-  const [loading, setLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [userIdToDelete, setUserIdToDelete] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
@@ -37,7 +36,7 @@ const AllUsers = () => {
       const res_data = await response.json();
       if (response.ok) {
         toast.success(res_data.message);
-        getAllUsers();
+        dispatch(deleteUser(id))
       } else {
         toast.error(res_data.message);
       }
@@ -62,117 +61,26 @@ const AllUsers = () => {
     setUserIdToDelete(null);
   };
 
-  useEffect(() => {
-    const getAllUsers = async () => {
-      try {
-        setLoading(true);
-        const response = await fetch(`${backendURL}/user/all`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: authorizationToken,
-          },
-        });
-        const res_data = await response.json();
-        if (response.ok) {
-          setUsers(res_data);
-          setFilteredUsers(res_data);
-        } else {
-          console.log(res_data.message);
-        }
-      } catch (error) {
-        console.log("Error in getting users");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    getAllUsers();
-  }, [token]);
-
+  
   useEffect(() => {
     if (searchQuery) {
-      const filtered = users.filter((user) =>
+      const filtered = allusers.filter((user) =>
         user._id?.toLowerCase().includes(searchQuery.toLowerCase()) ||
         user.role?.toLowerCase().includes(searchQuery.toLowerCase())
       );
       setFilteredUsers(filtered);
     } else {
-      setFilteredUsers(users);
+      setFilteredUsers(allusers);
     }
-  }, [searchQuery, users]);
-
-  const handlePageChange = (page) => {
-    if (page >= 1 && page <= totalPages) {
-      setCurrentPage(page);
-    }
-  };
+  }, [searchQuery, allusers]);
 
   const getDisplayedUsers = () => {
     const startIndex = (currentPage - 1) * itemsPerPage;
     return filteredUsers.slice(startIndex, startIndex + itemsPerPage);
   };
 
-  const renderPagination = () => {
-    const visiblePages = [];
-    const pageRange = 2;
-
-    for (let i = 1; i <= totalPages; i++) {
-      if (
-        i === 1 ||
-        i === totalPages ||
-        (i >= currentPage - pageRange && i <= currentPage + pageRange)
-      ) {
-        visiblePages.push(i);
-      } else if (
-        (i === currentPage - pageRange - 1 ||
-          i === currentPage + pageRange + 1) &&
-        !visiblePages.includes("...")
-      ) {
-        visiblePages.push("...");
-      }
-    }
-
-    return (
-      <div className="pagination">
-        <button
-          className="circle-btn"
-          onClick={() => handlePageChange(currentPage - 1)}
-          disabled={currentPage === 1}
-        >
-          <ChevronLeft />
-        </button>
-        {visiblePages.map((page, index) =>
-          page === "..." ? (
-            <span key={index} className="dots">
-              ...
-            </span>
-          ) : (
-            <button
-              key={index}
-              className={`circle-btn ${page === currentPage ? "active" : ""}`}
-              onClick={() => handlePageChange(page)}
-            >
-              {page}
-            </button>
-          )
-        )}
-        <button
-          className="circle-btn"
-          onClick={() => handlePageChange(currentPage + 1)}
-          disabled={currentPage === totalPages}
-        >
-          <ChevronRight />
-        </button>
-      </div>
-    );
-  };
-
   return (
-    <>
-      {loading ? (
-        <LoadingSpinner />
-      ) : (
+
         <>
           <div className="car-list-top">
             <span>
@@ -201,7 +109,7 @@ const AllUsers = () => {
                     <th>Joined</th>
                     <th>Role</th>
                     <th>Status</th>
-                    <th>Auction</th>
+                    <th>Actions</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -246,7 +154,11 @@ const AllUsers = () => {
                 </tbody>
               </table>
             </div>
-            {renderPagination()}
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={setCurrentPage}
+            />
           </div>
 
           {/* Modal for delete confirmation */}
@@ -265,8 +177,6 @@ const AllUsers = () => {
             </Modal.Footer>
           </Modal>
         </>
-      )}
-    </>
   );
 };
 

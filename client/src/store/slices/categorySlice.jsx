@@ -6,7 +6,8 @@ export const categorySlice = createSlice({
   initialState: {
     categories: {}, 
     cars: [],
-    auctions: []
+    auctions: [],
+    allusers: []
   },
   reducers: {
     setCategories: (state, action) => {
@@ -21,6 +22,13 @@ export const categorySlice = createSlice({
       const { auctions } = action.payload;
       state.auctions = auctions;
     },
+    setAllUsers: (state, action) => {
+      const {allusers} = action.payload;
+      state.allusers = allusers
+    },
+    deleteUser: (state, action) => {
+      state.allusers = state.allusers.filter((user) => user._id !== action.payload); // Remove user by ID
+    },
     deleteCar: (state, action) => {
       state.cars = state.cars.filter((car) => car._id !== action.payload); // Remove car by ID
     },
@@ -30,5 +38,5 @@ export const categorySlice = createSlice({
   },
 });
 
-export const { setCategories, setCarsData, setAuctionsData, deleteCar, deleteAuction } = categorySlice.actions;
+export const { setCategories, setCarsData, setAuctionsData, deleteCar, deleteAuction, setAllUsers, deleteUser } = categorySlice.actions;
 export default categorySlice.reducer;
