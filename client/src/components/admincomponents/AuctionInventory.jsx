@@ -1,4 +1,3 @@
-// Pagination Component
 import React, { useState } from "react";
 import "../../assets/stylesheets/admin/carlisting.scss";
 import { Trash, PencilLine, Search } from "lucide-react";
@@ -19,8 +18,11 @@ const AuctionInventory = () => {
   const [showModal, setShowModal] = useState(false);
   const [carIdToDelete, setCarIdToDelete] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
+  const [sortOption, setSortOption] = useState("all"); // State for sorting
+
   const itemsPerPage = 30;
 
+  // Filter cars by search term
   const filteredCars = cars.filter(
     (car) =>
       car.listingTitle?.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -28,6 +30,13 @@ const AuctionInventory = () => {
       car.lotNo?.toString().toLowerCase().includes(searchTerm.toLowerCase()) ||
       car.auctionLot?.auctionTitle?.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  // Filter cars by sorting option
+  const sortedCars = filteredCars.filter((car) => {
+    if (sortOption === "ongoing") return car.auctionStatus; // True for Ongoing
+    if (sortOption === "not started") return !car.auctionStatus; // False for Not Started
+    return true; // All cars
+  });
 
   const deletCar = async (id) => {
     const authorizationToken = `Bearer ${token}`;
@@ -73,7 +82,7 @@ const AuctionInventory = () => {
 
   const getDisplayedCars = () => {
     const startIndex = (currentPage - 1) * itemsPerPage;
-    return filteredCars.slice(startIndex, startIndex + itemsPerPage);
+    return sortedCars.slice(startIndex, startIndex + itemsPerPage);
   };
 
   return (
@@ -100,8 +109,13 @@ const AuctionInventory = () => {
           </div>
           <div className="sort-options">
             <span>Sort By:</span>
-            <select>
-              <option value="newest">Newest</option>
+            <select
+              value={sortOption}
+              onChange={(e) => setSortOption(e.target.value)} // Handle sorting option change
+            >
+              <option value="all">All</option>
+              <option value="ongoing">Ongoing</option>
+              <option value="not started">Not Started</option>
             </select>
           </div>
         </header>
@@ -180,7 +194,7 @@ const AuctionInventory = () => {
         </div>
         <Pagination
           currentPage={currentPage}
-          totalPages={Math.ceil(filteredCars.length / itemsPerPage)}
+          totalPages={Math.ceil(sortedCars.length / itemsPerPage)}
           onPageChange={handlePageChange}
         />
       </div>

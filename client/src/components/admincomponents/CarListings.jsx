@@ -16,6 +16,7 @@ const CarListings = () => {
 
   const [currentPage, setCurrentPage] = useState(1);
   const [searchInput, setSearchInput] = useState("");
+  const [sortOption, setSortOption] = useState("all");
   const itemsPerPage = 30;
   const totalPages = Math.ceil(cars.length / itemsPerPage);
   const [showModal, setShowModal] = useState(false);
@@ -78,10 +79,22 @@ const CarListings = () => {
     );
   };
 
+  const getSortedCars = (carsToSort) => {
+    switch (sortOption) {
+      case "price":
+        return [...carsToSort].sort((a, b) => (a.price || a.discountedPrice) - (b.price || b.discountedPrice));
+      case "year":
+        return [...carsToSort].sort((a, b) => a.year - b.year);
+      default:
+        return carsToSort;
+    }
+  };
+
   const getDisplayedCars = () => {
     const filteredCars = getFilteredCars();
+    const sortedCars = getSortedCars(filteredCars);
     const startIndex = (currentPage - 1) * itemsPerPage;
-    return filteredCars.slice(startIndex, startIndex + itemsPerPage);
+    return sortedCars.slice(startIndex, startIndex + itemsPerPage);
   };
 
   return (
@@ -108,8 +121,10 @@ const CarListings = () => {
           </div>
           <div className="sort-options">
             <span>Sort By:</span>
-            <select>
-              <option value="newest">Newest</option>
+            <select value={sortOption} onChange={(e) => setSortOption(e.target.value)}>
+              <option value="all">All</option>
+              <option value="price">Price</option>
+              <option value="year">Year</option>
             </select>
           </div>
         </header>

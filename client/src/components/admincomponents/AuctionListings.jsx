@@ -6,7 +6,7 @@ import { useSelector, useDispatch } from "react-redux";
 import toast from "react-hot-toast";
 import { backendURL } from "../../utils/Exports";
 import { Modal, Button } from "react-bootstrap";
-import Pagination from "./Pagination"; 
+import Pagination from "./Pagination";
 
 const AuctionListings = () => {
   const dispatch = useDispatch();
@@ -17,11 +17,20 @@ const AuctionListings = () => {
   const [showModal, setShowModal] = useState(false);
   const [auctionIdToDelete, setAuctionIdToDelete] = useState(null);
   const [searchQuery, setSearchQuery] = useState(""); // State for search query
+  const [statusFilter, setStatusFilter] = useState("all"); // State for status filter
 
   const itemsPerPage = 30;
-  const filteredAuctions = auctions.filter((auction) =>
-    auction.auctionTitle?.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+
+  // Filter auctions by search query and status
+  const filteredAuctions = auctions.filter((auction) => {
+    const matchesSearch = auction.auctionTitle
+      ?.toLowerCase()
+      .includes(searchQuery.toLowerCase());
+    const matchesStatus =
+      statusFilter === "all" || auction.statusText?.toLowerCase() === statusFilter;
+    return matchesSearch && matchesStatus;
+  });
+
   const totalPages = Math.ceil(filteredAuctions.length / itemsPerPage);
 
   const deletCar = async (id) => {
@@ -73,6 +82,11 @@ const AuctionListings = () => {
     return filteredAuctions.slice(startIndex, startIndex + itemsPerPage);
   };
 
+  const handleStatusChange = (e) => {
+    setStatusFilter(e.target.value.toLowerCase());
+    setCurrentPage(1); // Reset to the first page on filter change
+  };
+
   return (
     <>
       <div className="car-list-top">
@@ -97,8 +111,11 @@ const AuctionListings = () => {
           </div>
           <div className="sort-options">
             <span>Auction:</span>
-            <select>
+            <select value={statusFilter} onChange={handleStatusChange}>
               <option value="all">All</option>
+              <option value="ongoing">Ongoing</option>
+              <option value="coming">Coming</option>
+              <option value="completed">Completed</option>
             </select>
           </div>
         </header>
