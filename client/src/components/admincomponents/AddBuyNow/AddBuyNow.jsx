@@ -61,8 +61,8 @@ const AddBuyNow = ({ sellingType }) => {
       const res_data = await response.json();
       if (response.ok) {
         toast.success("Car Added Successfully!");
+        dispatch(addCar({ car: res_data }));
         setFormData({ ...baseData, sellingType, ...auctionData });
-        dispatch(addCar({ carr: res_data }));
         setStep(1);
       } else {
         toast.error(res_data?.errors?.[0]?.msg || res_data?.message || "Unknown error occurred.");
