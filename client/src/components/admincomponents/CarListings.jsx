@@ -169,16 +169,16 @@ const CarListings = () => {
                         </div>
                       </td>
                       <td>
-                        <small>{car.carModal || "No Model"}</small>
+                        <small>{car.carModal && car.carModal.vehicleModal || "No Model"}</small>
                       </td>
                       <td>
-                        <small>{car.year || "No Year"}</small>
+                        <small>{car.year && car.year.vehicleYear || "No Year"}</small>
                       </td>
                       <td>
-                        <small>{car.transmission || "No Transmission"}</small>
+                        <small>{car.transmission && car.transmission.vehicleTransimission || "No Transmission"}</small>
                       </td>
                       <td>
-                        <small>{car.fuelType || "No Fuel Type"}</small>
+                        <small>{car.fuelType && car.fuelType.vehicleFuelTypes  || "No Fuel Type"}</small>
                       </td>
                       <td className="action-buttons">
                         <button onClick={() => handleDeleteClick(car._id)}>

@@ -17,7 +17,7 @@ const AddBuyNow = ({ sellingType }) => {
   const baseData = {
     carImages: [],
     carMake: "",
-    carModel: "",
+    carModal: "",
     vendor: userdata?.id || "", 
     friendlyLocation: "",
     mapLocation: "",
@@ -36,12 +36,13 @@ const AddBuyNow = ({ sellingType }) => {
     noOfDoors: "",
     isSold: false,
     videoLink: "",
+    isVerified: true,
     features: { interior: [], exterior: [], safety: [], convenience: [], entertainment: [] },
   };
 
   const auctionData = sellingType === "auction"
-    ? { auctionLot: "", lotNo: "", auctionStatus: false, startingBid: "", bidMargin: "", isVerified: true }
-    : { price: "", discountedPrice: "", isVerified: false };
+    ? { auctionLot: "", lotNo: "", auctionStatus: false, startingBid: "", bidMargin: "" }
+    : { price: "", discountedPrice: "" };
 
   const [formData, setFormData] = useState({ ...baseData, sellingType, ...auctionData });
 
