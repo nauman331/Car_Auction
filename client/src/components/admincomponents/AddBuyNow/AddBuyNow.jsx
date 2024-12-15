@@ -6,7 +6,7 @@ import toast from "react-hot-toast";
 import { useSelector, useDispatch } from "react-redux";
 import { backendURL } from "../../../utils/Exports";
 import { useNavigate } from "react-router-dom"; 
-import {setCarsData} from "../../../store/slices/categorySlice"
+import {addCar} from "../../../store/slices/categorySlice"
 
 const AddBuyNow = ({ sellingType }) => {
   const dispatch = useDispatch()
@@ -18,7 +18,7 @@ const AddBuyNow = ({ sellingType }) => {
     carImages: [],
     carMake: "",
     carModel: "",
-    vendor: userdata?.id || "", // Use optional chaining or fallback value
+    vendor: userdata?.id || "", 
     friendlyLocation: "",
     mapLocation: "",
     carType: "",
@@ -62,7 +62,7 @@ const AddBuyNow = ({ sellingType }) => {
       if (response.ok) {
         toast.success("Car Added Successfully!");
         setFormData({ ...baseData, sellingType, ...auctionData });
-        dispatch(setCarsData({ cars: res_data }));
+        dispatch(addCar({ carr: res_data }));
         setStep(1);
       } else {
         toast.error(res_data?.errors?.[0]?.msg || res_data?.message || "Unknown error occurred.");

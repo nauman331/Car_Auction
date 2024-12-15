@@ -1,11 +1,15 @@
 import { useState } from "react";
 import FormGrid from "./AddBuyNow/FormGrid";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import toast from "react-hot-toast"
 import {backendURL} from "../../utils/Exports"
+import {addAuction} from "../../store/slices/categorySlice"
 
 
 const AddAuctionForm = () => {
+
+  const dispatch = useDispatch();
+
   const [formData, setFormData] = useState({
     auctionTitle: "",
     auctionNumber: 0,
@@ -111,7 +115,9 @@ const AddAuctionForm = () => {
       const res_data = await response.json();
   
       if (response.ok) {
-        console.log(res_data);
+        toast.success("Auction Event Added Successfully");
+        console.log(res_data)
+        dispatch(addAuction({auction: res_data}))
       } else {
         toast.error(res_data?.errors?.[0]?.msg || res_data?.message || "Unknown error occurred.");
       }
