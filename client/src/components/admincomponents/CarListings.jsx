@@ -17,7 +17,7 @@ const CarListings = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchInput, setSearchInput] = useState("");
   const [sortOption, setSortOption] = useState("all");
-  const itemsPerPage = 30;
+  const itemsPerPage = 10;
   const totalPages = Math.ceil(cars.length / itemsPerPage);
   const [showModal, setShowModal] = useState(false);
   const [carIdToDelete, setCarIdToDelete] = useState(null);

@@ -44,6 +44,14 @@ export const categorySlice = createSlice({
     deleteAuction: (state, action) => {
       state.auctions = state.auctions.filter((auction) => auction._id !== action.payload);
     },
+
+    updateAuction: (state, action) => {
+      const updatedAuction = action.payload;
+      state.auctions = state.auctions.map((auction) =>
+        auction._id === updatedAuction._id ? updatedAuction : auction
+      );
+    },
+    
   },
 });
 
@@ -55,7 +63,8 @@ export const {
   setAuctionsData,
   deleteCar,
   deleteAuction,
-  addAuction
+  addAuction,
+  updateAuction
 } = categorySlice.actions;
 
 export default categorySlice.reducer;

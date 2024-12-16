@@ -15,7 +15,7 @@ const cars = Array(500).fill({
 
 const Orders = () => {
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 30;
+  const itemsPerPage = 10;
   const totalPages = Math.ceil(cars.length / itemsPerPage);
 
   const handlePageChange = (page) => {

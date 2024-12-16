@@ -20,7 +20,7 @@ const AuctionInventory = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [sortOption, setSortOption] = useState("all"); // State for sorting
 
-  const itemsPerPage = 30;
+  const itemsPerPage = 10;
 
   // Filter cars by search term
   const filteredCars = cars.filter(
@@ -84,6 +84,28 @@ const AuctionInventory = () => {
     const startIndex = (currentPage - 1) * itemsPerPage;
     return sortedCars.slice(startIndex, startIndex + itemsPerPage);
   };
+
+  const updateAuction = async (id) => {
+    const authorizationToken = `Bearer ${token}`;
+    try {
+      const response = await fetch(`${backendURL}/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: authorizationToken,
+        },
+        body: JSON.stringify()
+      })
+      const res_data = await response.json();
+      if(response.ok){
+        toast.success(res_data.message)
+      } else {
+        toast.error(res_data.message)
+      }
+    } catch (error) {
+      toast.error("Error Occured While Updating")
+    }
+  }
 
   return (
     <>
