@@ -15,6 +15,7 @@ const AllUsers = () => {
   const [filteredUsers, setFilteredUsers] = useState([]);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
+  const [updateloading, setUpdateloading] = useState(false);
   const [userIdToDelete, setUserIdToDelete] = useState(null);
   const [userToEdit, setUserToEdit] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
@@ -53,6 +54,7 @@ const AllUsers = () => {
   }, [token]);
 
   const updateUserRoleStatus = async (id, role, isVerified) => {
+    setUpdateloading(true);
     const authorizationToken = `Bearer ${token}`;
     try {
       const response = await fetch(`${backendURL}/user/${id}`, {
@@ -73,6 +75,8 @@ const AllUsers = () => {
       }
     } catch (error) {
       toast.error("Error while updating user role/status");
+    } finally {
+      setUpdateloading(false)
     }
   };
   const deletUser = async (id) => {
@@ -323,8 +327,8 @@ const AllUsers = () => {
               >
                 Cancel
               </Button>
-              <Button variant="primary" onClick={handleUpdateUser}>
-                Submit
+              <Button variant="primary" onClick={handleUpdateUser} disabled={updateloading}>
+                {updateloading ? "Saving..." : "Save Changes"}
               </Button>
             </Modal.Footer>
           </Modal>

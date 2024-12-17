@@ -3,7 +3,7 @@ import "../../assets/stylesheets/admin/carlisting.scss";
 import { Trash, PencilLine, Search } from "lucide-react";
 import { NavLink } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { deleteCar } from "../../store/slices/categorySlice";
+import { deleteCar, updateCar } from "../../store/slices/categorySlice";
 import toast from "react-hot-toast";
 import { backendURL } from "../../utils/Exports";
 import { Modal, Button } from "react-bootstrap";
@@ -15,10 +15,15 @@ const AuctionInventory = () => {
   const { token } = useSelector((state) => state.auth);
 
   const [currentPage, setCurrentPage] = useState(1);
+  const [loading, setLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [carIdToDelete, setCarIdToDelete] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [sortOption, setSortOption] = useState("all"); // State for sorting
+
+  // Edit modal states
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [currentCarDetails, setCurrentCarDetails] = useState({}); // Store Car Details
 
   const itemsPerPage = 10;
 
@@ -85,27 +90,50 @@ const AuctionInventory = () => {
     return sortedCars.slice(startIndex, startIndex + itemsPerPage);
   };
 
-  const updateAuction = async (id) => {
+  // Open Edit Modal with Car Details
+  const openEditModal = (car) => {
+    setCurrentCarDetails({
+      id: car._id,
+      startingBid: car.startingBid || "",
+      bidMargin: car.bidMargin || "",
+      lotNo: car.lotNo || "",
+      listingTitle: car.listingTitle || "",
+      description: car.description || "",
+    });
+    setShowEditModal(true);
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setCurrentCarDetails({ ...currentCarDetails, [name]: value });
+  };
+
+  const submitUpdatedCar = async () => {
+    setLoading(true);
     const authorizationToken = `Bearer ${token}`;
     try {
-      const response = await fetch(`${backendURL}/${id}`, {
+      const response = await fetch(`${backendURL}/car/${currentCarDetails.id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
           Authorization: authorizationToken,
         },
-        body: JSON.stringify()
-      })
+        body: JSON.stringify(currentCarDetails),
+      });
       const res_data = await response.json();
-      if(response.ok){
-        toast.success(res_data.message)
+      if (response.ok) {
+        dispatch(updateCar(res_data));
+        toast.success("Car details updated successfully!");
+        setShowEditModal(false);
       } else {
-        toast.error(res_data.message)
+        toast.error(res_data.message || "Failed to update car.");
       }
     } catch (error) {
-      toast.error("Error Occured While Updating")
+      toast.error("Error occurred while updating car details.");
+    } finally {
+      setLoading(false)
     }
-  }
+  };
 
   return (
     <>
@@ -204,7 +232,7 @@ const AuctionInventory = () => {
                         <button onClick={() => confirmDelete(car._id)}>
                           <Trash size={16} />
                         </button>
-                        <button>
+                        <button onClick={() => openEditModal(car)}>
                           <PencilLine size={16} />
                         </button>
                       </td>
@@ -221,7 +249,79 @@ const AuctionInventory = () => {
         />
       </div>
 
-      {/* Modal for delete confirmation */}
+      {/* Edit Car Modal */}
+      <Modal show={showEditModal} onHide={() => setShowEditModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Edit Car Details</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <form>
+            <div className="form-group mt-2">
+              <label className="m-1">Car Title</label>
+              <input
+                type="text"
+                className="form-control"
+                name="listingTitle"
+                value={currentCarDetails.listingTitle}
+                onChange={handleInputChange}
+              />
+            </div>
+            <div className="form-group mt-2">
+              <label className="m-1">Description</label>
+              <textarea
+                className="form-control"
+                name="description"
+                value={currentCarDetails.description}
+                onChange={handleInputChange}
+              />
+            </div>
+            <div className="form-group mt-2">
+              <label className="m-1">Lot No</label>
+              <input
+                type="text"
+                className="form-control"
+                name="lotNo"
+                value={currentCarDetails.lotNo}
+                onChange={handleInputChange}
+              />
+            </div>
+            <div className="form-group mt-2">
+              <label className="m-1">Starting Bid</label>
+              <input
+                type="number"
+                className="form-control"
+                name="startingBid"
+                value={currentCarDetails.startingBid}
+                onChange={handleInputChange}
+              />
+            </div>
+            <div className="form-group mt-2">
+              <label className="m-1">Bid Margin</label>
+              <input
+                type="number"
+                className="form-control"
+                name="bidMargin"
+                value={currentCarDetails.bidMargin}
+                onChange={handleInputChange}
+              />
+            </div>
+          </form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowEditModal(false)}>
+            Cancel
+          </Button>
+          <Button
+  variant="primary"
+  onClick={submitUpdatedCar}
+  disabled={loading}
+>
+  {loading ? "Saving..." : "Save Changes"}
+</Button>
+        </Modal.Footer>
+      </Modal>
+
+      {/* Delete Confirmation Modal */}
       <Modal show={showModal} onHide={handleCloseModal}>
         <Modal.Header closeButton>
           <Modal.Title>Confirm Deletion</Modal.Title>

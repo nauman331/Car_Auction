@@ -5,8 +5,8 @@ import { NavLink } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import toast from "react-hot-toast";
 import { backendURL } from "../../utils/Exports";
-import { deleteCar } from "../../store/slices/categorySlice";
-import { Modal, Button } from "react-bootstrap";
+import { deleteCar, updateCar } from "../../store/slices/categorySlice";
+import { Modal, Button, Form } from "react-bootstrap";
 import Pagination from "./Pagination";
 
 const CarListings = () => {
@@ -19,10 +19,12 @@ const CarListings = () => {
   const [sortOption, setSortOption] = useState("all");
   const itemsPerPage = 10;
   const totalPages = Math.ceil(cars.length / itemsPerPage);
-  const [showModal, setShowModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [carIdToDelete, setCarIdToDelete] = useState(null);
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [carToEdit, setCarToEdit] = useState(null);
 
-  const deletCar = async (id) => {
+  const deleteCarHandler = async (id) => {
     const authorizationToken = `Bearer ${token}`;
     try {
       const response = await fetch(`${backendURL}/car/${id}`, {
@@ -46,18 +48,52 @@ const CarListings = () => {
 
   const handleDeleteClick = (id) => {
     setCarIdToDelete(id);
-    setShowModal(true);
+    setShowDeleteModal(true);
   };
 
   const handleConfirmDelete = () => {
     if (carIdToDelete) {
-      deletCar(carIdToDelete);
-      setShowModal(false);
+      deleteCarHandler(carIdToDelete);
+      setShowDeleteModal(false);
     }
   };
 
   const handleCancelDelete = () => {
-    setShowModal(false);
+    setShowDeleteModal(false);
+  };
+
+  const handleEditClick = (car) => {
+    setCarToEdit(car);
+    setShowEditModal(true);
+  };
+
+  const handleUpdateCar = async () => {
+    const authorizationToken = `Bearer ${token}`;
+    try {
+      const response = await fetch(`${backendURL}/car/${carToEdit._id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: authorizationToken,
+        },
+        body: JSON.stringify(carToEdit),
+      });
+      const res_data = await response.json();
+      if (response.ok) {
+        dispatch(updateCar(res_data));
+        toast.success("Car details updated successfully!");
+        setShowEditModal(false);
+      } else {
+        toast.error(res_data.message || "Failed to update car.");
+      }
+    } catch (error) {
+      toast.error("Error occurred while updating car details.");
+    }
+  };
+
+  const handleEditInputChange = (e) => {
+    const { name, value } = e.target;
+    setCarToEdit((prev) => ({ ...prev, [name]: value }));
   };
 
   const getFilteredCars = () => {
@@ -178,13 +214,13 @@ const CarListings = () => {
                         <small>{car.transmission && car.transmission.vehicleTransimission || "No Transmission"}</small>
                       </td>
                       <td>
-                        <small>{car.fuelType && car.fuelType.vehicleFuelTypes  || "No Fuel Type"}</small>
+                        <small>{car.fuelType && car.fuelType.vehicleFuelTypes || "No Fuel Type"}</small>
                       </td>
                       <td className="action-buttons">
                         <button onClick={() => handleDeleteClick(car._id)}>
                           <Trash size={16} />
                         </button>
-                        <button>
+                        <button onClick={() => handleEditClick(car)}>
                           <PencilLine size={16} />
                         </button>
                       </td>
@@ -201,7 +237,8 @@ const CarListings = () => {
         />
       </div>
 
-      <Modal show={showModal} onHide={handleCancelDelete}>
+      {/* Delete Confirmation Modal */}
+      <Modal show={showDeleteModal} onHide={handleCancelDelete}>
         <Modal.Header closeButton>
           <Modal.Title>Confirm to Delete</Modal.Title>
         </Modal.Header>
@@ -214,6 +251,64 @@ const CarListings = () => {
           </Button>
           <Button variant="danger" onClick={handleConfirmDelete}>
             Yes
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+      {/* Edit Car Modal */}
+      <Modal show={showEditModal} onHide={() => setShowEditModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Edit Car Details</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {carToEdit && (
+            <Form>
+              <Form.Group className="mb-3">
+                <Form.Label>Title</Form.Label>
+                <Form.Control
+                  type="text"
+                  name="listingTitle"
+                  value={carToEdit.listingTitle}
+                  onChange={handleEditInputChange}
+                />
+              </Form.Group>
+              <Form.Group className="mb-3">
+                <Form.Label>Description</Form.Label>
+                <Form.Control
+                  as="textarea"
+                  rows={3}
+                  name="description"
+                  value={carToEdit.description}
+                  onChange={handleEditInputChange}
+                />
+              </Form.Group>
+              <Form.Group className="mb-3">
+                <Form.Label>Price</Form.Label>
+                <Form.Control
+                  type="number"
+                  name="price"
+                  value={carToEdit.price}
+                  onChange={handleEditInputChange}
+                />
+              </Form.Group>
+              <Form.Group className="mb-3">
+                <Form.Label>Discounted Price</Form.Label>
+                <Form.Control
+                  type="number"
+                  name="discountedPrice"
+                  value={carToEdit.discountedPrice}
+                  onChange={handleEditInputChange}
+                />
+              </Form.Group>
+            </Form>
+          )}
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowEditModal(false)}>
+            Cancel
+          </Button>
+          <Button variant="primary" onClick={handleUpdateCar}>
+            Save Changes
           </Button>
         </Modal.Footer>
       </Modal>

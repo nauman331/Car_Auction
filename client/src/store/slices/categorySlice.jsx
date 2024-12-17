@@ -12,7 +12,7 @@ export const categorySlice = createSlice({
       const { key, items } = action.payload;
       state.categories[key] = items; // Dynamically update categories based on key
     },
-    
+
     // Update the cars list (replace existing list)
     setCarsData: (state, action) => {
       const { cars } = action.payload;
@@ -25,6 +25,14 @@ export const categorySlice = createSlice({
       state.cars = [...state.cars, car]; // Append new car to the array
     },
 
+    // Update a car in the cars array
+    updateCar: (state, action) => {
+      const updatedCar = action.payload;
+      state.cars = state.cars.map((car) =>
+        car._id === updatedCar._id ? updatedCar : car
+      );
+    },
+
     // Update the auctions list
     setAuctionsData: (state, action) => {
       const { auctions } = action.payload;
@@ -32,7 +40,7 @@ export const categorySlice = createSlice({
     },
     addAuction: (state, action) => {
       const { auction } = action.payload;
-      state.auctions = [...state.auctions, auction]; 
+      state.auctions = [...state.auctions, auction];
     },
 
     // Delete a car by ID
@@ -51,20 +59,19 @@ export const categorySlice = createSlice({
         auction._id === updatedAuction._id ? updatedAuction : auction
       );
     },
-    
   },
 });
-
 
 export const {
   setCategories,
   setCarsData,
-  addCar, 
+  addCar,
+  updateCar, // <-- Export new action
   setAuctionsData,
   deleteCar,
   deleteAuction,
   addAuction,
-  updateAuction
+  updateAuction,
 } = categorySlice.actions;
 
 export default categorySlice.reducer;

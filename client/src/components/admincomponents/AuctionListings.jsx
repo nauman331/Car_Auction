@@ -16,6 +16,7 @@ const AuctionListings = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [auctionIdToDelete, setAuctionIdToDelete] = useState(null);
+  const [loading, setLoading] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [selectedAuction, setSelectedAuction] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
@@ -99,6 +100,7 @@ const AuctionListings = () => {
 
   const handleEditSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true)
     const authorizationToken = `Bearer ${token}`;
     const updatedAuction = selectedAuction;
 
@@ -121,6 +123,8 @@ const AuctionListings = () => {
       }
     } catch (error) {
       toast.error("Error while updating auction");
+    } finally {
+      setLoading(false)
     }
   };
 
@@ -257,8 +261,8 @@ const AuctionListings = () => {
               </Form.Control>
             </Form.Group>
             <div className="text-end mt-3">
-              <Button variant="primary" type="submit">
-                Save Changes
+              <Button variant="primary" type="submit" disabled={loading}>
+              {loading ? "Saving..." : "Save Changes"}
               </Button>
             </div>
           </Form>
