@@ -1,6 +1,6 @@
 import React from "react";
 import "../../assets/stylesheets/admin/dashboard.scss";
-import { Car, Search, MessagesSquare, Bookmark, MoveUpRight } from "lucide-react";
+import { Car, Gavel, MessagesSquare, HandCoins, MoveUpRight } from "lucide-react";
 import ChartGraph from "./ChartGraph";
 
 
@@ -12,7 +12,7 @@ const Dashboard = () => {
       <small>Lorem ipsum dolor sit amet, consectetur.</small>
 
       <div className="info-boxes">
-        {[{ title: "Listings", count: "65,984", Icon: Car, iconClass: "icon1" }, { title: "Searches", count: "19", Icon: Search, iconClass: "icon2" }, { title: "Messages", count: "15", Icon: MessagesSquare, iconClass: "icon3" }, { title: "Bookmarks", count: "22,786", Icon: Bookmark, iconClass: "icon4" }].map(({ title, count, Icon, iconClass }, idx) => (
+        {[{ title: "Listings", count: "65,984", Icon: Car, iconClass: "icon1" }, { title: "Auctions", count: "19", Icon: Gavel, iconClass: "icon2" }, { title: "Notifications", count: "15", Icon: MessagesSquare, iconClass: "icon3" }, { title: "Sellings", count: "22,786", Icon: HandCoins, iconClass: "icon4" }].map(({ title, count, Icon, iconClass }, idx) => (
           <div key={idx} className="info-box">
             <span>
               <small>{title}</small>

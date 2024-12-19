@@ -14,7 +14,7 @@ const AddAuctionForm = () => {
     auctionTitle: "",
     auctionNumber: 0,
     auctionStatus: false,
-    statusText: "",
+    statusText: "Pending",
     auctionDate: "",
     auctionTime: "",
     totalVehicles: 0,
@@ -36,12 +36,6 @@ const AddAuctionForm = () => {
       label: "Auction Title",
       type: "text",
       placeholder: "Enter auction title",
-    },
-    {
-      id: "statusText",
-      label: "Status Text",
-      type: "text",
-      placeholder: "Enter status Text",
     },
     {
       id: "auctionNumber",
