@@ -13,8 +13,7 @@ import Feature from "../../components/usercomponents/feature";
 import Premium from "../../components/usercomponents/premium";
 import Reachus from "../../components/usercomponents/reachus";
 import Footer from "../../components/usercomponents/footer";
-import { setAuctionsData } from "../../store/slices/categorySlice";
-import { setCarsData } from "../../store/slices/categorySlice";
+import { setCarsData, setAuctionsData } from "../../store/slices/categorySlice";
 import LoadingSpinner from "../../components/usercomponents/LoadingSpinner";
 
 const Home = () => {

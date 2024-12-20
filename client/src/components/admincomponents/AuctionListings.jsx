@@ -1,24 +1,19 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Trash, PencilLine, Search } from "lucide-react";
-import { deleteAuction, updateAuction } from "../../store/slices/categorySlice";
 import { NavLink } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector} from "react-redux";
 import toast from "react-hot-toast";
 import { backendURL } from "../../utils/Exports";
-import { Modal, Button, Form } from "react-bootstrap";
+import { Modal, Button } from "react-bootstrap";
 import Pagination from "./Pagination";
 
 const AuctionListings = () => {
-  const dispatch = useDispatch();
   const { token } = useSelector((state) => state.auth);
-  const { auctions } = useSelector((state) => state.category);
-
+  const [auctions, setAuctions] = useState([])
   const [currentPage, setCurrentPage] = useState(1);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [auctionIdToDelete, setAuctionIdToDelete] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [showEditModal, setShowEditModal] = useState(false);
-  const [selectedAuction, setSelectedAuction] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
 
@@ -31,12 +26,35 @@ const AuctionListings = () => {
       .includes(searchQuery.toLowerCase());
     const matchesStatus =
       statusFilter === "all" ||
-      (statusFilter === "ongoing" && auction.auctionStatus === true) ||
-      (statusFilter === "notStarted" && auction.auctionStatus === false);
+      (statusFilter === "ongoing" && auction.statusText === "Ongoing") ||
+      (statusFilter === "Pending" && auction.statusText === "Pending") ||
+      (statusFilter === "Compeleted" && auction.statusText === "Compeleted");
     return matchesSearch && matchesStatus;
   });
 
   const totalPages = Math.ceil(filteredAuctions.length / itemsPerPage);
+
+  const getAllAuctions = async () => {
+    try {
+      const response = await fetch(`${backendURL}/auction`, {
+        method: "GET",
+      });
+      const res_data = await response.json();
+      if (response.ok) {
+        setAuctions(res_data)
+        console.log(res_data)
+      } else {
+        console.log(res_data.message);
+      }
+    } catch (error) {
+      console.log("Error in getting all auctions");
+    }
+  };
+
+  useEffect(() => {
+    getAllAuctions();
+  }, [token])
+  
 
   const deletCar = async (id) => {
     const authorizationToken = `Bearer ${token}`;
@@ -50,10 +68,10 @@ const AuctionListings = () => {
       });
       const res_data = await response.json();
       if (response.ok) {
-        dispatch(deleteAuction(id));
         toast.success(res_data.message);
         setShowDeleteModal(false);
         setAuctionIdToDelete(null);
+        getAllAuctions();
       } else {
         toast.error(res_data.message);
       }
@@ -92,32 +110,25 @@ const AuctionListings = () => {
     setCurrentPage(1); // Reset to the first page on filter change
   };
 
-  // Handle edit auction
-  const handleEditClick = (auction) => {
-    setSelectedAuction(auction);
-    setShowEditModal(true);
-  };
 
   const handleEditSubmit = async (e) => {
     e.preventDefault();
     setLoading(true)
     const authorizationToken = `Bearer ${token}`;
-    const updatedAuction = selectedAuction;
 
     try {
-      const response = await fetch(`${backendURL}/auction/${updatedAuction._id}`, {
+      const response = await fetch(`${backendURL}/auction/${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
           Authorization: authorizationToken,
         },
-        body: JSON.stringify(updatedAuction),
+        body: JSON.stringify(),
       });
       const res_data = await response.json();
       if (response.ok) {
-        dispatch(updateAuction(res_data)); // Update Redux state
         toast.success("Auction Updated Successfully");
-        setShowEditModal(false); // Close modal after updating
+        setAuctions(res_data)
       } else {
         toast.error(res_data.message);
       }
@@ -128,13 +139,6 @@ const AuctionListings = () => {
     }
   };
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setSelectedAuction((prev) => ({
-      ...prev,
-      [name]: value === "ongoing" ? true : value === "notStarted" ? false : value, // Toggle to boolean
-    }));
-  };
 
   return (
     <>
@@ -163,7 +167,8 @@ const AuctionListings = () => {
             <select value={statusFilter} onChange={handleStatusChange}>
               <option value="all">All</option>
               <option value="ongoing">Ongoing</option>
-              <option value="notStarted">Not Started</option>
+              <option value="pending">Pending</option>
+              <option value="compeleted">Compeleted</option>
             </select>
           </div>
         </header>
@@ -194,12 +199,12 @@ const AuctionListings = () => {
                     <br />
                     <small>{auction.auctionTime || "No Time"}</small>
                   </td>
-                  <td>{auction.auctionStatus ? "Ongoing" : "Not Started" || "No Status"}</td>
+                  <td>{auction.statusText || "No Status"}</td>
                   <td className="action-buttons">
                     <button onClick={() => confirmDelete(auction._id)}>
                       <Trash size={16} />
                     </button>
-                    <button onClick={() => handleEditClick(auction)}>
+                    <button>
                       <PencilLine size={16} />
                     </button>
                   </td>
@@ -229,44 +234,6 @@ const AuctionListings = () => {
             Yes
           </Button>
         </Modal.Footer>
-      </Modal>
-
-      {/* Edit Auction Modal */}
-      <Modal show={showEditModal} onHide={() => setShowEditModal(false)}>
-        <Modal.Header closeButton>
-          <Modal.Title>Edit Auction Event</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form onSubmit={handleEditSubmit}>
-            <Form.Group>
-              <Form.Label>Total Vehicles</Form.Label>
-              <Form.Control
-                type="number"
-                name="totalVehicles"
-                value={selectedAuction?.totalVehicles || ""}
-                onChange={handleInputChange}
-                required
-              />
-            </Form.Group>
-            <Form.Group>
-              <Form.Label>Status</Form.Label>
-              <Form.Control
-                as="select"
-                name="auctionStatus"
-                value={selectedAuction?.auctionStatus ? "ongoing" : "notStarted"}
-                onChange={handleInputChange}
-              >
-                <option value="ongoing">Ongoing</option>
-                <option value="notStarted">Not Started</option>
-              </Form.Control>
-            </Form.Group>
-            <div className="text-end mt-3">
-              <Button variant="primary" type="submit" disabled={loading}>
-              {loading ? "Saving..." : "Save Changes"}
-              </Button>
-            </div>
-          </Form>
-        </Modal.Body>
       </Modal>
     </>
   );

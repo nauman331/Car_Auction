@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Trash, Search, PencilLine } from "lucide-react";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import toast from "react-hot-toast";
 import { backendURL } from "../../utils/Exports";
 import { Modal, Button, Form } from "react-bootstrap";

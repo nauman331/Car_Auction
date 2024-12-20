@@ -1,19 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../../assets/stylesheets/admin/carlisting.scss";
 import { Trash, PencilLine, Search } from "lucide-react";
 import { NavLink } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import toast from "react-hot-toast";
 import { backendURL } from "../../utils/Exports";
-import { deleteCar, updateCar } from "../../store/slices/categorySlice";
 import { Modal, Button, Form } from "react-bootstrap";
 import Pagination from "./Pagination";
 
 const CarListings = () => {
-  const dispatch = useDispatch();
-  const { cars } = useSelector((state) => state.category);
   const { token } = useSelector((state) => state.auth);
 
+  const [cars, setCars] = useState([])
   const [currentPage, setCurrentPage] = useState(1);
   const [searchInput, setSearchInput] = useState("");
   const [sortOption, setSortOption] = useState("all");
@@ -23,6 +21,27 @@ const CarListings = () => {
   const [carIdToDelete, setCarIdToDelete] = useState(null);
   const [showEditModal, setShowEditModal] = useState(false);
   const [carToEdit, setCarToEdit] = useState(null);
+
+  const getAllCars = async () => {
+        try {
+          const response = await fetch(`${backendURL}/car`, {
+            method: "GET",
+          });
+          const res_data = await response.json();
+          if (response.ok) {
+          console.log(res_data)
+          setCars(res_data)
+          } else {
+            console.log(res_data.message);
+          }
+        } catch (error) {
+          console.log("Error occurred while getting all cars");
+        }
+      };
+  
+      useEffect(() => {
+       getAllCars()
+      }, [token])
 
   const deleteCarHandler = async (id) => {
     const authorizationToken = `Bearer ${token}`;
@@ -36,8 +55,8 @@ const CarListings = () => {
       });
       const res_data = await response.json();
       if (response.ok) {
-        dispatch(deleteCar(id));
         toast.success(res_data.message);
+        getAllCars();
       } else {
         toast.error(res_data.message);
       }
@@ -70,19 +89,19 @@ const CarListings = () => {
   const handleUpdateCar = async () => {
     const authorizationToken = `Bearer ${token}`;
     try {
-      const response = await fetch(`${backendURL}/car/${carToEdit._id}`, {
+      const response = await fetch(`${backendURL}/car/${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
           Authorization: authorizationToken,
         },
-        body: JSON.stringify(carToEdit),
+        body: JSON.stringify(),
       });
       const res_data = await response.json();
       if (response.ok) {
-        dispatch(updateCar(res_data));
         toast.success("Car details updated successfully!");
         setShowEditModal(false);
+        getAllCars();
       } else {
         toast.error(res_data.message || "Failed to update car.");
       }

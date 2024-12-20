@@ -1,19 +1,16 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../../assets/stylesheets/admin/carlisting.scss";
 import { Trash, PencilLine, Search } from "lucide-react";
 import { NavLink } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import { deleteCar, updateCar } from "../../store/slices/categorySlice";
+import { useSelector } from "react-redux";
 import toast from "react-hot-toast";
 import { backendURL } from "../../utils/Exports";
 import { Modal, Button } from "react-bootstrap";
 import Pagination from "./Pagination"; // Import Pagination Component
 
 const AuctionInventory = () => {
-  const dispatch = useDispatch();
-  const { cars } = useSelector((state) => state.category);
   const { token } = useSelector((state) => state.auth);
-
+  const [cars, setCars] = useState([])
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
@@ -21,9 +18,7 @@ const AuctionInventory = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [sortOption, setSortOption] = useState("all"); // State for sorting
 
-  // Edit modal states
-  const [showEditModal, setShowEditModal] = useState(false);
-  const [currentCarDetails, setCurrentCarDetails] = useState({}); // Store Car Details
+
 
   const itemsPerPage = 10;
 
@@ -43,6 +38,29 @@ const AuctionInventory = () => {
     return true; // All cars
   });
 
+    // Fetch all cars
+    const getAllCars = async () => {
+      try {
+        const response = await fetch(`${backendURL}/car`, {
+          method: "GET",
+        });
+        const res_data = await response.json();
+        if (response.ok) {
+        console.log(res_data)
+        setCars(res_data)
+        } else {
+          console.log(res_data.message);
+        }
+      } catch (error) {
+        console.log("Error occurred while getting all cars");
+      }
+    };
+
+    useEffect(() => {
+     getAllCars()
+    }, [token])
+    
+
   const deletCar = async (id) => {
     const authorizationToken = `Bearer ${token}`;
     try {
@@ -55,10 +73,10 @@ const AuctionInventory = () => {
       });
       const res_data = await response.json();
       if (response.ok) {
-        dispatch(deleteCar(id));
         toast.success(res_data.message);
         setShowModal(false); // Close the modal after deletion
         setCarIdToDelete(null); // Clear the ID after deletion
+        getAllCars();
       } else {
         toast.error(res_data.message);
       }
@@ -90,41 +108,23 @@ const AuctionInventory = () => {
     return sortedCars.slice(startIndex, startIndex + itemsPerPage);
   };
 
-  // Open Edit Modal with Car Details
-  const openEditModal = (car) => {
-    setCurrentCarDetails({
-      id: car._id,
-      startingBid: car.startingBid || "",
-      bidMargin: car.bidMargin || "",
-      lotNo: car.lotNo || "",
-      listingTitle: car.listingTitle || "",
-      description: car.description || "",
-    });
-    setShowEditModal(true);
-  };
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setCurrentCarDetails({ ...currentCarDetails, [name]: value });
-  };
-
   const submitUpdatedCar = async () => {
     setLoading(true);
     const authorizationToken = `Bearer ${token}`;
     try {
-      const response = await fetch(`${backendURL}/car/${currentCarDetails.id}`, {
+      const response = await fetch(`${backendURL}/car/${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
           Authorization: authorizationToken,
         },
-        body: JSON.stringify(currentCarDetails),
+        body: JSON.stringify(),
       });
       const res_data = await response.json();
       if (response.ok) {
-        dispatch(updateCar(res_data));
         toast.success("Car details updated successfully!");
         setShowEditModal(false);
+        getAllCars();
       } else {
         toast.error(res_data.message || "Failed to update car.");
       }
@@ -202,13 +202,6 @@ const AuctionInventory = () => {
                           <div className="car-name">
                             <p>{car.listingTitle || "No Title"}</p>
                             <p>{car.description || "No Description"}</p>
-                            <div className="price">
-                              {car.bidMargin && (
-                                <p style={{ textDecoration: "none" }}>
-                                  Bid Margin: {car.bidMargin}
-                                </p>
-                              )}
-                            </div>
                           </div>
                         </div>
                       </td>
@@ -220,7 +213,7 @@ const AuctionInventory = () => {
                       </td>
                       <td>
                         <small>
-                          {car.auctionLot.auctionTitle || "No Auction"}
+                          {car.auctionLot?.auctionTitle || "No Auction"}
                         </small>
                       </td>
                       <td>
@@ -232,7 +225,7 @@ const AuctionInventory = () => {
                         <button onClick={() => confirmDelete(car._id)}>
                           <Trash size={16} />
                         </button>
-                        <button onClick={() => openEditModal(car)}>
+                        <button>
                           <PencilLine size={16} />
                         </button>
                       </td>
@@ -248,78 +241,6 @@ const AuctionInventory = () => {
           onPageChange={handlePageChange}
         />
       </div>
-
-      {/* Edit Car Modal */}
-      <Modal show={showEditModal} onHide={() => setShowEditModal(false)}>
-        <Modal.Header closeButton>
-          <Modal.Title>Edit Car Details</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <form>
-            <div className="form-group mt-2">
-              <label className="m-1">Car Title</label>
-              <input
-                type="text"
-                className="form-control"
-                name="listingTitle"
-                value={currentCarDetails.listingTitle}
-                onChange={handleInputChange}
-              />
-            </div>
-            <div className="form-group mt-2">
-              <label className="m-1">Description</label>
-              <textarea
-                className="form-control"
-                name="description"
-                value={currentCarDetails.description}
-                onChange={handleInputChange}
-              />
-            </div>
-            <div className="form-group mt-2">
-              <label className="m-1">Lot No</label>
-              <input
-                type="text"
-                className="form-control"
-                name="lotNo"
-                value={currentCarDetails.lotNo}
-                onChange={handleInputChange}
-              />
-            </div>
-            <div className="form-group mt-2">
-              <label className="m-1">Starting Bid</label>
-              <input
-                type="number"
-                className="form-control"
-                name="startingBid"
-                value={currentCarDetails.startingBid}
-                onChange={handleInputChange}
-              />
-            </div>
-            <div className="form-group mt-2">
-              <label className="m-1">Bid Margin</label>
-              <input
-                type="number"
-                className="form-control"
-                name="bidMargin"
-                value={currentCarDetails.bidMargin}
-                onChange={handleInputChange}
-              />
-            </div>
-          </form>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShowEditModal(false)}>
-            Cancel
-          </Button>
-          <Button
-  variant="primary"
-  onClick={submitUpdatedCar}
-  disabled={loading}
->
-  {loading ? "Saving..." : "Save Changes"}
-</Button>
-        </Modal.Footer>
-      </Modal>
 
       {/* Delete Confirmation Modal */}
       <Modal show={showModal} onHide={handleCloseModal}>

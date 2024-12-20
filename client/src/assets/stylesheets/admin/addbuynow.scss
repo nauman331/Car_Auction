@@ -77,23 +77,25 @@
       }
     }
     .next-button {
+      margin-top: 1rem;
+      text-align: end;
+      button {
       padding: 10px 20px;
       background-color: #405ff2;
       color: #fff;
       border: none;
       border-radius: 10px;
       cursor: pointer;
-      margin-top: 1rem;
-      margin-left: 51.8rem;
+    
       &:hover {
         background-color: #0056b3;
       }
-
       &::after {
         content: " ↗";
         font-weight: bold;
         margin-left: 5px;
       }
+    }
     }
     .feature-grid {
       display: grid;
@@ -175,12 +177,5 @@
     textarea {
       grid-column: span 2;
     }
-  }
-}
-
-@media (max-width: 1020px) {
-  .next-button {
-    margin-top: 1rem !important;
-    margin-left: 5rem !important;
   }
 }

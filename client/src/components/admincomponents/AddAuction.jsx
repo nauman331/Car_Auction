@@ -1,15 +1,15 @@
 import { useState } from "react";
 import FormGrid from "./AddBuyNow/FormGrid";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import toast from "react-hot-toast"
 import {backendURL} from "../../utils/Exports"
-import {addAuction} from "../../store/slices/categorySlice"
+import { useNavigate } from "react-router-dom";
 
 
 const AddAuctionForm = () => {
 
-  const dispatch = useDispatch();
 
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     auctionTitle: "",
     auctionNumber: 0,
@@ -110,8 +110,7 @@ const AddAuctionForm = () => {
   
       if (response.ok) {
         toast.success("Auction Event Added Successfully");
-        console.log(res_data)
-        dispatch(addAuction({auction: res_data}))
+        navigate("/admin/auctionlistings")
       } else {
         toast.error(res_data?.errors?.[0]?.msg || res_data?.message || "Unknown error occurred.");
       }
@@ -133,9 +132,11 @@ const AddAuctionForm = () => {
       <div className="form-container">
         <div className="form-section">
           <FormGrid fields={AuctionFields} formData={formData} setFormData={setFormData} />
-          <button className="next-button" onClick={handleUpload}>
+          <div className="next-button">
+          <button onClick={handleUpload}>
             Upload
           </button>
+          </div>
         </div>
       </div>
     </>

@@ -3,13 +3,11 @@ import StepsNavigation from "./StepsNavigation";
 import StepContent from "./StepsContent";
 import "../../../assets/stylesheets/admin/addbuynow.scss";
 import toast from "react-hot-toast";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { backendURL } from "../../../utils/Exports";
 import { useNavigate } from "react-router-dom"; 
-import {addCar} from "../../../store/slices/categorySlice"
 
 const AddBuyNow = ({ sellingType }) => {
-  const dispatch = useDispatch()
   const { token, userdata } = useSelector((state) => state.auth);
   const navigate = useNavigate(); // Initialize navigate
   const [step, setStep] = useState(1);
@@ -62,7 +60,6 @@ const AddBuyNow = ({ sellingType }) => {
       const res_data = await response.json();
       if (response.ok) {
         toast.success("Car Added Successfully!");
-        dispatch(addCar({ car: res_data }));
         setFormData({ ...baseData, sellingType, ...auctionData });
         setStep(1);
       } else {
@@ -84,12 +81,13 @@ const AddBuyNow = ({ sellingType }) => {
       <div className="form-section">
         <StepContent step={step} formData={formData} setFormData={setFormData} sellingType={sellingType} />
         <div className="navigation-buttons">
+          <div className="next-button">
           <button
-            className="next-button"
             onClick={step < steps.length ? () => setStep(step + 1) : handleSubmit}
           >
             {step < steps.length ? `Next: ${steps[step]}` : "Submit"}
           </button>
+          </div>
         </div>
       </div>
     </div>

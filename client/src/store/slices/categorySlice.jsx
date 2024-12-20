@@ -19,45 +19,10 @@ export const categorySlice = createSlice({
       state.cars = cars; // Overwrite the cars array
     },
 
-    // Add a new car to the existing list
-    addCar: (state, action) => {
-      const { car } = action.payload;
-      state.cars = [...state.cars, car]; // Append new car to the array
-    },
-
-    // Update a car in the cars array
-    updateCar: (state, action) => {
-      const updatedCar = action.payload;
-      state.cars = state.cars.map((car) =>
-        car._id === updatedCar._id ? updatedCar : car
-      );
-    },
-
     // Update the auctions list
     setAuctionsData: (state, action) => {
       const { auctions } = action.payload;
       state.auctions = auctions;
-    },
-    addAuction: (state, action) => {
-      const { auction } = action.payload;
-      state.auctions = [...state.auctions, auction];
-    },
-
-    // Delete a car by ID
-    deleteCar: (state, action) => {
-      state.cars = state.cars.filter((car) => car._id !== action.payload);
-    },
-
-    // Delete an auction by ID
-    deleteAuction: (state, action) => {
-      state.auctions = state.auctions.filter((auction) => auction._id !== action.payload);
-    },
-
-    updateAuction: (state, action) => {
-      const updatedAuction = action.payload;
-      state.auctions = state.auctions.map((auction) =>
-        auction._id === updatedAuction._id ? updatedAuction : auction
-      );
     },
   },
 });
@@ -65,13 +30,7 @@ export const categorySlice = createSlice({
 export const {
   setCategories,
   setCarsData,
-  addCar,
-  updateCar, // <-- Export new action
   setAuctionsData,
-  deleteCar,
-  deleteAuction,
-  addAuction,
-  updateAuction,
 } = categorySlice.actions;
 
 export default categorySlice.reducer;
