@@ -7,11 +7,13 @@ import toast from "react-hot-toast";
 import { backendURL } from "../../utils/Exports";
 import { Modal, Button, Form } from "react-bootstrap";
 import Pagination from "./Pagination";
+import LoadingSpinner from "../usercomponents/LoadingSpinner";
 
 const CarListings = () => {
   const { token } = useSelector((state) => state.auth);
 
-  const [cars, setCars] = useState([])
+  const [cars, setCars] = useState([]);
+  const [loading, setLoading] = useState(false)
   const [currentPage, setCurrentPage] = useState(1);
   const [searchInput, setSearchInput] = useState("");
   const [sortOption, setSortOption] = useState("all");
@@ -24,6 +26,7 @@ const CarListings = () => {
 
   const getAllCars = async () => {
         try {
+          setLoading(true)
           const response = await fetch(`${backendURL}/car`, {
             method: "GET",
           });
@@ -36,6 +39,8 @@ const CarListings = () => {
           }
         } catch (error) {
           console.log("Error occurred while getting all cars");
+        } finally {
+          setLoading(false)
         }
       };
   
@@ -81,10 +86,6 @@ const CarListings = () => {
     setShowDeleteModal(false);
   };
 
-  const handleEditClick = (car) => {
-    setCarToEdit(car);
-    setShowEditModal(true);
-  };
 
   const handleUpdateCar = async () => {
     const authorizationToken = `Bearer ${token}`;
@@ -108,11 +109,6 @@ const CarListings = () => {
     } catch (error) {
       toast.error("Error occurred while updating car details.");
     }
-  };
-
-  const handleEditInputChange = (e) => {
-    const { name, value } = e.target;
-    setCarToEdit((prev) => ({ ...prev, [name]: value }));
   };
 
   const getFilteredCars = () => {
@@ -153,6 +149,8 @@ const CarListings = () => {
   };
 
   return (
+    <>
+    { loading ? <LoadingSpinner /> :
     <>
       <div className="car-list-top">
         <span>
@@ -273,65 +271,9 @@ const CarListings = () => {
           </Button>
         </Modal.Footer>
       </Modal>
-
-      {/* Edit Car Modal */}
-      <Modal show={showEditModal} onHide={() => setShowEditModal(false)}>
-        <Modal.Header closeButton>
-          <Modal.Title>Edit Car Details</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          {carToEdit && (
-            <Form>
-              <Form.Group className="mb-3">
-                <Form.Label>Title</Form.Label>
-                <Form.Control
-                  type="text"
-                  name="listingTitle"
-                  value={carToEdit.listingTitle}
-                  onChange={handleEditInputChange}
-                />
-              </Form.Group>
-              <Form.Group className="mb-3">
-                <Form.Label>Description</Form.Label>
-                <Form.Control
-                  as="textarea"
-                  rows={3}
-                  name="description"
-                  value={carToEdit.description}
-                  onChange={handleEditInputChange}
-                />
-              </Form.Group>
-              <Form.Group className="mb-3">
-                <Form.Label>Price</Form.Label>
-                <Form.Control
-                  type="number"
-                  name="price"
-                  value={carToEdit.price}
-                  onChange={handleEditInputChange}
-                />
-              </Form.Group>
-              <Form.Group className="mb-3">
-                <Form.Label>Discounted Price</Form.Label>
-                <Form.Control
-                  type="number"
-                  name="discountedPrice"
-                  value={carToEdit.discountedPrice}
-                  onChange={handleEditInputChange}
-                />
-              </Form.Group>
-            </Form>
-          )}
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShowEditModal(false)}>
-            Cancel
-          </Button>
-          <Button variant="primary" onClick={handleUpdateCar}>
-            Save Changes
-          </Button>
-        </Modal.Footer>
-      </Modal>
     </>
+}
+</>
   );
 };
 

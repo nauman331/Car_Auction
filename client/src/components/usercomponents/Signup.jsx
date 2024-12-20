@@ -9,7 +9,6 @@ import toast from "react-hot-toast"
 
 const Signup = () => {
   const navigate = useNavigate();
-  const [role, setRole] = useState("Buyer");
   const [showPassword, setShowPassword] = useState(false);
   const [user, setUser] = useState({
     firstName: "",
@@ -18,6 +17,7 @@ const Signup = () => {
     password: "",
     contact: "",
     address: "",
+    role: "Buyer"
   });
 
   const togglePasswordVisibility = () => {
@@ -42,10 +42,7 @@ const Signup = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          ...user,
-          role,
-        }),
+        body: JSON.stringify(user),
       });
   
       const res_data = await response.json();
@@ -138,29 +135,6 @@ const Signup = () => {
         />
         <label>Address</label>
       </div>
-      <div className="role-selection">
-        <label>
-          <input
-            type="radio"
-            value="Buyer"
-            checked={role === "Buyer"}
-            onChange={(e) => setRole(e.target.value)}
-            className="input-radio"
-          />
-          Buyer
-        </label>
-        <label>
-          <input
-            type="radio"
-            value="Vendor"
-            checked={role === "Vendor"}
-            onChange={(e) => setRole(e.target.value)}
-            className="input-radio"
-          />
-          Vendor
-        </label>
-      </div>
-
       <button type="submit" className="btn-primary">
         Register{" "}
         <FontAwesomeIcon

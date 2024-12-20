@@ -6,7 +6,8 @@ import { useSelector } from "react-redux";
 import toast from "react-hot-toast";
 import { backendURL } from "../../utils/Exports";
 import { Modal, Button } from "react-bootstrap";
-import Pagination from "./Pagination"; // Import Pagination Component
+import Pagination from "./Pagination"; 
+import LoadingSpinner from "../usercomponents/LoadingSpinner";
 
 const AuctionInventory = () => {
   const { token } = useSelector((state) => state.auth);
@@ -41,6 +42,7 @@ const AuctionInventory = () => {
     // Fetch all cars
     const getAllCars = async () => {
       try {
+        setLoading(true);
         const response = await fetch(`${backendURL}/car`, {
           method: "GET",
         });
@@ -53,6 +55,8 @@ const AuctionInventory = () => {
         }
       } catch (error) {
         console.log("Error occurred while getting all cars");
+      } finally {
+        setLoading(false)
       }
     };
 
@@ -130,12 +134,13 @@ const AuctionInventory = () => {
       }
     } catch (error) {
       toast.error("Error occurred while updating car details.");
-    } finally {
-      setLoading(false)
-    }
+    } 
   };
 
   return (
+    <>
+    {
+      loading ? <LoadingSpinner /> :
     <>
       <div className="car-list-top">
         <span>
@@ -258,6 +263,8 @@ const AuctionInventory = () => {
         </Modal.Footer>
       </Modal>
     </>
+            }
+            </>
   );
 };
 

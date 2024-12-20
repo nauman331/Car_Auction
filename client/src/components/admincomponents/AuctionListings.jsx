@@ -4,8 +4,9 @@ import { NavLink } from "react-router-dom";
 import { useSelector} from "react-redux";
 import toast from "react-hot-toast";
 import { backendURL } from "../../utils/Exports";
-import { Modal, Button } from "react-bootstrap";
+import { Modal, Button, Spinner } from "react-bootstrap";
 import Pagination from "./Pagination";
+import LoadingSpinner from "../usercomponents/LoadingSpinner"
 
 const AuctionListings = () => {
   const { token } = useSelector((state) => state.auth);
@@ -36,6 +37,7 @@ const AuctionListings = () => {
 
   const getAllAuctions = async () => {
     try {
+      setLoading(true);
       const response = await fetch(`${backendURL}/auction`, {
         method: "GET",
       });
@@ -48,6 +50,8 @@ const AuctionListings = () => {
       }
     } catch (error) {
       console.log("Error in getting all auctions");
+    } finally {
+      setLoading(false)
     }
   };
 
@@ -134,14 +138,14 @@ const AuctionListings = () => {
       }
     } catch (error) {
       toast.error("Error while updating auction");
-    } finally {
-      setLoading(false)
-    }
+    } 
   };
 
 
   return (
     <>
+    { loading ? <LoadingSpinner /> : 
+      <>
       <div className="car-list-top">
         <span>
           <h3>Auction Events</h3>
@@ -235,7 +239,9 @@ const AuctionListings = () => {
           </Button>
         </Modal.Footer>
       </Modal>
-    </>
+      </>
+}
+   </>
   );
 };
 
