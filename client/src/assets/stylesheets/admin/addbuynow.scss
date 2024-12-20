@@ -4,6 +4,7 @@
   border: 1px solid #e1e1e1;
   border-radius: 10px;
   z-index: 1;
+
   .tab-navigation {
     display: flex;
     justify-content: space-between;
@@ -28,10 +29,15 @@
       display: grid;
       gap: 20px;
       grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+
       .input-container {
         position: relative;
+     
         input,
-        textarea, select {
+        textarea,
+        select,
+        .date-picker,
+        .time-picker {
           width: 100%;
           padding: 22px 10px;
           height: 4rem;
@@ -39,63 +45,110 @@
           border-radius: 10px;
           background: none;
           color: #333;
-         
+          font-size: 1rem;
+          transition: all 0.3s ease-in-out;
+
           &::placeholder {
-            color: black;
-            font-size: 12px;
-          }
-          & + label {
-            transform: translateY(-5px);
-            font-size: 0.7rem;
-            position: absolute;
-            top: 10px;
-            left: 12px;
-            color: #aaa;
-            transition: all 0.2s ease-in-out;
-            pointer-events: none;
+            color: #333;
           }
         }
-
-        select {
-          appearance: none;
-          background: #fff url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="gray"%3E%3Cpath d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 011.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"%3E%3C/path%3E%3C/svg%3E') no-repeat right 12px center;
-          background-size: 1rem;
+        textarea {
+          height: 6rem;
         }
-        button{
-          background-color: transparent;
-          border: none;
+        input[type="text"] {
+          padding-left: 15px;
+          padding-top: 30px; 
+        }
+        input[type="number"] {
+          padding-left: 15px;
+          padding-top: 30px; 
+        }
+                label {
           position: absolute;
-          right: 1rem;
-          top: 1rem;
-      }
-      }
+          top: 8px;
+          left: 12px;
+          color: #aaa;
+          font-size: 1rem;
+          padding: 0 5px;
+          transform-origin: left top;
+          transform: scale(.7);
+          transition: all 0.2s ease-in-out;
+          pointer-events: none;
 
-      textarea {
-        height: 5rem !important;
-        padding: 1.5rem 0.5rem !important;
-        grid-template-columns: span 1 !important;
+        }
+
+        .react-select-container {
+          position: relative;
+          .react-select__placeholder {
+            color: #333;
+          }
+          .react-select__control {
+            width: 100%;
+            height: 4rem;
+            border-radius: 10px;
+            border: 1px solid #e1e1e1;
+            background-color: transparent;
+            transition: all 0.3s ease-in-out;
+            font-size: 1rem;
+
+            &:hover {
+              border-color: #405ff2;
+            }
+
+            &--is-focused {
+              border-color: #405ff2;
+              box-shadow: 0 0 5px rgba(64, 95, 242, 0.3);
+            }
+          }
+
+          .react-select__value-container {
+            padding: 0px 12px;
+            font-size: 1rem;
+          }
+
+          .react-select__single-value {
+            font-size: 1rem;
+            color: black;
+          }
+
+          .react-select__indicator-separator {
+            display: none;
+          }
+
+          .react-select__dropdown-indicator {
+            color: gray;
+          }
+        }
+
+
+        
       }
+      
     }
+
+
     .next-button {
       margin-top: 1rem;
       text-align: end;
+
       button {
-      padding: 10px 20px;
-      background-color: #405ff2;
-      color: #fff;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-    
-      &:hover {
-        background-color: #0056b3;
+        padding: 10px 20px;
+        background-color: #405ff2;
+        color: #fff;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+
+        &:hover {
+          background-color: #0056b3;
+        }
+
+        &::after {
+          content: " ↗";
+          font-weight: bold;
+          margin-left: 5px;
+        }
       }
-      &::after {
-        content: " ↗";
-        font-weight: bold;
-        margin-left: 5px;
-      }
-    }
     }
     .feature-grid {
       display: grid;
@@ -168,10 +221,8 @@
       font-size: 0.7rem;
     }
   }
+
   .form-grid {
-    br {
-      display: none;
-    }
     input,
     select,
     textarea {
