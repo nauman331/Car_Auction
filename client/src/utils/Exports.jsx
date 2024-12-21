@@ -15,3 +15,5 @@ export const categories = [
     { name: "Vehicle Damages", key: "vehicle-damage", field: "vehicleDamage" },
     { name: "Auction Locations", key: "auction-location", field: "auctionLocation" },
   ];
+
+  

@@ -41,23 +41,7 @@ const AddAuctionForm = () => {
 
   // Handle form submission
   const handleUpload = async () => {
-    // Validate required fields
-    if (!formData.auctionTitle || !formData.auctionDate || !formData.auctionTime) {
-      toast.error("Please fill all required fields.");
-      return;
-    }
 
-    // Validate date and time formats
-    if (!dayjs(formData.auctionDate).isValid()) {
-      toast.error("Invalid date format.");
-      return;
-    }
-
-    // Use 'hh:mm A' format to validate time
-    if (!dayjs(formData.auctionTime, "hh:mm A", true).isValid()) {
-      toast.error("Invalid time format. Please use hh:mm AM/PM.");
-      return;
-    }
 
     try {
       // Convert date to ISO and send time as 12-hour format string
@@ -105,7 +89,10 @@ const AddAuctionForm = () => {
       </div>
       <div className="form-container">
         <div className="form-section">
+          <div className="form-grid">
+
           <FormGrid fields={AuctionFields} formData={formData} setFormData={setFormData} />
+          </div>
           <div className="next-button">
             <button onClick={handleUpload}>Upload</button>
           </div>
