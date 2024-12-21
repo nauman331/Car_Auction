@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Upload, Image, Link2 } from "lucide-react";
+import { Upload, Trash2, Link2 } from "lucide-react";
 import { CloudinaryUploader } from "../../../utils/CloudinaryUploader";
 import toast from "react-hot-toast";
 
@@ -18,6 +18,10 @@ const MediaUpload = ({ setFormData, formData }) => {
       };
       reader.readAsDataURL(file);
     });
+  };
+  const handleDeleteImage = (index) => {
+    const updatedImages = images.filter((_, i) => i !== index);
+    setImages(updatedImages);
   };
 
   const handleSubmit = async (e) => {
@@ -54,11 +58,19 @@ const MediaUpload = ({ setFormData, formData }) => {
                   alt={`preview-${index}`}
                   style={{ width: "100%", height: "100%", objectFit: "cover" }}
                 />
+                <div
+                  className="delete-icon"
+                >
+                  <Trash2 color="white"
+                  size={30}
+                  onClick={() => handleDeleteImage(index)}
+                  />
+                </div>
               </div>
             ))}
 
-        <div className="image-box">
-          <Image size={24} />
+        <button type="button" className="image-box upload" >
+          <Upload size={24} />
           <input
             type="file"
             multiple={true}
@@ -67,12 +79,8 @@ const MediaUpload = ({ setFormData, formData }) => {
             id="carimages"
           />
           <label htmlFor="carimages" style={{ cursor: "pointer" }}>
-            Select Images
+            Upload
           </label>
-        </div>
-        <button type="button" className="image-box upload" onClick={handleSubmit}>
-          <Upload size={24} />
-          <span>Upload</span>
         </button>
       </div>
       <small>Don't forget to upload images using the upload button above.</small>
