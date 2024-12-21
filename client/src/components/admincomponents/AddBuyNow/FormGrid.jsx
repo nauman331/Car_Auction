@@ -37,9 +37,9 @@ const FormGrid = ({ fields, formData, setFormData }) => {
   return (
     <div className="form-grid">
       {fields?.map(({ id, label, type, placeholder, options }, idx) => (
-        <div className="input-container" key={idx}>
-          {(type === "text" || type === "number") && (
-            <>
+        <>
+        {(type === "text" || type === "number") && (
+            <div className="input-container" key={idx}>
               <input
                 id={id}
                 placeholder={placeholder}
@@ -48,10 +48,10 @@ const FormGrid = ({ fields, formData, setFormData }) => {
                 onChange={handleChange}
               />
               <label htmlFor={id}>{label}</label>
-            </>
+            </div>
           )}
           {type === "textarea" && (
-            <>
+            <div className="input-container" key={idx}>
               <textarea
                 id={id}
                 placeholder={placeholder}
@@ -59,10 +59,10 @@ const FormGrid = ({ fields, formData, setFormData }) => {
                 onChange={handleChange}
               ></textarea>
               <label htmlFor={id}>{label}</label>
-            </>
+            </div>
           )}
           {type === "date" && (
-            <>
+            <div className="input-container" key={idx}>
               <DatePicker
                 value={formData[id] ? dayjs(formData[id]) : null}
                 onChange={(value) => handleDateChange(value, id)}
@@ -77,10 +77,10 @@ const FormGrid = ({ fields, formData, setFormData }) => {
               />
 
               <label htmlFor={id}>{label}</label>
-            </>
+            </div>
           )}
           {type === "time" && (
-            <>
+            <div className="input-container" key={idx}>
               <MobileTimePicker
                 value={formData[id] ? dayjs(formData[id], "hh:mm A") : null}
                 onChange={(value) => handleTimeChange(value, id)}
@@ -88,10 +88,10 @@ const FormGrid = ({ fields, formData, setFormData }) => {
                 renderInput={(params) => <TextField {...params} id={id} />}
               />
               <label htmlFor={id}>{label}</label>
-            </>
+            </div>
           )}
           {type === "select" && (
-            <>
+            <div className="input-container" key={idx}>
               <Select
                 id={id}
                 options={options}
@@ -107,9 +107,9 @@ const FormGrid = ({ fields, formData, setFormData }) => {
                 classNamePrefix="react-select"
               />
               <label htmlFor={id}>{label}</label>
-            </>
+            </div>
           )}
-        </div>
+        </>
       ))}
     </div>
   );
