@@ -91,11 +91,14 @@ const Orders = () => {
             </tbody>
           </table>
         </div>
+        {
+         cars.length > itemsPerPage && 
         <Pagination
           currentPage={currentPage}
           totalPages={totalPages}
           onPageChange={handlePageChange}
         />
+}
       </div>
     </>
   );

@@ -23,7 +23,6 @@ const AllUsers = () => {
   const itemsPerPage = 10;
   const totalPages = Math.ceil(filteredUsers.length / itemsPerPage);
 
-
   const getAllUsers = async () => {
     const authorizationToken = `Bearer ${token}`;
     try {
@@ -68,7 +67,7 @@ const AllUsers = () => {
       const res_data = await response.json();
       if (response.ok) {
         toast.success(res_data.message);
-        getAllUsers()
+        getAllUsers();
         setShowEditModal(false);
       } else {
         toast.error(res_data.message);
@@ -76,7 +75,7 @@ const AllUsers = () => {
     } catch (error) {
       toast.error("Error while updating user role/status");
     } finally {
-      setUpdateloading(false)
+      setUpdateloading(false);
     }
   };
   const deletUser = async (id) => {
@@ -92,7 +91,7 @@ const AllUsers = () => {
       const res_data = await response.json();
       if (response.ok) {
         toast.success(res_data.message);
-        getAllUsers()
+        getAllUsers();
       } else {
         toast.error(res_data.message);
       }
@@ -254,11 +253,13 @@ const AllUsers = () => {
                 </tbody>
               </table>
             </div>
-            <Pagination
-              currentPage={currentPage}
-              totalPages={totalPages}
-              onPageChange={setCurrentPage}
-            />
+            {allusers.length > itemsPerPage && (
+              <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={setCurrentPage}
+              />
+            )}
           </div>
 
           {/* Modal for delete confirmation */}
@@ -327,7 +328,11 @@ const AllUsers = () => {
               >
                 Cancel
               </Button>
-              <Button variant="primary" onClick={handleUpdateUser} disabled={updateloading}>
+              <Button
+                variant="primary"
+                onClick={handleUpdateUser}
+                disabled={updateloading}
+              >
                 {updateloading ? "Saving..." : "Save Changes"}
               </Button>
             </Modal.Footer>

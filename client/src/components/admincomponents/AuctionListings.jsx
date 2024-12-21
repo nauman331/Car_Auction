@@ -28,8 +28,8 @@ const AuctionListings = () => {
     const matchesStatus =
       statusFilter === "all" ||
       (statusFilter === "ongoing" && auction.statusText === "Ongoing") ||
-      (statusFilter === "Pending" && auction.statusText === "Pending") ||
-      (statusFilter === "Compeleted" && auction.statusText === "Compeleted");
+      (statusFilter === "pending" && auction.statusText === "Pending") ||
+      (statusFilter === "compeleted" && auction.statusText === "Compeleted");
     return matchesSearch && matchesStatus;
   });
 
@@ -217,11 +217,14 @@ const AuctionListings = () => {
             </tbody>
           </table>
         </div>
+        {
+          itemsPerPage > 10 && 
         <Pagination
           currentPage={currentPage}
           totalPages={totalPages}
           onPageChange={handlePageChange}
         />
+        }
       </div>
 
       {/* Delete Confirmation Modal */}

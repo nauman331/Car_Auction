@@ -247,11 +247,14 @@ const CarListings = () => {
             </tbody>
           </table>
         </div>
+        {
+         cars.length > itemsPerPage && 
         <Pagination
           currentPage={currentPage}
           totalPages={totalPages}
           onPageChange={setCurrentPage}
         />
+}
       </div>
 
       {/* Delete Confirmation Modal */}

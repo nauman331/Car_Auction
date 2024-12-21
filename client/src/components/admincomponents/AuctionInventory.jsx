@@ -240,11 +240,14 @@ const AuctionInventory = () => {
             </tbody>
           </table>
         </div>
+        {
+         cars.length > itemsPerPage && 
         <Pagination
           currentPage={currentPage}
           totalPages={Math.ceil(sortedCars.length / itemsPerPage)}
           onPageChange={handlePageChange}
         />
+}
       </div>
 
       {/* Delete Confirmation Modal */}
