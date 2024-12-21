@@ -36,7 +36,7 @@ const AddAuctionForm = () => {
     { id: "auctionTime", label: "Starting Time", type: "time", placeholder: "Enter time in hh:mm AM/PM format" },
     { id: "auctionNumber", label: "Auction Number", type: "number", placeholder: "Enter auction number" },
     { id: "totalVehicles", label: "Total Vehicles", type: "number", placeholder: "Enter total vehicles" },
-    { id: "location", label: "Location", type: "select", options: generateOptions("auction-location", "auctionLocation") },
+    { id: "location", label: "Location", type: "select",placeholder: "Select Location", options: generateOptions("auction-location", "auctionLocation") },
   ];
 
   // Handle form submission

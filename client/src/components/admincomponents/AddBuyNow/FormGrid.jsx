@@ -66,19 +66,16 @@ const FormGrid = ({ fields, formData, setFormData }) => {
               <DatePicker
                 value={formData[id] ? dayjs(formData[id]) : null}
                 onChange={(value) => handleDateChange(value, id)}
+                className="date-picker-input"
                 renderInput={(params) => (
                   <TextField
                     {...params}
                     id={id}
-                    className="date-picker-input"
-                    sx={{
-                      height: "4rem",
-                      borderRadius: "10px",
-                      width: "100%",
-                    }}
+                    className="date-picker-field"
                   />
                 )}
               />
+
               <label htmlFor={id}>{label}</label>
             </>
           )}
@@ -87,18 +84,8 @@ const FormGrid = ({ fields, formData, setFormData }) => {
               <MobileTimePicker
                 value={formData[id] ? dayjs(formData[id], "hh:mm A") : null}
                 onChange={(value) => handleTimeChange(value, id)}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    id={id}
-                    className="time-picker-input"
-                    sx={{
-                      height: "4rem",
-                      borderRadius: "10px",
-                      width: "100%",
-                    }}
-                  />
-                )}
+                className="time-picker-input"
+                renderInput={(params) => <TextField {...params} id={id} />}
               />
               <label htmlFor={id}>{label}</label>
             </>

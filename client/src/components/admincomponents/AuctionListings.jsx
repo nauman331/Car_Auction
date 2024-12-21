@@ -218,7 +218,7 @@ const AuctionListings = () => {
           </table>
         </div>
         {
-          itemsPerPage > 10 && 
+         auctions.length > itemsPerPage && 
         <Pagination
           currentPage={currentPage}
           totalPages={totalPages}
