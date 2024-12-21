@@ -1,7 +1,8 @@
 import React from "react";
-import DatePicker from "react-datepicker";
+import { DatePicker, MobileTimePicker } from "@mui/x-date-pickers";
 import Select from "react-select";
-import "react-datepicker/dist/react-datepicker.css";
+import { TextField } from "@mui/material";
+import dayjs from "dayjs";
 
 const FormGrid = ({ fields, formData, setFormData }) => {
   const handleChange = (e) => {
@@ -12,10 +13,17 @@ const FormGrid = ({ fields, formData, setFormData }) => {
     }));
   };
 
-  const handleDateChange = (date, id) => {
+  const handleDateChange = (value, id) => {
     setFormData((prevData) => ({
       ...prevData,
-      [id]: date,
+      [id]: value ? dayjs(value).format("YYYY-MM-DD") : null, // Format as plain date string
+    }));
+  };
+
+  const handleTimeChange = (value, id) => {
+    setFormData((prevData) => ({
+      ...prevData,
+      [id]: value ? dayjs(value).format("hh:mm A") : "", // Format as 12-hour time string with AM/PM
     }));
   };
 
@@ -56,29 +64,41 @@ const FormGrid = ({ fields, formData, setFormData }) => {
           {type === "date" && (
             <>
               <DatePicker
-                id={id}
-                selected={formData[id] || null}
-                onChange={(date) => handleDateChange(date, id)}
-                placeholderText="Enter Date"
-                dateFormat="yyyy-MM-dd"
-                className="date-picker"
+                value={formData[id] ? dayjs(formData[id]) : null}
+                onChange={(value) => handleDateChange(value, id)}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    id={id}
+                    className="date-picker-input"
+                    sx={{
+                      height: "4rem",
+                      borderRadius: "10px",
+                      width: "100%",
+                    }}
+                  />
+                )}
               />
               <label htmlFor={id}>{label}</label>
             </>
           )}
           {type === "time" && (
             <>
-              <DatePicker
-                id={id}
-                selected={formData[id] || null}
-                onChange={(time) => handleDateChange(time, id)}
-                showTimeSelect
-                showTimeSelectOnly
-                timeIntervals={15}
-                timeCaption="Time"
-                dateFormat="hh:mm aa"
-                placeholderText={placeholder}
-                className="time-picker"
+              <MobileTimePicker
+                value={formData[id] ? dayjs(formData[id], "hh:mm A") : null}
+                onChange={(value) => handleTimeChange(value, id)}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    id={id}
+                    className="time-picker-input"
+                    sx={{
+                      height: "4rem",
+                      borderRadius: "10px",
+                      width: "100%",
+                    }}
+                  />
+                )}
               />
               <label htmlFor={id}>{label}</label>
             </>
@@ -88,8 +108,13 @@ const FormGrid = ({ fields, formData, setFormData }) => {
               <Select
                 id={id}
                 options={options}
-                value={options.find((option) => option.value === formData[id]) || null}
-                onChange={(selectedOption) => handleSelectChange(selectedOption, id)}
+                value={
+                  options.find((option) => option.value === formData[id]) ||
+                  null
+                }
+                onChange={(selectedOption) =>
+                  handleSelectChange(selectedOption, id)
+                }
                 placeholder={placeholder}
                 className="react-select-container"
                 classNamePrefix="react-select"

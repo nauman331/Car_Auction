@@ -35,9 +35,7 @@
      
         input,
         textarea,
-        select,
-        .date-picker,
-        .time-picker {
+        select {
           width: 100%;
           padding: 22px 10px;
           height: 4rem;
@@ -52,6 +50,22 @@
             color: #333;
           }
         }
+
+        .MuiInputBase-root {
+          height: 4rem; 
+          border-radius: 10px;
+          font-size: 1rem;
+          border: 1px solid #e1e1e1; 
+          width: 100%; 
+          padding: 0 12px; 
+          box-sizing: border-box; 
+        }
+         .MuiInputBase-input {
+         border: none;
+        }
+        
+        
+
         textarea {
           height: 6rem;
         }
@@ -90,15 +104,6 @@
             background-color: transparent;
             transition: all 0.3s ease-in-out;
             font-size: 1rem;
-
-            &:hover {
-              border-color: #405ff2;
-            }
-
-            &--is-focused {
-              border-color: #405ff2;
-              box-shadow: 0 0 5px rgba(64, 95, 242, 0.3);
-            }
           }
 
           .react-select__value-container {

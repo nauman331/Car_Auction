@@ -14,35 +14,39 @@ import AuctionInventory from "./components/admincomponents/AuctionInventory";
 import Profile from "./components/admincomponents/Profile";
 import AllUsers from "./components/admincomponents/AllUsers";
 import ProtectedRoute from "./utils/ProtectedRoute";
-import 'bootstrap/dist/css/bootstrap.min.css';
-import Verificationform from "./components/usercomponents/Verificationform"
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs"; // Change adapter as needed
+import "bootstrap/dist/css/bootstrap.min.css";
+import Verificationform from "./components/usercomponents/Verificationform";
 
 function App() {
   return (
-    <>
-    <ProtectedRoute>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/auth" element={<Auth />} />
-        <Route path="/verifyotp" element={<OTPVerificationForm />} />
-        <Route path="/resetpassword" element={<Verificationform />} />
+    <LocalizationProvider dateAdapter={AdapterDayjs}>
+      <ProtectedRoute>
+        <Routes>
+          {/* Public routes */}
+          <Route path="/" element={<Home />} />
+          <Route path="/auth" element={<Auth />} />
+          <Route path="/verifyotp" element={<OTPVerificationForm />} />
+          <Route path="/resetpassword" element={<Verificationform />} />
 
-        <Route path="/admin" element={<AdminHome />}>
-          <Route path="dashboard" element={<Dashboard />} />
-          <Route path="carlistings" element={<CarListings/> } />
-          <Route path="addauctionevent" element={<AddAuctionForm /> } />
-          <Route path="addbuynow" element={<AddBuyNow sellingType="fixed"/> } />
-          <Route path="auctionlistings" element={<AuctionListings /> } />
-          <Route path="addauction" element={<AddBuyNow sellingType="auction"/> } />
-          <Route path="auctioninventory" element={<AuctionInventory /> } />
-          <Route path="managecategories" element={<CategoryManagement /> } />
-          <Route path="allusers" element={<AllUsers /> } />
-          <Route path="Orders" element={<Orders /> } />
-          <Route path="Profile" element={<Profile /> } />
-        </Route>
-      </Routes>
+          {/* Admin routes */}
+          <Route path="/admin" element={<AdminHome />}>
+            <Route path="dashboard" element={<Dashboard />} />
+            <Route path="carlistings" element={<CarListings />} />
+            <Route path="addauctionevent" element={<AddAuctionForm />} />
+            <Route path="addbuynow" element={<AddBuyNow sellingType="fixed" />} />
+            <Route path="auctionlistings" element={<AuctionListings />} />
+            <Route path="addauction" element={<AddBuyNow sellingType="auction" />} />
+            <Route path="auctioninventory" element={<AuctionInventory />} />
+            <Route path="managecategories" element={<CategoryManagement />} />
+            <Route path="allusers" element={<AllUsers />} />
+            <Route path="Orders" element={<Orders />} />
+            <Route path="Profile" element={<Profile />} />
+          </Route>
+        </Routes>
       </ProtectedRoute>
-    </>
+    </LocalizationProvider>
   );
 }
 
