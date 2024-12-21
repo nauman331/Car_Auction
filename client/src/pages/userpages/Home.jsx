@@ -106,6 +106,7 @@ const Home = () => {
           <Browsebytype />
           <CarTabs />
           <Livecar />
+          <Loader />
           <RecentlyAdded />
           <CarSection />
           <Feature />
