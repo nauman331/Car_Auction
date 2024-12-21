@@ -93,8 +93,9 @@
         }
   
         tbody td {
-          padding: 10px;
+          padding: 20px;
           border-bottom: 1px solid #ddd;
+          font-size: .9rem;
         }
   
         .car-info {
@@ -114,9 +115,11 @@
             gap: 1rem;
         p {
             text-decoration: line-through;
+            font-size: .9rem;
         }
         h6 {
             margin-top: 7px;
+            font-size: .9rem;
         }
           }
           p {
@@ -135,7 +138,7 @@
   
         .action-buttons {
           button {
-            padding: 7px 10px;
+            padding: 8px 10px;
             margin: 0 5px;
             background: none;
             border: none;

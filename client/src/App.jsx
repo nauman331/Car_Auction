@@ -15,9 +15,10 @@ import Profile from "./components/admincomponents/Profile";
 import AllUsers from "./components/admincomponents/AllUsers";
 import ProtectedRoute from "./utils/ProtectedRoute";
 import { LocalizationProvider } from "@mui/x-date-pickers";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs"; // Change adapter as needed
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Verificationform from "./components/usercomponents/Verificationform";
+import Deposits from "./components/admincomponents/Deposits";
 
 function App() {
   return (
@@ -41,6 +42,7 @@ function App() {
             <Route path="auctioninventory" element={<AuctionInventory />} />
             <Route path="managecategories" element={<CategoryManagement />} />
             <Route path="allusers" element={<AllUsers />} />
+            <Route path="deposits" element={<Deposits />} />
             <Route path="Orders" element={<Orders />} />
             <Route path="Profile" element={<Profile />} />
           </Route>

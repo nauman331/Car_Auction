@@ -20,7 +20,7 @@ const menuItems = [
   { to: "/admin/carlistings", icon: <CarFront />, label: "Buy Now Inventory" },
   { to: "/admin/managecategories", icon: <CarFront />, label: "Category Options" },
   { to: "/admin/orders", icon: <CarFront />, label: "Orders" },
-  { to: "/admin/", icon: <CarFront />, label: "Deposits" },
+  { to: "/admin/deposits", icon: <CarFront />, label: "Deposits" },
   { to: "/admin/allusers", icon: <CarFront />, label: "Users" },
   { to: "/admin/profile", icon: <SquareUser />, label: "My Profile" },
 ];
