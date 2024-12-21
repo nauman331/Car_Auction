@@ -1,11 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import { Upload, Trash2, Link2 } from "lucide-react";
-import { CloudinaryUploader } from "../../../utils/CloudinaryUploader";
-import toast from "react-hot-toast";
 
-const MediaUpload = ({ setFormData, formData }) => {
-  const [images, setImages] = useState([]);
 
+const MediaUpload = ({ setFormData, formData, images, setImages }) => {
+  
   const handleFileChange = (e) => {
     const selectedFiles = Array.from(e.target.files);
     setImages((prevImages) => [...prevImages, ...selectedFiles]); // Append new images to the existing list
@@ -22,28 +20,6 @@ const MediaUpload = ({ setFormData, formData }) => {
   const handleDeleteImage = (index) => {
     const updatedImages = images.filter((_, i) => i !== index);
     setImages(updatedImages);
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      let arr = [];
-      for (let i = 0; i < images.length; i++) {
-        try {
-          const data = await CloudinaryUploader(images[i]);
-          arr.push(data.url);
-        } catch (uploadError) {
-          console.error(`Error uploading file ${images[i].name}:`, uploadError);
-        }
-      }
-      setFormData((prevState) => ({
-        ...prevState,
-        carImages: arr,
-      }));
-      toast.success("Images uploaded successfully!");
-    } catch (error) {
-      toast.error("Error while uploading files");
-    }
   };
 
   return (

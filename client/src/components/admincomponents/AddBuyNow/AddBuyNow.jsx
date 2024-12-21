@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import StepsNavigation from "./StepsNavigation";
 import StepContent from "./StepsContent";
 import "../../../assets/stylesheets/admin/addbuynow.scss";
+import { CloudinaryUploader } from "../../../utils/CloudinaryUploader";
 import toast from "react-hot-toast";
 import { useSelector } from "react-redux";
 import { backendURL } from "../../../utils/Exports";
@@ -11,6 +12,9 @@ const AddBuyNow = ({ sellingType }) => {
   const { token, userdata } = useSelector((state) => state.auth);
   const navigate = useNavigate(); // Initialize navigate
   const [step, setStep] = useState(1);
+  const [images, setImages] = useState([]);
+  const [loading, setLoading] = useState(false)
+
 
   const baseData = {
     carImages: [],
@@ -50,7 +54,30 @@ const AddBuyNow = ({ sellingType }) => {
     }
   }, [token, userdata, navigate]);
 
+  const handleImageSubmit = async () => {
+    try {
+      let arr = [];
+      for (let i = 0; i < images.length; i++) {
+        try {
+          const data = await CloudinaryUploader(images[i]);
+          arr.push(data.url);
+        } catch (uploadError) {
+          console.error(`Error uploading file ${images[i].name}:`, uploadError);
+        }
+      }
+      setFormData((prevState) => ({
+        ...prevState,
+        carImages: arr,
+      }));
+    } catch (error) {
+      toast.error("Error while uploading files");
+    }
+  };
+
+
   const handleSubmit = async () => {
+    setLoading(true)
+   await handleImageSubmit();
     try {
       const response = await fetch(`${backendURL}/car/`, {
         method: "POST",
@@ -68,6 +95,8 @@ const AddBuyNow = ({ sellingType }) => {
     } catch (error) {
       toast.error("An error occurred. Please try again.");
       console.error("Error submitting car data:", error);
+    } finally {
+      setLoading(false)
     }
   };
 
@@ -79,13 +108,14 @@ const AddBuyNow = ({ sellingType }) => {
       <small>Fill the form vehicles details below</small>
       <StepsNavigation steps={steps.map(label => ({ label }))} currentStep={step} onStepChange={setStep} />
       <div className="form-section">
-        <StepContent step={step} formData={formData} setFormData={setFormData} sellingType={sellingType} />
+        <StepContent step={step} formData={formData} setFormData={setFormData} sellingType={sellingType} images={images} setImages={setImages}/>
         <div className="navigation-buttons">
           <div className="next-button">
           <button
             onClick={step < steps.length ? () => setStep(step + 1) : handleSubmit}
+            style={{backgroundColor: loading && "#167CB9"}}
           >
-            {step < steps.length ? `Next: ${steps[step]}` : "Submit"}
+            {step < steps.length ? `Next: ${steps[step]}` : loading ? "Submitting..." : "Submit"}
           </button>
           </div>
         </div>
