@@ -12,7 +12,7 @@ import FormGrid from "./AddBuyNow/FormGrid";
 
 const CarListings = () => {
   const { token } = useSelector((state) => state.auth);
-const { categories } = useSelector((state) => state.category);
+  const { categories } = useSelector((state) => state.category);
   const [cars, setCars] = useState([]);
   const [loading, setLoading] = useState(false)
   const [currentPage, setCurrentPage] = useState(1);
@@ -129,12 +129,6 @@ const { categories } = useSelector((state) => state.category);
       options: generateOptions("vehicle-door", "vehicleDoor"),
     },
     {
-      id: "description",
-      label: "Listing Description",
-      type: "textarea",
-      placeholder: "Enter Listing Description",
-    },
-    {
       id: "price",
       label: "Buy Now Price",
       type: "text",
@@ -158,32 +152,38 @@ const { categories } = useSelector((state) => state.category);
       type: "text",
       placeholder: "Enter Map Location",
     },
+    {
+      id: "description",
+      label: "Listing Description",
+      type: "textarea",
+      placeholder: "Enter Listing Description",
+    },
   ];
 
 
   const getAllCars = async () => {
-        try {
-          setLoading(true)
-          const response = await fetch(`${backendURL}/car`, {
-            method: "GET",
-          });
-          const res_data = await response.json();
-          if (response.ok) {
-          console.log(res_data)
-          setCars(res_data)
-          } else {
-            console.log(res_data.message);
-          }
-        } catch (error) {
-          console.log("Error occurred while getting all cars");
-        } finally {
-          setLoading(false)
-        }
-      };
-  
-      useEffect(() => {
-       getAllCars()
-      }, [token])
+    try {
+      setLoading(true)
+      const response = await fetch(`${backendURL}/car`, {
+        method: "GET",
+      });
+      const res_data = await response.json();
+      if (response.ok) {
+        console.log(res_data)
+        setCars(res_data)
+      } else {
+        console.log(res_data.message);
+      }
+    } catch (error) {
+      console.log("Error occurred while getting all cars");
+    } finally {
+      setLoading(false)
+    }
+  };
+
+  useEffect(() => {
+    getAllCars()
+  }, [token])
 
   const deleteCarHandler = async (id) => {
     const authorizationToken = `Bearer ${token}`;
@@ -227,13 +227,17 @@ const { categories } = useSelector((state) => state.category);
   const handleUpdateCar = async () => {
     const authorizationToken = `Bearer ${token}`;
     try {
-      const response = await fetch(`${backendURL}/car/${id}`, {
+      const updatedFormData = {};
+    Object.keys(formData).forEach((key) => {
+      updatedFormData[key] = formData[key]?._id || formData[key]; // Use _id if object exists, else raw value
+    });
+      const response = await fetch(`${backendURL}/car/${carToEdit}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
           Authorization: authorizationToken,
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(updatedFormData),
       });
       const res_data = await response.json();
       if (response.ok) {
@@ -287,138 +291,165 @@ const { categories } = useSelector((state) => state.category);
 
   return (
     <>
-    { loading ? <LoadingSpinner /> :
-    <>
-      <div className="car-list-top">
-        <span>
-          <h3>My Listings</h3>
-          <small>List of vehicles Uploaded for Buy Now</small>
-        </span>
-        <NavLink to="/admin/addbuynow" className="add-vehicle-button">
-          Add New Vehicle ↗
-        </NavLink>
-      </div>
-      <div className="car-list-container">
-        <header className="car-list-header">
-          <div className="car-list-header-input">
-            <Search />
-            <input
-              type="text"
-              placeholder="Search Cars e.g., Audi Q7"
-              value={searchInput}
-              onChange={(e) => setSearchInput(e.target.value)}
-            />
+      {loading ? <LoadingSpinner /> :
+        <>
+          <div className="car-list-top">
+            <span>
+              <h3>My Listings</h3>
+              <small>List of vehicles Uploaded for Buy Now</small>
+            </span>
+            <NavLink to="/admin/addbuynow" className="add-vehicle-button">
+              Add New Vehicle ↗
+            </NavLink>
           </div>
-          <div className="sort-options">
-            <span>Sort By:</span>
-            <select value={sortOption} onChange={(e) => setSortOption(e.target.value)}>
-              <option value="all">All</option>
-              <option value="price">Price</option>
-              <option value="year">Year</option>
-            </select>
-          </div>
-        </header>
-        <div className="table-wrapper">
-          <table className="car-table">
-            <thead>
-              <tr>
-                <th>Make</th>
-                <th>Model</th>
-                <th>Year</th>
-                <th>Transmission</th>
-                <th>FuelType</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {getDisplayedCars().map(
-                (car, index) =>
-                  car.sellingType === "fixed" && (
-                    <tr key={index}>
-                      <td>
-                        <div className="car-info">
-                          <div className="car-image">
-                            <img
-                              src={car.carImages[0]}
-                              alt="..."
-                              style={{
-                                width: "100%",
-                                height: "100%",
-                                objectFit: "cover",
-                              }}
-                            />
-                          </div>
-                          <div className="car-name">
-                            <p>{car.listingTitle || "No Title"}</p>
-                            <p>{car.description || "No Description"}</p>
-                            <div className="price">
-                              <h6>{car.discountedPrice}</h6>
-                              {car.price && <p>{car.price}</p>}
+          <div className="car-list-container">
+            <header className="car-list-header">
+              <div className="car-list-header-input">
+                <Search />
+                <input
+                  type="text"
+                  placeholder="Search Cars e.g., Audi Q7"
+                  value={searchInput}
+                  onChange={(e) => setSearchInput(e.target.value)}
+                />
+              </div>
+              <div className="sort-options">
+                <span>Sort By:</span>
+                <select value={sortOption} onChange={(e) => setSortOption(e.target.value)}>
+                  <option value="all">All</option>
+                  <option value="price">Price</option>
+                  <option value="year">Year</option>
+                </select>
+              </div>
+            </header>
+            <div className="table-wrapper">
+              <table className="car-table">
+                <thead>
+                  <tr>
+                    <th>Make</th>
+                    <th>Model</th>
+                    <th>Year</th>
+                    <th>Transmission</th>
+                    <th>FuelType</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {getDisplayedCars().map(
+                    (car, index) =>
+                      car.sellingType === "fixed" && (
+                        <tr key={index}>
+                          <td>
+                            <div className="car-info">
+                              <div className="car-image">
+                                <img
+                                  src={car.carImages[0]}
+                                  alt="..."
+                                  style={{
+                                    width: "100%",
+                                    height: "100%",
+                                    objectFit: "cover",
+                                  }}
+                                />
+                              </div>
+                              <div className="car-name">
+                                <p>{car.listingTitle || "No Title"}</p>
+                                <p>{car.description || "No Description"}</p>
+                                <div className="price">
+                                  <h6>{car.discountedPrice}</h6>
+                                  {car.price && <p>{car.price}</p>}
+                                </div>
+                              </div>
                             </div>
-                          </div>
-                        </div>
-                      </td>
-                      <td>
-                        <small>{car.carModal && car.carModal.vehicleModal || "No Model"}</small>
-                      </td>
-                      <td>
-                        <small>{car.year && car.year.vehicleYear || "No Year"}</small>
-                      </td>
-                      <td>
-                        <small>{car.transmission && car.transmission.vehicleTransimission || "No Transmission"}</small>
-                      </td>
-                      <td>
-                        <small>{car.fuelType && car.fuelType.vehicleFuelTypes || "No Fuel Type"}</small>
-                      </td>
-                      <td className="action-buttons">
-                        <button onClick={() => handleDeleteClick(car._id)}>
-                          <Trash size={16} />
-                        </button>
-                        <button  
-                        onClick={() => {
-                          setFormData({
-                            listingTitle: car.listingTitle,
-                          });
-                        }}
-                        >
-                          <PencilLine size={16} />
-                        </button>
-                      </td>
-                    </tr>
-                  )
-              )}
-            </tbody>
-          </table>
-        </div>
-        {
-         cars.length > itemsPerPage && 
-        <Pagination
-          currentPage={currentPage}
-          totalPages={totalPages}
-          onPageChange={setCurrentPage}
-        />
-}
-      </div>
+                          </td>
+                          <td>
+                            <small>{car.carModal && car.carModal.vehicleModal || "No Model"}</small>
+                          </td>
+                          <td>
+                            <small>{car.year && car.year.vehicleYear || "No Year"}</small>
+                          </td>
+                          <td>
+                            <small>{car.transmission && car.transmission.vehicleTransimission || "No Transmission"}</small>
+                          </td>
+                          <td>
+                            <small>{car.fuelType && car.fuelType.vehicleFuelTypes || "No Fuel Type"}</small>
+                          </td>
+                          <td className="action-buttons">
+                            <button onClick={() => handleDeleteClick(car._id)}>
+                              <Trash size={16} />
+                            </button>
+                            <button
+                              onClick={() => {
+                                setCarToEdit(car._id);
+                                setFormData({
+                                  listingTitle: car.listingTitle || "",
+                                  carMake: car.carMake?._id || "",
+                                  carModal: car.carModal?._id || "",
+                                  friendlyLocation: car.friendlyLocation || "",
+                                  mapLocation: car.mapLocation || "",
+                                  carType: car.carType?._id || "",
+                                  description: car.description || "",
+                                  year: car.year?._id || "",
+                                  mileage: car.mileage || "",
+                                  fuelType: car.fuelType?._id || "",
+                                  transmission: car.transmission?._id || "",
+                                  driveType: car.driveType?._id || "",
+                                  damage: car.damage?._id || "",
+                                  cylinders: car.cylinders?._id || "",
+                                  engineSize: car.engineSize?._id || "",
+                                  color: car.color?._id || "",
+                                  vin: car.vin || "",
+                                  noOfDoors: car.noOfDoors?._id || "",
+                                  videoLink: car.videoLink || "",
+                                  price: car.price || "",
+                                  discountedPrice: car.discountedPrice || ""
+                                });
+                                setShowEditModal(true);
+                              }}
+                            >
+                              <PencilLine size={16} />
+                            </button>
+                          </td>
+                        </tr>
+                      )
+                  )}
+                </tbody>
+              </table>
+            </div>
+            {
+              cars.length > itemsPerPage &&
+              <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={setCurrentPage}
+              />
+            }
+          </div>
 
-      {/* Delete Confirmation Modal */}
-      <Modal show={showDeleteModal} onHide={handleCancelDelete}>
-        <Modal.Header closeButton>
-          <Modal.Title>Confirm to Delete</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          Are you sure you want to delete this car listing?
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleCancelDelete}>
-            No
-          </Button>
-          <Button variant="danger" onClick={handleConfirmDelete}>
-            Yes
-          </Button>
-        </Modal.Footer>
-      </Modal>
-      {/* Edit Modal */}
-      <div className="form-container">
+          {/* Delete Confirmation Modal */}
+          <Modal show={showDeleteModal} onHide={handleCancelDelete}>
+            <Modal.Header closeButton>
+              <Modal.Title>Confirm to Delete</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              Are you sure you want to delete this car listing?
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={handleCancelDelete}>
+                No
+              </Button>
+              <Button variant="danger" onClick={handleConfirmDelete}>
+                Yes
+              </Button>
+            </Modal.Footer>
+          </Modal>
+          {/* Edit Modal */}
+          <Modal show={showEditModal} onHide={() => setShowEditModal(false)}>
+            <Modal.Header closeButton>
+              <Modal.Title>Edit Car Details</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <div className="form-container">
                 <div className="form-section">
                   <div className="form-grid">
                     <FormGrid
@@ -429,10 +460,23 @@ const { categories } = useSelector((state) => state.category);
                   </div>
                 </div>
               </div>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button
+                variant="secondary"
+                onClick={() => setShowEditModal(false)}
+              >
+                Cancel
+              </Button>
+              <Button variant="primary" onClick={handleUpdateCar}>
+                Save Changes
+              </Button>
+            </Modal.Footer>
+          </Modal>
 
+        </>
+      }
     </>
-}
-</>
   );
 };
 
