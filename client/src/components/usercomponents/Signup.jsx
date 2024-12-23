@@ -17,7 +17,7 @@ const Signup = () => {
     password: "",
     contact: "",
     address: "",
-    role: "Buyer"
+    role: "buyer"
   });
 
   const togglePasswordVisibility = () => {

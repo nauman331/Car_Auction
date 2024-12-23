@@ -237,7 +237,7 @@ const CarListings = () => {
                         <button onClick={() => handleDeleteClick(car._id)}>
                           <Trash size={16} />
                         </button>
-                        <button onClick={() => handleEditClick(car)}>
+                        <button>
                           <PencilLine size={16} />
                         </button>
                       </td>
