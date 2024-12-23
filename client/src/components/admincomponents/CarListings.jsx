@@ -8,10 +8,11 @@ import { backendURL } from "../../utils/Exports";
 import { Modal, Button, Form } from "react-bootstrap";
 import Pagination from "./Pagination";
 import LoadingSpinner from "../usercomponents/LoadingSpinner";
+import FormGrid from "./AddBuyNow/FormGrid";
 
 const CarListings = () => {
   const { token } = useSelector((state) => state.auth);
-
+const { categories } = useSelector((state) => state.category);
   const [cars, setCars] = useState([]);
   const [loading, setLoading] = useState(false)
   const [currentPage, setCurrentPage] = useState(1);
@@ -23,6 +24,142 @@ const CarListings = () => {
   const [carIdToDelete, setCarIdToDelete] = useState(null);
   const [showEditModal, setShowEditModal] = useState(false);
   const [carToEdit, setCarToEdit] = useState(null);
+  const [formData, setFormData] = useState({});
+
+  const generateOptions = (key, labelKey) =>
+    categories?.[key]?.map((item) => ({
+      label: item[labelKey],
+      value: item._id,
+    })) || [];
+
+  const fields = [
+    {
+      id: "listingTitle",
+      label: "Listing Title",
+      type: "text",
+      placeholder: "Enter Listing Title",
+    },
+    { id: "vin", label: "VIN", type: "text", placeholder: "Enter VIN" },
+    {
+      id: "damage",
+      label: "Damage",
+      type: "select",
+      placeholder: "Select Damage",
+      options: generateOptions("vehicle-damage", "vehicleDamage"),
+    },
+    {
+      id: "carType",
+      label: "Type",
+      type: "select",
+      placeholder: "Select Car Type",
+      options: generateOptions("vehicle-type", "vehicleType"),
+    },
+    {
+      id: "carMake",
+      label: "Make",
+      type: "select",
+      placeholder: "Select Car Make",
+      options: generateOptions("vehicle-make", "vehicleMake"),
+    },
+    {
+      id: "carModal",
+      label: "Model",
+      type: "select",
+      placeholder: "Select Car Model",
+      options: generateOptions("vehicle-modal", "vehicleModal"),
+    },
+    {
+      id: "year",
+      label: "Year",
+      type: "select",
+      placeholder: "Select Year",
+      options: generateOptions("vehicle-year", "vehicleYear"),
+    },
+    {
+      id: "driveType",
+      label: "Drive Type",
+      type: "select",
+      placeholder: "Select Drive Type",
+      options: generateOptions("drive-type", "driveType"),
+    },
+    {
+      id: "transmission",
+      label: "Transmission",
+      type: "select",
+      placeholder: "Select Transmission",
+      options: generateOptions(
+        "vehicle-transmission",
+        "vehicleTransimission"
+      ),
+    },
+    { id: "mileage", label: "Milage", type: "text", placeholder: "Enter Mileage" },
+    {
+      id: "fuelType",
+      label: "Fuel Type",
+      type: "select",
+      placeholder: "Select Fuel Type",
+      options: generateOptions("vehicle-fuel-type", "vehicleFuelTypes"),
+    },
+    {
+      id: "cylinders",
+      label: "Cylinder",
+      type: "select",
+      placeholder: "Select Cylinder",
+      options: generateOptions("vehicle-cylinder", "vehicleCylinders"),
+    },
+    {
+      id: "engineSize",
+      label: "Engine Size",
+      type: "select",
+      placeholder: "Select Engine Size",
+      options: generateOptions("vehicle-engine-size", "vehicleEngineSize"),
+    },
+    {
+      id: "color",
+      label: "Color",
+      type: "select",
+      placeholder: "Select Color",
+      options: generateOptions("vehicle-color", "vehicleColors"),
+    },
+    {
+      id: "noOfDoors",
+      label: "Door",
+      type: "select",
+      placeholder: "Select Number Of Doors",
+      options: generateOptions("vehicle-door", "vehicleDoor"),
+    },
+    {
+      id: "description",
+      label: "Listing Description",
+      type: "textarea",
+      placeholder: "Enter Listing Description",
+    },
+    {
+      id: "price",
+      label: "Buy Now Price",
+      type: "text",
+      placeholder: "Enter Buy Now Price",
+    },
+    {
+      id: "discountedPrice",
+      label: "Discounted Price",
+      type: "text",
+      placeholder: "Enter Discounted Price",
+    },
+    {
+      id: "mapLocation",
+      label: "Friendly Address",
+      type: "text",
+      placeholder: "Enter Freindly Address",
+    },
+    {
+      id: "friendlyLocation",
+      label: "Map Location",
+      type: "text",
+      placeholder: "Enter Map Location",
+    },
+  ];
+
 
   const getAllCars = async () => {
         try {
@@ -96,7 +233,7 @@ const CarListings = () => {
           "Content-Type": "application/json",
           Authorization: authorizationToken,
         },
-        body: JSON.stringify(),
+        body: JSON.stringify(formData),
       });
       const res_data = await response.json();
       if (response.ok) {
@@ -237,7 +374,13 @@ const CarListings = () => {
                         <button onClick={() => handleDeleteClick(car._id)}>
                           <Trash size={16} />
                         </button>
-                        <button>
+                        <button  
+                        onClick={() => {
+                          setFormData({
+                            listingTitle: car.listingTitle,
+                          });
+                        }}
+                        >
                           <PencilLine size={16} />
                         </button>
                       </td>
@@ -274,6 +417,19 @@ const CarListings = () => {
           </Button>
         </Modal.Footer>
       </Modal>
+      {/* Edit Modal */}
+      <div className="form-container">
+                <div className="form-section">
+                  <div className="form-grid">
+                    <FormGrid
+                      fields={fields}
+                      formData={formData}
+                      setFormData={setFormData}
+                    />
+                  </div>
+                </div>
+              </div>
+
     </>
 }
 </>
