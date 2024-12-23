@@ -37,6 +37,7 @@ const Home = () => {
       });
       const res_data = await response.json();
       if (response.ok) {
+        console.log(res_data)
         dispatch(setUser({ userdata: res_data }));
       } else {
         console.warn("Error in getting user data");

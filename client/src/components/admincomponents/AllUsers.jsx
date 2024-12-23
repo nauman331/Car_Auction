@@ -189,8 +189,7 @@ const AllUsers = () => {
                   onChange={(e) => setSortOption(e.target.value)}
                 >
                   <option value="">All</option>
-                  <option value="Vendor">Vendor</option>
-                  <option value="Buyer">Buyer</option>
+                  <option value="buyer">Buyer</option>
                   <option value="admin">Admin</option>
                   <option value="superadmin">Super Admin</option>
                   <option value="verified">Verified</option>

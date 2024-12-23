@@ -1,24 +1,38 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Image, Upload } from "lucide-react";
 import { backendURL } from "../../utils/Exports";
 import { useDispatch, useSelector } from "react-redux";
 import { CloudinaryUploader } from "../../utils/CloudinaryUploader";
 import toast from "react-hot-toast";
-import {setUser} from "../../store/slices/authSlice"
+import { setUser } from "../../store/slices/authSlice";
 
 const Profile = () => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const { token, userdata } = useSelector((state) => state.auth);
-  
 
   const [file, setFile] = useState(null);
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    phone: "",
-    password: "",
-    address: "",
+    firstName: userdata?.firstName || "",
+    lastName: userdata?.lastName || "",
+    phone: userdata?.contact || "",
+    password: userdata?.password || "",
+    address: userdata?.address || "",
+    description: userdata?.description || "",
   });
+
+  useEffect(() => {
+    // Update form data with existing userdata when it changes
+    if (userdata) {
+      setFormData({
+        firstName: userdata.firstName || "",
+        lastName: userdata.lastName || "",
+        phone: userdata.contact || "",
+        password: userdata.password || "",
+        address: userdata.address || "",
+        description: userdata.description || "",
+      });
+    }
+  }, [userdata]);
 
   const handleFileChange = async (event) => {
     const selectedFile = event.target.files[0];
@@ -26,8 +40,7 @@ const Profile = () => {
   };
 
   const handleInputChange = (e) => {
-    const name = e.target.name;
-    const value = e.target.value;
+    const { name, value } = e.target;
     setFormData({
       ...formData,
       [name]: value,
@@ -37,7 +50,8 @@ const Profile = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     const authorizationToken = `Bearer ${token}`;
-    let avatarImage = userdata.avatarImage;
+    let avatarImage = userdata?.avatarImage;
+
     try {
       if (file) {
         avatarImage = await CloudinaryUploader(file);
@@ -50,16 +64,15 @@ const Profile = () => {
           "Content-Type": "application/json",
           Authorization: authorizationToken,
         },
-        body: JSON.stringify({ ...formData, avatarImage: avatarImage.url  }),
+        body: JSON.stringify({ ...formData, avatarImage: avatarImage?.url }),
       });
       const res_data = await response.json();
       if (!response.ok) {
         toast.error(res_data.message);
       } else {
         toast.success(res_data.message);
-        dispatch(setUser({userdata: res_data}))
+        dispatch(setUser({ userdata: res_data }));
       }
-    
     } catch (error) {
       toast.error("Error while uploading", error);
     }
@@ -99,9 +112,6 @@ const Profile = () => {
                 style={{ display: "none" }}
                 id="fileInput"
               />
-              <label htmlFor="fileInput" style={{ cursor: "pointer" }}>
-                Select Image
-              </label>
             </div>
           </div>
           <hr />
@@ -110,69 +120,75 @@ const Profile = () => {
               {
                 id: "firstname",
                 label: "First Name",
-                value: userdata ? userdata.firstName : "Please Login",
+                value: formData.firstName,
                 name: "firstName",
               },
               {
                 id: "lastname",
                 label: "Last Name",
-                value: userdata ? userdata.lastName : "Please Login",
+                value: formData.lastName,
                 name: "lastName",
               },
               {
-                id: "Email",
+                id: "email",
                 label: "Email",
-                value: userdata ? userdata.email : "Please Login",
+                value: userdata?.email || "Email Not Set",
                 type: "email",
                 name: "email",
+                disabled: true,
               },
               {
                 id: "phone",
                 label: "Phone",
-                value: userdata ? userdata.contact : "Please Login",
+                value: formData.phone,
                 name: "phone",
               },
               {
                 id: "password",
                 label: "Password",
-                value: "XX-XXXXX-XX",
+                value: formData.password,
                 name: "password",
-                extra: (
-                  <button>
-                    <small>Change Password</small>
-                  </button>
-                ),
+                type: "password",
               },
               {
                 id: "address",
                 label: "Address",
-                value: "e.g. Linkon Park",
+                value: formData.address,
                 name: "address",
               },
               {
                 id: "description",
                 label: "Description",
-                value: "Lorem Ipsum Dolor Sit",
+                name: "description",
+                value: formData.description || "No Description Provided",
                 textarea: true,
               },
-            ].map(({ id, label, value, type = "text", textarea, extra }) => (
+            ].map(({ id, label, value, type = "text", textarea, name }) => (
               <div key={id} className="input-container">
                 {textarea ? (
-                  <textarea id={id} defaultValue={value} />
+                  <textarea
+                    id={id}
+                    value={value}
+                    onChange={handleInputChange}
+                    name={name}
+                  ></textarea>
                 ) : (
                   <input
                     type={type}
                     id={id}
-                    defaultValue={value}
+                    value={value}
                     onChange={handleInputChange}
+                    name={name}
+                    disabled={name === "email"} // Disable email field for editing
                   />
                 )}
                 <label htmlFor={id}>{label}</label>
-                {extra}
               </div>
             ))}
           </div>
-          <button className="next-button">Save Profile</button>
+          <div className="next-button">
+            <button type="submit">Save Profile</button>
+          </div>
         </form>
       </div>
     </>
