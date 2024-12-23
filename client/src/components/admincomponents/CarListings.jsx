@@ -444,7 +444,9 @@ const CarListings = () => {
             </Modal.Footer>
           </Modal>
           {/* Edit Modal */}
-          <Modal show={showEditModal} onHide={() => setShowEditModal(false)}>
+          <Modal show={showEditModal} onHide={() => setShowEditModal(false)}
+            fullscreen
+            >
             <Modal.Header closeButton>
               <Modal.Title>Edit Car Details</Modal.Title>
             </Modal.Header>
