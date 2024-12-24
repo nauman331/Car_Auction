@@ -15,8 +15,8 @@ const AuctionListings = () => {
   const [auctions, setAuctions] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [showEditModal, setShowEditModal] = useState(false);
   const [auctionIdToDelete, setAuctionIdToDelete] = useState(null);
+  const [showEditModal, setShowEditModal] = useState(false);
   const [auctionIdToEdit, setAuctionIdToEdit] = useState(null);
   const [formData, setFormData] = useState({});
   const [loading, setLoading] = useState(false);
