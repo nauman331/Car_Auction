@@ -5,7 +5,7 @@ import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
 import toast from "react-hot-toast";
 import { backendURL } from "../../utils/Exports";
-import { Modal, Button, Form } from "react-bootstrap";
+import { Modal, Button } from "react-bootstrap";
 import Pagination from "./Pagination";
 import LoadingSpinner from "../usercomponents/LoadingSpinner";
 import FormGrid from "./AddBuyNow/FormGrid";
@@ -354,7 +354,7 @@ const CarListings = () => {
                               </div>
                               <div className="car-name">
                                 <p>{car.listingTitle || "No Title"}</p>
-                                <p>{car.description || "No Description"}</p>
+                                <p>{car.description?.length > 20 ? car.description?.substring(0, 20).trimEnd() + '...' : car.description || "No Description"}</p>
                                 <div className="price">
                                   <h6>{car.discountedPrice}</h6>
                                   {car.price && <p>{car.price}</p>}

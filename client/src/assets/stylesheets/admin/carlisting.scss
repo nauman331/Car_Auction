@@ -84,6 +84,7 @@
           color: #405FF2;
           font-weight: 400;
           padding: 10px;
+          font-size: 0.9rem;
           &:first-child{
             border-radius: 10px 0px 0px 10px;
           }
@@ -95,7 +96,7 @@
         tbody td {
           padding: 20px;
           border-bottom: 1px solid #ddd;
-          font-size: .9rem;
+          font-size: .85rem;
         }
   
         .car-info {
@@ -115,16 +116,16 @@
             gap: 1rem;
         p {
             text-decoration: line-through;
-            font-size: .9rem;
+            font-size: .8rem;
         }
         h6 {
             margin-top: 7px;
-            font-size: .9rem;
+            font-size: .8rem;
         }
           }
           p {
             margin: 0;
-            font-size: 14px;
+            font-size: .75rem;
   
             &:first-child {
               font-weight: bold;
