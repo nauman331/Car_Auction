@@ -9,6 +9,8 @@ import { Modal, Button } from "react-bootstrap";
 import Pagination from "./Pagination";
 import LoadingSpinner from "../usercomponents/LoadingSpinner";
 import FormGrid from "./AddBuyNow/FormGrid";
+import MediaUpload from "./AddBuyNow/MediaUpload";
+import {CloudinaryUploader} from "../../utils/CloudinaryUploader";
 
 const CarListings = () => {
   const { token } = useSelector((state) => state.auth);
@@ -25,6 +27,9 @@ const CarListings = () => {
   const [showEditModal, setShowEditModal] = useState(false);
   const [carToEdit, setCarToEdit] = useState(null);
   const [formData, setFormData] = useState({});
+  const [activeTab, setActiveTab] = useState("images");
+  const [images, setImages] = useState([]);
+  const [existingImages, setExistingImages] = useState([]);
 
   const generateOptions = (key, labelKey) =>
     categories?.[key]?.map((item) => ({
@@ -161,6 +166,36 @@ const CarListings = () => {
   ];
 
 
+  const handleImageSubmit = async () => {
+    try {
+      let newImageUrls = [];
+      for (let i = 0; i < images.length; i++) {
+        try {
+          const data = await CloudinaryUploader(images[i]); // Assuming you have a utility for this
+          newImageUrls.push(data.url);
+          console.log(data.url);
+        } catch (uploadError) {
+          console.error(`Error uploading file ${images[i].name}:`, uploadError);
+        }
+      }
+  
+      // Combine existing and new image URLs
+      const updatedCarImages = [...existingImages, ...newImageUrls];
+  
+      setFormData((prevState) => ({
+        ...prevState,
+        carImages: updatedCarImages,
+      }));
+  
+      return updatedCarImages; // Return combined array for further processing
+    } catch (error) {
+      toast.error("Error while uploading files");
+    }
+  };
+  
+
+
+
   const getAllCars = async () => {
     try {
       setLoading(true)
@@ -169,7 +204,6 @@ const CarListings = () => {
       });
       const res_data = await response.json();
       if (response.ok) {
-        console.log(res_data)
         setCars(res_data)
       } else {
         console.log(res_data.message);
@@ -227,10 +261,9 @@ const CarListings = () => {
   const handleUpdateCar = async () => {
     const authorizationToken = `Bearer ${token}`;
     try {
-      const updatedFormData = {};
-    Object.keys(formData).forEach((key) => {
-      updatedFormData[key] = formData[key]?._id || formData[key]; // Use _id if object exists, else raw value
-    });
+      const updatedImages = await handleImageSubmit();
+      const updatedFormData = { ...formData, carImages: updatedImages };
+  
       const response = await fetch(`${backendURL}/car/${carToEdit}`, {
         method: "PUT",
         headers: {
@@ -239,6 +272,7 @@ const CarListings = () => {
         },
         body: JSON.stringify(updatedFormData),
       });
+  
       const res_data = await response.json();
       if (response.ok) {
         toast.success("Car details updated successfully!");
@@ -251,6 +285,7 @@ const CarListings = () => {
       toast.error("Error occurred while updating car details.");
     }
   };
+  
 
   const getFilteredCars = () => {
     if (!searchInput.trim()) {
@@ -381,6 +416,7 @@ const CarListings = () => {
                             <button
                               onClick={() => {
                                 setCarToEdit(car._id);
+                                setExistingImages(car.carImages || []);
                                 setFormData({
                                   listingTitle: car.listingTitle || "",
                                   carMake: car.carMake?._id || "",
@@ -446,19 +482,35 @@ const CarListings = () => {
           {/* Edit Modal */}
           <Modal show={showEditModal} onHide={() => setShowEditModal(false)}
             fullscreen
-            >
+          >
             <Modal.Header closeButton>
               <Modal.Title>Edit Car Details</Modal.Title>
             </Modal.Header>
             <Modal.Body>
               <div className="form-container">
                 <div className="form-section">
+                  <div className="tab-navigation">
+                    <span className={activeTab === "images" ? "active" : ""}
+                      onClick={() => setActiveTab("images")}
+                    >Images</span>
+                    <span
+                      className={activeTab === "formData" ? "active" : ""}
+                      onClick={() => setActiveTab("formData")}
+                    >Form Data</span>
+                  </div>
                   <div className="form-grid">
-                    <FormGrid
-                      fields={fields}
+                    {activeTab === "formData" && (
+                      <FormGrid fields={fields} formData={formData} setFormData={setFormData} />
+                    )}
+                    {activeTab === "images" && (
+                      <MediaUpload
+                      images={images}
+                      setImages={setImages}
+                      existingImages={existingImages}
+                      setExistingImages={setExistingImages}
                       formData={formData}
                       setFormData={setFormData}
-                    />
+                    /> )}
                   </div>
                 </div>
               </div>

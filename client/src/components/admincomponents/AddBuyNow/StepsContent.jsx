@@ -196,7 +196,7 @@ const StepContent = ({ step, formData, setFormData, sellingType, images, setImag
       />
     ),
     3: <FeaturesGrid formData={formData} setFormData={setFormData} />,
-    4: <MediaUpload formData={formData} setFormData={setFormData} images={images} setImages={setImages} />,
+    4: <MediaUpload formData={formData} setFormData={setFormData} images={images} setImages={setImages} sellingType={sellingType} />,
     5: (
       <FormGrid
         fields={commonFields.locationFields}

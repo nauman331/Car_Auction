@@ -9,10 +9,14 @@ import { Modal, Button } from "react-bootstrap";
 import Pagination from "./Pagination";
 import LoadingSpinner from "../usercomponents/LoadingSpinner";
 import FormGrid from "./AddBuyNow/FormGrid";
+import MediaUpload from "./AddBuyNow/MediaUpload";
+import {CloudinaryUploader} from "../../utils/CloudinaryUploader";
 
 const AuctionInventory = () => {
   const { token } = useSelector((state) => state.auth);
-  const { categories, auctions } = useSelector((state) => state.category);
+  const { categories } = useSelector((state) => state.category);
+
+  const [auctions, setAuctions] = useState([]);
   const [cars, setCars] = useState([])
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(false);
@@ -20,9 +24,12 @@ const AuctionInventory = () => {
   const [carIdToDelete, setCarIdToDelete] = useState(null);
   const [showEditModal, setShowEditModal] = useState(false);
   const [carToEdit, setCarToEdit] = useState(null);
-  const [formData, setFormData] = useState({});
   const [searchTerm, setSearchTerm] = useState("");
   const [sortOption, setSortOption] = useState("all");
+  const [formData, setFormData] = useState({});
+  const [activeTab, setActiveTab] = useState("images");
+  const [images, setImages] = useState([]);
+  const [existingImages, setExistingImages] = useState([]);
 
 
   const generateAuctionOptions = () =>
@@ -190,30 +197,76 @@ const AuctionInventory = () => {
     return true; // All cars
   });
 
-  // Fetch all cars
-  const getAllCars = async () => {
+
+  const handleImageSubmit = async () => {
     try {
-      setLoading(true);
-      const response = await fetch(`${backendURL}/car`, {
-        method: "GET",
-      });
-      const res_data = await response.json();
-      if (response.ok) {
-        console.log(res_data)
-        setCars(res_data)
-      } else {
-        console.log(res_data.message);
+      let newImageUrls = [];
+      for (let i = 0; i < images.length; i++) {
+        try {
+          const data = await CloudinaryUploader(images[i]); // Assuming you have a utility for this
+          newImageUrls.push(data.url);
+          console.log(data.url);
+        } catch (uploadError) {
+          console.error(`Error uploading file ${images[i].name}:`, uploadError);
+        }
       }
+  
+      // Combine existing and new image URLs
+      const updatedCarImages = [...existingImages, ...newImageUrls];
+  
+      setFormData((prevState) => ({
+        ...prevState,
+        carImages: updatedCarImages,
+      }));
+  
+      return updatedCarImages; // Return combined array for further processing
     } catch (error) {
-      console.log("Error occurred while getting all cars");
-    } finally {
-      setLoading(false)
+      toast.error("Error while uploading files");
     }
   };
 
-  useEffect(() => {
-    getAllCars()
-  }, [token])
+  const getAllAuctions = async () => {
+    try {
+      const response = await fetch(`${backendURL}/auction`, { method: "GET" });
+  
+      // Check if the response is successful
+      if (!response.ok) {
+        throw new Error(`Error: ${response.status} - ${response.statusText}`);
+      }
+  
+      const res_data = await response.json();
+      setAuctions(res_data); // Ensure this matches the expected structure
+    } catch (error) {
+      console.error("Error fetching auctions:", error);
+      toast.error("Failed to fetch auctions. Please try again later.");
+    }
+  };
+  
+  const getAllCars = async () => {
+    try {
+      const response = await fetch(`${backendURL}/car`, { method: "GET" });
+  
+      if (!response.ok) {
+        throw new Error(`Error: ${response.status} - ${response.statusText}`);
+      }
+  
+      const res_data = await response.json();
+      setCars(res_data); // Ensure this matches the expected structure
+    } catch (error) {
+      console.error("Error fetching cars:", error);
+      toast.error("Failed to fetch cars. Please try again later.");
+    }
+  };
+  
+
+ useEffect(() => {
+  setLoading(true);
+     const fetchData = async () => {
+       await Promise.all([getAllAuctions(), getAllCars()]);
+       setLoading(false);
+     };
+     fetchData();
+   }, [token]);
 
 
   const deletCar = async (id) => {
@@ -267,10 +320,9 @@ const AuctionInventory = () => {
     setLoading(true);
     const authorizationToken = `Bearer ${token}`;
     try {
-      const updatedFormData = {};
-      Object.keys(formData).forEach((key) => {
-        updatedFormData[key] = formData[key]?._id || formData[key];
-      });
+      const updatedImages = await handleImageSubmit();
+      const updatedFormData = { ...formData, carImages: updatedImages };
+      
       const response = await fetch(`${backendURL}/car/${carToEdit}`, {
         method: "PUT",
         headers: {
@@ -289,6 +341,8 @@ const AuctionInventory = () => {
       }
     } catch (error) {
       toast.error("Error occurred while updating car details.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -385,35 +439,36 @@ const AuctionInventory = () => {
                               <button onClick={() => confirmDelete(car._id)}>
                                 <Trash size={16} />
                               </button>
-                              <button  
-                              onClick={() => {
-                                setCarToEdit(car._id);
-                                setFormData({
-                                  listingTitle: car.listingTitle || "",
-                                  auctionLot: car.auctionLot?._id || "",
-                                  carMake: car.carMake?._id || "",
-                                  carModal: car.carModal?._id || "",
-                                  friendlyLocation: car.friendlyLocation || "",
-                                  mapLocation: car.mapLocation || "",
-                                  carType: car.carType?._id || "",
-                                  description: car.description || "",
-                                  year: car.year?._id || "",
-                                  mileage: car.mileage || "",
-                                  fuelType: car.fuelType?._id || "",
-                                  transmission: car.transmission?._id || "",
-                                  driveType: car.driveType?._id || "",
-                                  damage: car.damage?._id || "",
-                                  cylinders: car.cylinders?._id || "",
-                                  engineSize: car.engineSize?._id || "",
-                                  color: car.color?._id || "",
-                                  vin: car.vin || "",
-                                  noOfDoors: car.noOfDoors?._id || "",
-                                  videoLink: car.videoLink || "",
-                                  startingBid: car.startingBid || "",
-                                  bidMargin: car.bidMargin || ""
-                                });
-                                setShowEditModal(true);
-                              }}
+                              <button
+                                onClick={() => {
+                                  setCarToEdit(car._id);
+                                  setExistingImages(car.carImages || []);
+                                  setFormData({
+                                    listingTitle: car.listingTitle || "",
+                                    auctionLot: car.auctionLot?._id || "",
+                                    carMake: car.carMake?._id || "",
+                                    carModal: car.carModal?._id || "",
+                                    friendlyLocation: car.friendlyLocation || "",
+                                    mapLocation: car.mapLocation || "",
+                                    carType: car.carType?._id || "",
+                                    description: car.description || "",
+                                    year: car.year?._id || "",
+                                    mileage: car.mileage || "",
+                                    fuelType: car.fuelType?._id || "",
+                                    transmission: car.transmission?._id || "",
+                                    driveType: car.driveType?._id || "",
+                                    damage: car.damage?._id || "",
+                                    cylinders: car.cylinders?._id || "",
+                                    engineSize: car.engineSize?._id || "",
+                                    color: car.color?._id || "",
+                                    vin: car.vin || "",
+                                    noOfDoors: car.noOfDoors?._id || "",
+                                    videoLink: car.videoLink || "",
+                                    startingBid: car.startingBid || "",
+                                    bidMargin: car.bidMargin || ""
+                                  });
+                                  setShowEditModal(true);
+                                }}
                               >
                                 <PencilLine size={16} />
                               </button>
@@ -449,38 +504,54 @@ const AuctionInventory = () => {
                 </Button>
               </Modal.Footer>
             </Modal>
-             {/* Edit Modal */}
-          <Modal show={showEditModal} onHide={() => setShowEditModal(false)}
-            fullscreen
+            {/* Edit Modal */}
+            <Modal show={showEditModal} onHide={() => setShowEditModal(false)}
+              fullscreen
             >
-            <Modal.Header closeButton>
-              <Modal.Title>Edit Car Details</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-              <div className="form-container">
-                <div className="form-section">
-                  <div className="form-grid">
-                    <FormGrid
-                      fields={fields}
+              <Modal.Header closeButton>
+                <Modal.Title>Edit Car Details</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                <div className="form-container">
+                  <div className="form-section">
+                  <div className="tab-navigation">
+                    <span className={activeTab === "images" ? "active" : ""}
+                      onClick={() => setActiveTab("images")}
+                    >Images</span>
+                    <span
+                      className={activeTab === "formData" ? "active" : ""}
+                      onClick={() => setActiveTab("formData")}
+                    >Form Data</span>
+                  </div>
+                    <div className="form-grid">
+                    {activeTab === "formData" && (
+                      <FormGrid fields={fields} formData={formData} setFormData={setFormData} />
+                    )}
+                    {activeTab === "images" && (
+                      <MediaUpload
+                      images={images}
+                      setImages={setImages}
+                      existingImages={existingImages}
+                      setExistingImages={setExistingImages}
                       formData={formData}
                       setFormData={setFormData}
-                    />
+                    /> )}
+                    </div>
                   </div>
                 </div>
-              </div>
-            </Modal.Body>
-            <Modal.Footer>
-              <Button
-                variant="secondary"
-                onClick={() => setShowEditModal(false)}
-              >
-                Cancel
-              </Button>
-              <Button variant="primary" onClick={submitUpdatedCar}>
-                Save Changes
-              </Button>
-            </Modal.Footer>
-          </Modal>
+              </Modal.Body>
+              <Modal.Footer>
+                <Button
+                  variant="secondary"
+                  onClick={() => setShowEditModal(false)}
+                >
+                  Cancel
+                </Button>
+                <Button variant="primary" onClick={submitUpdatedCar}>
+                  Save Changes
+                </Button>
+              </Modal.Footer>
+            </Modal>
           </>
       }
     </>
