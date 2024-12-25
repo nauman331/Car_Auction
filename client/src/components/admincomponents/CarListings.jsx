@@ -10,7 +10,7 @@ import Pagination from "./Pagination";
 import LoadingSpinner from "../usercomponents/LoadingSpinner";
 import FormGrid from "./AddBuyNow/FormGrid";
 import MediaUpload from "./AddBuyNow/MediaUpload";
-import {CloudinaryUploader} from "../../utils/CloudinaryUploader";
+import { CloudinaryUploader } from "../../utils/CloudinaryUploader";
 
 const CarListings = () => {
   const { token } = useSelector((state) => state.auth);
@@ -158,7 +158,7 @@ const CarListings = () => {
       placeholder: "Enter Map Location",
     },
     {
-      id: "vedioLink",
+      id: "videoLink",
       label: "Vedio Link",
       type: "text",
       placeholder: "Enter VideoLink",
@@ -184,21 +184,21 @@ const CarListings = () => {
           console.error(`Error uploading file ${images[i].name}:`, uploadError);
         }
       }
-  
+
       // Combine existing and new image URLs
       const updatedCarImages = [...existingImages, ...newImageUrls];
-  
+
       setFormData((prevState) => ({
         ...prevState,
         carImages: updatedCarImages,
       }));
-  
+
       return updatedCarImages; // Return combined array for further processing
     } catch (error) {
       toast.error("Error while uploading files");
     }
   };
-  
+
 
 
 
@@ -269,7 +269,7 @@ const CarListings = () => {
     try {
       const updatedImages = await handleImageSubmit();
       const updatedFormData = { ...formData, carImages: updatedImages };
-  
+
       const response = await fetch(`${backendURL}/car/${carToEdit}`, {
         method: "PUT",
         headers: {
@@ -278,7 +278,7 @@ const CarListings = () => {
         },
         body: JSON.stringify(updatedFormData),
       });
-  
+
       const res_data = await response.json();
       if (response.ok) {
         toast.success("Car details updated successfully!");
@@ -291,7 +291,7 @@ const CarListings = () => {
       toast.error("Error occurred while updating car details.");
     }
   };
-  
+
 
   const getFilteredCars = () => {
     if (!searchInput.trim()) {
@@ -445,7 +445,6 @@ const CarListings = () => {
                                   videoLink: car.videoLink || "",
                                   price: car.price || "",
                                   discountedPrice: car.discountedPrice || "",
-                                  videoLink: car.vedioLink || "",
                                 });
                                 setShowEditModal(true);
                               }}
@@ -511,13 +510,13 @@ const CarListings = () => {
                     )}
                     {activeTab === "images" && (
                       <MediaUpload
-                      images={images}
-                      setImages={setImages}
-                      existingImages={existingImages}
-                      setExistingImages={setExistingImages}
-                      formData={formData}
-                      setFormData={setFormData}
-                    /> )}
+                        images={images}
+                        setImages={setImages}
+                        existingImages={existingImages}
+                        setExistingImages={setExistingImages}
+                        formData={formData}
+                        setFormData={setFormData}
+                      />)}
                   </div>
                 </div>
               </div>

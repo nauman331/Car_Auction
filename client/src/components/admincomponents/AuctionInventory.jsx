@@ -174,7 +174,7 @@ const AuctionInventory = () => {
       placeholder: "Enter Map Location",
     },
     {
-      id: "vedioLink",
+      id: "videoLink",
       label: "Vedio Link",
       type: "text",
       placeholder: "Enter VideoLink",
@@ -255,7 +255,7 @@ const AuctionInventory = () => {
       const response = await fetch(`${backendURL}/car`, { method: "GET" });
   
       if (!response.ok) {
-        throw new Error(`Error: ${response.status} - ${response.statusText}`);
+      toast.error("Error: Failed to fetch cars. Please try again later.");
       }
   
       const res_data = await response.json();

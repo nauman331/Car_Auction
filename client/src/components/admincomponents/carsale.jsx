@@ -53,11 +53,22 @@ function Carsale() {
     return <LoadingSpinner />;
   }
   const getEmbedUrl = (url) => {
-    if (url.includes("watch?v=")) {
-      return url.replace("watch?v=", "embed/");
+    try {
+      const urlObj = new URL(url);
+      if (urlObj.hostname === "www.youtube.com" && urlObj.pathname === "/watch") {
+        const videoId = urlObj.searchParams.get("v");
+        return `https://www.youtube.com/embed/${videoId}`;
+      } else if (urlObj.hostname === "youtu.be") {
+        const videoId = urlObj.pathname.slice(1); // Remove leading '/'
+        return `https://www.youtube.com/embed/${videoId}`;
+      }
+      return url; // Return as-is for valid embed URLs
+    } catch (error) {
+      console.error("Invalid video URL:", error);
+      return ""; // Return an empty string if the URL is invalid
     }
-    return url; // Return as-is if already an embed URL
   };
+  
 
   return (
     <div>
@@ -133,7 +144,6 @@ function Carsale() {
         show={showVideoModal}
         onHide={() => setShowVideoModal(false)}
         centered
-        size="lg"
         dialogClassName="custom-video-modal-height"
       >
         <Modal.Header closeButton>
