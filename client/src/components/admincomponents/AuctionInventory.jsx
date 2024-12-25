@@ -11,8 +11,10 @@ import LoadingSpinner from "../usercomponents/LoadingSpinner";
 import FormGrid from "./AddBuyNow/FormGrid";
 import MediaUpload from "./AddBuyNow/MediaUpload";
 import {CloudinaryUploader} from "../../utils/CloudinaryUploader";
-
+import { useNavigate } from "react-router-dom";
 const AuctionInventory = () => {
+
+  const navigate = useNavigate();
   const { token } = useSelector((state) => state.auth);
   const { categories } = useSelector((state) => state.category);
 
@@ -170,6 +172,12 @@ const AuctionInventory = () => {
       label: "Map Location",
       type: "text",
       placeholder: "Enter Map Location",
+    },
+    {
+      id: "vedioLink",
+      label: "Vedio Link",
+      type: "text",
+      placeholder: "Enter VideoLink",
     },
     {
       id: "description",
@@ -400,7 +408,10 @@ const AuctionInventory = () => {
                       (car, index) =>
                         car.sellingType === "auction" && (
                           <tr key={index}>
-                            <td>
+                            <td  
+                            style={{ cursor: "pointer" }}
+                            onClick={() => navigate(`/admin/carsales/${car._id}`)}
+                            >
                               <div className="car-info">
                                 <div className="car-image">
                                   <img
@@ -432,7 +443,7 @@ const AuctionInventory = () => {
                             </td>
                             <td>
                               <small>
-                                {car.auctionStatus ? "Ongoing" : "Not Started"}
+                                {car.auctionLot?.statusText || "No Status Text"}
                               </small>
                             </td>
                             <td className="action-buttons">
@@ -465,7 +476,7 @@ const AuctionInventory = () => {
                                     noOfDoors: car.noOfDoors?._id || "",
                                     videoLink: car.videoLink || "",
                                     startingBid: car.startingBid || "",
-                                    bidMargin: car.bidMargin || ""
+                                    bidMargin: car.bidMargin || "",
                                   });
                                   setShowEditModal(true);
                                 }}

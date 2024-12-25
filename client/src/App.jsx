@@ -19,6 +19,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Verificationform from "./components/usercomponents/Verificationform";
 import Deposits from "./components/admincomponents/Deposits";
+import CarSales from "./components/admincomponents/carsale"
 
 function App() {
   return (
@@ -45,6 +46,7 @@ function App() {
             <Route path="deposits" element={<Deposits />} />
             <Route path="Orders" element={<Orders />} />
             <Route path="Profile" element={<Profile />} />
+            <Route path="carsales/:id" element={<CarSales />} />
           </Route>
         </Routes>
       </ProtectedRoute>

@@ -158,6 +158,12 @@ const CarListings = () => {
       placeholder: "Enter Map Location",
     },
     {
+      id: "vedioLink",
+      label: "Vedio Link",
+      type: "text",
+      placeholder: "Enter VideoLink",
+    },
+    {
       id: "description",
       label: "Listing Description",
       type: "textarea",
@@ -171,7 +177,7 @@ const CarListings = () => {
       let newImageUrls = [];
       for (let i = 0; i < images.length; i++) {
         try {
-          const data = await CloudinaryUploader(images[i]); // Assuming you have a utility for this
+          const data = await CloudinaryUploader(images[i]);
           newImageUrls.push(data.url);
           console.log(data.url);
         } catch (uploadError) {
@@ -438,7 +444,8 @@ const CarListings = () => {
                                   noOfDoors: car.noOfDoors?._id || "",
                                   videoLink: car.videoLink || "",
                                   price: car.price || "",
-                                  discountedPrice: car.discountedPrice || ""
+                                  discountedPrice: car.discountedPrice || "",
+                                  videoLink: car.vedioLink || "",
                                 });
                                 setShowEditModal(true);
                               }}

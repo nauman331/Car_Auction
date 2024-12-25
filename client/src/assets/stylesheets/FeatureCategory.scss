@@ -1,0 +1,110 @@
+/* Breadcrumb section styling */
+.Breadcrumb-section {
+  background-color: transparent;
+  padding: 10px 15px;
+  border-radius: 5px;
+  margin-bottom: 0px;
+  margin-top: 0px !important;
+
+  .breadcrumb {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    .breadcrumb-item {
+      margin-right: 5px;
+      font-size: 14px;
+      color: #007bff; /* Link color */
+      a {
+        text-decoration: none;
+        color: inherit;
+        transition: color 0.2s ease;
+      }
+    }
+  }
+}
+
+.Breadcrumb-section .breadcrumb-item a:hover {
+  color: #0056b3; /* Darker blue on hover */
+}
+
+/* Styling the active breadcrumb item */
+.Breadcrumb-section .breadcrumb-item.active {
+  color: #6c757d; /* Gray color */
+  cursor: default;
+}
+.Auction-Vehicles-text {
+  h1 {
+    font-family: "DM Sans";
+    font-style: normal;
+    font-weight: 700;
+    font-size: 40px;
+    line-height: 45px;
+
+    color: #050b20;
+    margin-bottom: 40px !important;
+  }
+}
+.features-sections {
+  margin-top: 80px;
+  margin-bottom: 75px;
+  border-bottom: 1px solid #e1e1e1;
+  padding-bottom: 49px;
+  h2 {
+    /* Features */
+
+    font-family: "DM Sans";
+    font-style: normal;
+    font-weight: 500;
+    font-size: 26px;
+    line-height: 30px;
+    margin-bottom: 20px;
+    color: #050b20;
+  }
+
+  .features-details {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px;
+
+    h3 {
+      /* Interior */
+      font-family: "DM Sans";
+      font-style: normal;
+      font-weight: 500;
+      font-size: 18px;
+      line-height: 32px;
+
+      color: #050b20;
+
+      margin-bottom: 0px;
+
+      padding-bottom: 5px;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+
+      li {
+        /* Digital Odometer */
+
+        font-family: "DM Sans";
+        font-style: normal;
+        font-weight: 400;
+        font-size: 15px;
+        line-height: 40px;
+
+        color: #050b20;
+
+        display: flex;
+        align-items: center;
+        img {
+          margin-right: 10px;
+        }
+      }
+    }
+  }
+}

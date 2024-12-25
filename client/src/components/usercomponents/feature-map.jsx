@@ -14,7 +14,7 @@ function FeaturesSection({ features }) {
       <div className="row">
         {features.map((feature, index) => (
           <div
-            className="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 mb-4"
+            className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12 mb-4"
             key={index}
           >
             <div className="feature-item ">

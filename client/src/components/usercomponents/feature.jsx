@@ -1,5 +1,5 @@
 import React from "react";
-import FeaturesSection from "../usercomponents/feature-map";
+import FeaturesSection from "./feature-map";
 import img from "../../assets/images/tag (1) 1.png";
 
 const features = [
