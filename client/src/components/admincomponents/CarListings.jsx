@@ -8,13 +8,13 @@ import { backendURL } from "../../utils/Exports";
 import { Modal, Button } from "react-bootstrap";
 import Pagination from "./Pagination";
 import LoadingSpinner from "../usercomponents/LoadingSpinner";
-import FormGrid from "./AddBuyNow/FormGrid";
-import MediaUpload from "./AddBuyNow/MediaUpload";
+import StepsNavigation from "./AddBuyNow/StepsNavigation";
+import StepContent from "./AddBuyNow/StepsContent";
 import { CloudinaryUploader } from "../../utils/CloudinaryUploader";
 
 const CarListings = () => {
   const { token } = useSelector((state) => state.auth);
-  const { categories } = useSelector((state) => state.category);
+
   const [cars, setCars] = useState([]);
   const [loading, setLoading] = useState(false)
   const [currentPage, setCurrentPage] = useState(1);
@@ -27,149 +27,10 @@ const CarListings = () => {
   const [showEditModal, setShowEditModal] = useState(false);
   const [carToEdit, setCarToEdit] = useState(null);
   const [formData, setFormData] = useState({});
-  const [activeTab, setActiveTab] = useState("images");
   const [images, setImages] = useState([]);
   const [existingImages, setExistingImages] = useState([]);
-
-  const generateOptions = (key, labelKey) =>
-    categories?.[key]?.map((item) => ({
-      label: item[labelKey],
-      value: item._id,
-    })) || [];
-
-  const fields = [
-    {
-      id: "listingTitle",
-      label: "Listing Title",
-      type: "text",
-      placeholder: "Enter Listing Title",
-    },
-    { id: "vin", label: "VIN", type: "text", placeholder: "Enter VIN" },
-    {
-      id: "damage",
-      label: "Damage",
-      type: "select",
-      placeholder: "Select Damage",
-      options: generateOptions("vehicle-damage", "vehicleDamage"),
-    },
-    {
-      id: "carType",
-      label: "Type",
-      type: "select",
-      placeholder: "Select Car Type",
-      options: generateOptions("vehicle-type", "vehicleType"),
-    },
-    {
-      id: "carMake",
-      label: "Make",
-      type: "select",
-      placeholder: "Select Car Make",
-      options: generateOptions("vehicle-make", "vehicleMake"),
-    },
-    {
-      id: "carModal",
-      label: "Model",
-      type: "select",
-      placeholder: "Select Car Model",
-      options: generateOptions("vehicle-modal", "vehicleModal"),
-    },
-    {
-      id: "year",
-      label: "Year",
-      type: "select",
-      placeholder: "Select Year",
-      options: generateOptions("vehicle-year", "vehicleYear"),
-    },
-    {
-      id: "driveType",
-      label: "Drive Type",
-      type: "select",
-      placeholder: "Select Drive Type",
-      options: generateOptions("drive-type", "driveType"),
-    },
-    {
-      id: "transmission",
-      label: "Transmission",
-      type: "select",
-      placeholder: "Select Transmission",
-      options: generateOptions(
-        "vehicle-transmission",
-        "vehicleTransimission"
-      ),
-    },
-    { id: "mileage", label: "Milage", type: "text", placeholder: "Enter Mileage" },
-    {
-      id: "fuelType",
-      label: "Fuel Type",
-      type: "select",
-      placeholder: "Select Fuel Type",
-      options: generateOptions("vehicle-fuel-type", "vehicleFuelTypes"),
-    },
-    {
-      id: "cylinders",
-      label: "Cylinder",
-      type: "select",
-      placeholder: "Select Cylinder",
-      options: generateOptions("vehicle-cylinder", "vehicleCylinders"),
-    },
-    {
-      id: "engineSize",
-      label: "Engine Size",
-      type: "select",
-      placeholder: "Select Engine Size",
-      options: generateOptions("vehicle-engine-size", "vehicleEngineSize"),
-    },
-    {
-      id: "color",
-      label: "Color",
-      type: "select",
-      placeholder: "Select Color",
-      options: generateOptions("vehicle-color", "vehicleColors"),
-    },
-    {
-      id: "noOfDoors",
-      label: "Door",
-      type: "select",
-      placeholder: "Select Number Of Doors",
-      options: generateOptions("vehicle-door", "vehicleDoor"),
-    },
-    {
-      id: "price",
-      label: "Buy Now Price",
-      type: "text",
-      placeholder: "Enter Buy Now Price",
-    },
-    {
-      id: "discountedPrice",
-      label: "Discounted Price",
-      type: "text",
-      placeholder: "Enter Discounted Price",
-    },
-    {
-      id: "mapLocation",
-      label: "Friendly Address",
-      type: "text",
-      placeholder: "Enter Freindly Address",
-    },
-    {
-      id: "friendlyLocation",
-      label: "Map Location",
-      type: "text",
-      placeholder: "Enter Map Location",
-    },
-    {
-      id: "videoLink",
-      label: "Vedio Link",
-      type: "text",
-      placeholder: "Enter VideoLink",
-    },
-    {
-      id: "description",
-      label: "Listing Description",
-      type: "textarea",
-      placeholder: "Enter Listing Description",
-    },
-  ];
+   const [step, setStep] = useState(1);
+    const steps = ["Car Details", "Price", "Features", "Media", "Location"];
 
 
   const handleImageSubmit = async () => {
@@ -445,6 +306,7 @@ const CarListings = () => {
                                   videoLink: car.videoLink || "",
                                   price: car.price || "",
                                   discountedPrice: car.discountedPrice || "",
+                                  features: car.features || {},
                                 });
                                 setShowEditModal(true);
                               }}
@@ -485,54 +347,32 @@ const CarListings = () => {
               </Button>
             </Modal.Footer>
           </Modal>
-          {/* Edit Modal */}
-          <Modal show={showEditModal} onHide={() => setShowEditModal(false)}
-            fullscreen
-          >
-            <Modal.Header closeButton>
-              <Modal.Title>Edit Car Details</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-              <div className="form-container">
-                <div className="form-section">
-                  <div className="tab-navigation">
-                    <span className={activeTab === "images" ? "active" : ""}
-                      onClick={() => setActiveTab("images")}
-                    >Images</span>
-                    <span
-                      className={activeTab === "formData" ? "active" : ""}
-                      onClick={() => setActiveTab("formData")}
-                    >Form Data</span>
-                  </div>
-                  <div className="form-grid">
-                    {activeTab === "formData" && (
-                      <FormGrid fields={fields} formData={formData} setFormData={setFormData} />
-                    )}
-                    {activeTab === "images" && (
-                      <MediaUpload
-                        images={images}
-                        setImages={setImages}
-                        existingImages={existingImages}
-                        setExistingImages={setExistingImages}
-                        formData={formData}
-                        setFormData={setFormData}
-                      />)}
+           {/* Edit Modal */}
+           <Modal show={showEditModal} onHide={() => setShowEditModal(false)}
+              fullscreen
+            >
+              <Modal.Header closeButton>
+                <Modal.Title>Edit Car Details</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                <div className="form-container">
+                  <StepsNavigation steps={steps.map(label => ({ label }))} currentStep={step} onStepChange={setStep} />
+                  <div className="form-section">
+                    <StepContent step={step} formData={formData} setFormData={setFormData} sellingType={"fixed"} images={images} setImages={setImages} />
+                    <div className="navigation-buttons">
+                      <div className="next-button">
+                        <Button
+                          onClick={step < steps.length ? () => setStep(step + 1) : handleUpdateCar}
+                          disabled={loading}
+                        >
+                          {step < steps.length ? `Next: ${steps[step]}` : loading ? "Submitting..." : "Submit"}
+                        </Button>
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </Modal.Body>
-            <Modal.Footer>
-              <Button
-                variant="secondary"
-                onClick={() => setShowEditModal(false)}
-              >
-                Cancel
-              </Button>
-              <Button variant="primary" onClick={handleUpdateCar}>
-                Save Changes
-              </Button>
-            </Modal.Footer>
-          </Modal>
+              </Modal.Body>
+            </Modal>
 
         </>
       }

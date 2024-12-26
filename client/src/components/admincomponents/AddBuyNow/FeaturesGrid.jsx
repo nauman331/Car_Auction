@@ -1,6 +1,5 @@
 import React from "react";
 
-
 const FeaturesGrid = ({ formData, setFormData }) => {
   const features = [
     { title: "Convenience", items: ["Heated Seats", "Heated Steering Wheel", "Navigation System", "Tyre Pressure Monitoring System"] },
@@ -9,16 +8,15 @@ const FeaturesGrid = ({ formData, setFormData }) => {
     { title: "Interior", items: ["Center Console", "Heated and Ventilated Front Seats", "Panoramic Moonroof", "Qi Wireless Charging", "Touch Screen Display"] },
     { title: "Exterior", items: ["Alloy Wheels", "Brake Calipers - Silver Painted", "Rear Bumper High Gloss", "Rear Diffuser Body Color", "Windows - Electric Front"] },
   ];
-  
 
   const handleFeatureChange = (category, feature) => {
     setFormData((prevData) => ({
       ...prevData,
       features: {
         ...prevData.features,
-        [category]: prevData.features[category].includes(feature)
-          ? prevData.features[category].filter((f) => f !== feature)
-          : [...prevData.features[category], feature],
+        [category]: prevData.features[category]?.includes(feature)
+          ? prevData.features[category].filter((f) => f !== feature) // Remove the feature if it's already selected
+          : [...(prevData.features[category] || []), feature], // Add the feature if not selected
       },
     }));
   };
@@ -43,6 +41,5 @@ const FeaturesGrid = ({ formData, setFormData }) => {
     </div>
   );
 };
-
 
 export default FeaturesGrid;
