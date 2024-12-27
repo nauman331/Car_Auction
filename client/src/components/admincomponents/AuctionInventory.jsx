@@ -27,11 +27,10 @@ const AuctionInventory = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [sortOption, setSortOption] = useState("all");
   const [formData, setFormData] = useState({});
-  const [activeTab, setActiveTab] = useState("images");
   const [images, setImages] = useState([]);
   const [existingImages, setExistingImages] = useState([]);
-  const steps = ["Car Details", "Price", "Features", "Media", "Location"];
   const [step, setStep] = useState(1);
+  const steps = ["Car Details", "Price", "Features", "Media", "Location"];
 
 
   const itemsPerPage = 10;
@@ -354,7 +353,7 @@ const AuctionInventory = () => {
                 <div className="form-container">
                   <StepsNavigation steps={steps.map(label => ({ label }))} currentStep={step} onStepChange={setStep} />
                   <div className="form-section">
-                    <StepContent step={step} formData={formData} setFormData={setFormData} sellingType={"auction"} images={images} setImages={setImages} />
+                    <StepContent step={step} formData={formData} setFormData={setFormData} sellingType={"auction"} images={images} setImages={setImages} existingImages={existingImages} setExistingImages={setExistingImages}/>
                     <div className="navigation-buttons">
                       <div className="next-button">
                         <Button

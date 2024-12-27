@@ -172,7 +172,6 @@ const AuctionListings = () => {
     const startIndex = (currentPage - 1) * itemsPerPage;
     return filteredAuctions.slice(startIndex, startIndex + itemsPerPage);
   };
-
   return (
     <>
       {loading ? (

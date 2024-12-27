@@ -358,7 +358,7 @@ const CarListings = () => {
                 <div className="form-container">
                   <StepsNavigation steps={steps.map(label => ({ label }))} currentStep={step} onStepChange={setStep} />
                   <div className="form-section">
-                    <StepContent step={step} formData={formData} setFormData={setFormData} sellingType={"fixed"} images={images} setImages={setImages} />
+                    <StepContent step={step} formData={formData} setFormData={setFormData} sellingType={"fixed"} images={images} setImages={setImages} existingImages={existingImages} setExistingImages={setExistingImages} />
                     <div className="navigation-buttons">
                       <div className="next-button">
                         <Button
