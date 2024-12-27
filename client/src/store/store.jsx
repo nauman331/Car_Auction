@@ -24,8 +24,8 @@ const store = configureStore({
   reducer: {
     auth: persistedAuthReducer, // Persisted auth reducer
     category: persistedCategoryReducer, // Persisted category reducer
-  },
-});
+      },
+    });
 
 export const persistor = persistStore(store);
 export default store;
