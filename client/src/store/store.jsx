@@ -1,6 +1,8 @@
 import { configureStore } from "@reduxjs/toolkit";
 import authReducer from "./slices/authSlice";
 import categoryReducer from "./slices/categorySlice";
+import socketReducer from "./socketSlice";
+import eventReducer from "./eventSlice";
 import { persistReducer, persistStore } from "redux-persist";
 import storage from "redux-persist/lib/storage"; // defaults to localStorage
 
@@ -24,8 +26,19 @@ const store = configureStore({
   reducer: {
     auth: persistedAuthReducer, // Persisted auth reducer
     category: persistedCategoryReducer, // Persisted category reducer
+    socket: socketReducer,
+    event: eventReducer,
+  },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        // Ignore these action types
+        ignoredActions: ["socket/setSocket", "persist/REHYDRATE"],
+        // Ignore these paths in the state
+        ignoredPaths: ["socket.socket"],
       },
-    });
+    }),
+});
 
 export const persistor = persistStore(store);
 export default store;

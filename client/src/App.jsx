@@ -20,8 +20,31 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Verificationform from "./components/usercomponents/Verificationform";
 import Deposits from "./components/admincomponents/Deposits";
 import CarSales from "./components/admincomponents/carsale"
+import { useEffect } from "react"
+import { useSelector } from "react-redux"
 
 function App() {
+  const socket = useSelector((state) => state.socket.socket)
+
+  useEffect(() => {
+    if (socket) {
+      console.log("Setting up socket event listeners")
+      socket.on("connect", () => {
+        console.log("Socket connected")
+      })
+
+      socket.on("disconnect", () => {
+        console.log("Socket disconnected")
+      })
+
+      return () => {
+        console.log("Cleaning up socket event listeners")
+        socket.off("connect")
+        socket.off("disconnect")
+      }
+    }
+  }, [socket])
+
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <ProtectedRoute>
