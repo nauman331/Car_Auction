@@ -80,7 +80,7 @@ const MediaUpload = ({ setFormData, formData, images, setImages, existingImages,
       {/* Optional Video Link Input */}
       {(sellingType === "fixed" || sellingType === "auction") && (
         <>
-          <small>Don't forget to upload images using the upload button above.</small>
+          <small>Add or Delete all images of car</small>
           <hr />
           <div className="video-link">
             <Link2 size={20} />
