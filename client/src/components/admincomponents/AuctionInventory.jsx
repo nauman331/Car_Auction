@@ -80,6 +80,7 @@ const AuctionInventory = () => {
   };
 
   const getAllCars = async () => {
+    setLoading(true);
     try {
       const response = await fetch(`${backendURL}/car`, { method: "GET" });
 
@@ -92,14 +93,14 @@ const AuctionInventory = () => {
     } catch (error) {
       console.error("Error fetching cars:", error);
       toast.error("Failed to fetch cars. Please try again later.");
+    } finally {
+      setLoading(false);
     }
   };
 
 
   useEffect(() => {
-    setLoading(true);
-       getAllCars();
-      setLoading(false);
+    getAllCars();
   }, [token]);
 
 
@@ -151,7 +152,6 @@ const AuctionInventory = () => {
   };
 
   const submitUpdatedCar = async () => {
-    setLoading(true);
     const authorizationToken = `Bearer ${token}`;
     try {
       const updatedImages = await handleImageSubmit();
@@ -175,8 +175,6 @@ const AuctionInventory = () => {
       }
     } catch (error) {
       toast.error("Error occurred while updating car details.");
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -353,7 +351,7 @@ const AuctionInventory = () => {
                 <div className="form-container">
                   <StepsNavigation steps={steps.map(label => ({ label }))} currentStep={step} onStepChange={setStep} />
                   <div className="form-section">
-                    <StepContent step={step} formData={formData} setFormData={setFormData} sellingType={"auction"} images={images} setImages={setImages} existingImages={existingImages} setExistingImages={setExistingImages}/>
+                    <StepContent step={step} formData={formData} setFormData={setFormData} sellingType={"auction"} images={images} setImages={setImages} existingImages={existingImages} setExistingImages={setExistingImages} />
                     <div className="navigation-buttons">
                       <div className="next-button">
                         <Button

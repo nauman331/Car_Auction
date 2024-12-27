@@ -4,7 +4,7 @@ import FormGrid from "./FormGrid";
 import FeaturesGrid from "./FeaturesGrid";
 import MediaUpload from "./MediaUpload";
 
-const StepContent = ({ step, formData, setFormData, sellingType, images, setImages }) => {
+const StepContent = ({ step, formData, setFormData, sellingType, images, setImages, existingImages, setExistingImages }) => {
   const { categories, auctions } = useSelector((state) => state.category);
 
   const generateOptions = (key, labelKey) =>
@@ -196,7 +196,7 @@ const StepContent = ({ step, formData, setFormData, sellingType, images, setImag
       />
     ),
     3: <FeaturesGrid formData={formData} setFormData={setFormData} />,
-    4: <MediaUpload formData={formData} setFormData={setFormData} images={images} setImages={setImages} sellingType={sellingType} />,
+    4: <MediaUpload formData={formData} setFormData={setFormData} images={images} setImages={setImages} sellingType={sellingType} existingImages={existingImages} setExistingImages={setExistingImages} />,
     5: (
       <FormGrid
         fields={commonFields.locationFields}
