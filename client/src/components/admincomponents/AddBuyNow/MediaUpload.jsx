@@ -80,13 +80,13 @@ const MediaUpload = ({ setFormData, formData, images, setImages, existingImages,
       {/* Optional Video Link Input */}
       {(sellingType === "fixed" || sellingType === "auction") && (
         <>
-          <small>Add or Delete all images of car</small>
+          <small>Don't forget to upload images using the upload button above.</small>
           <hr />
           <div className="video-link">
             <Link2 size={20} />
             <input
               type="text"
-              placeholder="Enter YouTube or Vimeo URL"
+              placeholder="Enter YouTube Video URL"
               value={formData.videoLink || ""}
               onChange={(e) =>
                 setFormData((prevState) => ({
