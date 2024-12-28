@@ -99,9 +99,11 @@ const CarAuction = ({ car, getCarDetails }) => {
             </button>
           </div>)
           :  <div className="bid-controls">
-            <button className="place-bid">
+            <button className="place-bid" style={{backgroundColor: car.isSold && " #4682B4"}}>
               <img src={img1} />
-              Mark as Sold
+              {
+                car.isSold ? "Sold" : "Mark as Sold"
+              }
             </button>
           </div>
       }
