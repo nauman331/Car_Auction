@@ -22,28 +22,46 @@ import Deposits from "./components/admincomponents/Deposits";
 import CarSales from "./components/admincomponents/carsale"
 import { useEffect } from "react"
 import { useSelector } from "react-redux"
+import toast from "react-hot-toast";
 
 function App() {
   const socket = useSelector((state) => state.socket.socket)
 
   useEffect(() => {
     if (socket) {
-      console.log("Setting up socket event listeners")
       socket.on("connect", () => {
-        console.log("Socket connected")
-      })
-
+        console.log("Socket connected");
+      });
+  
       socket.on("disconnect", () => {
-        console.log("Socket disconnected")
-      })
-
+        console.log("Socket disconnected");
+      });
+  
+      socket.on("auctionOpened", (response) => {
+        const audio = new Audio("/notification.wav");
+        audio.play();
+        toast.success(response.message, {
+          duration: 5000,
+        });
+      });
+  
+      socket.on("bidPlaced", (response) => {
+        const audio = new Audio("/notification.wav");
+        audio.play();
+        toast.success(response.message, {
+          duration: 5000,
+        });
+      });
+  
       return () => {
-        console.log("Cleaning up socket event listeners")
-        socket.off("connect")
-        socket.off("disconnect")
-      }
+        socket.off("connect");
+        socket.off("disconnect");
+        socket.off("auctionOpened");
+        socket.off("bidPlaced");
+      };
     }
-  }, [socket])
+  }, [socket]);
+  
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>

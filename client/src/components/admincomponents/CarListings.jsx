@@ -11,10 +11,11 @@ import LoadingSpinner from "../usercomponents/LoadingSpinner";
 import StepsNavigation from "./AddBuyNow/StepsNavigation";
 import StepContent from "./AddBuyNow/StepsContent";
 import { CloudinaryUploader } from "../../utils/CloudinaryUploader";
+import { useNavigate } from "react-router-dom";
 
 const CarListings = () => {
+  const navigate = useNavigate();
   const { token } = useSelector((state) => state.auth);
-
   const [cars, setCars] = useState([]);
   const [loading, setLoading] = useState(false)
   const [currentPage, setCurrentPage] = useState(1);
@@ -241,7 +242,10 @@ const CarListings = () => {
                     (car, index) =>
                       car.sellingType === "fixed" && (
                         <tr key={index}>
-                          <td>
+                          <td
+                          style={{ cursor: "pointer" }}
+                          onClick={() => navigate(`/admin/carsales/${car._id}`)}
+                          >
                             <div className="car-info">
                               <div className="car-image">
                                 <img

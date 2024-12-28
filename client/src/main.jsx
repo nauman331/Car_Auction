@@ -12,7 +12,6 @@ import { setSocket } from "./store/socketSlice"
 import { backendURL } from "./utils/Exports.jsx"
 
 // Initialize socket.io-client
-console.log("Connecting to socket.io server at:", backendURL)
 const socket = io(backendURL.replace('/api', ''), {
   transports: ["websocket", "polling"],
   reconnectionAttempts: 5,

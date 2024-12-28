@@ -28,7 +28,6 @@ function Carsale() {
       if (!response.ok) {
         console.log(res_data.message);
       }
-      console.log(res_data);
       setCar(res_data);
       setFeaturesData(
         Object.keys(res_data.features).map((key) => ({
@@ -113,7 +112,7 @@ function Carsale() {
               </div>
             </div>
             <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 mb-4 px-2">
-              <CarAuction car={car} />
+              <CarAuction car={car} getCarDetails={getCarDetails} />
             </div>
           </div>
         </div>

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "../../assets/stylesheets/carsalesinfo.scss"; 
+import "../../assets/stylesheets/carsalesinfo.scss";
 import img1 from "../../assets/images/placebid.png";
 import img2 from "../../assets/images/body.png";
 import img3 from "../../assets/images/mileage.png";
@@ -13,14 +13,44 @@ import img10 from "../../assets/images/door.png";
 import img11 from "../../assets/images/piston 1.png";
 import img12 from "../../assets/images/color.png";
 import img13 from "../../assets/images/steering-wheel 1.png";
-const CarAuction = ({car}) => {
-  const [bid, setBid] = useState(6000);
+import { useSelector } from "react-redux";
+const CarAuction = ({ car, getCarDetails }) => {
+  const { socket } = useSelector((state) => state.socket);
+  const { token } = useSelector(state => state.auth);
+  const [bid, setBid] = useState(car.startingBid || 0);
 
-  const increaseBid = () => setBid(bid + 500);
+
+  const increaseBid = () => setBid(bid + car.bidMargin);
   const decreaseBid = () => {
-    if (bid > 2500) setBid(bid - 500);
+    if (bid > car.startingBid) setBid(bid - car.bidMargin);
   };
 
+  const handleStartBid = () => {
+    if (socket && token && car._id) {
+      const data = {
+        carId: car._id,
+        token,
+      };
+      socket.emit("openAuction", data);
+      getCarDetails();
+    } else {
+      console.log("Socket not connected or invalid data");
+    }
+  };
+
+  const handlePlaceBid = () => {
+    if (socket && token && car._id) {
+      const data = {
+        carId: car._id,
+        token,
+        bidAmount: parseFloat(bid),
+      };
+      socket.emit("placeBid", data);
+      getCarDetails();
+    } else {
+      console.log("Socket not connected or invalid data");
+    }
+  };
   return (
     <div className="car-auction">
       <h1>{car.listingTitle || "No Title"}</h1>
@@ -30,20 +60,53 @@ const CarAuction = ({car}) => {
         <p className="dots"></p> {car.transmission?.vehicleTransimission || "No Transmission"}
       </p>
       <div className="current-bid">
-        <p>Current Bid</p>
-        <h2>$5,500</h2>
-        <p>Bid Starting Price: {car.startingBid || "N/A"} AED</p>
-      </div>
+        {
+          car.sellingType === "auction" ? (
+            <>
+              <p>Current Bid</p>
+              <h2>AED 5,500</h2>
+              <p>Bid Starting Price: {car.startingBid || "N/A"} AED</p>
+            </>
+          ) : (
+            <>
+              <p>Discounted Price</p>
+              <h2>AED {car.discountedPrice ? car.discountedPrice : car.price || "N/A"}</h2>
+              {car.discountedPrice && <p>Original Price: {car.price || "N/A"} AED</p>}
+            </>
+          )
+        }
 
-      <div className="bid-controls">
-        <button onClick={decreaseBid}>-</button>
-        <span>${bid}</span>
-        <button onClick={increaseBid}>+</button>
-        <button className="place-bid">
-          <img src={img1} />
-          Place Bid
-        </button>
       </div>
+      {car.sellingType === "auction" ?
+        car.auctionStatus ?
+          (<div className="bid-controls">
+            <button onClick={decreaseBid}>-</button>
+            <span>AED
+              <input type="number" value={bid}
+                onChange={(e) => setBid(e.target.value)}
+              /></span>
+            <button onClick={increaseBid}>+</button>
+            <button className="place-bid" onClick={handlePlaceBid}>
+              <img src={img1} />
+              Place Bid
+            </button>
+          </div>)
+          :
+          (<div className="bid-controls">
+            <button className="place-bid" onClick={handleStartBid}>
+              <img src={img1} />
+              Start Bidding
+            </button>
+          </div>)
+          :  <div className="bid-controls">
+            <button className="place-bid">
+              <img src={img1} />
+              Mark as Sold
+            </button>
+          </div>
+      }
+
+
 
       <div className="car-overview">
         <h3>Car Overview</h3>
@@ -171,6 +234,7 @@ const CarAuction = ({car}) => {
           </li>
         </ul>
       </div>
+
       <div className="location">
         <h2>Location</h2>
         <p>
@@ -180,5 +244,6 @@ const CarAuction = ({car}) => {
     </div>
   );
 };
+
 
 export default CarAuction;
