@@ -46,7 +46,7 @@ const CarAuction = ({ car, getCarDetails }) => {
         token,
         bidAmount: parseFloat(bid),
       };
-      if (parseFloat(bid) <= currentBid) {
+      if (parseFloat(bid) <= parseFloat(currentBid)) {
         toast.error("Bid amount should be greater than current bid");
         return;
       }      

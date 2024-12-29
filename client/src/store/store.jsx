@@ -17,9 +17,15 @@ const categoryPersistConfig = {
   storage,
 };
 
+const socketEventPersistConfig = {
+  key: "eventdata",
+  storage
+}
+
 // Persisted reducers
 const persistedAuthReducer = persistReducer(authPersistConfig, authReducer);
 const persistedCategoryReducer = persistReducer(categoryPersistConfig, categoryReducer);
+const persistedSocketEventReducer = persistReducer(socketEventPersistConfig, eventReducer);
 
 // Create the store
 const store = configureStore({
@@ -27,7 +33,7 @@ const store = configureStore({
     auth: persistedAuthReducer, // Persisted auth reducer
     category: persistedCategoryReducer, // Persisted category reducer
     socket: socketReducer,
-    event: eventReducer,
+    event: persistedSocketEventReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
