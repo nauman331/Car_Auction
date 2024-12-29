@@ -70,7 +70,7 @@ const CarAuction = ({ car, getCarDetails }) => {
           car.sellingType === "auction" ? (
             <>
               <p>Current Bid</p>
-              <h2>AED {currentBidData && (car._id === currentBidData.carId) ? ((currentBidData && currentBidData.bidAmount) || car.startingBid || "N/A") : <small style={{fontSize: "1rem", color: "#aaa"}}>Bidding Started on another car</small>}</h2>
+              <h2>AED {currentBidData && (car._id === currentBidData.carId) ? (currentBidData?.bidAmount || car.startingBid || "N/A") : <small style={{fontSize: "1rem", color: "#aaa"}}>Bidding Started on another car</small>}</h2>
               <p>Bid Starting Price: {car.startingBid || "N/A"} AED</p>
             </>
           ) : (
