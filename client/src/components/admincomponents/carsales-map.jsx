@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../../assets/stylesheets/carsalesinfo.scss";
 import img1 from "../../assets/images/placebid.png";
 import img2 from "../../assets/images/body.png";
@@ -14,11 +14,12 @@ import img11 from "../../assets/images/piston 1.png";
 import img12 from "../../assets/images/color.png";
 import img13 from "../../assets/images/steering-wheel 1.png";
 import { useSelector } from "react-redux";
+import toast from "react-hot-toast";
 const CarAuction = ({ car, getCarDetails }) => {
   const { socket } = useSelector((state) => state.socket);
   const { token } = useSelector(state => state.auth);
+  const { currentBid } = useSelector(state => state.event);
   const [bid, setBid] = useState(car.startingBid || 0);
-
 
   const increaseBid = () => setBid(bid + car.bidMargin);
   const decreaseBid = () => {
@@ -45,8 +46,11 @@ const CarAuction = ({ car, getCarDetails }) => {
         token,
         bidAmount: parseFloat(bid),
       };
+      if (parseFloat(bid) <= currentBid) {
+        toast.error("Bid amount should be greater than current bid");
+        return;
+      }      
       socket.emit("placeBid", data);
-      getCarDetails();
     } else {
       console.log("Socket not connected or invalid data");
     }
@@ -64,7 +68,7 @@ const CarAuction = ({ car, getCarDetails }) => {
           car.sellingType === "auction" ? (
             <>
               <p>Current Bid</p>
-              <h2>AED 5,500</h2>
+              <h2>AED { currentBid || "N/A"}</h2>
               <p>Bid Starting Price: {car.startingBid || "N/A"} AED</p>
             </>
           ) : (
@@ -83,7 +87,7 @@ const CarAuction = ({ car, getCarDetails }) => {
             <button onClick={decreaseBid}>-</button>
             <span>AED
               <input type="number" value={bid}
-                onChange={(e) => setBid(e.target.value)}
+                onChange={(e) => setBid(parseFloat(e.target.value))}
               /></span>
             <button onClick={increaseBid}>+</button>
             <button className="place-bid" onClick={handlePlaceBid}>

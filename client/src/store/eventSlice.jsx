@@ -3,14 +3,14 @@ import { createSlice } from "@reduxjs/toolkit"
 const eventSlice = createSlice({
   name: "event",
   initialState: {
-    data: null,
+    currentBid: null,
   },
   reducers: {
-    setEventData: (state, action) => {
-      state.data = action.payload
+    setBidData: (state, action) => {
+      state.currentBid = action.payload
     },
   },
 })
 
-export const { setEventData } = eventSlice.actions
+export const { setBidData } = eventSlice.actions
 export default eventSlice.reducer

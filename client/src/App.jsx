@@ -21,11 +21,13 @@ import Verificationform from "./components/usercomponents/Verificationform";
 import Deposits from "./components/admincomponents/Deposits";
 import CarSales from "./components/admincomponents/carsale"
 import { useEffect } from "react"
-import { useSelector } from "react-redux"
+import { useSelector, useDispatch } from "react-redux"
 import toast from "react-hot-toast";
+import {setBidData} from "./store/eventSlice"
 
 function App() {
-  const socket = useSelector((state) => state.socket.socket)
+  const dispatch = useDispatch();
+  const {socket} = useSelector((state) => state.socket)
 
   useEffect(() => {
     if (socket) {
@@ -51,6 +53,7 @@ function App() {
         toast.success(response.message, {
           duration: 5000,
         });
+        dispatch(setBidData(response.bidAmount));
       });
   
       return () => {
