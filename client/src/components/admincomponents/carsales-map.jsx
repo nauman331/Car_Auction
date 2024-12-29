@@ -18,7 +18,7 @@ import toast from "react-hot-toast";
 const CarAuction = ({ car, getCarDetails }) => {
   const { socket } = useSelector((state) => state.socket);
   const { token } = useSelector(state => state.auth);
-  const { currentBid } = useSelector(state => state.event);
+  const { currentBidData } = useSelector(state => state.event);
   const [bid, setBid] = useState(car.startingBid || 0);
 
   const increaseBid = () => setBid(bid + car.bidMargin);
@@ -40,21 +40,22 @@ const CarAuction = ({ car, getCarDetails }) => {
   };
 
   const handlePlaceBid = () => {
-    if (socket && token && car._id) {
+    if (socket && token && car?._id) {
       const data = {
         carId: car._id,
         token,
         bidAmount: parseFloat(bid),
       };
-      if (parseFloat(bid) <= parseFloat(currentBid)) {
-        toast.error("Bid amount should be greater than current bid");
+      if (parseFloat(bid) <= parseFloat(currentBidData?.bidAmount || car.startingBid)) {
+        toast.error("Bid amount should be greater than the current bid");
         return;
-      }      
+      }
       socket.emit("placeBid", data);
     } else {
       console.log("Socket not connected or invalid data");
     }
   };
+
   return (
     <div className="car-auction">
       <h1>{car.listingTitle || "No Title"}</h1>
@@ -68,7 +69,7 @@ const CarAuction = ({ car, getCarDetails }) => {
           car.sellingType === "auction" ? (
             <>
               <p>Current Bid</p>
-              <h2>AED { currentBid || "N/A"}</h2>
+              <h2>AED {currentBidData && (car._id === currentBidData.carId) ? ((currentBidData && currentBidData.bidAmount) || car.startingBid || "N/A") : <small style={{fontSize: "1rem", color: "#aaa"}}>Bidding Started on another car</small>}</h2>
               <p>Bid Starting Price: {car.startingBid || "N/A"} AED</p>
             </>
           ) : (
@@ -102,14 +103,14 @@ const CarAuction = ({ car, getCarDetails }) => {
               Start Bidding
             </button>
           </div>)
-          :  <div className="bid-controls">
-            <button className="place-bid" style={{backgroundColor: car.isSold && " #4682B4"}}>
-              <img src={img1} />
-              {
-                car.isSold ? "Sold" : "Mark as Sold"
-              }
-            </button>
-          </div>
+        : <div className="bid-controls">
+          <button className="place-bid" style={{ backgroundColor: car.isSold && " #4682B4" }}>
+            <img src={img1} />
+            {
+              car.isSold ? "Sold" : "Mark as Sold"
+            }
+          </button>
+        </div>
       }
 
 

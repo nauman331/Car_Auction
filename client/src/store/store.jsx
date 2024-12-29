@@ -33,7 +33,7 @@ const store = configureStore({
     auth: persistedAuthReducer, // Persisted auth reducer
     category: persistedCategoryReducer, // Persisted category reducer
     socket: socketReducer,
-    event: persistedSocketEventReducer,
+    event: persistedSocketEventReducer, // Persisted socketData reducer
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

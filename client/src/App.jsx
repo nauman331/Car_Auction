@@ -27,7 +27,7 @@ import {setBidData} from "./store/eventSlice"
 
 function App() {
   const dispatch = useDispatch();
-  const {socket} = useSelector((state) => state.socket)
+  const socket = useSelector((state) => state.socket.socket)
 
   useEffect(() => {
     if (socket) {
@@ -53,7 +53,8 @@ function App() {
         toast.success(response.message, {
           duration: 5000,
         });
-        dispatch(setBidData(response.bidAmount));
+        dispatch(setBidData(response));
+        console.log(response);
       });
   
       return () => {
