@@ -52,6 +52,7 @@ const CarAuction = ({ car, getCarDetails }) => {
       }
       socket.emit("placeBid", data);
       setBid(currentBidData?.bidAmount)
+      getCarDetails();
     } else {
       console.log("Socket not connected or invalid data");
     }
