@@ -12,6 +12,7 @@ import img3 from "../../assets/images/camera 1.png";
 import { useParams } from "react-router-dom";
 import { backendURL } from "../../utils/Exports";
 import LoadingSpinner from "../usercomponents/LoadingSpinner";
+import toast from "react-hot-toast";
 
 function Carsale() {
   const { id } = useParams();
@@ -112,7 +113,7 @@ function Carsale() {
               </div>
             </div>
             <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 mb-4 px-2">
-              <CarAuction car={car} getCarDetails={getCarDetails} />
+              <CarAuction car={car} getCarDetails={getCarDetails} backendURL={backendURL}/>
             </div>
           </div>
         </div>

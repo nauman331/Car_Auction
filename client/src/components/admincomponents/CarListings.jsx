@@ -5,11 +5,10 @@ import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
 import toast from "react-hot-toast";
 import { backendURL } from "../../utils/Exports";
-import { Modal, Button } from "react-bootstrap";
 import Pagination from "./Pagination";
 import LoadingSpinner from "../usercomponents/LoadingSpinner";
-import StepsNavigation from "./AddBuyNow/StepsNavigation";
-import StepContent from "./AddBuyNow/StepsContent";
+import DeleteModal from "./DeleteModal";
+import EditModal from "./EditModal";
 import { CloudinaryUploader } from "../../utils/CloudinaryUploader";
 import { useNavigate } from "react-router-dom";
 
@@ -114,7 +113,7 @@ const CarListings = () => {
     setShowDeleteModal(true);
   };
 
-  const handleConfirmDelete = () => {
+  const handleDeleteConfirm = () => {
     if (carIdToDelete) {
       deleteCarHandler(carIdToDelete);
       setShowDeleteModal(false);
@@ -126,7 +125,7 @@ const CarListings = () => {
   };
 
 
-  const handleUpdateCar = async () => {
+  const submitUpdatedCar = async () => {
     const authorizationToken = `Bearer ${token}`;
     try {
       const updatedImages = await handleImageSubmit();
@@ -334,49 +333,29 @@ const CarListings = () => {
             }
           </div>
 
-          {/* Delete Confirmation Modal */}
-          <Modal show={showDeleteModal} onHide={handleCancelDelete}>
-            <Modal.Header closeButton>
-              <Modal.Title>Confirm to Delete</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-              Are you sure you want to delete this car listing?
-            </Modal.Body>
-            <Modal.Footer>
-              <Button variant="secondary" onClick={handleCancelDelete}>
-                No
-              </Button>
-              <Button variant="danger" onClick={handleConfirmDelete}>
-                Yes
-              </Button>
-            </Modal.Footer>
-          </Modal>
-           {/* Edit Modal */}
-           <Modal show={showEditModal} onHide={() => setShowEditModal(false)}
-              fullscreen
-            >
-              <Modal.Header closeButton>
-                <Modal.Title>Edit Car Details</Modal.Title>
-              </Modal.Header>
-              <Modal.Body>
-                <div className="form-container">
-                  <StepsNavigation steps={steps.map(label => ({ label }))} currentStep={step} onStepChange={setStep} />
-                  <div className="form-section">
-                    <StepContent step={step} formData={formData} setFormData={setFormData} sellingType={"fixed"} images={images} setImages={setImages} existingImages={existingImages} setExistingImages={setExistingImages} />
-                    <div className="navigation-buttons">
-                      <div className="next-button">
-                        <Button
-                          onClick={step < steps.length ? () => setStep(step + 1) : handleUpdateCar}
-                          disabled={loading}
-                        >
-                          {step < steps.length ? `Next: ${steps[step]}` : loading ? "Submitting..." : "Submit"}
-                        </Button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </Modal.Body>
-            </Modal>
+           {/* Delete Confirmation Modal */}
+           <DeleteModal
+        show={showDeleteModal}
+        onClose={() => setShowDeleteModal(false)}
+        onConfirm={handleDeleteConfirm}
+      />
+            {/* Edit Modal */}
+            <EditModal
+        show={showEditModal}
+        onClose={() => setShowEditModal(false)}
+        formData={formData}
+        setFormData={setFormData}
+        step={step}
+        setStep={setStep}
+        steps={steps}
+        submitHandler={submitUpdatedCar}
+        images={images}
+        setImages={setImages}
+        existingImages={existingImages}
+        setExistingImages={setExistingImages}
+        loading={loading}
+        sellingType="fixed"
+      />
 
         </>
       }

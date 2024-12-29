@@ -56,13 +56,16 @@
       .sort-options {
         display: flex;
         align-items: center;
-  
+        background-color: white;
+        
         span {
+          background-color: white;
           margin-right: 5px;
           color: #aaa;
         }
-  
+        
         select {
+          background-color: white;
           padding: 8px;
           border: none;
           cursor: pointer;

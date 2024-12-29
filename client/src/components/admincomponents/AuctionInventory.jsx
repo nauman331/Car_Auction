@@ -5,13 +5,13 @@ import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
 import toast from "react-hot-toast";
 import { backendURL } from "../../utils/Exports";
-import { Modal, Button } from "react-bootstrap";
 import Pagination from "./Pagination";
 import LoadingSpinner from "../usercomponents/LoadingSpinner";
-import StepsNavigation from "./AddBuyNow/StepsNavigation";
-import StepContent from "./AddBuyNow/StepsContent";
 import { CloudinaryUploader } from "../../utils/CloudinaryUploader";
 import { useNavigate } from "react-router-dom";
+import DeleteModal from "./DeleteModal";
+import EditModal from "./EditModal";
+
 const AuctionInventory = () => {
 
   const navigate = useNavigate();
@@ -20,7 +20,7 @@ const AuctionInventory = () => {
   const [cars, setCars] = useState([])
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(false);
-  const [showModal, setShowModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [carIdToDelete, setCarIdToDelete] = useState(null);
   const [showEditModal, setShowEditModal] = useState(false);
   const [carToEdit, setCarToEdit] = useState(null);
@@ -117,7 +117,7 @@ const AuctionInventory = () => {
       const res_data = await response.json();
       if (response.ok) {
         toast.success(res_data.message);
-        setShowModal(false); // Close the modal after deletion
+        setShowDeleteModal(false); // Close the modal after deletion
         setCarIdToDelete(null); // Clear the ID after deletion
         getAllCars();
       } else {
@@ -130,14 +130,8 @@ const AuctionInventory = () => {
 
   const confirmDelete = (id) => {
     setCarIdToDelete(id);
-    setShowModal(true);
+    setShowDeleteModal(true);
   };
-
-  const handleCloseModal = () => {
-    setShowModal(false);
-    setCarIdToDelete(null);
-  };
-
   const handleDeleteConfirm = () => {
     deletCar(carIdToDelete);
   };
@@ -326,46 +320,28 @@ const AuctionInventory = () => {
             </div>
 
             {/* Delete Confirmation Modal */}
-            <Modal show={showModal} onHide={handleCloseModal}>
-              <Modal.Header closeButton>
-                <Modal.Title>Confirm Deletion</Modal.Title>
-              </Modal.Header>
-              <Modal.Body>Are you sure you want to delete this car listing?</Modal.Body>
-              <Modal.Footer>
-                <Button variant="secondary" onClick={handleCloseModal}>
-                  No
-                </Button>
-                <Button variant="danger" onClick={handleDeleteConfirm}>
-                  Yes
-                </Button>
-              </Modal.Footer>
-            </Modal>
+            <DeleteModal
+        show={showDeleteModal}
+        onClose={() => setShowDeleteModal(false)}
+        onConfirm={handleDeleteConfirm}
+      />
             {/* Edit Modal */}
-            <Modal show={showEditModal} onHide={() => setShowEditModal(false)}
-              fullscreen
-            >
-              <Modal.Header closeButton>
-                <Modal.Title>Edit Car Details</Modal.Title>
-              </Modal.Header>
-              <Modal.Body>
-                <div className="form-container">
-                  <StepsNavigation steps={steps.map(label => ({ label }))} currentStep={step} onStepChange={setStep} />
-                  <div className="form-section">
-                    <StepContent step={step} formData={formData} setFormData={setFormData} sellingType={"auction"} images={images} setImages={setImages} existingImages={existingImages} setExistingImages={setExistingImages} />
-                    <div className="navigation-buttons">
-                      <div className="next-button">
-                        <Button
-                          onClick={step < steps.length ? () => setStep(step + 1) : submitUpdatedCar}
-                          disabled={loading}
-                        >
-                          {step < steps.length ? `Next: ${steps[step]}` : loading ? "Submitting..." : "Submit"}
-                        </Button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </Modal.Body>
-            </Modal>
+            <EditModal
+        show={showEditModal}
+        onClose={() => setShowEditModal(false)}
+        formData={formData}
+        setFormData={setFormData}
+        step={step}
+        setStep={setStep}
+        steps={steps}
+        submitHandler={submitUpdatedCar}
+        images={images}
+        setImages={setImages}
+        existingImages={existingImages}
+        setExistingImages={setExistingImages}
+        loading={loading}
+        sellingType="auction"
+      />
           </>
       }
     </>
