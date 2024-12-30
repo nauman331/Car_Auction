@@ -17,6 +17,7 @@ import ProtectedRoute from "./utils/ProtectedRoute";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import "bootstrap/dist/css/bootstrap.min.css";
+import "./assets/stylesheets/car-responsive.scss";
 import Verificationform from "./components/usercomponents/Verificationform";
 import Deposits from "./components/admincomponents/Deposits";
 import CarSales from "./components/admincomponents/carsale"
