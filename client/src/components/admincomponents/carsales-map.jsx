@@ -306,7 +306,6 @@ const CarAuction = ({ car, getCarDetails, backendURL }) => {
               <div class="texts">
                 <span class="icon">
                   <img src={img2} />
-                  {/* <img src={require("../images/body.png")} /> */}
                 </span>
                 <p class="label">Body</p>
               </div>
@@ -317,7 +316,6 @@ const CarAuction = ({ car, getCarDetails, backendURL }) => {
               <div class="texts">
                 <span class="icon">
                   <img src={img3} />
-                  {/* <img src={require("../images/mileage.png")} /> */}
                 </span>
                 <p class="label">Mileage</p>
               </div>
@@ -327,7 +325,6 @@ const CarAuction = ({ car, getCarDetails, backendURL }) => {
               <div class="texts">
                 <span class="icon">
                   <img src={img4} />
-                  {/* <img src={require("../images/flue.png")} /> */}
                 </span>
                 <p class="label">Fuel Type</p>
               </div>
@@ -337,7 +334,6 @@ const CarAuction = ({ car, getCarDetails, backendURL }) => {
               <div class="texts">
                 <span class="icon">
                   <img src={img5} />
-                  {/* <img src={require("../images/calendar .png")} /> */}
                 </span>
                 <p class="label">Year</p>
               </div>
@@ -347,7 +343,6 @@ const CarAuction = ({ car, getCarDetails, backendURL }) => {
               <div class="texts">
                 <span class="icon">
                   <img src={img6} />
-                  {/* <img src={require("../images/gearbox 1 (1).png")} /> */}
                 </span>
                 <p class="label">Transmission</p>
               </div>
@@ -357,7 +352,6 @@ const CarAuction = ({ car, getCarDetails, backendURL }) => {
               <div class="texts">
                 <span class="icon">
                   <img src={img7} />
-                  {/* <img src={require("../images/steering-wheel 1.png")} /> */}
                 </span>
                 <p class="label">Drive Type</p>
               </div>
@@ -377,7 +371,6 @@ const CarAuction = ({ car, getCarDetails, backendURL }) => {
               <div class="texts">
                 <span class="icon">
                   <img src={img9} />
-                  {/* <img src={require("../images/engine.png")} /> */}
                 </span>
                 <p class="label">Engine Size</p>
               </div>
@@ -387,7 +380,6 @@ const CarAuction = ({ car, getCarDetails, backendURL }) => {
               <div class="texts">
                 <span class="icon">
                   <img src={img10} />
-                  {/* <img src={require("../images/door.png")} /> */}
                 </span>
                 <p class="label">Doors</p>
               </div>
@@ -397,7 +389,6 @@ const CarAuction = ({ car, getCarDetails, backendURL }) => {
               <div class="texts">
                 <span class="icon">
                   <img src={img11} />
-                  {/* <img src={require("../images/piston 1.png")} /> */}
                 </span>
                 <p class="label">Cylinders</p>
               </div>
@@ -407,7 +398,6 @@ const CarAuction = ({ car, getCarDetails, backendURL }) => {
               <div class="texts">
                 <span class="icon">
                   <img src={img12} />
-                  {/* <img src={require("../images/color.png")} /> */}
                 </span>
                 <p class="label">Color</p>
               </div>
@@ -417,7 +407,6 @@ const CarAuction = ({ car, getCarDetails, backendURL }) => {
               <div class="texts">
                 <span class="icon">
                   <img src={img13} />
-                  {/* <img src={require("../images/steering-wheel 1.png")} /> */}
                 </span>
                 <p class="label">VIN</p>
               </div>
