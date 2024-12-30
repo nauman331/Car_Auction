@@ -23,7 +23,7 @@ import CarSales from "./components/admincomponents/carsale"
 import { useEffect } from "react"
 import { useSelector, useDispatch } from "react-redux"
 import toast from "react-hot-toast";
-import {setBidData} from "./store/eventSlice"
+import {setBidData, removeBidData} from "./store/eventSlice"
 
 function App() {
   const dispatch = useDispatch();
@@ -56,12 +56,23 @@ function App() {
         dispatch(setBidData(response));
         console.log(response);
       });
+
+      socket.on("auctionStatusChanged", (response) => {
+        const audio = new Audio("/notification.wav");
+        audio.play();
+        toast.success(response.message, {
+          duration: 5000,
+        });
+        console.log(response);
+        dispatch(removeBidData());
+      });
   
       return () => {
         socket.off("connect");
         socket.off("disconnect");
         socket.off("auctionOpened");
         socket.off("bidPlaced");
+        socket.off("auctionStatusChanged");
       };
     }
   }, [socket]);
