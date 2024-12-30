@@ -23,7 +23,7 @@ import CarSales from "./components/admincomponents/carsale"
 import { useEffect } from "react"
 import { useSelector, useDispatch } from "react-redux"
 import toast from "react-hot-toast";
-import {setBidData, removeBidData} from "./store/eventSlice"
+import { setBidData, removeBidData } from "./store/eventSlice"
 
 function App() {
   const dispatch = useDispatch();
@@ -34,19 +34,20 @@ function App() {
       socket.on("connect", () => {
         console.log("Socket connected");
       });
-  
+
       socket.on("disconnect", () => {
         console.log("Socket disconnected");
       });
-  
+
       socket.on("auctionOpened", (response) => {
         const audio = new Audio("/notification.wav");
         audio.play();
         toast.success(response.message, {
           duration: 5000,
         });
+        dispatch(setBidData(response));
       });
-  
+
       socket.on("bidPlaced", (response) => {
         const audio = new Audio("/notification.wav");
         audio.play();
@@ -54,7 +55,6 @@ function App() {
           duration: 5000,
         });
         dispatch(setBidData(response));
-        console.log(response);
       });
 
       socket.on("auctionStatusChanged", (response) => {
@@ -66,7 +66,7 @@ function App() {
         console.log(response);
         dispatch(removeBidData());
       });
-  
+
       return () => {
         socket.off("connect");
         socket.off("disconnect");
@@ -76,7 +76,7 @@ function App() {
       };
     }
   }, [socket]);
-  
+
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>

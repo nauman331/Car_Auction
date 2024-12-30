@@ -283,18 +283,18 @@ const CarAuction = ({ car, getCarDetails, backendURL }) => {
 
         {
           car.auctionStatus && (
-            <div className="bid-controls">
-            <button onClick={decreaseBid}>-</button>
-            <span>AED
-              <input type="number" value={bid}
-                onChange={(e) => setBid(parseFloat(e.target.value))}
-              /></span>
-            <button onClick={increaseBid}>+</button>
-            <button className="place-bid" onClick={handlePlaceBid}>
-              <img src={img1} />
-              Place Bid
-            </button>
-          </div>
+             <div className="bid-controls">
+              <button onClick={decreaseBid}>-</button>
+              <span>AED
+                <input type="number" value={bid}
+                  onChange={(e) => setBid(parseFloat(e.target.value))}
+                /></span>
+              <button onClick={increaseBid}>+</button>
+              <button className="place-bid" onClick={handlePlaceBid}>
+                <img src={img1} />
+                Place Bid
+              </button>
+            </div>
           )
         }
 
