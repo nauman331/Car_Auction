@@ -24,7 +24,7 @@ import CarSales from "./components/admincomponents/carsale"
 import { useEffect } from "react"
 import { useSelector, useDispatch } from "react-redux"
 import toast from "react-hot-toast";
-import { setBidData, removeBidData } from "./store/eventSlice"
+import { setBidData } from "./store/eventSlice"
 
 function App() {
   const dispatch = useDispatch();
@@ -41,6 +41,10 @@ function App() {
       });
 
       socket.on("auctionOpened", (response) => {
+        if(!response.isOk) {
+          toast.error(response.message)
+          return;
+        }
         const audio = new Audio("/notification.wav");
         audio.play();
         toast.success(response.message, {
@@ -50,22 +54,31 @@ function App() {
       });
 
       socket.on("bidPlaced", (response) => {
+        if(!response.isOk) {
+          toast.error(response.message)
+          return;
+        }
         const audio = new Audio("/notification.wav");
         audio.play();
         toast.success(response.message, {
           duration: 5000,
         });
+       
         dispatch(setBidData(response));
       });
 
       socket.on("auctionStatusChanged", (response) => {
+        if(!response.isOk) {
+          toast.error(response.message)
+          return;
+        }
         const audio = new Audio("/notification.wav");
         audio.play();
         toast.success(response.message, {
           duration: 5000,
         });
         console.log(response);
-        dispatch(removeBidData());
+        dispatch(setBidData(response));
       });
 
       return () => {

@@ -62,7 +62,6 @@ const CarAuction = ({ car, getCarDetails, backendURL }) => {
         token,
       };
       socket.emit("openAuction", data);
-      getCarDetails();
     } else {
       console.log("Socket not connected or invalid data");
     }
@@ -81,7 +80,6 @@ const CarAuction = ({ car, getCarDetails, backendURL }) => {
       }
       socket.emit("placeBid", data);
       setBid(currentBidData?.bidAmount)
-      getCarDetails();
     } else {
       console.log("Socket not connected or invalid data");
     }
@@ -94,7 +92,6 @@ const CarAuction = ({ car, getCarDetails, backendURL }) => {
         token,
       };
       socket.emit("closeAuction", data);
-      getCarDetails();
     }
   }
 
@@ -241,7 +238,8 @@ const CarAuction = ({ car, getCarDetails, backendURL }) => {
             car.sellingType === "auction" ? (
               <>
                 <p>Current Bid</p>
-                <h2>AED {currentBidData && (car._id === currentBidData.carId) ? (currentBidData?.bidAmount || "N/A") : <small style={{ fontSize: "10px", color: "#aaa" }}>Bidding Started on another car or not started yet</small>}</h2>
+                <h2>AED {currentBidData && (car._id === currentBidData.carId) ? (currentBidData?.bidAmount || currentBidData?.currentBid
+ || "N/A") : <small style={{ fontSize: "10px", color: "#aaa" }}>Bidding Started on another car or not started yet</small>}</h2>
                 <p>Bid Starting Price: {car.startingBid || "N/A"} AED</p>
               </>
             ) : (
@@ -255,7 +253,7 @@ const CarAuction = ({ car, getCarDetails, backendURL }) => {
 
         </div>
         {car.sellingType === "auction" ?
-          car.auctionStatus ?
+          currentBidData?.auctionStatus ?
             (
               <div className="bid-controls">
               <button className="place-bid" onClick={handleCloseBid}>
@@ -282,7 +280,7 @@ const CarAuction = ({ car, getCarDetails, backendURL }) => {
         }
 
         {
-          car.auctionStatus && (
+          currentBidData?.auctionStatus && (
              <div className="bid-controls">
               <button onClick={decreaseBid}>-</button>
               <span>AED
@@ -361,7 +359,6 @@ const CarAuction = ({ car, getCarDetails, backendURL }) => {
               <div class="texts">
                 <span class="icon">
                   <img src={img8} />
-                  {/* <img src={require("../images/condition.png")} /> */}
                 </span>
                 <p class="label">Condition</p>
               </div>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Trash, Search, PencilLine } from "lucide-react";
+import { Search } from "lucide-react";
 import { useSelector } from "react-redux";
 import toast from "react-hot-toast";
 import { backendURL } from "../../utils/Exports";
