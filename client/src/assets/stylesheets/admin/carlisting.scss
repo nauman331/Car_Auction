@@ -5,6 +5,11 @@
     margin-bottom: 2rem;
     gap: 1rem;
     flex-wrap: wrap;
+    .last {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
     .add-vehicle-button {
         padding: 10px 20px;
         background-color: #405FF2;

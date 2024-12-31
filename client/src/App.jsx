@@ -25,6 +25,8 @@ import { useEffect } from "react"
 import { useSelector, useDispatch } from "react-redux"
 import toast from "react-hot-toast";
 import { setBidData } from "./store/eventSlice"
+import UserPanel from "./pages/userpages/UserPanel";
+import Wallet from "./components/usercomponents/userpanel/Wallet";
 
 function App() {
   const dispatch = useDispatch();
@@ -126,6 +128,13 @@ function App() {
             <Route path="Orders" element={<Orders />} />
             <Route path="Profile" element={<Profile />} />
             <Route path="carsales/:id" element={<CarSales />} />
+          </Route>
+
+          {/*User Routes*/}
+
+          <Route path="user" element={<UserPanel />}>
+            <Route path="userdashboard" element={<Dashboard />} />
+            <Route path="wallet" element={<Wallet />} />
           </Route>
         </Routes>
       </ProtectedRoute>

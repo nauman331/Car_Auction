@@ -1,0 +1,67 @@
+import { NavLink } from "react-router-dom";
+import "../../../assets/stylesheets/admin/leftadminnav.scss";
+import {
+  LayoutDashboard,
+  Car,
+  CarFront,
+  SquareUser,
+  LogOut,
+  Menu,
+  X,
+} from "lucide-react";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { logOut } from "../../../store/slices/authSlice";
+
+const menuItems = [
+  { to: "/user/userdashboard", icon: <LayoutDashboard />, label: "Dashboard" },
+  { to: "/user/orders", icon: <CarFront />, label: "Orders" },
+  { to: "/user/wallet", icon: <CarFront />, label: "Deposits" },
+  { to: "/admin/profile", icon: <SquareUser />, label: "My Profile" },
+];
+
+const UserNav = () => {
+  const dispatch = useDispatch();
+  const [open, setOpen] = useState(false);
+
+  const handleNavLinkClick = () => {
+    if (open) {
+      setOpen(false);
+    }
+  };
+
+  return (
+    <>
+      <header className="admin-header">
+        <h5>username</h5>
+        {open ? (
+          <X onClick={() => setOpen(false)} className="toggler" />
+        ) : (
+          <Menu onClick={() => setOpen(true)} className="toggler" />
+        )}
+      </header>
+      <aside className={open ? "oUser" : "close-adminnav"}>
+        {menuItems.map(({ to, icon, label }, index) => (
+          <NavLink
+            to={to}
+            className="dash-link"
+            key={index}
+            onClick={handleNavLinkClick}
+          >
+            {icon}
+            <span>{label}</span>
+          </NavLink>
+        ))}
+        <small
+          className="dash-link"
+          onClick={() => dispatch(logOut())}
+        >
+          <LogOut style={{ transform: "rotate(180deg)" }} />
+          <span>Log Out</span>
+        </small>
+      </aside>
+    </>
+  );
+};
+
+export default UserNav;

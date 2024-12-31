@@ -1,11 +1,19 @@
 import React from "react";
 import { Upload, Trash2, Link2 } from "lucide-react";
 
-const MediaUpload = ({ setFormData, formData, images, setImages, existingImages, setExistingImages, sellingType }) => {
+const MediaUpload = ({
+  setFormData = () => {}, // Default to a no-op function
+  formData = {},         // Default to an empty object
+  images = [],           // Default to an empty array
+  setImages = () => {},  // Default to a no-op function
+  existingImages = [],   // Default to an empty array
+  setExistingImages = () => {}, // Default to a no-op function
+  sellingType,           // No default needed if it can be undefined
+}) => {
   // Handle new image uploads
   const handleFileChange = (e) => {
-    const selectedFiles = Array.from(e.target.files);
-    setImages((prevImages) => [...prevImages, ...selectedFiles]); // Append new images to the list
+    const selectedFiles = Array.from(e.target.files || []); // Ensure `e.target.files` is always handled safely
+    setImages((prevImages) => [...prevImages, ...selectedFiles]);
   };
 
   // Delete a new image (not uploaded yet)
@@ -43,7 +51,7 @@ const MediaUpload = ({ setFormData, formData, images, setImages, existingImages,
           ))}
 
         {/* Display newly uploaded images */}
-        {images.length > 0 &&
+        {images?.length > 0 &&
           images.map((image, index) => (
             <div key={`new-${index}`} className="image-box">
               <img
@@ -77,8 +85,6 @@ const MediaUpload = ({ setFormData, formData, images, setImages, existingImages,
         </button>
       </div>
 
-      {/* Optional Video Link Input */}
-      {(sellingType === "fixed" || sellingType === "auction") && (
         <>
           <small>Don't forget to upload images using the upload button above.</small>
           <hr />
@@ -97,7 +103,6 @@ const MediaUpload = ({ setFormData, formData, images, setImages, existingImages,
             />
           </div>
         </>
-      )}
     </>
   );
 };
