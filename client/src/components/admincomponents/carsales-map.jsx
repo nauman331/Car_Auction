@@ -74,7 +74,7 @@ const CarAuction = ({ car, getCarDetails, backendURL }) => {
         token,
         bidAmount: parseFloat(bid),
       };
-      if (parseFloat(bid) <= parseFloat(currentBidData?.bidAmount || car.startingBid)) {
+      if (parseFloat(bid) <= parseFloat(currentBidData?.bidAmount || currentBidData?.currentBid || car.startingBid)) {
         toast.error("Bid amount should be greater than the current bid");
         return;
       }
@@ -239,7 +239,7 @@ const CarAuction = ({ car, getCarDetails, backendURL }) => {
               <>
                 <p>Current Bid</p>
                 <h2>AED {currentBidData && (car._id === currentBidData.carId) ? (currentBidData?.bidAmount || currentBidData?.currentBid
- || "N/A") : <small style={{ fontSize: "10px", color: "#aaa" }}>Bidding Started on another car or not started yet</small>}</h2>
+                  || "N/A") : <small style={{ fontSize: "10px", color: "#aaa" }}>Bidding Started on another car or not started yet</small>}</h2>
                 <p>Bid Starting Price: {car.startingBid || "N/A"} AED</p>
               </>
             ) : (
@@ -256,11 +256,11 @@ const CarAuction = ({ car, getCarDetails, backendURL }) => {
           currentBidData?.auctionStatus ?
             (
               <div className="bid-controls">
-              <button className="place-bid" onClick={handleCloseBid}>
-                <img src={img1} />
-                Close Bidding
-              </button>
-            </div>
+                <button className="place-bid" onClick={handleCloseBid}>
+                  <img src={img1} />
+                  Close Bidding
+                </button>
+              </div>
             )
             :
             (<div className="bid-controls">
@@ -281,7 +281,7 @@ const CarAuction = ({ car, getCarDetails, backendURL }) => {
 
         {
           currentBidData?.auctionStatus && (
-             <div className="bid-controls">
+            <div className="bid-controls">
               <button onClick={decreaseBid}>-</button>
               <span>AED
                 <input type="number" value={bid}

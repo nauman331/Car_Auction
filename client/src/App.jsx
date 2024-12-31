@@ -28,34 +28,42 @@ import { setBidData } from "./store/eventSlice"
 
 function App() {
   const dispatch = useDispatch();
-  const socket = useSelector((state) => state.socket.socket)
+  const {socket} = useSelector((state) => state.socket)
+  const { currentBidData } = useSelector(state => state.event);
 
   useEffect(() => {
     if (socket) {
       socket.on("connect", () => {
         console.log("Socket connected");
       });
-
+  
       socket.on("disconnect", () => {
         console.log("Socket disconnected");
       });
-
+  
       socket.on("auctionOpened", (response) => {
-        if(!response.isOk) {
-          toast.error(response.message)
+        if (!response.isOk) {
+          toast.error(response.message);
           return;
         }
+  
         const audio = new Audio("/notification.wav");
         audio.play();
         toast.success(response.message, {
           duration: 5000,
         });
-        dispatch(setBidData(response));
+  
+        if (currentBidData?.carId === response.carId) {
+          // Update auctionStatus if carId matches
+          dispatch(setBidData({ ...currentBidData, auctionStatus: true }));
+        } else {
+          dispatch(setBidData(response));
+        }
       });
-
+  
       socket.on("bidPlaced", (response) => {
-        if(!response.isOk) {
-          toast.error(response.message)
+        if (!response.isOk) {
+          toast.error(response.message);
           return;
         }
         const audio = new Audio("/notification.wav");
@@ -63,13 +71,13 @@ function App() {
         toast.success(response.message, {
           duration: 5000,
         });
-       
+  
         dispatch(setBidData(response));
       });
-
+  
       socket.on("auctionStatusChanged", (response) => {
-        if(!response.isOk) {
-          toast.error(response.message)
+        if (!response.isOk) {
+          toast.error(response.message);
           return;
         }
         const audio = new Audio("/notification.wav");
@@ -80,7 +88,7 @@ function App() {
         console.log(response);
         dispatch(setBidData(response));
       });
-
+  
       return () => {
         socket.off("connect");
         socket.off("disconnect");
@@ -89,7 +97,8 @@ function App() {
         socket.off("auctionStatusChanged");
       };
     }
-  }, [socket]);
+  }, [socket, currentBidData, dispatch]);
+  
 
 
   return (
