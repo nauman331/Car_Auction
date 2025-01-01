@@ -131,10 +131,10 @@ function App() {
           </Route>
 
           {/*User Routes*/}
-
           <Route path="user" element={<UserPanel />}>
             <Route path="userdashboard" element={<Dashboard />} />
             <Route path="wallet" element={<Wallet />} />
+            <Route path="profile" element={<Profile />} />
           </Route>
         </Routes>
       </ProtectedRoute>

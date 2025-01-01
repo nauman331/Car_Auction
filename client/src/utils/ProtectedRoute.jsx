@@ -11,9 +11,14 @@ const ProtectedRoute = ({ children }) => {
 
   useEffect(() => {
     // Case 1: User is already authenticated and trying to access /auth or /resetpassword
-    if (token && (pathname === "/auth" || pathname === "/resetpassword")) {
-      navigate("/", { replace: true });
+    if (token && userdata && (pathname === "/auth" || pathname === "/resetpassword")) {
+      if (userdata.role === "superadmin" || userdata.role === "admin") {
+        navigate("/admin/dashboard", { replace: true });
+        toast("User already authenticated");
+      } else {
+      navigate("/user/userdashboard", { replace: true });
       toast("User already authenticated");
+      }
     } 
     // Case 2: User is not an admin or superadmin trying to access /admin routes
     else if (

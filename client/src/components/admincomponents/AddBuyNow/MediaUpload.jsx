@@ -8,7 +8,6 @@ const MediaUpload = ({
   setImages = () => {},  // Default to a no-op function
   existingImages = [],   // Default to an empty array
   setExistingImages = () => {}, // Default to a no-op function
-  sellingType,           // No default needed if it can be undefined
 }) => {
   // Handle new image uploads
   const handleFileChange = (e) => {

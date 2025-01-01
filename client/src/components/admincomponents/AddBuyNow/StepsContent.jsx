@@ -1,12 +1,37 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import FormGrid from "./FormGrid";
 import FeaturesGrid from "./FeaturesGrid";
 import MediaUpload from "./MediaUpload";
+import LoadingSpinner from "../../usercomponents/LoadingSpinner";
 
 const StepContent = ({ step, formData, setFormData, sellingType, images, setImages, existingImages, setExistingImages }) => {
-  const { categories, auctions } = useSelector((state) => state.category);
+  const { categories } = useSelector((state) => state.category);
+const [auctions, setAuctions] = useState([]);
+const [loading, setLoading] = useState(false);
+const getAllAuctions = async () => {
+    try {
+      setLoading(true);
+      const response = await fetch(`${backendURL}/auction`, {
+        method: "GET",
+      });
+      const res_data = await response.json();
+      if (response.ok) {
+        setAuctions(res_data);
+      } else {
+        console.log(res_data.message);
+      }
+    } catch (error) {
+      console.log("Error in getting all auctions");
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  useEffect(() => {
+    getAllAuctions();
+  }, [token]);
+  if(loading) return <LoadingSpinner />
   const generateOptions = (key, labelKey) =>
     categories?.[key]?.map((item) => ({
       label: item[labelKey],
