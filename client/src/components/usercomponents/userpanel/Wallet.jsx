@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Modal, Button } from "react-bootstrap";
-import { Search } from "lucide-react";
+import { Eye, Search } from "lucide-react";
 import { useSelector } from "react-redux";
 import toast from "react-hot-toast";
 import { backendURL } from "../../../utils/Exports";
@@ -8,27 +8,30 @@ import Pagination from "../../admincomponents/Pagination";
 import LoadingSpinner from "../LoadingSpinner";
 import { NavLink } from "react-router-dom";
 import Deposit from "./Deposit";
-import {CloudinaryUploader} from "../../../utils/CloudinaryUploader"
+import { CloudinaryUploader } from "../../../utils/CloudinaryUploader"
 
 const Wallet = () => {
   const { token } = useSelector((state) => state.auth);
   const [deposits, setDeposits] = useState([]);
+  const [currentBalance, setCurrentBalance] = useState(0)
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [filteredUsers, setFilteredUsers] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [sortOption, setSortOption] = useState("");
-  const [depositAmount, setDepositAmount] = useState("");
+  const [depositAmount, setDepositAmount] = useState(0);
+  const [pdf, setPdf] = useState(null)
+  const [uploadLoading, setUploadLoading] = useState(false)
   const [showModal, setShowModal] = useState(false); // For modal visibility
   const itemsPerPage = 10;
   const totalPages = Math.ceil(filteredUsers.length / itemsPerPage);
 
 
-  const getDeposits = async () => {
+  const getDeposits = useCallback(async () => {
     const authorizationToken = `Bearer ${token}`;
     try {
       setLoading(true);
-      const response = await fetch(`${backendURL}/wallet/get-deposit-requests`, {
+      const response = await fetch(`${backendURL}/wallet/deposite-history`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -37,21 +40,97 @@ const Wallet = () => {
       });
       const res_data = await response.json();
       if (response.ok) {
-        console.log(res_data.newDeposits);
-        setDeposits(res_data.newDeposits);
+        console.log(res_data)
+        setDeposits(res_data.depositeHistory);
       } else {
         toast.error(res_data.message);
       }
     } catch (error) {
-      console.log("Error in getting users");
+      console.error("Error in getting users");
     } finally {
       setLoading(false);
     }
-  };
+  }, [token]);
+
+  const getCurrentBalance = useCallback(async () => {
+    const authorizationToken = `Bearer ${token}`;
+    try {
+      setLoading(true);
+      const response = await fetch(`${backendURL}/wallet/current-balance`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: authorizationToken,
+        },
+      });
+      const res_data = await response.json();
+      if (response.ok) {
+        console.log(res_data)
+
+      } else {
+        toast.error(res_data.message);
+      }
+    } catch (error) {
+      console.error("Error in getting users");
+    } finally {
+      setLoading(false);
+    }
+  }, [token]);
 
   useEffect(() => {
     getDeposits();
-  }, [token]);
+    getCurrentBalance()
+  }, [getDeposits, getCurrentBalance]);
+
+
+  const handleSubmit = async () => {
+    if (!pdf || !depositAmount) {
+      toast.error("Please upload a file and enter a deposit amount.");
+      return;
+    }
+
+    try {
+      setUploadLoading(true);
+      // Upload the PDF to Cloudinary
+      const uploadResponse = await CloudinaryUploader(pdf);
+      const cloudinaryUrl = uploadResponse.url;
+
+      // Send data to the backend
+      const response = await fetch(`${backendURL}/wallet/deposit`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          amount: depositAmount,
+          inv: cloudinaryUrl,
+        }),
+      });
+
+      const resData = await response.json();
+      if (response.ok) {
+        toast.success("Deposit request submitted successfully!");
+        handleModalClose();
+        setLoading(true); // Show loader for refresh
+        await getDeposits(); // Refresh deposits list
+      } else {
+        toast.error(resData.message);
+      }
+    } catch (error) {
+      console.error("Error submitting deposit:", error);
+      toast.error("An error occurred. Please try again.");
+    } finally {
+      setUploadLoading(false); // Stop the spinner
+    }
+  };
+
+
+  const handleCombinedSubmit = async () => {
+    await handleSubmit(); // Handle the upload and backend submission
+    handleModalClose(); // Close the modal
+  };
+
 
   useEffect(() => {
     let filtered = deposits;
@@ -92,7 +171,12 @@ const Wallet = () => {
     return filteredUsers.slice(startIndex, startIndex + itemsPerPage);
   };
 
-  const handleModalClose = () => setShowModal(false);
+  const handleModalClose = () => {
+    setShowModal(false);
+    setPdf(null);
+    setDepositAmount("");
+  };
+
   const handleModalShow = () => setShowModal(true);
 
   return (
@@ -109,7 +193,7 @@ const Wallet = () => {
             <div className="last">
               <div className="text">
                 <small>Remaining Amount</small>
-                <h3>AED 5,500</h3>
+                <h3>AED {currentBalance}</h3>
               </div>
               <button
                 className="add-vehicle-button"
@@ -153,45 +237,37 @@ const Wallet = () => {
               <table className="car-table">
                 <thead>
                   <tr>
-                    <th>Profile</th>
-                    <th>User ID</th>
-                    <th>Deposit Requests</th>
-                    <th>Total Amount</th>
-                    <th>User Status</th>
+                    <th>Invoice Number</th>
+                    <th>Date</th>
+                    <th>Amount</th>
+                    <th>Status</th>
+                    <th>Proof</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {getDisplayedUsers().map((user, index) => (
+                  {getDisplayedUsers().map((deposit, index) => (
                     <tr key={index} style={{ cursor: "pointer" }}>
+
+                      <td>{deposit.invNumber || "N/A"}</td>
+                      <td>{deposit.depositeDate ? new Date(deposit.depositeDate).toLocaleString() : "N/A"}</td>
                       <td>
-                        <div className="car-info">
-                          <div className="car-image">
-                            <img
-                              src={user.user?.avatarImage || user.user?.profileImage}
-                              alt="..."
-                              style={{
-                                width: "100%",
-                                height: "100%",
-                                objectFit: "cover",
-                              }}
-                            />
-                          </div>
-                        </div>
-                      </td>
-                      <td>{user.user?._id || "No User ID"}</td>
-                      <td>{user.deposits?.length || "N/A"}</td>
-                      <td>
-                        {user.deposits?.reduce((sum, deposit) => sum + deposit.amount, 0) || "N/A"} AED
+                        {deposit.amount || "N/A"} AED
                       </td>
                       <td>
-                        {user.user?.isVerified ? "Verified" : "Not Verified" || "No Status"}
+                        {deposit.status || "No Status"}
                       </td>
+                      <td>
+                        <a href={`${deposit.inv}?attachment=true`} download>
+                          <Eye />
+                        </a>
+                      </td>
+
                     </tr>
                   ))}
                 </tbody>
               </table>
             </div>
-            {deposits.length > itemsPerPage && (
+            {deposits?.length > itemsPerPage && (
               <Pagination
                 currentPage={currentPage}
                 totalPages={totalPages}
@@ -203,9 +279,7 @@ const Wallet = () => {
       )}
 
       {/* Modal */}
-      <Modal show={showModal} onHide={handleModalClose}
-      size="lg"
-      >
+      <Modal show={showModal} onHide={handleModalClose}>
         <Modal.Header closeButton>
           <Modal.Title>Deposit Details</Modal.Title>
         </Modal.Header>
@@ -222,9 +296,9 @@ const Wallet = () => {
           <div>
             <h5>Upload Proof of Payment</h5>
             <div className="form-container">
-                <div className="form-section">
-            <Deposit depositAmount={depositAmount} setDepositAmount={setDepositAmount}/>
-                </div>
+              <div className="form-section">
+                <Deposit depositAmount={depositAmount} setDepositAmount={setDepositAmount} pdf={pdf} setPdf={setPdf} />
+              </div>
             </div>
           </div>
         </Modal.Body>
@@ -232,8 +306,8 @@ const Wallet = () => {
           <Button variant="secondary" onClick={handleModalClose}>
             Close
           </Button>
-          <Button variant="primary" onClick={handleModalClose}>
-            Submit
+          <Button variant="primary" onClick={handleCombinedSubmit} disabled={uploadLoading}>
+            {uploadLoading ? "Submitting..." : "Submit"}
           </Button>
         </Modal.Footer>
       </Modal>

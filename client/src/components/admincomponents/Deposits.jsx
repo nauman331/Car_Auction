@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Search } from "lucide-react";
+import { CircleCheckBig, Search } from "lucide-react";
 import { useSelector } from "react-redux";
 import toast from "react-hot-toast";
 import { backendURL } from "../../utils/Exports";
@@ -11,11 +11,11 @@ const Deposits = () => {
   const [deposits, setDeposits] = useState([]);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
-  const [filteredUsers, setFilteredUsers] = useState([]);
+  const [filteredDeposits, setFilteredDeposits] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [sortOption, setSortOption] = useState("");
   const itemsPerPage = 10;
-  const totalPages = Math.ceil(filteredUsers.length / itemsPerPage);
+  const totalPages = Math.ceil(filteredDeposits.length / itemsPerPage);
 
   const getDeposits = async () => {
     const authorizationToken = `Bearer ${token}`;
@@ -30,13 +30,13 @@ const Deposits = () => {
       });
       const res_data = await response.json();
       if (response.ok) {
-        console.log(res_data.newDeposits);
         setDeposits(res_data.newDeposits);
+        console.log(res_data)
       } else {
         toast.error(res_data.message);
       }
     } catch (error) {
-      console.log("Error in getting users");
+      console.log("Error in getting deposits");
     } finally {
       setLoading(false);
     }
@@ -46,43 +46,59 @@ const Deposits = () => {
     getDeposits();
   }, [token]);
 
-  useEffect(() => {
-    let filtered = deposits;
+  const approveDeposite = async (userId, invNumber) => {
+    const authorizationToken = `Bearer ${token}`;
+    try {
+      const response = await fetch(`${backendURL}/wallet/approve-deposite`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: authorizationToken,
+        },
+        body: JSON.stringify({ userId, invNumber }) // Corrected the body to send userId and invNumber as an object
+      });
 
-    // Apply search query filter
-    if (searchQuery) {
-      filtered = filtered.filter((deposit) =>
-        deposit.user?._id?.toLowerCase().includes(searchQuery.toLowerCase())
-      );
-    }
-
-    // Apply sort option filter
-    if (sortOption) {
-      if (sortOption === "verified") {
-        filtered = filtered.filter((deposit) => deposit.user?.isVerified === true);
-      } else if (sortOption === "not verified") {
-        filtered = filtered.filter((deposit) => deposit.user?.isVerified === false);
-      } else if (sortOption === "amount") {
-        filtered = [...filtered].sort((a, b) => {
-          const amountA = a.deposits?.reduce((sum, deposit) => sum + deposit.amount, 0) || 0;
-          const amountB = b.deposits?.reduce((sum, deposit) => sum + deposit.amount, 0) || 0;
-          return amountB - amountA;
-        });
-      } else if (sortOption === "requests") {
-        filtered = [...filtered].sort((a, b) => {
-          const requestsA = a.deposits?.length || 0;
-          const requestsB = b.deposits?.length || 0;
-          return requestsB - requestsA;
-        });
+      const res_data = await response.json();
+      if (response.ok) {
+        toast.success(res_data.message);
+      } else {
+        toast.error(res_data.message);
       }
+    } catch (error) {
+      toast.error("Error occurred while approving");
     }
+  };
 
-    setFilteredUsers(filtered);
+
+  useEffect(() => {
+    // Ensure deposits exist before attempting to process them
+    if (deposits && deposits.length > 0) {
+      let filtered = deposits.flatMap(depositGroup => depositGroup.deposits); // Flatten the deposits into one list
+
+      // Apply search query filter
+      if (searchQuery) {
+        filtered = filtered.filter((deposit) =>
+          deposit.invNumber.toString().includes(searchQuery) // Search by invoice number
+        );
+      }
+
+      // Apply sort option filter
+      if (sortOption) {
+        if (sortOption === "asc") {
+          filtered = [...filtered].sort((a, b) => a.amount - b.amount); // Sort by amount in ascending order
+        } else if (sortOption === "desc") {
+          filtered = [...filtered].sort((a, b) => b.amount - a.amount); // Sort by amount in descending order
+        }
+      }
+
+      setFilteredDeposits(filtered);
+    }
   }, [searchQuery, deposits, sortOption]);
 
-  const getDisplayedUsers = () => {
+
+  const getDisplayedDeposits = () => {
     const startIndex = (currentPage - 1) * itemsPerPage;
-    return filteredUsers.slice(startIndex, startIndex + itemsPerPage);
+    return filteredDeposits.slice(startIndex, startIndex + itemsPerPage);
   };
 
   return (
@@ -94,7 +110,7 @@ const Deposits = () => {
           <div className="car-list-top">
             <span>
               <h3>Deposits</h3>
-              <small>List of Deposits made by users</small>
+              <small>List of all deposits made by users</small>
             </span>
           </div>
 
@@ -104,7 +120,7 @@ const Deposits = () => {
                 <Search />
                 <input
                   type="text"
-                  placeholder="Search user by id"
+                  placeholder="Search by deposit invoice number"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
@@ -116,57 +132,54 @@ const Deposits = () => {
                   onChange={(e) => setSortOption(e.target.value)}
                 >
                   <option value="">All</option>
-                  <option value="amount">Amount</option>
-                  <option value="requests">Requests</option>
-                  <option value="verified">Verified</option>
-                  <option value="not verified">Not Verified</option>
+                  <option value="asc">low to high</option>
+                  <option value="desc">high to low</option>
                 </select>
               </div>
             </header>
-
             <div className="table-wrapper">
               <table className="car-table">
                 <thead>
                   <tr>
-                    <th>Profile</th>
-                    <th>User ID</th>
-                    <th>Deposit Requests</th>
-                    <th>Total Amount</th>
-                    <th>User Status</th>
+                    <th>Deposit Invoice</th>
+                    <th>Date</th>
+                    <th>Deposit Amount</th>
+                    <th>Status</th>
+                    <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {getDisplayedUsers().map((user, index) => (
-                    <tr key={index} style={{ cursor: "pointer" }}>
-                      <td>
-                        <div className="car-info">
-                          <div className="car-image">
-                            <img
-                              src={user.user?.avatarImage || user.user?.profileImage}
-                              alt="..."
-                              style={{
-                                width: "100%",
-                                height: "100%",
-                                objectFit: "cover",
-                              }}
-                            />
-                          </div>
-                        </div>
-                      </td>
-                      <td>{user.user?._id || "No User ID"}</td>
-                      <td>{user.deposits?.length || "N/A"}</td>
-                      <td>
-                        {user.deposits?.reduce((sum, deposit) => sum + deposit.amount, 0) || "N/A"} AED
-                      </td>
-                      <td>
-                        {user.user?.isVerified ? "Verified" : "Not Verified" || "No Status"}
+                  {getDisplayedDeposits()?.length > 0 ? (
+                    getDisplayedDeposits().map((deposit) => (
+                      <tr key={deposit._id}>
+                        <td>
+                          <a href={`${deposit.inv}?attachment=true`} download>
+                            Invoice #{deposit.invNumber || "No Invoice"}
+                          </a>
+                        </td>
+                        <td>{deposit.depositeDate ? new Date(deposit.depositeDate).toLocaleString() : "N/A"}</td>
+                        <td>{deposit.amount} AED</td>
+                        <td>{deposit.status}</td>
+                        <td
+                          style={{ cursor: "pointer" }}
+                          onClick={() => approveDeposite(deposit._id, deposit.invNumber)} // Make sure to pass the correct values
+                        >
+                          <CircleCheckBig />
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan="5" style={{ textAlign: "center" }}>
+                        No deposits available
                       </td>
                     </tr>
-                  ))}
+                  )}
                 </tbody>
               </table>
             </div>
-            {deposits.length > itemsPerPage && (
+
+            {filteredDeposits.length > itemsPerPage && (
               <Pagination
                 currentPage={currentPage}
                 totalPages={totalPages}

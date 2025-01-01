@@ -1,9 +1,10 @@
+import toast from "react-hot-toast";
 export const CloudinaryUploader = async (file) => {
-  const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+  const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'application/pdf'];
   
   // Validate file type
   if (!allowedTypes.includes(file.type)) {
-    throw new Error('Invalid file type. Only image files are allowed.');
+    toast.error('Invalid file type');
   }
 
   const formData = new FormData();
@@ -17,18 +18,18 @@ export const CloudinaryUploader = async (file) => {
     });
 
     if (!response.ok) {
-      throw new Error('Cloudinary upload failed: ' + response.statusText);
+      toast.error('Cloudinary upload failed. Try again!');
     }
 
     const data = await response.json();
 
     if (!data.secure_url) {
-      throw new Error('No secure URL returned from Cloudinary.');
+      toast.error('No secure URL returned from Cloudinary. Try again!');
     }
 
     return { publicId: data.public_id, url: data.secure_url };
   } catch (error) {
-    console.error('Upload error:', error);
+    toast.error('Upload error:');
     throw error;
   }
 };

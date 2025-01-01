@@ -1,8 +1,7 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import "../../../assets/stylesheets/admin/leftadminnav.scss";
 import {
   LayoutDashboard,
-  Car,
   CarFront,
   SquareUser,
   LogOut,
@@ -21,6 +20,7 @@ const menuItems = [
 ];
 
 const UserNav = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
 
@@ -54,7 +54,11 @@ const UserNav = () => {
         ))}
         <small
           className="dash-link"
-          onClick={() => dispatch(logOut())}
+          onClick={() => {
+            dispatch(logOut());
+            navigate("/auth");
+          }}
+          
         >
           <LogOut style={{ transform: "rotate(180deg)" }} />
           <span>Log Out</span>
