@@ -1,10 +1,15 @@
 import React from "react";
 import ProductsList from "../usercomponents/footer-map";
+
 import "../../assets/stylesheets/footer.scss";
 import ContactButtons from "../usercomponents/contactbutton";
 import img1 from "../../assets/images/apple.png";
 import img2 from "../../assets/images/boxcars.png";
 import img3 from "../../assets/images/google.png";
+import img4 from "../../assets/images/facebook.png";
+import img5 from "../../assets/images/twitter.png";
+import img6 from "../../assets/images/insta.png";
+import img7 from "../../assets/images/linkedin.png";
 const Footer = () => {
   const productsData = [
     {
@@ -46,7 +51,7 @@ const Footer = () => {
     <footer className="footer-section">
       <div className="container">
         <div
-          className="row mb-5 py-5 align-item-baseline"
+          className="row mb-5 py-5 align-item-baseline footer-mid-section"
           style={{ borderBottom: "1px solid #6b6c7e" }}
         >
           <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
@@ -61,7 +66,7 @@ const Footer = () => {
               <ContactButtons />
             </div>
           </div>
-          <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 d-flex justify-content-end">
+          <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 d-flex footer-information-detail">
             <div className="footer-information">
               <h4>Join BoxCar</h4>
               <p>Receive pricing updates, shopping tips & more!</p>
@@ -95,11 +100,19 @@ const Footer = () => {
                     </div>
                     <div className="contactwithus">
                       <h4>Connect With Us</h4>
-                      <div className="icon">
-                        <i class="fa-brands fa-linkedin-in"></i>
-                        <i class="fa-brands fa-facebook-f"></i>
-                        <i class="fa-brands fa-twitter"></i>
-                        <i class="fa-brands fa-instagram"></i>
+                      <div className="icon-section">
+                        <div className="icon-image">
+                          <img src={img4} />
+                        </div>
+                        <div className="icon-image">
+                          <img src={img5} />
+                        </div>
+                        <div className="icon-image">
+                          <img src={img6} />
+                        </div>
+                        <div className="icon-image">
+                          <img src={img7} />
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -117,7 +130,7 @@ const Footer = () => {
           <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
             <div className="copyright">
               <p>
-                <div className="copyright d-flex justify-content-end">
+                <div className="copyright-terms">
                   <p>Terms & Conditions Privacy Notice</p>
                 </div>
               </p>

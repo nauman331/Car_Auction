@@ -1,17 +1,17 @@
 import "../../assets/stylesheets/login.scss";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFacebook, faGoogle } from "@fortawesome/free-brands-svg-icons";
 import { faEye, faEyeSlash, faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import toast from "react-hot-toast"
 import { backendURL } from "../../utils/Exports";
-import { useDispatch, useSelector } from "react-redux";
-import { setToken, setUser } from "../../store/slices/authSlice"
+import { useDispatch } from "react-redux";
+import { setToken } from "../../store/slices/authSlice"
 import {useNavigate, NavLink} from "react-router-dom"
 
 const Login = () => {
+  const navigate = useNavigate()
   const dispatch = useDispatch()
-  const {token} = useSelector((state) => state.auth)
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -36,6 +36,7 @@ const Login = () => {
       if (response.ok) {
         toast.success("User Logged In Successfully!");
         dispatch(setToken({ token: res_data.token }));
+        navigate("/")
       } else {
         toast.error(res_data.message);
       }
@@ -44,38 +45,7 @@ const Login = () => {
     }
   };
   
-   const getUserData = async () => {
-      const authorizationToken = `Bearer ${token}`;
-      try {
-        if (!token) {
-          console.log("User not logged in");
-          return;
-        }
-        const response = await fetch(`${backendURL}/user/`, {
-          method: "GET",
-          headers: {
-            Authorization: authorizationToken,
-            "Content-Type": "application/json",
-          },
-        });
-        const res_data = await response.json();
-        if (response.ok) {
-          console.log(res_data)
-          dispatch(setUser({ userdata: res_data }));
-        } else {
-          console.warn("Error in getting user data");
-        }
-      } catch (error) {
-        console.log("Error in fetching user data", error);
-      }
-    };
-
-     // Fetch user data if token is available
-  useEffect(() => {
-    if (token) {
-      getUserData();
-    }
-  }, [token]);
+  
 
   return (
     <form className="auth-form" onSubmit={handleSubmit}>

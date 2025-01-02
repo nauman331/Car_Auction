@@ -17,7 +17,7 @@ import ProtectedRoute from "./utils/ProtectedRoute";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "./assets/stylesheets/car-responsive.scss";
+// import "./assets/stylesheets/car-responsive.scss";
 import Verificationform from "./components/usercomponents/Verificationform";
 import Deposits from "./components/admincomponents/Deposits";
 import CarSales from "./components/admincomponents/carsale"
@@ -27,6 +27,10 @@ import toast from "react-hot-toast";
 import { setBidData } from "./store/eventSlice"
 import UserPanel from "./pages/userpages/UserPanel";
 import Wallet from "./components/usercomponents/userpanel/Wallet";
+import Carsforsale from "./pages/userpages/car";
+import Vehicle from "./pages/userpages/vehicle";
+import BuyfilterForm from "./pages/userpages/buynowlist";
+import Buycarforsale from "./pages/userpages/buycar";
 
 function App() {
   const dispatch = useDispatch();
@@ -112,6 +116,11 @@ function App() {
           <Route path="/auth" element={<Auth />} />
           <Route path="/verifyotp" element={<OTPVerificationForm />} />
           <Route path="/resetpassword" element={<Verificationform />} />
+          <Route path="/car" element={<Carsforsale />} />
+        <Route path="/vehicle" element={<Vehicle />} />
+        <Route path="/buynowlist" element={<BuyfilterForm />} />
+        <Route path="/buycar" element={<Buycarforsale />} />
+
 
           {/* Admin routes */}
           <Route path="/admin" element={<AdminHome />}>

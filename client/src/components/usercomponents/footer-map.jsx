@@ -1,8 +1,9 @@
 import React from "react";
 import "../../assets/stylesheets/footer.scss";
+
 const ProductsList = ({ title, items }) => {
   return (
-    <div className="col-xl-2 col-lg-2 col-md-2 col-sm-4 col-6">
+    <div className="col-xl-2 col-lg-2 col-md-3 col-sm-6 col-6">
       <div className="Products">
         <h3>{title}</h3>
         <ul>

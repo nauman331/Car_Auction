@@ -1,6 +1,7 @@
 import React from "react";
 import "../../assets/stylesheets/premiumbrand.scss";
 
+
 function PremiumBrands({ brands }) {
   return (
     <div className="premium-brands">

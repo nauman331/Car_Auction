@@ -1,0 +1,349 @@
+.main {
+  border-top-left-radius: 60px;
+  border-top-right-radius: 60px;
+  margin-top: -50px;
+  border: 1px solid white;
+  background-color: white;
+  padding-top: 10px;
+}
+.data {
+  border-bottom: 1px solid #e1e1e1;
+}
+.datainput {
+  position: relative;
+  margin: 20px 14px;
+
+  select {
+    background-color: transparent;
+    border: 1px solid #e1e1e1;
+    border-radius: 12px;
+    color: #333;
+    padding: 24px 20px 15px 20px;
+    font-size: 15px;
+    width: 100%;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    cursor: pointer;
+  }
+
+  select:focus {
+    outline: none;
+  }
+
+  select:focus ~ label,
+  select:not([value=""]) ~ label {
+    color: #888;
+    font-size: 12px;
+    top: 0px;
+  }
+
+  label {
+    position: absolute;
+    top: 5px !important;
+    left: 20px;
+    font-size: 14px !important;
+    color: #818181 !important;
+    pointer-events: none;
+    transition: all 0.3s ease;
+  }
+}
+.datadetails {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+.datainputs {
+  position: relative;
+  margin: 20px 0px;
+  border: 1px solid #e1e1e1;
+  border-radius: 12px;
+  color: #333;
+  padding: 15px 20px 15px 15px;
+
+  select {
+    background-color: transparent;
+    border: none;
+    font-size: 16px;
+    appearance: none; /* Removes the default dropdown arrow */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    cursor: pointer;
+    padding-right: 80%;
+    padding-top: 20%;
+    margin-top: -20px;
+    outline: none;
+  }
+
+  option {
+    border: none !important;
+    outline: none !important;
+  }
+
+  select:focus {
+    outline: none;
+    // border-color: #000;
+  }
+
+  select:focus ~ label,
+  select:not([value=""]) ~ label {
+    color: #888;
+    font-size: 12px;
+    top: 0px;
+  }
+
+  label {
+    font-size: 12px !important;
+    color: #aaa !important;
+    pointer-events: none;
+    transition: all 0.3s ease;
+  }
+}
+.datainputs::after {
+  content: url("../images/down-arrow.png");
+  position: absolute;
+  top: 50%;
+  right: 15px;
+  transform: translateY(-50%);
+  pointer-events: none;
+  font-size: 12px;
+  color: #aaa;
+}
+.datainput::after {
+  content: url("../images/down-arrow.png");
+  position: absolute;
+  top: 50%;
+  right: 15px;
+  transform: translateY(-50%);
+  pointer-events: none;
+  font-size: 12px;
+  color: #aaa;
+}
+
+/* General styles */
+.form_section {
+  border: 1px solid #e1e1e1;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}
+
+input:focus,
+select:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Price Range Inputs */
+input[name="minPrice"],
+input[name="maxPrice"] {
+  width: 48%;
+  // display: inline-block;
+}
+
+input[name="maxPrice"] {
+  margin-left: 4%;
+}
+
+button {
+  display: inline-block;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: bold;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  text-align: center;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+.type-section {
+  .type-text {
+    display: flex !important;
+    align-items: center !important;
+    // flex-direction: column;
+    margin-bottom: 0px !important;
+    margin-top: -3px;
+
+    font-family: "DM Sans";
+    font-style: normal;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 32px;
+
+    color: #050b20;
+  }
+  label {
+    display: flex !important;
+    align-items: center !important;
+    // flex-direction: column;
+    margin-bottom: 0px !important;
+    margin-top: -3px;
+
+    font-family: "DM Sans";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 40px;
+
+    color: #050b20;
+  }
+
+  input[type="checkbox"] {
+    margin-right: 8px;
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+    background-color: #e1e1e1;
+  }
+}
+
+/* Price Slider Container */
+.price-slider-container {
+  padding: 20px 15px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+
+  border-bottom: 1px solid #e1e1e1;
+}
+
+/* Title */
+.price-slider-title {
+  font-family: "DM Sans";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 32px;
+
+  color: #050b20;
+
+  margin-bottom: 15px;
+  // color: #333;
+}
+
+/* Inputs Section */
+.price-inputs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 40px;
+}
+
+.price-input {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.price-input label {
+  font-family: "DM Sans";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 17px;
+  color: #818181;
+  margin-bottom: 5px;
+}
+
+.price-input .input-box {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #e1e1e1;
+  border-radius: 12px;
+  padding: 7px 20px 7px 13px;
+  background-color: #fff;
+}
+
+.price-input .input-box span {
+  font-family: "DM Sans";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 20px;
+  color: #050b20;
+  margin-right: 5px;
+}
+
+.price-input input {
+  border: none;
+  outline: none;
+  font-family: "DM Sans";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 20px;
+  color: #050b20;
+  width: 100%;
+}
+
+/* Slider Section */
+.slider-container {
+  position: relative;
+  height: 6px;
+  background-color: #ddd;
+  border-radius: 3px;
+  margin-bottom: 10px;
+  // overflow: hidden;
+}
+
+.slider {
+  position: absolute;
+  width: 100%;
+  height: 6px;
+  appearance: none;
+  background: none;
+  outline: none;
+  z-index: 2;
+  -webkit-appearance: none;
+  appearance: none;
+  bottom: 0;
+}
+
+.slider::-webkit-slider-thumb {
+  // -webkit-appearance: none; /* Ensure default styles are removed */
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-image: url("../images/barIcon.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 70%;
+  background-color: #fff;
+  border: 1px solid #000;
+  cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+  -moz-range-appearance: none; /* Ensure default styles are removed */
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-size: 70%;
+  background-image: url("../images/barIcon.png");
+  background-color: #fff;
+  background-repeat: no-repeat;
+  background-position: center center;
+  border: 1px solid #000000;
+  cursor: pointer;
+}
+
+/* Slider Track */
+.slider-track {
+  position: absolute;
+  height: 4px;
+  background-color: #000;
+  z-index: 1;
+}

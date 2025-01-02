@@ -1,5 +1,6 @@
 import React from "react";
 import "../../assets/stylesheets/browsebytpye.scss";
+
 import CarCategories from "../usercomponents/browse";
 import img1 from "../../assets/images/icon (1).png";
 import img2 from "../../assets/images/icon (2).png";
@@ -64,10 +65,12 @@ const Browsebytype = () => {
   return (
     <section className="browsebytype-section">
       <div className="container">
-        <div className="row">
-          <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-            <div className="browsebytype-text">
-              <h1>Browse by Type</h1>
+        <div className="browsebytype-title">
+          <div className="row">
+            <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+              <div className="browsebytype-text">
+                <h1>Browse by Type</h1>
+              </div>
             </div>
           </div>
         </div>

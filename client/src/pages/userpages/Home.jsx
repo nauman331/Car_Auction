@@ -1,3 +1,6 @@
+import React from "react";
+import "../../assets/stylesheets/home.scss";
+import Header from "../../components/usercomponents/header-light";
 import Herosection from "../../components/usercomponents/herosection";
 import Browsebytype from "../../components/usercomponents/browsebytype";
 import CarTabs from "../../components/usercomponents/cardatatabs";
@@ -11,24 +14,23 @@ import Reachus from "../../components/usercomponents/reachus";
 import Footer from "../../components/usercomponents/footer";
 
 const Home = () => {
-
   return (
-
-        <>
-          <Herosection />
-          <Browsebytype />
-          <CarTabs />
-          <Livecar />
-          <Loader />
-          <RecentlyAdded />
-          <CarSection />
-          <Feature />
-          <Premium />
-          <Reachus />
-          <Footer />
-        </>
+    <div>
+      <Herosection />
+      <Header />
+      <Browsebytype />
+      <CarTabs />
+      <Livecar />
+      <Loader />
+      <RecentlyAdded />
+      <CarSection />
+      <Feature />
+      <Premium />
+      <Reachus />
+      <Footer />
+      {/* <CarFilterForm /> */}
+    </div>
   );
 };
 
 export default Home;
-

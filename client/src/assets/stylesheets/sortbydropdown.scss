@@ -1,0 +1,51 @@
+.showingvehicles {
+  font-family: "DM Sans";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 26px;
+
+  color: #050b20;
+}
+.showingvehicles-text {
+  font-family: "DM Sans";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 26px;
+  text-align: center;
+  margin-top: 20px;
+  color: #050b20;
+}
+.sort-by-container {
+  display: flex;
+  align-items: baseline;
+  margin-bottom: 10px; /* Add some margin for spacing */
+}
+
+.sort-by-container label {
+  margin-right: 5px;
+
+  font-family: "DM Sans";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 20px;
+  /* identical to box height */
+
+  color: #818181;
+}
+
+.sort-by-container select {
+  border: none; /* Add a border to the dropdown */
+  background: transparent;
+  //   border-radius: 4px; /* Add some rounded corners */
+  padding: 5px; /* Add some padding for better readability */
+}
+
+.sort-by-container select:focus {
+  background: transparent;
+  box-shadow: none;
+  //   outline: 1px solid blue;
+  /* Add an outline on focus for better usability */
+}

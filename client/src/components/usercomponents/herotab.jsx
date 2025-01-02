@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "../../assets/stylesheets/carddatatabs.scss";
 
+
 const HeroTabs = () => {
   const [activeTab, setActiveTab] = useState("featured");
 

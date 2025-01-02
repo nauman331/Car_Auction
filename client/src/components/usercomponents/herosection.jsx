@@ -1,6 +1,7 @@
 import React from "react";
 import HeroTabs from "./herotab";
 import "../../assets/stylesheets/herosection.scss";
+
 import SearchBar from "./selectcars";
 const Herosection = () => {
   return (

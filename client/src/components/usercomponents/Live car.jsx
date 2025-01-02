@@ -1,5 +1,6 @@
 import React from "react";
 import "../../assets/stylesheets/livecar.scss";
+
 import img1 from "../../assets/images/images.png";
 import img2 from "../../assets/images/right-up 1.png";
 function Livecar() {

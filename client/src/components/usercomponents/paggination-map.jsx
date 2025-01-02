@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "../../assets/stylesheets/paggination.scss";
+
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import img1 from "../../assets/images/save.png";
 import img2 from "../../assets/images/right-up 1 (1).png";
@@ -32,12 +33,14 @@ const PaginatedCards = ({ data, itemsPerPage }) => {
         {currentItems.map((item) => (
           <div
             key={item.id}
-            className="  col-xl-3 col-lg-3  col-md-3  col-sm-6  col-12 col-12 p-2"
+            className="  col-xl-3 col-lg-3  col-md-4  col-sm-6  col-12 col-12 p-2"
           >
             <div className="catagory">
               {/* Image Section */}
               <div className="image-section">
                 <img src={item.image} alt={item.title} />
+                
+              
                 <div className="icon-overlay">
                   <img src={img1} alt="save" />
                 </div>
@@ -51,6 +54,7 @@ const PaginatedCards = ({ data, itemsPerPage }) => {
                   <span>• Automatic</span>
                 </span>
                 <p className="price">{item.price}</p>
+
                 <div className="join-auction-btn">
                   <a href="#">
                     View Details

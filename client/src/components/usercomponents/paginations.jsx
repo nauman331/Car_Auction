@@ -1,8 +1,9 @@
 import React from "react";
 import "../../assets/stylesheets/paggination.scss";
+
 import PaginatedCards from "../usercomponents/paggination-map";
-import img from "../../assets/images/Surface 1.png"
-import img1 from "../../assets/images/right-up 1 (2).png"
+import img from "../../assets/images/Surface 1.png";
+import img1 from "../../assets/images/right-up 1 (2).png";
 
 const RecentlyAdded = () => {
   const data = [
@@ -48,6 +49,7 @@ const RecentlyAdded = () => {
       title: "Mercedes-Benz, C Class",
       image: img,
       price: "$399",
+      
     },
     {
       id: 8,

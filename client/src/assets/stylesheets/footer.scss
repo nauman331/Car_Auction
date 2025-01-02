@@ -69,93 +69,119 @@
           color: #ffffff;
           margin-bottom: 20px;
         }
-        .icon {
+        .icon-section {
           display: flex;
-
-          i {
+          gap: 20px;
+          .icon-image {
             border-radius: 50px;
             color: #ffffff;
-            padding: 12px 12px;
+            padding: 8px 8px;
             width: 40px;
             height: 40px;
             text-align: center;
-            margin-right: 20px;
+            // margin-right: 20px;
             font-size: 15px;
             background-color: #171c30;
+            img {
+              max-width: 100%;
+              object-fit: cover;
+            }
           }
         }
       }
     }
   }
-  .footer-text {
-    .logo {
-      margin-bottom: 20px;
-      img {
-        max-width: 100%;
-        object-fit: cover;
+  .footer-mid-section {
+    display: flex;
+    justify-content: space-between;
+    .footer-text {
+      .logo {
+        margin-bottom: 20px;
+        img {
+          max-width: 100%;
+          object-fit: cover;
+        }
       }
-    }
-    p {
-      /* Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id es */
-      font-family: "DM Sans";
-      font-style: normal;
-      font-weight: 400;
-      font-size: 15px;
-      line-height: 26px;
-      color: #ffffff;
-    }
-  }
-  .footer-information {
-    h4 {
-      /* Join BoxCar */
-      font-family: "DM Sans";
-      font-style: normal;
-      font-weight: 500;
-      font-size: 30px;
-      line-height: 45px;
-      color: #ffffff;
-    }
-    p {
-      /* Receive pricing updates, shopping tips & more! */
-      font-family: "DM Sans";
-      font-style: normal;
-      font-weight: 400;
-      font-size: 15px;
-      line-height: 26px;
-      color: #ffffff;
-    }
-    .footer-inputs {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      input {
-        background: #171c30;
-        border: none;
-        border-radius: 16px;
+      p {
+        /* Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id es */
         font-family: "DM Sans";
         font-style: normal;
         font-weight: 400;
         font-size: 15px;
         line-height: 26px;
-        padding: 15px 20px;
-        color: #ffffff !important;
+        color: #ffffff;
       }
-      button {
-        background-color: #405ff2;
-        padding: 15px 20px;
-        border: none;
-        border-radius: 16px;
-        a {
-          text-decoration: none;
+    }
+    .footer-information-detail {
+      display: flex;
+      justify-content: end;
+      .footer-information {
+        h4 {
+          /* Join BoxCar */
+          font-family: "DM Sans";
+          font-style: normal;
+          font-weight: 500;
+          font-size: 30px;
+          line-height: 45px;
           color: #ffffff;
+        }
+        p {
+          /* Receive pricing updates, shopping tips & more! */
           font-family: "DM Sans";
           font-style: normal;
           font-weight: 400;
+          font-size: 15px;
+          line-height: 26px;
+          color: #ffffff;
+        }
+        .footer-inputs {
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+          input {
+            background: #171c30;
+            border: none;
+            border-radius: 16px;
+            font-family: "DM Sans";
+            font-style: normal;
+            font-weight: 400;
+            font-size: 15px;
+            line-height: 26px;
+            padding: 15px 20px;
+            color: #ffffff !important;
+          }
+          button {
+            background-color: #405ff2;
+            padding: 15px 20px;
+            border: none;
+            border-radius: 16px;
+            a {
+              text-decoration: none;
+              color: #ffffff;
+              font-family: "DM Sans";
+              font-style: normal;
+              font-weight: 400;
+            }
+          }
         }
       }
     }
   }
+
   .copyright {
+    p {
+      font-family: "DM Sans";
+      font-style: normal;
+      font-weight: 400;
+      font-size: 15px;
+      line-height: 26px;
+
+      color: #ffffff;
+    }
+  }
+  .copyright-terms {
+    display: flex;
+    justify-content: end;
     p {
       font-family: "DM Sans";
       font-style: normal;

@@ -1,5 +1,6 @@
 import React from "react";
 import "../../assets/stylesheets/car.scss";
+
 import img from "../../assets/images/right-up 1 (3).png"
 function CarSection() {
   const sections = [

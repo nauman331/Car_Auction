@@ -17,7 +17,7 @@ const Signup = () => {
     password: "",
     contact: "",
     address: "",
-    role: "buyer"
+    role: "Buyer"
   });
 
   const togglePasswordVisibility = () => {
@@ -50,7 +50,7 @@ const Signup = () => {
         toast.success(res_data.message);
         navigate("/verifyotp", { state: { email: user.email } });
       } else {
-        toast.error(res_data?.errors?.[0]?.msg || res_data?.message || "Unknown error occurred.");
+        toast.error(res_data.message);
       }
     } catch (error) {
       toast.error("Error in registering a new user");

@@ -1,0 +1,99 @@
+@media only screen and (max-width: 1200px) {
+  .navbar-expand-lg .navbar-nav .nav-item .nav-link {
+    display: ruby !important;
+  }
+  .Auction-Vehicles-text h1 {
+    font-size: 35px !important;
+  }
+  .catagorys-section .Contents-Section h4 {
+    font-size: 15px !important;
+  }
+  .catagorys-section .Contents-Section .address {
+    font-size: 10px !important;
+  }
+  Section .detailsdata ul li h5 {
+    font-size: 9px;
+  }
+  .catagorys-section .Contents-Section .delete {
+    font-size: 14px !important;
+  }
+}
+
+@media only screen and (max-width: 991px) {
+  .Auction-Vehicles-text h1 {
+    font-size: 30px !important;
+  }
+  .footer-section .footertopsection .mobileapp {
+    padding: 0 !important;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .catagorys-section .Contents-Section .detailsdata ul {
+    padding: 17px 0px;
+  }
+  .catagorys-section .Contents-Section .detailsdata ul li h5 {
+    font-size: 8px !important;
+  }
+  .footer-section .footer-mid-section .footer-information-detail {
+    justify-content: start !important;
+  }
+  .footer-text {
+    margin-bottom: 40px !important;
+  }
+  .footer-section .footertopsection .Products {
+    margin-bottom: 30px !important;
+  }
+  .footer-section .footertopsection .mobileapp .images img {
+    max-width: 200px !important;
+  }
+  .footertopsection .images {
+    flex-direction: column;
+    display: flex;
+  }
+  .footer-section .footertopsection {
+    padding-bottom: 40px !important;
+  }
+  .footer-section .copyright-terms {
+    justify-content: center !important;
+  }
+  .copyright {
+    text-align: center !important;
+  }
+  .main {
+    padding-top: 30px !important;
+  }
+  .main {
+    border-top-left-radius: 0px !important;
+    border-top-right-radius: 0px !important;
+    margin-bottom: 10px !important;
+  }
+}
+
+@media only screen and (max-width: 450px) {
+  .showingvehicles {
+    font-size: 14px !important;
+  }
+  .sort-by-container label {
+    font-size: 1p4x !important;
+  }
+  .sort-by-container select {
+    font-size: 12px !important;
+  }
+  .catagorys-section .Contents-Section .detailsdata ul li h5 {
+    font-size: 11px !important;
+  }
+  .showing {
+    flex-wrap: wrap;
+  }
+  .pagination-controls button {
+    margin: 0 4px !important;
+  }
+  .Auction-Vehicles-text h1 {
+    font-size: 26px !important;
+  }
+  
+  .header-section {
+    padding: 10px 15px !important;
+  }
+}

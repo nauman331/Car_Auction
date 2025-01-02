@@ -51,11 +51,11 @@
     transition: background-color 0.3s, color 0.3s;
   }
   button.active {
-    background-color: transparent;
+    background-color: transparent !important;
 
     border-bottom: 2px solid navy;
   }
 }
-// .tab-toggle button:hover {
-//   background-color: #d0d0d0;
-// }
+.tab-toggle button:hover {
+  background-color: transparent !important;
+}
