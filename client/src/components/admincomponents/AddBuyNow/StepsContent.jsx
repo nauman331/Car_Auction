@@ -34,17 +34,17 @@ const StepContent = ({ step, formData, setFormData, sellingType, images, setImag
     getAllAuctions();
   }, []);
   if (loading) return <LoadingSpinner />
+  const generateAuctionOptions = () =>
+    auctions?.map((auction) => ({
+      label: auction.auctionTitle,
+      value: auction._id,
+    })) || [];
   const generateOptions = (key, labelKey) =>
     categories?.[key]?.map((item) => ({
       label: item[labelKey],
       value: item._id,
     })) || [];
 
-  const generateAuctionOptions = () =>
-    auctions?.map((auction) => ({
-      label: auction.auctionTitle,
-      value: auction._id,
-    })) || [];
 
   const commonFields = {
     carDetailsFields: [

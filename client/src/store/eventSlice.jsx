@@ -9,8 +9,11 @@ const eventSlice = createSlice({
     setBidData: (state, action) => {
       state.currentBidData = action.payload
     },
+    removeBidData: (state) => {
+      state.currentBidData = null
+    },
   },
 })
 
-export const { setBidData } = eventSlice.actions
+export const { setBidData, removeBidData } = eventSlice.actions
 export default eventSlice.reducer

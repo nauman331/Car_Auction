@@ -13,7 +13,8 @@ import img10 from "../../assets/images/door.png";
 import img11 from "../../assets/images/piston 1.png";
 import img12 from "../../assets/images/color.png";
 import img13 from "../../assets/images/steering-wheel 1.png";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import {removeBidData} from "../../store/eventSlice"
 import toast from "react-hot-toast";
 import { PencilLine, Trash } from "lucide-react";
 import DeleteModal from "./DeleteModal";
@@ -26,6 +27,7 @@ import Select from "react-select";
 
 const CarAuction = ({ car, getCarDetails, backendURL }) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { socket } = useSelector((state) => state.socket);
   const { token } = useSelector(state => state.auth);
   const { currentBidData } = useSelector(state => state.event);
@@ -164,6 +166,9 @@ const CarAuction = ({ car, getCarDetails, backendURL }) => {
       const res_data = await response.json();
       if (response.ok) {
         toast.success(res_data.message);
+        if(id === currentBidData?.carId) {
+          dispatch(removeBidData());
+        }
         setShowDeleteModal(false); // Close the modal after deletion
         setCarIdToDelete(null); // Clear the ID after deletion
         navigate(`${car.sellingType === "auction" ? "/admin/auctioninventory" : "/admin/carlistings"}`);
@@ -326,8 +331,8 @@ const CarAuction = ({ car, getCarDetails, backendURL }) => {
             car.sellingType === "auction" ? (
               <>
                 <p>Current Bid</p>
-                <h2>AED {currentBidData && (car._id === currentBidData.carId) ? (currentBidData?.bidAmount || currentBidData?.currentBid
-                  || "N/A") : <small style={{ fontSize: "10px", color: "#aaa" }}>Bidding Started on another car or not started yet</small>}</h2>
+                <h2>AED {currentBidData && (car._id === currentBidData.carId) ? (currentBidData?.bidAmount || currentBidData?.currentBid || car?.startingBid
+                  || "N/A") : car?.startingBid}</h2>
                 <p>Bid Starting Price: {car.startingBid || "N/A"} AED</p>
               </>
             ) : (
@@ -340,7 +345,9 @@ const CarAuction = ({ car, getCarDetails, backendURL }) => {
           }
 
         </div>
-
+{
+  car.sellingType === "auction" ?
+  <>
         <div className="bid-controls">
           <button onClick={decreaseBid}>-</button>
           <span>AED
@@ -348,10 +355,18 @@ const CarAuction = ({ car, getCarDetails, backendURL }) => {
               onChange={(e) => setBid(parseFloat(e.target.value))}
             /></span>
           <button onClick={increaseBid}>+</button>
+          {
+            currentBidData?.auctionStatus ?
           <button className="place-bid" onClick={handlePlaceBid}>
             <img src={img1} />
             Place Bid
           </button>
+          :
+          <button className="place-bid" style={{backgroundColor: "grey", cursor: "not-allowed", border: "none"}}>
+          <img src={img1} />
+          Place Bid
+        </button>
+}
         </div>
         <div className="form-container" style={{border:"none", padding:"0px"}}>
   <div className="form-section" >
@@ -379,8 +394,7 @@ const CarAuction = ({ car, getCarDetails, backendURL }) => {
   </div>
 </div>
 </div>
-
-        <div className="form-container" style={{border:"none", padding:"0px"}}>
+<div className="form-container" style={{border:"none", padding:"0px"}}>
   <div className="form-section" >
     <div className="form-grid">
   <div className="input-container" id="auction-container" >
@@ -401,6 +415,17 @@ const CarAuction = ({ car, getCarDetails, backendURL }) => {
 </div>
 </div>
 </div>
+</>
+:
+<>
+<div className="bid-controls">
+<button className="place-bid">
+    Mark as Sold
+  </button>
+  </div>
+  </>
+  }
+      
 
         <div className="car-overview">
           <h3>Car Overview</h3>
