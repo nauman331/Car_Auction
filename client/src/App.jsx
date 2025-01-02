@@ -34,7 +34,7 @@ import Buycarforsale from "./pages/userpages/buycar";
 
 function App() {
   const dispatch = useDispatch();
-  const {socket} = useSelector((state) => state.socket)
+  const { socket } = useSelector((state) => state.socket)
   const { currentBidData } = useSelector(state => state.event);
 
   useEffect(() => {
@@ -42,23 +42,23 @@ function App() {
       socket.on("connect", () => {
         console.log("Socket connected");
       });
-  
+
       socket.on("disconnect", () => {
         console.log("Socket disconnected");
       });
-  
+
       socket.on("auctionOpened", (response) => {
         if (!response.isOk) {
           toast.error(response.message);
           return;
         }
-  
+
         const audio = new Audio("/notification.wav");
         audio.play();
         toast.success(response.message, {
           duration: 5000,
         });
-  
+
         if (currentBidData?.carId === response.carId) {
           // Update auctionStatus if carId matches
           dispatch(setBidData({ ...currentBidData, auctionStatus: true }));
@@ -66,7 +66,7 @@ function App() {
           dispatch(setBidData(response));
         }
       });
-  
+
       socket.on("bidPlaced", (response) => {
         if (!response.isOk) {
           toast.error(response.message);
@@ -77,10 +77,10 @@ function App() {
         toast.success(response.message, {
           duration: 5000,
         });
-  
+
         dispatch(setBidData(response));
       });
-  
+
       socket.on("auctionStatusChanged", (response) => {
         if (!response.isOk) {
           toast.error(response.message);
@@ -94,7 +94,7 @@ function App() {
         console.log(response);
         dispatch(setBidData(response));
       });
-  
+
       return () => {
         socket.off("connect");
         socket.off("disconnect");
@@ -104,7 +104,7 @@ function App() {
       };
     }
   }, [socket, currentBidData, dispatch]);
-  
+
 
 
   return (
@@ -116,10 +116,10 @@ function App() {
           <Route path="/auth" element={<Auth />} />
           <Route path="/verifyotp" element={<OTPVerificationForm />} />
           <Route path="/resetpassword" element={<Verificationform />} />
-          <Route path="/car" element={<Carsforsale />} />
-        <Route path="/vehicle" element={<Vehicle />} />
-        <Route path="/buynowlist" element={<BuyfilterForm />} />
-        <Route path="/buycar" element={<Buycarforsale />} />
+          <Route path="/car/:id" element={<Carsforsale />} />
+          <Route path="/vehicle" element={<Vehicle />} />
+          <Route path="/buynowlist" element={<BuyfilterForm />} />
+          <Route path="/buycar" element={<Buycarforsale />} />
 
 
           {/* Admin routes */}

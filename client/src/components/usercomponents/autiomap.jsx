@@ -1,188 +1,47 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../../assets/stylesheets/sortbydropdown.scss";
-
 import SortByDropdown from "./auto";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import img6 from "../../assets/images/Surface 1.png";
 import img1 from "../../assets/images/save.png";
 import img2 from "../../assets/images/speedometer 1.png";
 import img3 from "../../assets/images/gasoline-pump 1.png";
 import img4 from "../../assets/images/gearbox 1.png";
 import img5 from "../../assets/images/right-up 1 (1).png";
-const cars = [
-  {
-    id: 1,
-    title: "Mercedes-Benz, C Class",
-    image: img6,
+import {backendURL} from "../../utils/Exports"
+import LoadingSpinner from "./LoadingSpinner";
+import { NavLink } from "react-router-dom";
 
-    delaits: "Bid Starting From",
-    price: "$399",
-    showDetails: true,
-  },
-  {
-    id: 2,
-    title: "Mercedes-Benz, C Class",
-    image: img6,
-    delaits: "Bid Starting From",
-    price: "$399",
-    showDetails: true,
-  },
-  {
-    id: 3,
-    title: "Mercedes-Benz, C Class",
-    image: img6,
-    delaits: "Bid Starting From",
-    price: "$399",
-    showDetails: true,
-  },
-  {
-    id: 4,
-    title: "Honda, Accord",
-    image: img6,
-    showDetails: false,
-  },
-  {
-    id: 5,
-    title: "Volkswagen, CC",
-    image: img6,
-    showDetails: false,
-  },
-  {
-    id: 6,
-    title: "Hyundai, Exter",
-    image: img6,
-    showDetails: false,
-  },
-  {
-    id: 7,
-    title: "Mercedes-Benz, GLA",
-    image: img6,
-    showDetails: false,
-  },
-  {
-    id: 8,
-    title: "Mercedes-Benz, S Class",
-    image: img6,
-    showDetails: false,
-  },
-  {
-    id: 9,
-    title: "BMW 6 Series",
-    image: img6,
-    showDetails: false,
-  },
-  {
-    id: 10,
-    title: "Range Rover, Defender 110",
-    image: img6,
-    lowmilage: "Low Mileage",
-    showDetails: false,
-  },
-  {
-    id: 8,
-    title: "Volkswagen, Tiguan",
-    image: img6,
-    showDetails: false,
-  },
-  {
-    id: 9,
-    title: "BMW X1",
-    image: img6,
-
-    delete: "$789",
-    price: "$399",
-    showDetails: true,
-  },
-  {
-    id: 1,
-    title: "Mercedes-Benz, C Class",
-    image: img6,
-
-    delaits: "Bid Starting From",
-    price: "$399",
-    showDetails: true,
-  },
-  {
-    id: 2,
-    title: "Mercedes-Benz, C Class",
-    image: img6,
-    delaits: "Bid Starting From",
-    price: "$399",
-    showDetails: true,
-  },
-  {
-    id: 3,
-    title: "Mercedes-Benz, C Class",
-    image: img6,
-    delaits: "Bid Starting From",
-    price: "$399",
-    showDetails: true,
-  },
-  {
-    id: 4,
-    title: "Honda, Accord",
-    image: img6,
-    showDetails: false,
-  },
-  {
-    id: 5,
-    title: "Volkswagen, CC",
-    image: img6,
-    showDetails: false,
-  },
-  {
-    id: 6,
-    title: "Hyundai, Exter",
-    image: img6,
-    showDetails: false,
-  },
-  {
-    id: 7,
-    title: "Mercedes-Benz, GLA",
-    image: img6,
-    showDetails: false,
-  },
-  {
-    id: 8,
-    title: "Mercedes-Benz, S Class",
-    image: img6,
-    showDetails: false,
-  },
-  {
-    id: 9,
-    title: "BMW 6 Series",
-    image: img6,
-    showDetails: false,
-  },
-  {
-    id: 10,
-    title: "Range Rover, Defender 110",
-    image: img6,
-    lowmilage: "Low Mileage",
-    showDetails: false,
-  },
-  {
-    id: 8,
-    title: "Volkswagen, Tiguan",
-    image: img6,
-    showDetails: false,
-  },
-  {
-    id: 9,
-    title: "BMW X1",
-    image: img6,
-
-    delete: "$789",
-    price: "$399",
-    showDetails: true,
-  },
-];
 const itemsPerPage = 12;
-const ProductGridWithPagination = () => {
+const ProductGridWithPagination = ({sellType}) => {
   const [currentPage, setCurrentPage] = useState(1);
-
+  const [cars, setCars] = useState([])
+const [loading, setLoading] = useState(false);
   const totalPages = Math.ceil(cars.length / itemsPerPage);
+  const getAllCars = async () => {
+    setLoading(true);
+    try {
+      const response = await fetch(`${backendURL}/car`, { method: "GET" });
+  
+      if (!response.ok) {
+        toast.error("Error: Failed to fetch cars. Please try again later.");
+      }
+  
+      const res_data = await response.json();
+      setCars(res_data);
+      console.log(res_data);
+    } catch (error) {
+      console.error("Error fetching cars:", error);
+      toast.error("Failed to fetch cars. Please try again later.");
+    } finally {
+      setLoading(false);
+    }
+  };
+  
+  useEffect(() => {
+    getAllCars();
+  }, []);
 
+  if(loading) return <LoadingSpinner />
   const handleNext = () => {
     if (currentPage < totalPages) {
       setCurrentPage(currentPage + 1);
@@ -210,7 +69,7 @@ const ProductGridWithPagination = () => {
       "
       >
         <h2 className="showingvehicles">
-          Showing {paginatedCars.length} to {cars.length} of 1559 Vehicles
+          Showing {paginatedCars.length} of {cars.length} Vehicles
         </h2>
         <div>
           <SortByDropdown />
@@ -226,68 +85,38 @@ const ProductGridWithPagination = () => {
             <div className="catagorys-section">
               {/* Image Section */}
               <div className="images-section">
-                <img src={item.image} alt={item.title} />
-                {item.lowmilage && ( // Render the button only if lowmilage exists
-                  <button
-                    style={{
-                      backgroundColor: "blue",
-                      padding: "10px 20px",
-                      borderRadius: "30px",
-                      position: "absolute",
-                      top: "20px",
-                      left: "20px",
-                      border: "none",
-                      fontSize: "14px",
-                      fontWeight: "300px",
-                      fontFamily: "DM Sans",
-                    }}
-                  >
-                    {item.lowmilage}
-                  </button>
-                )}
-                <div className="icons-overlay">
-                  <img src={img1} alt="save" />
-                </div>
-                <div className="budget">
-                  <a href="#">{item.budget}</a>
-                </div>
+                <img src={item.carImages[0]} alt={item.listingTitle} />
               </div>
 
               {/* Content Section */}
               <div className="Contents-Section">
-                <h4>{item.title}</h4>
-                <p className="address">2023 C300e AMG Line Night Ed Premium</p>
+                <h4>{item.listingTitle || "No Title"}</h4>
+                <p className="address">{item.description?.length > 40 ? item.description?.substring(0, 40).trimEnd() + '...' : item.description || "No Description"}</p>
                 <span className="detailsdata">
                   <ul>
                     <li>
                       <img src={img2} />
-                      <h5> 26,786 kms</h5>
+                      <h5> {item.mileage || "N/A"} kms</h5>
                     </li>
                     <li>
                       <img src={img3} />
-                      <h5>Petrol</h5>
+                      <h5>{item.fuelType?.vehicleFuelTypes || "N/A"}</h5>
                     </li>
                     <li>
                       <img src={img4} />
-                      <h5>Automatic</h5>
+                      <h5>{item.transmission?.vehicleTransimission || "N/A"}</h5>
                     </li>
                   </ul>
                 </span>
-
-                <p className="delete">
-                  <span>{item.delaits}</span>
-                  <del>{item.delete}</del>
-                </p>
                 <div className="view-detail-section">
-                  <p className="price">{item.price}</p>
-                  {item.showDetails && (
+                  <p className="price">AED {item.price || item.startingBid}</p>
+
                     <div className="viewdetail-btn">
-                      <a href="#">
+                      <NavLink to={`/car/${item._id}`}>
                         View Details
                         <img src={img5} alt="right-up" />
-                      </a>
+                      </NavLink>
                     </div>
-                  )}
                 </div>
               </div>
             </div>

@@ -324,7 +324,7 @@ const BuyfilterForm = () => {
             </div>
             <div className="col-xl-9 col-lg-9 col-md-8 col-sm-12 col-12">
               <div>
-                <ProductGridWithPagination />
+                <ProductGridWithPagination sellType="fixed"/>
               </div>
             </div>
           </div>
