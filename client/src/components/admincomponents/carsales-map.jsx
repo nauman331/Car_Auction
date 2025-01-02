@@ -252,35 +252,7 @@ const CarAuction = ({ car, getCarDetails, backendURL }) => {
           }
 
         </div>
-        {car.sellingType === "auction" ?
-          currentBidData?.auctionStatus ?
-            (
-              <div className="bid-controls">
-                <button className="place-bid" onClick={handleCloseBid}>
-                  <img src={img1} />
-                  Close Bidding
-                </button>
-              </div>
-            )
-            :
-            (<div className="bid-controls">
-              <button className="place-bid" onClick={handleStartBid}>
-                <img src={img1} />
-                Start Bidding
-              </button>
-            </div>)
-          : <div className="bid-controls">
-            <button className="place-bid" style={{ backgroundColor: car.isSold && " #4682B4" }}>
-              <img src={img1} />
-              {
-                car.isSold ? "Sold" : "Mark as Sold"
-              }
-            </button>
-          </div>
-        }
 
-        {
-          currentBidData?.auctionStatus && (
             <div className="bid-controls">
               <button onClick={decreaseBid}>-</button>
               <span>AED
@@ -293,9 +265,6 @@ const CarAuction = ({ car, getCarDetails, backendURL }) => {
                 Place Bid
               </button>
             </div>
-          )
-        }
-
 
         <div className="car-overview">
           <h3>Car Overview</h3>

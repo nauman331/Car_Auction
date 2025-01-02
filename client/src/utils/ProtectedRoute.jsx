@@ -14,10 +14,8 @@ const ProtectedRoute = ({ children }) => {
     if (token && userdata && (pathname === "/auth" || pathname === "/resetpassword")) {
       if (userdata.role === "superadmin" || userdata.role === "admin") {
         navigate("/admin/dashboard", { replace: true });
-        toast("User already authenticated");
       } else {
       navigate("/user/userdashboard", { replace: true });
-      toast("User already authenticated");
       }
     } 
     // Case 2: User is not an admin or superadmin trying to access /admin routes
@@ -40,7 +38,6 @@ const ProtectedRoute = ({ children }) => {
     // Case 4: User is not logged in and trying to access /admin routes
     else if (token === null && pathname.startsWith("/admin")) {
       navigate("/auth", { replace: true });
-      toast.error("Login first");
     }
   }, [token, userdata, pathname, navigate]);
 

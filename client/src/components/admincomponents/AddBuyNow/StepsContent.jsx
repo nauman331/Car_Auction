@@ -9,7 +9,6 @@ import {backendURL} from "../../../utils/Exports"
 
 const StepContent = ({ step, formData, setFormData, sellingType, images, setImages, existingImages, setExistingImages }) => {
   const { categories } = useSelector((state) => state.category);
-  const { token } = useSelector((state) => state.auth)
   const [auctions, setAuctions] = useState([]);
   const [loading, setLoading] = useState(false);
   const getAllAuctions = async () => {

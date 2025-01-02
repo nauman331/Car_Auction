@@ -49,7 +49,7 @@ const Deposit = ({ setDepositAmount, depositAmount, pdf, setPdf }) => {
         <Wallet size={20} />
         <input
           type="number"
-          placeholder="Enter Amount to Deposit"
+          placeholder="Deposited Amount"
           value={depositAmount}
           onChange={(e) => setDepositAmount(e.target.value)}
         />

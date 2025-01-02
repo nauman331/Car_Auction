@@ -16,7 +16,7 @@ const menuItems = [
   { to: "/user/userdashboard", icon: <LayoutDashboard />, label: "Dashboard" },
   { to: "/user/orders", icon: <CarFront />, label: "Orders" },
   { to: "/user/wallet", icon: <CarFront />, label: "Deposits" },
-  { to: "/admin/profile", icon: <SquareUser />, label: "My Profile" },
+  { to: "/user/userprofile", icon: <SquareUser />, label: "My Profile" },
 ];
 
 const UserNav = () => {
