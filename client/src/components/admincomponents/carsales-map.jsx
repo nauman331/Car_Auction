@@ -101,14 +101,15 @@ const CarAuction = ({ car, getCarDetails, backendURL }) => {
     } else {
       console.log("Socket not connected or invalid data");
     }
-    
     }
   const handleStatusUpdate = (selectedStatus) => {
     if (socket && token && car?._id) {
       if (selectedStatus === "Ongoing") {
-        handleStartBid(); // Call start bid logic
+        handleStartBid();
       } else if (selectedStatus === "Completed") {
-        handleCloseBid(); // Call close bid logic
+        handleCloseBid();
+      } else if(selectedStatus === "UnSold") {
+        handleCloseBid();
       }
     } else {
       toast.error("Socket not connected or invalid data");
@@ -360,6 +361,7 @@ const CarAuction = ({ car, getCarDetails, backendURL }) => {
     options={[
       { label: "Ongoing", value: "Ongoing" },
       { label: "Completed", value: "Completed" },
+      { label: "UnSold", value: "UnSold" },
     ]}
     placeholder="Select Status"
     onChange={(selectedOption) => {
