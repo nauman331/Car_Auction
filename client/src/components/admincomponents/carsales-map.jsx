@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../../assets/stylesheets/carsalesinfo.scss";
 import img1 from "../../assets/images/placebid.png";
 import img2 from "../../assets/images/body.png";
@@ -20,6 +20,8 @@ import DeleteModal from "./DeleteModal";
 import EditModal from "./EditModal";
 import { CloudinaryUploader } from "../../utils/CloudinaryUploader";
 import { useNavigate } from "react-router-dom";
+import LoadingSpinner from "../usercomponents/LoadingSpinner";
+import Select from "react-select";
 
 
 const CarAuction = ({ car, getCarDetails, backendURL }) => {
@@ -38,6 +40,10 @@ const CarAuction = ({ car, getCarDetails, backendURL }) => {
   const [existingImages, setExistingImages] = useState([]);
   const [step, setStep] = useState(1);
   const steps = ["Car Details", "Price", "Features", "Media", "Location"];
+  const [selectedAuctionLot, setSelectedAuctionLot] = useState(car.auctionLot?._id || "");
+  const [auctions, setAuctions] = useState([]);
+  const [selectedStatus, setSelectedStatus] = useState(null);
+
 
   const carPriceData =
     car.sellingType === "auction"
@@ -92,8 +98,30 @@ const CarAuction = ({ car, getCarDetails, backendURL }) => {
         token,
       };
       socket.emit("closeAuction", data);
+    } else {
+      console.log("Socket not connected or invalid data");
     }
-  }
+    
+    }
+  const handleStatusUpdate = (selectedStatus) => {
+    if (socket && token && car?._id) {
+      if (selectedStatus === "Ongoing") {
+        handleStartBid(); // Call start bid logic
+      } else if (selectedStatus === "Completed") {
+        handleCloseBid(); // Call close bid logic
+      }
+    } else {
+      toast.error("Socket not connected or invalid data");
+    }
+  };
+  const handleUpdateStatus = () => {
+    if (selectedStatus) {
+      handleStatusUpdate(selectedStatus);
+    } else {
+      toast.error("Please select a status before updating.");
+    }
+  };
+  
 
   const handleImageSubmit = async () => {
     try {
@@ -183,6 +211,65 @@ const CarAuction = ({ car, getCarDetails, backendURL }) => {
       setLoading(false)
     }
   };
+  const getAllAuctions = async () => {
+    try {
+      setLoading(true);
+      const response = await fetch(`${backendURL}/auction`, {
+        method: "GET",
+      });
+      const res_data = await response.json();
+      if (response.ok) {
+        setAuctions(res_data);
+      } else {
+        console.log(res_data.message);
+      }
+    } catch (error) {
+      console.log("Error in getting all auctions");
+    } finally {
+      setLoading(false);
+    }
+  };
+  useEffect(() => {
+    getAllAuctions();
+  }, []);
+  if (loading) return <LoadingSpinner />
+  const generateAuctionOptions = () =>
+    auctions?.map((auction) => ({
+      label: auction.auctionTitle,
+      value: auction._id,
+    })) || [];
+
+  // Function to handle updating the auctionLot
+  const updateAuctionLot = async () => {
+    if (!selectedAuctionLot) {
+      toast.error("Please select an auction lot to update.");
+      return;
+    }
+
+    try {
+      const authorizationToken = `Bearer ${token}`;
+      const response = await fetch(`${backendURL}/car/${car._id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: authorizationToken,
+        },
+        body: JSON.stringify({ auctionLot: selectedAuctionLot }),
+      });
+      const res_data = await response.json();
+
+      if (response.ok) {
+        toast.success("Auction Lot updated successfully!");
+        // Optionally update local state or re-fetch car details
+        getCarDetails();
+      } else {
+        toast.error(res_data.message || "Failed to update Auction Lot.");
+      }
+    } catch (error) {
+      toast.error("Error occurred while updating the Auction Lot.");
+    }
+  };
+
 
   return (
     <>
@@ -253,18 +340,65 @@ const CarAuction = ({ car, getCarDetails, backendURL }) => {
 
         </div>
 
-            <div className="bid-controls">
-              <button onClick={decreaseBid}>-</button>
-              <span>AED
-                <input type="number" value={bid}
-                  onChange={(e) => setBid(parseFloat(e.target.value))}
-                /></span>
-              <button onClick={increaseBid}>+</button>
-              <button className="place-bid" onClick={handlePlaceBid}>
-                <img src={img1} />
-                Place Bid
-              </button>
-            </div>
+        <div className="bid-controls">
+          <button onClick={decreaseBid}>-</button>
+          <span>AED
+            <input type="number" value={bid}
+              onChange={(e) => setBid(parseFloat(e.target.value))}
+            /></span>
+          <button onClick={increaseBid}>+</button>
+          <button className="place-bid" onClick={handlePlaceBid}>
+            <img src={img1} />
+            Place Bid
+          </button>
+        </div>
+        <div className="form-container" style={{border:"none", padding:"0px"}}>
+  <div className="form-section" >
+    <div className="form-grid">
+    <div className="input-container" id="auction-container" >
+        <Select
+    options={[
+      { label: "Ongoing", value: "Ongoing" },
+      { label: "Completed", value: "Completed" },
+    ]}
+    placeholder="Select Status"
+    onChange={(selectedOption) => {
+      setSelectedStatus(selectedOption?.value);
+    }}
+    className="react-select-container"
+    classNamePrefix="react-select"
+    id="auctionLot"
+  />
+  <label htmlFor="auctionLot">Select Status</label>
+  <button className="place-bid" onClick={handleUpdateStatus}>
+    Update
+  </button>
+  </div>
+  </div>
+</div>
+</div>
+
+        <div className="form-container" style={{border:"none", padding:"0px"}}>
+  <div className="form-section" >
+    <div className="form-grid">
+  <div className="input-container" id="auction-container" >
+  <Select
+    options={generateAuctionOptions()} // Use the options generated from auctions
+    value={generateAuctionOptions().find(option => option.value === selectedAuctionLot)} // Match the selected value
+    onChange={(selectedOption) => setSelectedAuctionLot(selectedOption?.value)} // Update state on selection
+    placeholder="Select Auction Lot"
+    className="react-select-container"
+    classNamePrefix="react-select"
+    id="auctionLot"
+  />
+  <label htmlFor="auctionLot">Select Auction</label>
+  <button onClick={updateAuctionLot} className="place-bid">
+    Update
+  </button>
+</div>
+</div>
+</div>
+</div>
 
         <div className="car-overview">
           <h3>Car Overview</h3>
