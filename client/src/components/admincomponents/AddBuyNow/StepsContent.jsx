@@ -4,14 +4,15 @@ import FormGrid from "./FormGrid";
 import FeaturesGrid from "./FeaturesGrid";
 import MediaUpload from "./MediaUpload";
 import LoadingSpinner from "../../usercomponents/LoadingSpinner";
+import {backendURL} from "../../../utils/Exports"
 
 
 const StepContent = ({ step, formData, setFormData, sellingType, images, setImages, existingImages, setExistingImages }) => {
   const { categories } = useSelector((state) => state.category);
-  const {token} = useSelector((state)=>state.auth)
-const [auctions, setAuctions] = useState([]);
-const [loading, setLoading] = useState(false);
-const getAllAuctions = async () => {
+  const { token } = useSelector((state) => state.auth)
+  const [auctions, setAuctions] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const getAllAuctions = async () => {
     try {
       setLoading(true);
       const response = await fetch(`${backendURL}/auction`, {
@@ -32,8 +33,8 @@ const getAllAuctions = async () => {
 
   useEffect(() => {
     getAllAuctions();
-  }, [token]);
-  if(loading) return <LoadingSpinner />
+  }, []);
+  if (loading) return <LoadingSpinner />
   const generateOptions = (key, labelKey) =>
     categories?.[key]?.map((item) => ({
       label: item[labelKey],
@@ -166,30 +167,30 @@ const getAllAuctions = async () => {
     priceFields: [
       sellingType === "fixed"
         ? {
-            id: "price",
-            label: "Buy Now Price",
-            type: "text",
-            placeholder: "Enter Buy Now Price",
-          }
+          id: "price",
+          label: "Buy Now Price",
+          type: "text",
+          placeholder: "Enter Buy Now Price",
+        }
         : {
-            id: "startingBid",
-            label: "Bid Starting Price",
-            type: "text",
-            placeholder: "Enter Starting Bid Price",
-          },
+          id: "startingBid",
+          label: "Bid Starting Price",
+          type: "text",
+          placeholder: "Enter Starting Bid Price",
+        },
       sellingType === "fixed"
         ? {
-            id: "discountedPrice",
-            label: "Discounted Price",
-            type: "text",
-            placeholder: "Enter Discounted Price",
-          }
+          id: "discountedPrice",
+          label: "Discounted Price",
+          type: "text",
+          placeholder: "Enter Discounted Price",
+        }
         : {
-            id: "bidMargin",
-            label: "Bid Margin",
-            type: "text",
-            placeholder: "Enter Bid Margin",
-          },
+          id: "bidMargin",
+          label: "Bid Margin",
+          type: "text",
+          placeholder: "Enter Bid Margin",
+        },
     ],
     locationFields: [
       {
