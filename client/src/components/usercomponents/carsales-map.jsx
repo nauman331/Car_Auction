@@ -60,23 +60,10 @@ const CarAuction = ({ car }) => {
           <p className="dots"></p> {car.transmission?.vehicleTransimission || "No Transmission"}
         </p>
         <div className="current-bid">
-          {
-            car.sellingType === "auction" ? (
-              <>
                 <p>Current Bid</p>
                 <h2>AED {currentBidData && (car._id === currentBidData.carId) ? (currentBidData?.bidAmount || currentBidData?.currentBid || car?.startingBid
                   || "N/A") : car?.startingBid}</h2>
                 <p>Bid Starting Price: {car.startingBid || "N/A"} AED</p>
-              </>
-            ) : (
-              <>
-                <p>Discounted Price</p>
-                <h2>AED {car.discountedPrice ? car.discountedPrice : car.price || "N/A"}</h2>
-                {car.discountedPrice && <p>Original Price: {car.price || "N/A"} AED</p>}
-              </>
-            )
-          }
-
         </div>
 
         <div className="bid-controls">

@@ -1,7 +1,5 @@
 import React from "react";
 import "../../assets/stylesheets/carddata.scss";
-
-import img1 from "../../assets/images/save.png";
 import img2 from "../../assets/images/speedometer 1.png";
 import img3 from "../../assets/images/gasoline-pump 1.png";
 import img4 from "../../assets/images/gearbox 1.png";
