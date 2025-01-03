@@ -104,6 +104,19 @@ const CarAuction = ({ car, getCarDetails, backendURL }) => {
       console.log("Socket not connected or invalid data");
     }
     }
+
+const handleUnSoldBid = () => {
+  if (socket && token && car._id) {
+    const data = {
+      carId: car._id,
+      token,
+    };
+    socket.emit("markUnsaved", data);
+  } else {
+    console.log("Socket not connected or invalid data");
+  }
+}
+
   const handleStatusUpdate = (selectedStatus) => {
     if (socket && token && car?._id) {
       if (selectedStatus === "Ongoing") {
@@ -111,7 +124,7 @@ const CarAuction = ({ car, getCarDetails, backendURL }) => {
       } else if (selectedStatus === "Completed") {
         handleCloseBid();
       } else if(selectedStatus === "UnSold") {
-        handleCloseBid();
+        handleUnSoldBid();
       }
     } else {
       toast.error("Socket not connected or invalid data");

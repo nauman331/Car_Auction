@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { Image, Upload } from "lucide-react";
 import { backendURL } from "../../utils/Exports";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { CloudinaryUploader } from "../../utils/CloudinaryUploader";
 import toast from "react-hot-toast";
+import { setUser } from "../../store/slices/authSlice";
 
 const Profile = () => {
-  const { token } = useSelector((state) => state.auth);
-  const [userdata, setUserdata] = useState(null);
+  const dispatch = useDispatch();
+  const { token, userdata } = useSelector((state) => state.auth);
   const [file, setFile] = useState(null);
   const [formData, setFormData] = useState({
     firstName: "",
@@ -34,7 +35,7 @@ const Profile = () => {
       });
       const res_data = await response.json();
       if (response.ok) {
-        setUserdata(res_data);
+        dispatch(setUser({ userdata: res_data }));
       } else {
         toast.error(res_data.message || "Error in getting user data");
       }

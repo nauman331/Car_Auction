@@ -17,25 +17,28 @@ import ProtectedRoute from "./utils/ProtectedRoute";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import "bootstrap/dist/css/bootstrap.min.css";
-// import "./assets/stylesheets/car-responsive.scss";
+import "./assets/stylesheets/car responsive.scss";
 import Verificationform from "./components/usercomponents/Verificationform";
 import Deposits from "./components/admincomponents/Deposits";
 import CarSales from "./components/admincomponents/carsale"
 import { useEffect } from "react"
 import { useSelector, useDispatch } from "react-redux"
 import toast from "react-hot-toast";
-import { setBidData } from "./store/eventSlice"
+import { setBidData, removeBidData } from "./store/eventSlice"
 import UserPanel from "./pages/userpages/UserPanel";
 import Wallet from "./components/usercomponents/userpanel/Wallet";
 import Carsforsale from "./pages/userpages/car";
 import Vehicle from "./pages/userpages/vehicle";
 import BuyfilterForm from "./pages/userpages/buynowlist";
 import Buycarforsale from "./pages/userpages/buycar";
+import { backendURL } from "./utils/Exports";
+import { setUser } from "./store/slices/authSlice";
 
 function App() {
   const dispatch = useDispatch();
   const { socket } = useSelector((state) => state.socket)
   const { currentBidData } = useSelector(state => state.event);
+  const { token } = useSelector(state => state.auth);
 
   useEffect(() => {
     if (socket) {
@@ -95,18 +98,58 @@ function App() {
         dispatch(setBidData(response));
       });
 
+      socket.on("notifybidders", (response) => {
+        if (!response.isOk) {
+          toast.error(response.message);
+          return;
+        }
+        const audio = new Audio("/notification.wav");
+        audio.play();
+        toast.success(response.message, {
+          duration: 5000,
+        });
+        console.log(response);
+        dispatch(removeBidData());
+      });
+
       return () => {
         socket.off("connect");
         socket.off("disconnect");
         socket.off("auctionOpened");
         socket.off("bidPlaced");
         socket.off("auctionStatusChanged");
+        socket.off("notifybidders");
       };
     }
   }, [socket, currentBidData, dispatch]);
 
+  const getUserData = async () => {
+    const authorizationToken = `Bearer ${token}`;
+    try {
+      const response = await fetch(`${backendURL}/user/`, {
+        method: "GET",
+        headers: {
+          Authorization: authorizationToken,
+          "Content-Type": "application/json",
+        },
+      });
+      const res_data = await response.json();
+      if (response.ok) {
+        console.log(res_data);
+        dispatch(setUser({ userdata: res_data }));
+      } else {
+        console.warn(res_data.message || "Error in getting user data");
+      }
+    } catch (error) {
+      console.warn("Error in fetching user data");
+    }
+  };
 
-
+  useEffect(() => {
+    if (token) {
+      getUserData();
+    }
+  }, [token]);
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <ProtectedRoute>

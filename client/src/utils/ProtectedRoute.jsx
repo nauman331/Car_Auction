@@ -10,37 +10,36 @@ const ProtectedRoute = ({ children }) => {
   const { pathname } = location;
 
   useEffect(() => {
-    // Case 1: User is already authenticated and trying to access /auth or /resetpassword
+    // Redirect if user is authenticated and accessing /auth or /resetpassword
     if (token && userdata && (pathname === "/auth" || pathname === "/resetpassword")) {
-      if (userdata.role === "superadmin" || userdata.role === "admin") {
-        navigate("/admin/dashboard", { replace: true });
-      } else {
-      navigate("/user/userdashboard", { replace: true });
+        const redirectPath = userdata.role === "superadmin" || userdata.role === "admin" 
+          ? "/admin/dashboard" 
+          : "/user/userdashboard";
+        navigate(redirectPath, { replace: true });
+    } 
+
+    // Restrict non-admin users from accessing /admin routes
+    if (userdata && pathname.startsWith("/admin")) {
+      if (userdata.role !== "admin" && userdata.role !== "superadmin") {
+        navigate("/", { replace: true });
+        toast.error("Access Denied");
       }
-    } 
-    // Case 2: User is not an admin or superadmin trying to access /admin routes
-    else if (
-      userdata && 
-      (userdata.role !== "admin" && userdata.role !== "superadmin") &&
-      pathname.startsWith("/admin")
-    ) {
-      navigate("/", { replace: true });
-      toast.error("Access Denied");
-    } 
-    // Case 3: Admin or Superadmin trying to access non-admin routes
-    else if (
-      userdata &&
-      (userdata.role === "superadmin" || userdata.role === "admin") &&
-      !pathname.startsWith("/admin")
-    ) {
-      navigate("/admin/dashboard", { replace: true });
-    } 
-    // Case 4: User is not logged in and trying to access /admin routes
-    else if (token === null && pathname.startsWith("/admin")) {
+    }
+
+    // Redirect admins to /admin dashboard if they try to access non-admin routes
+    if (userdata && (userdata.role === "admin" || userdata.role === "superadmin")) {
+      if (!pathname.startsWith("/admin")) {
+        navigate("/admin/dashboard", { replace: true });
+      }
+    }
+
+    // Redirect unauthenticated users trying to access /admin routes to /auth
+    if (!token && (pathname.startsWith("/admin") || pathname.startsWith("/user"))) {
       navigate("/auth", { replace: true });
     }
   }, [token, userdata, pathname, navigate]);
 
+  // Render children if no redirection occurs
   return children;
 };
 

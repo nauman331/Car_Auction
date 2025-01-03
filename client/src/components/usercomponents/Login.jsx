@@ -1,17 +1,18 @@
 import "../../assets/stylesheets/login.scss";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFacebook, faGoogle } from "@fortawesome/free-brands-svg-icons";
 import { faEye, faEyeSlash, faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import toast from "react-hot-toast"
 import { backendURL } from "../../utils/Exports";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setToken } from "../../store/slices/authSlice"
-import {useNavigate, NavLink} from "react-router-dom"
+import { NavLink} from "react-router-dom";
+import { setUser } from "../../store/slices/authSlice";
 
 const Login = () => {
-  const navigate = useNavigate()
   const dispatch = useDispatch()
+  const {token} = useSelector(state => state.auth)
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -36,7 +37,6 @@ const Login = () => {
       if (response.ok) {
         toast.success("User Logged In Successfully!");
         dispatch(setToken({ token: res_data.token }));
-        navigate("/")
       } else {
         toast.error(res_data.message);
       }
@@ -44,8 +44,6 @@ const Login = () => {
       toast.error("Error while Logging In");
     }
   };
-  
-  
 
   return (
     <form className="auth-form" onSubmit={handleSubmit}>
