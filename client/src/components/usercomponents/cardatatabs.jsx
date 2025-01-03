@@ -3,12 +3,21 @@ import "../../assets/stylesheets/carddatatabs.scss";
 
 import Vehicles from "../usercomponents/cardata";
 import img from "../../assets/images/right-up 1 (2).png";
-const CarTabs = () => {
-  const [activeTab, setActiveTab] = useState("featured");
+const CarTabs = ({cars}) => {
+  const [activeTab, setActiveTab] = useState("all");
 
   const toggleTab = (tabName) => {
     setActiveTab(tabName);
   };
+
+ // Filter cars based on the active tab
+ const filteredCars = cars.filter((car) => {
+  if (activeTab === "all") return true; // Show all cars
+  if (activeTab === "buyNow") return car.sellingType === "fixed"; // Fixed cars
+  if (activeTab === "auction") return car.sellingType === "auction"; // Auction cars
+  return false;
+});
+
 
   return (
     <div className="explore-Allvehicles-section">
@@ -26,42 +35,28 @@ const CarTabs = () => {
           {/* Tab Buttons */}
           <div className="tab-toggle">
             <button
-              onClick={() => toggleTab("featured")}
-              className={activeTab === "featured" ? "active" : ""}
+              onClick={() => toggleTab("all")}
+              className={activeTab === "all" ? "active" : ""}
             >
-              Featured Cars
+              All
             </button>
             <button
-              onClick={() => toggleTab("recent")}
-              className={activeTab === "recent" ? "active" : ""}
+              onClick={() => toggleTab("buyNow")}
+              className={activeTab === "buyNow" ? "active" : ""}
             >
-              Recent Cars
+              Buy Now
             </button>
             <button
-              onClick={() => toggleTab("popular")}
-              className={activeTab === "popular" ? "active" : ""}
+              onClick={() => toggleTab("auction")}
+              className={activeTab === "auction" ? "active" : ""}
             >
-              Popular Cars
+              Auction
             </button>
           </div>
 
           {/* Tab Content */}
           <div className="tab-content">
-            {activeTab === "featured" && (
-              <div>
-                <Vehicles />
-              </div>
-            )}
-            {activeTab === "recent" && (
-              <div>
-                <Vehicles />
-              </div>
-            )}
-            {activeTab === "popular" && (
-              <div>
-                <Vehicles />
-              </div>
-            )}
+            <Vehicles cars={filteredCars} />
           </div>
         </div>
       </div>

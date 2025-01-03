@@ -159,10 +159,10 @@ function App() {
           <Route path="/auth" element={<Auth />} />
           <Route path="/verifyotp" element={<OTPVerificationForm />} />
           <Route path="/resetpassword" element={<Verificationform />} />
-          <Route path="/car/:id" element={<Carsforsale />} />
+          <Route path="/auctioncar/:id" element={<Carsforsale />} />
           <Route path="/vehicle" element={<Vehicle />} />
           <Route path="/buynowlist" element={<BuyfilterForm />} />
-          <Route path="/buycar" element={<Buycarforsale />} />
+          <Route path="/buycar/:id" element={<Buycarforsale />} />
 
 
           {/* Admin routes */}

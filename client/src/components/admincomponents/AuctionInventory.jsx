@@ -101,7 +101,7 @@ const AuctionInventory = () => {
 
   useEffect(() => {
     getAllCars();
-  }, [token]);
+  }, []);
 
 
   const deletCar = async (id) => {

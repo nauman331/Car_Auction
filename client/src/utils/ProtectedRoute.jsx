@@ -19,11 +19,8 @@ const ProtectedRoute = ({ children }) => {
     } 
 
     // Restrict non-admin users from accessing /admin routes
-    if (userdata && pathname.startsWith("/admin")) {
-      if (userdata.role !== "admin" && userdata.role !== "superadmin") {
+    if (userdata && pathname.startsWith("/admin") && (userdata.role !== "admin" && userdata.role !== "superadmin")) {
         navigate("/", { replace: true });
-        toast.error("Access Denied");
-      }
     }
 
     // Redirect admins to /admin dashboard if they try to access non-admin routes
