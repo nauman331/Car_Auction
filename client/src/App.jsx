@@ -40,6 +40,10 @@ function App() {
   const { currentBidData } = useSelector(state => state.event);
   const { token } = useSelector(state => state.auth);
 
+  const handleToast = (message) => {
+     toast.error(message);
+  }
+
   useEffect(() => {
     if (socket) {
       socket.on("connect", () => {
@@ -52,7 +56,7 @@ function App() {
 
       socket.on("auctionOpened", (response) => {
         if (!response.isOk) {
-          toast.error(response.message);
+          handleToast(response.message);
           return;
         }
 
@@ -72,7 +76,7 @@ function App() {
 
       socket.on("bidPlaced", (response) => {
         if (!response.isOk) {
-          toast.error(response.message);
+          handleToast(response.message);
           return;
         }
         const audio = new Audio("/notification.wav");
@@ -86,7 +90,7 @@ function App() {
 
       socket.on("auctionStatusChanged", (response) => {
         if (!response.isOk) {
-          toast.error(response.message);
+          handleToast(response.message);
           return;
         }
         const audio = new Audio("/notification.wav");
@@ -100,7 +104,7 @@ function App() {
 
       socket.on("notifybidders", (response) => {
         if (!response.isOk) {
-          toast.error(response.message);
+          handleToast(response.message);
           return;
         }
         const audio = new Audio("/notification.wav");
@@ -135,7 +139,6 @@ function App() {
       });
       const res_data = await response.json();
       if (response.ok) {
-        console.log(res_data);
         dispatch(setUser({ userdata: res_data }));
       } else {
         console.warn(res_data.message || "Error in getting user data");
@@ -159,9 +162,9 @@ function App() {
           <Route path="/auth" element={<Auth />} />
           <Route path="/verifyotp" element={<OTPVerificationForm />} />
           <Route path="/resetpassword" element={<Verificationform />} />
-          <Route path="/auctioncar/:id" element={<Carsforsale />} />
           <Route path="/vehicle" element={<Vehicle />} />
           <Route path="/buynowlist" element={<BuyfilterForm />} />
+          <Route path="/auctioncar/:id" element={<Carsforsale />} />
           <Route path="/buycar/:id" element={<Buycarforsale />} />
 
 

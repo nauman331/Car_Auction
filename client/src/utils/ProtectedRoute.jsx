@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import toast from "react-hot-toast";
 import { useSelector } from "react-redux";
 import { useNavigate, useLocation } from "react-router-dom";
 
@@ -24,10 +23,8 @@ const ProtectedRoute = ({ children }) => {
     }
 
     // Redirect admins to /admin dashboard if they try to access non-admin routes
-    if (userdata && (userdata.role === "admin" || userdata.role === "superadmin")) {
-      if (!pathname.startsWith("/admin")) {
+    if (userdata && (userdata.role === "admin" || userdata.role === "superadmin") && !pathname.startsWith("/admin")) {
         navigate("/admin/dashboard", { replace: true });
-      }
     }
 
     // Redirect unauthenticated users trying to access /admin routes to /auth

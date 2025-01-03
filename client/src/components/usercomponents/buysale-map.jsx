@@ -13,7 +13,6 @@ import img10 from "../../assets/images/door.png";
 import img11 from "../../assets/images/piston 1.png";
 import img12 from "../../assets/images/color.png";
 import img13 from "../../assets/images/steering-wheel 1.png";
-import { useSelector} from "react-redux";
 
 
 const BuyCar = ({ car }) => {

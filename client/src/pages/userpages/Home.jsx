@@ -50,7 +50,7 @@ const Home = () => {
       <CarTabs cars={cars}/>
       <Livecar />
       <Loader />
-      <RecentlyAdded />
+      <RecentlyAdded data={cars}/>
       <CarSection />
       <Feature />
       <Premium />

@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import "../../assets/stylesheets/paggination.scss";
-
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import img1 from "../../assets/images/save.png";
 import img2 from "../../assets/images/right-up 1 (1).png";
+import { NavLink } from "react-router-dom";
 
 const PaginatedCards = ({ data, itemsPerPage }) => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -32,35 +31,43 @@ const PaginatedCards = ({ data, itemsPerPage }) => {
       <div className="row">
         {currentItems.map((item) => (
           <div
-            key={item.id}
+            key={item._id}
             className="  col-xl-3 col-lg-3  col-md-4  col-sm-6  col-12 col-12 p-2"
           >
             <div className="catagory">
               {/* Image Section */}
               <div className="image-section">
-                <img src={item.image} alt={item.title} />
-                
-              
-                <div className="icon-overlay">
-                  <img src={img1} alt="save" />
-                </div>
+                <img src={item.carImages[0]} alt={item.listingTitle} />
               </div>
 
               {/* Content Section */}
               <div className="Content-Section">
-                <h4>{item.title}</h4>
+                <h4>{item.listingTitle || "No Title"}</h4>
                 <span className="details">
-                  26,786 kms <span>• Petrol</span>
-                  <span>• Automatic</span>
+                  {item.mileage || "N/A"} kms <span>• {item.fuelType?.vehicleFuelTypes || "N/A"}</span>
+                  <span>• {item.transmission?.vehicleTransimission || "N/A"}</span>
                 </span>
-                <p className="price">{item.price}</p>
+                {
+                  item.sellingType === "fixed" ? <p className="price">AED {item.discountedPrice || item.price || "N/A"}</p> :
+                    <p className="price">AED {item.startingBid || "N/A"}</p>
+                }
 
                 <div className="join-auction-btn">
-                  <a href="#">
-                    View Details
-                    <img src={img2} />
-                  </a>
+                  {
+                    item.sellingType === "auction" ?
+
+                        <NavLink to={`/auctioncar/${item._id}`}>
+                          View Details
+                          <img src={img2} />
+                        </NavLink>
+                      :
+                        <NavLink to={`/buycar/${item._id}`}>
+                          View Details
+                          <img src={img2} />
+                        </NavLink> 
+                  }
                 </div>
+
               </div>
             </div>
           </div>
