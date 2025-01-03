@@ -36,7 +36,7 @@ const Login = () => {
       
       if (response.ok) {
         toast.success("User Logged In Successfully!");
-        dispatch(setToken({ token: res_data.token }));
+        dispatch(setToken({ token: res_data }));
       } else {
         toast.error(res_data.message);
       }
