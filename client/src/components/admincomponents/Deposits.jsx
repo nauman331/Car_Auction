@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom"; // For navigation
 import { CircleCheckBig, Search } from "lucide-react";
 import { useSelector } from "react-redux";
 import toast from "react-hot-toast";
@@ -15,6 +16,8 @@ const Deposits = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [sortOption, setSortOption] = useState("");
   const itemsPerPage = 10;
+  const navigate = useNavigate();
+
   const totalPages = Math.ceil(filteredDeposits.length / itemsPerPage);
 
   const getDeposits = async () => {
@@ -30,13 +33,16 @@ const Deposits = () => {
       });
       const res_data = await response.json();
       if (response.ok) {
-        setDeposits(res_data.newDeposits);
-        console.log(res_data)
+        // Filter out deposits with missing user or flat items
+        const filteredData = res_data.newDeposits.filter(
+          (item) => item.user && item.user._id && item.user.role
+        );
+        setDeposits(filteredData);
       } else {
         toast.error(res_data.message);
       }
     } catch (error) {
-      console.log("Error in getting deposits");
+      console.error("Error in getting deposits", error);
     } finally {
       setLoading(false);
     }
@@ -46,59 +52,45 @@ const Deposits = () => {
     getDeposits();
   }, [token]);
 
-  const approveDeposite = async (userId, invNumber) => {
-    const authorizationToken = `Bearer ${token}`;
-    try {
-      const response = await fetch(`${backendURL}/wallet/approve-deposite`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: authorizationToken,
-        },
-        body: JSON.stringify({ userId, invNumber }) // Corrected the body to send userId and invNumber as an object
-      });
-
-      const res_data = await response.json();
-      if (response.ok) {
-        toast.success(res_data.message);
-      } else {
-        toast.error(res_data.message);
-      }
-    } catch (error) {
-      toast.error("Error occurred while approving");
-    }
-  };
-
-
   useEffect(() => {
-    // Ensure deposits exist before attempting to process them
-    if (deposits && deposits.length > 0) {
-      let filtered = deposits.flatMap(depositGroup => depositGroup.deposits); // Flatten the deposits into one list
+    let filtered = [...deposits];
 
-      // Apply search query filter
-      if (searchQuery) {
-        filtered = filtered.filter((deposit) =>
-          deposit.invNumber.toString().includes(searchQuery) // Search by invoice number
-        );
-      }
-
-      // Apply sort option filter
-      if (sortOption) {
-        if (sortOption === "asc") {
-          filtered = [...filtered].sort((a, b) => a.amount - b.amount); // Sort by amount in ascending order
-        } else if (sortOption === "desc") {
-          filtered = [...filtered].sort((a, b) => b.amount - a.amount); // Sort by amount in descending order
-        }
-      }
-
-      setFilteredDeposits(filtered);
+    if (searchQuery) {
+      filtered = filtered.filter((deposit) =>
+        deposit.deposits.some((d) =>
+          d.invNumber?.toString().includes(searchQuery)
+        )
+      );
     }
-  }, [searchQuery, deposits, sortOption]);
 
+    if (sortOption) {
+      filtered = [...filtered].sort((a, b) => {
+        const totalA = a.deposits.reduce((sum, d) => sum + d.amount, 0);
+        const totalB = b.deposits.reduce((sum, d) => sum + d.amount, 0);
+        return sortOption === "asc" ? totalA - totalB : totalB - totalA;
+      });
+    }
+
+    setFilteredDeposits(filtered);
+  }, [searchQuery, deposits, sortOption]);
 
   const getDisplayedDeposits = () => {
     const startIndex = (currentPage - 1) * itemsPerPage;
     return filteredDeposits.slice(startIndex, startIndex + itemsPerPage);
+  };
+
+  const handleRowClick = (user) => {
+    navigate(`/deposit-details/${user._id}`, { state: { user } });
+  };
+
+  const calculateTotalDeposits = (deposits) => {
+    return deposits.reduce(
+      (acc, deposit) => ({
+        totalRequests: acc.totalRequests + 1,
+        totalAmount: acc.totalAmount + (deposit.amount || 0),
+      }),
+      { totalRequests: 0, totalAmount: 0 }
+    );
   };
 
   return (
@@ -108,10 +100,8 @@ const Deposits = () => {
       ) : (
         <>
           <div className="car-list-top">
-            <span>
-              <h3>Deposits</h3>
-              <small>List of all deposits made by users</small>
-            </span>
+            <h3>Deposits</h3>
+            <small>List of all deposits made by users</small>
           </div>
 
           <div className="car-list-container">
@@ -141,33 +131,33 @@ const Deposits = () => {
               <table className="car-table">
                 <thead>
                   <tr>
-                    <th>Deposit Invoice</th>
-                    <th>Date</th>
-                    <th>Deposit Amount</th>
-                    <th>Status</th>
-                    <th>Action</th>
+                    <th>User ID</th>
+                    <th>Total Requests</th>
+                    <th>Total Amount</th>
+                    <th>User Role</th>
+                    <th>User Status</th>
                   </tr>
                 </thead>
                 <tbody>
                   {getDisplayedDeposits()?.length > 0 ? (
-                    getDisplayedDeposits().map((deposit) => (
-                      <tr key={deposit._id}>
-                        <td>
-                          <a href={`${deposit.inv}?attachment=true`} download>
-                            Invoice #{deposit.invNumber || "No Invoice"}
-                          </a>
-                        </td>
-                        <td>{deposit.depositeDate ? new Date(deposit.depositeDate).toLocaleString() : "N/A"}</td>
-                        <td>{deposit.amount} AED</td>
-                        <td>{deposit.status}</td>
-                        <td
+                    getDisplayedDeposits().map((item) => {
+                      const { user, deposits } = item;
+                      const { totalRequests, totalAmount } =
+                        calculateTotalDeposits(deposits);
+                      return (
+                        <tr
+                          key={user._id}
+                          onClick={() => handleRowClick(user)}
                           style={{ cursor: "pointer" }}
-                          onClick={() => approveDeposite(deposit._id, deposit.invNumber)} // Make sure to pass the correct values
                         >
-                          <CircleCheckBig />
-                        </td>
-                      </tr>
-                    ))
+                          <td>{user._id|| "N/A"}</td>
+                          <td>{totalRequests|| "N/A"}</td>
+                          <td>{totalAmount|| "N/A"} AED</td>
+                          <td>{user.role|| "N/A"}</td>
+                          <td>{user.isVerified ? "Verified" : "Not Verified" || "N/A"}</td>
+                        </tr>
+                      );
+                    })
                   ) : (
                     <tr>
                       <td colSpan="5" style={{ textAlign: "center" }}>

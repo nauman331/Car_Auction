@@ -3,6 +3,7 @@ import "../../assets/stylesheets/carddatatabs.scss";
 
 import Vehicles from "../usercomponents/cardata";
 import img from "../../assets/images/right-up 1 (2).png";
+import { NavLink } from "react-router-dom";
 const CarTabs = ({cars}) => {
   const [activeTab, setActiveTab] = useState("all");
 
@@ -25,10 +26,10 @@ const CarTabs = ({cars}) => {
         <div className="Explore-text-section">
           <h2>Explore All Vehicles</h2>
           <div className="view-btn">
-            <a href="#">
-              View All
-              <img src={img} alt="right-up" />
-            </a>
+          <NavLink to="/vehicle">
+            View All
+            <img src={img} />
+          </NavLink>
           </div>
         </div>
         <div>

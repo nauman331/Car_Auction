@@ -4,7 +4,7 @@ import "../../assets/stylesheets/carddata.scss";
 import "../../assets/stylesheets/FeatureCategory.scss";
 import ProductGridWithPagination from "./autiomap";
 
-const CarFilterForm = () => {
+const CarFilterForm = ({cars}) => {
   const [selectedTypes, setSelectedTypes] = useState([]);
   const [formData, setFormData] = useState({});
   const [minPrice, setMinPrice] = useState(5000);
@@ -341,7 +341,7 @@ const CarFilterForm = () => {
             </div>
             <div className="col-xl-9 col-lg-9 col-md-8 col-sm-12 col-12">
               <div>
-                <ProductGridWithPagination sellType="auction"/>
+                <ProductGridWithPagination cars={cars}/>
               </div>
             </div>
           </div>

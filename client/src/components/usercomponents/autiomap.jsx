@@ -2,46 +2,17 @@ import React, { useState, useEffect } from "react";
 import "../../assets/stylesheets/sortbydropdown.scss";
 import SortByDropdown from "./auto";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import img1 from "../../assets/images/save.png";
 import img2 from "../../assets/images/speedometer 1.png";
 import img3 from "../../assets/images/gasoline-pump 1.png";
 import img4 from "../../assets/images/gearbox 1.png";
 import img5 from "../../assets/images/right-up 1 (1).png";
-import {backendURL} from "../../utils/Exports"
-import LoadingSpinner from "./LoadingSpinner";
 import { NavLink } from "react-router-dom";
 
 const itemsPerPage = 12;
-const ProductGridWithPagination = ({sellType}) => {
+const ProductGridWithPagination = ({cars}) => {
   const [currentPage, setCurrentPage] = useState(1);
-  const [cars, setCars] = useState([])
-const [loading, setLoading] = useState(false);
   const totalPages = Math.ceil(cars.length / itemsPerPage);
-  const getAllCars = async () => {
-    setLoading(true);
-    try {
-      const response = await fetch(`${backendURL}/car`, { method: "GET" });
-  
-      if (!response.ok) {
-        toast.error("Error: Failed to fetch cars. Please try again later.");
-      }
-  
-      const res_data = await response.json();
-      setCars(res_data);
-      console.log(res_data);
-    } catch (error) {
-      console.error("Error fetching cars:", error);
-      toast.error("Failed to fetch cars. Please try again later.");
-    } finally {
-      setLoading(false);
-    }
-  };
-  
-  useEffect(() => {
-    getAllCars();
-  }, []);
 
-  if(loading) return <LoadingSpinner />
   const handleNext = () => {
     if (currentPage < totalPages) {
       setCurrentPage(currentPage + 1);
@@ -112,10 +83,18 @@ const [loading, setLoading] = useState(false);
                   <p className="price">AED {item.price || item.startingBid}</p>
 
                     <div className="viewdetail-btn">
-                      <NavLink to={`/car/${item._id}`}>
+                      {
+                        item.sellingType === "auction" ? 
+                      <NavLink to={`/auctioncar/${item._id}`}>
                         View Details
                         <img src={img5} alt="right-up" />
                       </NavLink>
+                      :
+                      <NavLink to={`/buycar/${item._id}`}>
+                      View Details
+                      <img src={img5} alt="right-up" />
+                    </NavLink>
+                      }
                     </div>
                 </div>
               </div>
