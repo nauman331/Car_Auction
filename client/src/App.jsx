@@ -33,6 +33,7 @@ import BuyfilterForm from "./pages/userpages/buynowlist";
 import Buycarforsale from "./pages/userpages/buycar";
 import { backendURL } from "./utils/Exports";
 import { setUser } from "./store/slices/authSlice";
+import DepositDetail from "./components//admincomponents/DepositDetail"
 
 function App() {
   const dispatch = useDispatch();
@@ -182,6 +183,7 @@ function App() {
             <Route path="deposits" element={<Deposits />} />
             <Route path="Orders" element={<Orders />} />
             <Route path="Profile" element={<Profile />} />
+            <Route path="deposit" element={<DepositDetail />} />
             <Route path="carsales/:id" element={<CarSales />} />
           </Route>
 

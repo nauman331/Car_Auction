@@ -9,7 +9,7 @@ import img5 from "../../assets/images/right-up 1 (1).png";
 import { NavLink } from "react-router-dom";
 
 const itemsPerPage = 12;
-const ProductGridWithPagination = ({cars}) => {
+const ProductGridWithPagination = ({ cars }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const totalPages = Math.ceil(cars.length / itemsPerPage);
 
@@ -82,20 +82,20 @@ const ProductGridWithPagination = ({cars}) => {
                 <div className="view-detail-section">
                   <p className="price">AED {item.price || item.startingBid}</p>
 
-                    <div className="viewdetail-btn">
-                      {
-                        item.sellingType === "auction" ? 
-                      <NavLink to={`/auctioncar/${item._id}`}>
-                        View Details
-                        <img src={img5} alt="right-up" />
-                      </NavLink>
-                      :
-                      <NavLink to={`/buycar/${item._id}`}>
-                      View Details
-                      <img src={img5} alt="right-up" />
-                    </NavLink>
-                      }
-                    </div>
+                  <div className="viewdetail-btn">
+                    {
+                      item.sellingType === "auction" ?
+                        <NavLink to={`/auctioncar/${item._id}`}>
+                          View Details
+                          <img src={img5} alt="right-up" />
+                        </NavLink>
+                        :
+                        <NavLink to={`/buycar/${item._id}`}>
+                          View Details
+                          <img src={img5} alt="right-up" />
+                        </NavLink>
+                    }
+                  </div>
                 </div>
               </div>
             </div>

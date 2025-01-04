@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom"; // For navigation
-import { CircleCheckBig, Search } from "lucide-react";
+import { Search } from "lucide-react";
 import { useSelector } from "react-redux";
 import toast from "react-hot-toast";
 import { backendURL } from "../../utils/Exports";
@@ -54,15 +54,17 @@ const Deposits = () => {
 
   useEffect(() => {
     let filtered = [...deposits];
-
+  
     if (searchQuery) {
-      filtered = filtered.filter((deposit) =>
-        deposit.deposits.some((d) =>
-          d.invNumber?.toString().includes(searchQuery)
-        )
+      filtered = filtered.filter(
+        (item) =>
+          item.user._id.includes(searchQuery) || // Match user ID
+          item.deposits.some((d) =>
+            d.invNumber?.toString().includes(searchQuery) // Match invoice number
+          )
       );
     }
-
+  
     if (sortOption) {
       filtered = [...filtered].sort((a, b) => {
         const totalA = a.deposits.reduce((sum, d) => sum + d.amount, 0);
@@ -70,17 +72,17 @@ const Deposits = () => {
         return sortOption === "asc" ? totalA - totalB : totalB - totalA;
       });
     }
-
+  
     setFilteredDeposits(filtered);
   }, [searchQuery, deposits, sortOption]);
-
+  
   const getDisplayedDeposits = () => {
     const startIndex = (currentPage - 1) * itemsPerPage;
     return filteredDeposits.slice(startIndex, startIndex + itemsPerPage);
   };
 
   const handleRowClick = (user) => {
-    navigate(`/deposit-details/${user._id}`, { state: { user } });
+    navigate(`/admin/deposit`, { state: { user } });
   };
 
   const calculateTotalDeposits = (deposits) => {
@@ -110,7 +112,7 @@ const Deposits = () => {
                 <Search />
                 <input
                   type="text"
-                  placeholder="Search by deposit invoice number"
+                  placeholder="Search by user id"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
