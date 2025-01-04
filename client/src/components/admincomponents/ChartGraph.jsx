@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -8,19 +8,19 @@ import {
   Title,
   Tooltip,
   Legend,
-  Filler, // Added for smooth area filling
+  Filler,
 } from "chart.js";
 import { Line } from "react-chartjs-2";
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler);
 
-const ChartGraph = () => {
-  const data = {
+const ChartGraph = ({ periodicData }) => {
+  const [chartData, setChartData] = useState({
     labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
     datasets: [
       {
         label: "Total Sales",
-        data: [100, 200, 180, 150, 180, 140, 180, 150, 160, 140, 200, 250], // Matching provided values
+        data: new Array(12).fill(0), // Default empty data for all months
         borderColor: "#405FF2",
         backgroundColor: "rgba(64, 95, 242, 0.1)",
         tension: 0.4, // Smooth curve
@@ -33,14 +33,38 @@ const ChartGraph = () => {
         fill: true, // Area fill
       },
     ],
-  };
+  });
+
+  useEffect(() => {
+    if (!periodicData || !Array.isArray(periodicData)) {
+      console.warn("Invalid or missing periodicData:", periodicData);
+      return;
+    }
+
+    const updatedData = new Array(12).fill(0); // Initialize with zeros
+    periodicData.forEach((entry) => {
+      if (entry.month >= 1 && entry.month <= 12) {
+        updatedData[entry.month - 1] = entry.paidAmount || 0; // Update data based on month
+      }
+    });
+
+    setChartData((prevData) => ({
+      ...prevData,
+      datasets: [
+        {
+          ...prevData.datasets[0],
+          data: updatedData,
+        },
+      ],
+    }));
+  }, [periodicData]);
 
   const options = {
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
       legend: {
-        display: false, // Disable legend as it's not in the image
+        display: false,
       },
       tooltip: {
         backgroundColor: "#fff",
@@ -49,9 +73,7 @@ const ChartGraph = () => {
         borderWidth: 1,
         borderColor: "#405FF2",
         cornerRadius: 5,
-        xPadding: 10,
-        yPadding: 10,
-        displayColors: false, // Hide color box in tooltips
+        displayColors: false,
         callbacks: {
           label: function (tooltipItem) {
             return ` ${tooltipItem.raw}`;
@@ -62,7 +84,7 @@ const ChartGraph = () => {
     scales: {
       x: {
         grid: {
-          display: false, // No gridlines for x-axis
+          display: false,
         },
         ticks: {
           color: "#888",
@@ -77,17 +99,17 @@ const ChartGraph = () => {
         ticks: {
           color: "#888",
           font: { size: 12 },
-          stepSize: 50, // Adjust step size
+          stepSize: 50,
         },
         beginAtZero: true,
-        max: 300, // Set a fixed max for better visualization
+        max: 300,
       },
     },
   };
 
   return (
-    <div className="chart-container" >
-      <Line data={data} options={options} />
+    <div className="chart-container">
+      <Line data={chartData} options={options} />
     </div>
   );
 };
