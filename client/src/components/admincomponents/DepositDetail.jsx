@@ -1,11 +1,12 @@
 import React from "react";
 import toast from "react-hot-toast";
 import { useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { backendURL } from "../../utils/Exports";
 
 const DepositDetail = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const { user, deposits } = location.state || { user: {}, deposits: [] };
   const { token } = useSelector((state) => state.auth);
 
@@ -14,6 +15,15 @@ const DepositDetail = () => {
   }
 
   const approveDeposit = async (invNumber) => {
+    console.log("invNumber before conversion:", invNumber);
+  
+    const numericInvNumber = Number(invNumber);
+    if (isNaN(numericInvNumber)) {
+      console.error("Invalid invNumber:", invNumber);
+      toast.error("Invalid Invoice Number");
+      return;
+    }
+  
     const authorizationToken = `Bearer ${token}`;
     try {
       const response = await fetch(`${backendURL}/wallet/approve-deposite`, {
@@ -22,19 +32,25 @@ const DepositDetail = () => {
           "Content-Type": "application/json",
           Authorization: authorizationToken,
         },
-        body: JSON.stringify({ userId: user._id, invNumber }),
+        body: JSON.stringify({
+          userId: user._id,
+          invNumber: numericInvNumber, // Ensure valid number is sent
+        }),
       });
       const res_data = await response.json();
       if (response.ok) {
         toast.success(res_data.message);
+        navigate("/admin/deposits");
       } else {
         toast.error(res_data.message);
       }
     } catch (error) {
+      console.error("Error approving deposit:", error);
       toast.error("Error in approving deposit");
     }
   };
-
+  
+  
   return (
     <>
       <div className="car-list-top">

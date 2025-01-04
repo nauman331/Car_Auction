@@ -33,11 +33,7 @@ const Deposits = () => {
       });
       const res_data = await response.json();
       if (response.ok) {
-        // Filter out deposits with missing user or flat items
-        const filteredData = res_data.newDeposits.filter(
-          (item) => item.user && item.user._id && item.user.role
-        );
-        setDeposits(filteredData);
+        setDeposits(res_data.newDeposits);
       } else {
         toast.error(res_data.message);
       }
@@ -135,10 +131,10 @@ const Deposits = () => {
                 <thead>
                   <tr>
                     <th>User ID</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
                     <th>Total Requests</th>
                     <th>Total Amount</th>
-                    <th>User Role</th>
-                    <th>User Status</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -154,10 +150,10 @@ const Deposits = () => {
                           style={{ cursor: "pointer" }}
                         >
                           <td>{user._id|| "N/A"}</td>
+                          <td>{user.firstName|| "N/A"}</td>
+                          <td>{user.lastName|| "N/A"}</td>
                           <td>{totalRequests|| "N/A"}</td>
                           <td>{totalAmount|| "N/A"} AED</td>
-                          <td>{user.role|| "N/A"}</td>
-                          <td>{user.isVerified ? "Verified" : "Not Verified" || "N/A"}</td>
                         </tr>
                       );
                     })
