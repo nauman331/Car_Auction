@@ -81,8 +81,9 @@ const Deposits = () => {
     return filteredDeposits.slice(startIndex, startIndex + itemsPerPage);
   };
 
-  const handleRowClick = (user) => {
-    navigate(`/admin/deposit`, { state: { user } });
+  const handleRowClick = (user, deposits) => {
+    console.log(user, deposits)
+    navigate(`/admin/deposit`, { state: { user, deposits } });
   };
 
   const calculateTotalDeposits = (deposits) => {
@@ -149,7 +150,7 @@ const Deposits = () => {
                       return (
                         <tr
                           key={user._id}
-                          onClick={() => handleRowClick(user)}
+                          onClick={() => handleRowClick(user, deposits)}
                           style={{ cursor: "pointer" }}
                         >
                           <td>{user._id|| "N/A"}</td>

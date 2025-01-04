@@ -8,6 +8,11 @@ import {
   LogOut,
   Menu,
   X,
+  ListTodo,
+  ShoppingCart,
+  Wallet,
+  Users,
+  Gavel,
 } from "lucide-react";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
@@ -15,13 +20,13 @@ import { logOut } from "../../store/slices/authSlice";
 
 const menuItems = [
   { to: "/admin/dashboard", icon: <LayoutDashboard />, label: "Dashboard" },
-  { to: "/admin/auctionlistings", icon: <Car />, label: "Auctions Management" },
+  { to: "/admin/auctionlistings", icon: <Gavel />, label: "Auctions Management" },
   { to: "/admin/auctioninventory", icon: <CarFront />, label: "Auction Inventory" },
-  { to: "/admin/carlistings", icon: <CarFront />, label: "Buy Now Inventory" },
-  { to: "/admin/managecategories", icon: <CarFront />, label: "Category Options" },
-  { to: "/admin/orders", icon: <CarFront />, label: "Orders" },
-  { to: "/admin/deposits", icon: <CarFront />, label: "Deposits" },
-  { to: "/admin/allusers", icon: <CarFront />, label: "Users" },
+  { to: "/admin/carlistings", icon: <Car />, label: "Buy Now Inventory" },
+  { to: "/admin/managecategories", icon: <ListTodo />, label: "Category Options" },
+  { to: "/admin/orders", icon: <ShoppingCart />, label: "Orders" },
+  { to: "/admin/deposits", icon: <Wallet />, label: "Deposits" },
+  { to: "/admin/allusers", icon: <Users />, label: "Users" },
   { to: "/admin/profile", icon: <SquareUser />, label: "My Profile" },
 ];
 
