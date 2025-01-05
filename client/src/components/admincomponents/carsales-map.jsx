@@ -359,6 +359,7 @@ const handleUnSoldBid = () => {
 
         </div>
 {
+  !car.isSold ? 
   car.sellingType === "auction" ?
   <>
         <div className="bid-controls">
@@ -437,6 +438,8 @@ const handleUnSoldBid = () => {
   </button>
   </div>
   </>
+  :
+  <h4 style={{color: "#aaa", margin: "1rem 0"}}>Car is already Sold</h4>
   }
       
 
