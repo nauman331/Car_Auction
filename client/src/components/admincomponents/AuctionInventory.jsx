@@ -186,7 +186,7 @@ const AuctionInventory = () => {
                 Add New Vehicle ↗
               </NavLink>
             </div>
-            <div className="car-list-container">
+            <div className="car-list-container container">
               <header className="car-list-header">
                 <div className="car-list-header-input">
                   <Search />

@@ -114,7 +114,7 @@ const Profile = () => {
       <small>Role: {userdata ? userdata.role : "Please Login"}</small>
       <br />
       <br />
-      <div className="form-container">
+      <div className="form-container container">
         <form onSubmit={handleSubmit} className="form-section">
           <h6>Avatar</h6>
           <div className="media-gallery">

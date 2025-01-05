@@ -87,7 +87,7 @@ const AddAuctionForm = () => {
           <small>Fill the form Auction Details Below</small>
         </span>
       </div>
-      <div className="form-container">
+      <div className="form-container container">
         <div className="form-section">
           <div className="form-grid">
 

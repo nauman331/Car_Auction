@@ -92,10 +92,10 @@ const CategoryManagement = () => {
       {loading ? (
         <LoadingSpinner />
       ) : (
-        <div className="category-management">
+        <div className="category-management container">
           <h3>Categories Management</h3>
           <small>Fill the form Categories Details Below</small>
-          <div className="category-boxes">
+          <div className="category-boxes mt-5">
             {categories.map(({ name, key, field }) => (
               <div className="category-box" key={key}>
                 <h5>{name}</h5>
