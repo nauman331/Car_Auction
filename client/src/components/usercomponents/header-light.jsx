@@ -6,13 +6,16 @@ import img3 from "../../assets/images/arrow-downwhite.png";
 import img4 from "../../assets/images/phone.png";
 import img5 from "../../assets/images/user.png";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
+import {useSelector} from "react-redux"
+import { NavLink } from "react-router-dom";
 
 const Header = () => {
+  const {token} = useSelector((state)=>state.auth)
   return (
     <div className="header-sections">
       <nav className="navbar navbar-expand-lg">
         <div className="container-fluid">
-          <a className="navbar-brand" href="#">
+          <a className="navbar-brand" href="/">
             <img src={img1} />
           </a>
           <div className="search-bar-sections">
@@ -27,7 +30,7 @@ const Header = () => {
             className="navbar-toggler"
             type="button"
             data-bs-toggle="collapse"
-            data-bs-target="#navbarSupportedContent"
+            data-bs-target="/navbarSupportedContent"
             aria-controls="navbarSupportedContent"
             aria-expanded="false"
             aria-label="Toggle navigation"
@@ -46,7 +49,7 @@ const Header = () => {
               <li class="nav-item dropdown">
                 <a
                   class="nav-link "
-                  href="#"
+                  href="/"
                   id="navbarDropdown"
                   role="button"
                   data-bs-toggle="dropdown"
@@ -58,18 +61,18 @@ const Header = () => {
 
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                   <li>
-                    <a class="dropdown-item" href="#">
+                    <a class="dropdown-item" href="/">
                       Action
                     </a>
                   </li>
                   <li>
-                    <a class="dropdown-item" href="#">
+                    <a class="dropdown-item" href="/">
                       Another action
                     </a>
                   </li>
 
                   <li>
-                    <a class="dropdown-item" href="#">
+                    <a class="dropdown-item" href="/">
                       Something else here
                     </a>
                   </li>
@@ -78,7 +81,7 @@ const Header = () => {
               <li class="nav-item dropdown">
                 <a
                   class="nav-link "
-                  href="#"
+                  href="/"
                   id="navbarDropdown"
                   role="button"
                   data-bs-toggle="dropdown"
@@ -90,18 +93,18 @@ const Header = () => {
 
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                   <li>
-                    <a class="dropdown-item" href="#">
+                    <a class="dropdown-item" href="/">
                       Action
                     </a>
                   </li>
                   <li>
-                    <a class="dropdown-item" href="#">
+                    <a class="dropdown-item" href="/">
                       Another action
                     </a>
                   </li>
 
                   <li>
-                    <a class="dropdown-item" href="#">
+                    <a class="dropdown-item" href="/">
                       Something else here
                     </a>
                   </li>
@@ -110,7 +113,7 @@ const Header = () => {
               <li class="nav-item dropdown">
                 <a
                   class="nav-link "
-                  href="#"
+                  href="/"
                   id="navbarDropdown"
                   role="button"
                   data-bs-toggle="dropdown"
@@ -122,18 +125,18 @@ const Header = () => {
 
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                   <li>
-                    <a class="dropdown-item" href="#">
+                    <a class="dropdown-item" href="/">
                       Action
                     </a>
                   </li>
                   <li>
-                    <a class="dropdown-item" href="#">
+                    <a class="dropdown-item" href="/">
                       Another action
                     </a>
                   </li>
 
                   <li>
-                    <a class="dropdown-item" href="#">
+                    <a class="dropdown-item" href="/">
                       Something else here
                     </a>
                   </li>
@@ -142,7 +145,7 @@ const Header = () => {
               <li class="nav-item dropdown">
                 <a
                   class="nav-link "
-                  href="#"
+                  href="/"
                   id="navbarDropdown"
                   role="button"
                   data-bs-toggle="dropdown"
@@ -154,25 +157,25 @@ const Header = () => {
 
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                   <li>
-                    <a class="dropdown-item" href="#">
+                    <a class="dropdown-item" href="/">
                       Action
                     </a>
                   </li>
                   <li>
-                    <a class="dropdown-item" href="#">
+                    <a class="dropdown-item" href="/">
                       Another action
                     </a>
                   </li>
 
                   <li>
-                    <a class="dropdown-item" href="#">
+                    <a class="dropdown-item" href="/">
                       Something else here
                     </a>
                   </li>
                 </ul>
               </li>
               <li className="nav-item">
-                <a className="nav-link active" aria-current="page" href="#">
+                <a className="nav-link active" aria-current="page" href="/">
                   Contact
                 </a>
               </li>
@@ -181,10 +184,14 @@ const Header = () => {
               <a href="tel:+75960044042" className="phone">
                 <img src={img4} /> +75 960 044 042
               </a>
-
-              <a href="/login" className="sign-in">
+              {
+                token ? <NavLink to="/user/userprofile" className="sign-in">
+                <img src={img5} /> Profile
+              </NavLink>  :  <NavLink to="/auth" className="sign-in">
                 <img src={img5} /> Sign In
-              </a>
+              </NavLink>
+              }
+             
             </div>
           </div>
         </div>

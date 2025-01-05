@@ -34,6 +34,7 @@ import Buycarforsale from "./pages/userpages/buycar";
 import { backendURL } from "./utils/Exports";
 import { setUser } from "./store/slices/authSlice";
 import DepositDetail from "./components//admincomponents/DepositDetail"
+import UserDashboard from "./components//usercomponents/userpanel/Dashboard"
 
 function App() {
   const dispatch = useDispatch();
@@ -189,7 +190,7 @@ function App() {
 
           {/*User Routes*/}
           <Route path="user" element={<UserPanel />}>
-            <Route path="userdashboard" element={<Dashboard />} />
+            <Route path="userdashboard" element={<UserDashboard />} />
             <Route path="wallet" element={<Wallet />} />
             <Route path="userprofile" element={<Profile />} />
           </Route>
