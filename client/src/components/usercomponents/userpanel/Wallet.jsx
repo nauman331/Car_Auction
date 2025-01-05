@@ -8,24 +8,24 @@ import Pagination from "../../admincomponents/Pagination";
 import LoadingSpinner from "../LoadingSpinner";
 import { NavLink } from "react-router-dom";
 import Deposit from "./Deposit";
-import { CloudinaryUploader } from "../../../utils/CloudinaryUploader"
+import { CloudinaryUploader } from "../../../utils/CloudinaryUploader";
 
 const Wallet = () => {
-  const { token } = useSelector((state) => state.auth);
+  const { token, userdata } = useSelector((state) => state.auth);
   const [deposits, setDeposits] = useState([]);
-  const [currentBalance, setCurrentBalance] = useState(0)
+  const [currentBalance, setCurrentBalance] = useState(0);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
-  const [filteredUsers, setFilteredUsers] = useState([]);
+  const [filteredDeposits, setFilteredDeposits] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [sortOption, setSortOption] = useState("");
+  const [statusFilter, setStatusFilter] = useState("");
   const [depositAmount, setDepositAmount] = useState(0);
-  const [pdf, setPdf] = useState(null)
-  const [uploadLoading, setUploadLoading] = useState(false)
-  const [showModal, setShowModal] = useState(false); // For modal visibility
+  const [pdf, setPdf] = useState(null);
+  const [uploadLoading, setUploadLoading] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   const itemsPerPage = 10;
-  const totalPages = Math.ceil(filteredUsers.length / itemsPerPage);
-
+  const totalPages = Math.ceil(filteredDeposits.length / itemsPerPage);
 
   const getDeposits = useCallback(async () => {
     const authorizationToken = `Bearer ${token}`;
@@ -40,13 +40,12 @@ const Wallet = () => {
       });
       const res_data = await response.json();
       if (response.ok) {
-        console.log(res_data)
         setDeposits(res_data.depositeHistory);
       } else {
         toast.error(res_data.message);
       }
     } catch (error) {
-      console.error("Error in getting users");
+      console.error("Error in getting deposits:", error);
     } finally {
       setLoading(false);
     }
@@ -65,13 +64,12 @@ const Wallet = () => {
       });
       const res_data = await response.json();
       if (response.ok) {
-        console.log(res_data)
-
+        setCurrentBalance(res_data.currentAmount);
       } else {
         toast.error(res_data.message);
       }
     } catch (error) {
-      console.error("Error in getting users");
+      console.error("Error in getting current balance:", error);
     } finally {
       setLoading(false);
     }
@@ -79,9 +77,8 @@ const Wallet = () => {
 
   useEffect(() => {
     getDeposits();
-    getCurrentBalance()
+    getCurrentBalance();
   }, [getDeposits, getCurrentBalance]);
-
 
   const handleSubmit = async () => {
     if (!pdf || !depositAmount) {
@@ -91,11 +88,9 @@ const Wallet = () => {
 
     try {
       setUploadLoading(true);
-      // Upload the PDF to Cloudinary
       const uploadResponse = await CloudinaryUploader(pdf);
       const cloudinaryUrl = uploadResponse.url;
 
-      // Send data to the backend
       const response = await fetch(`${backendURL}/wallet/deposit`, {
         method: "POST",
         headers: {
@@ -112,8 +107,8 @@ const Wallet = () => {
       if (response.ok) {
         toast.success("Deposit request submitted successfully!");
         handleModalClose();
-        setLoading(true); // Show loader for refresh
-        await getDeposits(); // Refresh deposits list
+        setLoading(true);
+        await getDeposits();
       } else {
         toast.error(resData.message);
       }
@@ -121,54 +116,8 @@ const Wallet = () => {
       console.error("Error submitting deposit:", error);
       toast.error("An error occurred. Please try again.");
     } finally {
-      setUploadLoading(false); // Stop the spinner
+      setUploadLoading(false);
     }
-  };
-
-
-  const handleCombinedSubmit = async () => {
-    await handleSubmit(); // Handle the upload and backend submission
-    handleModalClose(); // Close the modal
-  };
-
-
-  useEffect(() => {
-    let filtered = deposits;
-
-    // Apply search query filter
-    if (searchQuery) {
-      filtered = filtered.filter((deposit) =>
-        deposit.user?._id?.toLowerCase().includes(searchQuery.toLowerCase())
-      );
-    }
-
-    // Apply sort option filter
-    if (sortOption) {
-      if (sortOption === "verified") {
-        filtered = filtered.filter((deposit) => deposit.user?.isVerified === true);
-      } else if (sortOption === "not verified") {
-        filtered = filtered.filter((deposit) => deposit.user?.isVerified === false);
-      } else if (sortOption === "amount") {
-        filtered = [...filtered].sort((a, b) => {
-          const amountA = a.deposits?.reduce((sum, deposit) => sum + deposit.amount, 0) || 0;
-          const amountB = b.deposits?.reduce((sum, deposit) => sum + deposit.amount, 0) || 0;
-          return amountB - amountA;
-        });
-      } else if (sortOption === "requests") {
-        filtered = [...filtered].sort((a, b) => {
-          const requestsA = a.deposits?.length || 0;
-          const requestsB = b.deposits?.length || 0;
-          return requestsB - requestsA;
-        });
-      }
-    }
-
-    setFilteredUsers(filtered);
-  }, [searchQuery, deposits, sortOption]);
-
-  const getDisplayedUsers = () => {
-    const startIndex = (currentPage - 1) * itemsPerPage;
-    return filteredUsers.slice(startIndex, startIndex + itemsPerPage);
   };
 
   const handleModalClose = () => {
@@ -178,6 +127,47 @@ const Wallet = () => {
   };
 
   const handleModalShow = () => setShowModal(true);
+
+  useEffect(() => {
+    let filtered = deposits;
+
+    // Apply search query
+    if (searchQuery) {
+      filtered = filtered.filter((deposit) =>
+        deposit.invNumber?.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+    }
+
+    // Apply combined sorting and filtering
+    if (sortOption) {
+      switch (sortOption) {
+        case "amountAsc":
+          filtered = [...filtered].sort((a, b) => a.amount - b.amount);
+          break;
+        case "amountDesc":
+          filtered = [...filtered].sort((a, b) => b.amount - a.amount);
+          break;
+        case "date":
+          filtered = [...filtered].sort((a, b) => new Date(b.depositeDate) - new Date(a.depositeDate));
+          break;
+        case "approved":
+          filtered = filtered.filter((deposit) => deposit.status === "approved");
+          break;
+        case "pending":
+          filtered = filtered.filter((deposit) => deposit.status === "pending");
+          break;
+        default:
+          break;
+      }
+    }
+
+    setFilteredDeposits(filtered);
+  }, [searchQuery, deposits, sortOption]);
+
+  const getDisplayedDeposits = () => {
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    return filteredDeposits.slice(startIndex, startIndex + itemsPerPage);
+  };
 
   return (
     <>
@@ -193,12 +183,9 @@ const Wallet = () => {
             <div className="last">
               <div className="text">
                 <small>Remaining Amount</small>
-                <h3>AED {currentBalance}</h3>
+                <h3>AED {currentBalance || 0}</h3>
               </div>
-              <button
-                className="add-vehicle-button"
-                onClick={handleModalShow}
-              >
+              <button className="add-vehicle-button" onClick={handleModalShow}>
                 Deposit
               </button>
               <NavLink to="/user/withdraw" className="add-vehicle-button">
@@ -213,24 +200,22 @@ const Wallet = () => {
                 <Search />
                 <input
                   type="text"
-                  placeholder="Search user by id"
+                  placeholder="Search by Invoice Number"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
               </div>
               <div className="sort-options">
-                <span>Sort By:</span>
-                <select
-                  value={sortOption}
-                  onChange={(e) => setSortOption(e.target.value)}
-                >
+                <select value={sortOption} onChange={(e) => setSortOption(e.target.value)}>
                   <option value="">All</option>
-                  <option value="amount">Amount</option>
-                  <option value="requests">Requests</option>
-                  <option value="verified">Verified</option>
-                  <option value="not verified">Not Verified</option>
+                  <option value="amountAsc">low to high</option>
+                  <option value="amountDesc">high to low</option>
+                  <option value="date">Date</option>
+                  <option value="approved">Approved</option>
+                  <option value="pending">Pending</option>
                 </select>
               </div>
+
             </header>
 
             <div className="table-wrapper">
@@ -245,29 +230,27 @@ const Wallet = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {getDisplayedUsers().map((deposit, index) => (
-                    <tr key={index} style={{ cursor: "pointer" }}>
-
+                  {getDisplayedDeposits().map((deposit, index) => (
+                    <tr key={index}>
                       <td>{deposit.invNumber || "N/A"}</td>
-                      <td>{deposit.depositeDate ? new Date(deposit.depositeDate).toLocaleString() : "N/A"}</td>
                       <td>
-                        {deposit.amount || "N/A"} AED
+                        {deposit.depositeDate
+                          ? new Date(deposit.depositeDate).toLocaleString()
+                          : "N/A"}
                       </td>
-                      <td>
-                        {deposit.status || "No Status"}
-                      </td>
+                      <td>{deposit.amount || "N/A"} AED</td>
+                      <td>{deposit.status || "No Status"}</td>
                       <td>
                         <a href={`${deposit.inv}?attachment=true`} download>
                           <Eye />
                         </a>
                       </td>
-
                     </tr>
                   ))}
                 </tbody>
               </table>
             </div>
-            {deposits?.length > itemsPerPage && (
+            {filteredDeposits.length > itemsPerPage && (
               <Pagination
                 currentPage={currentPage}
                 totalPages={totalPages}
@@ -278,7 +261,6 @@ const Wallet = () => {
         </>
       )}
 
-      {/* Modal */}
       <Modal show={showModal} onHide={handleModalClose}>
         <Modal.Header closeButton>
           <Modal.Title>Deposit Details</Modal.Title>
@@ -295,18 +277,19 @@ const Wallet = () => {
           </div>
           <div>
             <h5>Upload Proof of Payment</h5>
-            <div className="form-container">
-              <div className="form-section">
-                <Deposit depositAmount={depositAmount} setDepositAmount={setDepositAmount} pdf={pdf} setPdf={setPdf} />
-              </div>
-            </div>
+            <Deposit
+              depositAmount={depositAmount}
+              setDepositAmount={setDepositAmount}
+              pdf={pdf}
+              setPdf={setPdf}
+            />
           </div>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleModalClose}>
             Close
           </Button>
-          <Button variant="primary" onClick={handleCombinedSubmit} disabled={uploadLoading}>
+          <Button variant="primary" onClick={handleSubmit} disabled={uploadLoading}>
             {uploadLoading ? "Submitting..." : "Submit"}
           </Button>
         </Modal.Footer>

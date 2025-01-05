@@ -2,11 +2,12 @@ import { NavLink, useNavigate } from "react-router-dom";
 import "../../../assets/stylesheets/admin/leftadminnav.scss";
 import {
   LayoutDashboard,
-  CarFront,
   SquareUser,
   LogOut,
   Menu,
   X,
+  Wallet,
+  ShoppingCart,
 } from "lucide-react";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
@@ -14,8 +15,8 @@ import { logOut } from "../../../store/slices/authSlice";
 
 const menuItems = [
   { to: "/user/userdashboard", icon: <LayoutDashboard />, label: "Dashboard" },
-  { to: "/user/orders", icon: <CarFront />, label: "Orders" },
-  { to: "/user/wallet", icon: <CarFront />, label: "Deposits" },
+  { to: "/user/orders", icon: <ShoppingCart />, label: "Orders" },
+  { to: "/user/wallet", icon: <Wallet />, label: "Wallet" },
   { to: "/user/userprofile", icon: <SquareUser />, label: "My Profile" },
 ];
 
