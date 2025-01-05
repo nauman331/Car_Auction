@@ -29,11 +29,15 @@ function Carsale() {
       if (!response.ok) {
         console.log(res_data.message);
       }
-      setCar(res_data);
+      console.log(res_data)
+      setCar(res_data.car);
+      if(res_data.currentBid){
+        console.log(res_data.currentBid)
+      }
       setFeaturesData(
-        Object.keys(res_data.features).map((key) => ({
+        Object.keys(res_data.car?.features).map((key) => ({
           category: key,
-          features: res_data.features[key],
+          features: res_data.car?.features[key],
         }))
       );
 
