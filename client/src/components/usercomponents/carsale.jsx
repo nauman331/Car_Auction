@@ -14,8 +14,11 @@ import { backendURL } from "../../utils/Exports";
 import LoadingSpinner from "../usercomponents/LoadingSpinner";
 import toast from "react-hot-toast";
 import Relatedlistening from "./related-listening";
+import { useDispatch } from "react-redux";
+import { setBidData } from "../../store/eventSlice";
 
 function Carsale() {
+  const dispatch = useDispatch();
   const { id } = useParams();
   const [car, setCar] = useState(null);
   const [featuresData, setFeaturesData] = useState([]);
@@ -31,6 +34,9 @@ function Carsale() {
         console.log(res_data.message);
       }
       setCar(res_data.car);
+          if(res_data.currentBid){
+              dispatch(setBidData(res_data.currentBid));
+            }
       setFeaturesData(
         Object.keys(res_data.car?.features).map((key) => ({
           category: key,

@@ -13,12 +13,11 @@ import { useParams } from "react-router-dom";
 import { backendURL } from "../../utils/Exports";
 import LoadingSpinner from "../usercomponents/LoadingSpinner";
 import toast from "react-hot-toast";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setBidData } from "../../store/eventSlice";
 
 function Carsale() {
   const dispatch = useDispatch();
-  const { currentBidData } = useSelector(state => state.event);
   const { id } = useParams();
   const [car, setCar] = useState(null);
   const [featuresData, setFeaturesData] = useState([]);

@@ -42,10 +42,11 @@ function App() {
   const dispatch = useDispatch();
   const { socket } = useSelector((state) => state.socket)
   const { currentBidData } = useSelector(state => state.event);
-  const { token } = useSelector(state => state.auth);
+  const { token, userdata } = useSelector(state => state.auth);
 
-  const handleToast = (message) => {
-     toast.error(message);
+  const handleToast = (response) => {
+    if(userdata?.id === response?.id)
+     toast.error(response.message);
   }
 
   useEffect(() => {
@@ -60,7 +61,7 @@ function App() {
 
       socket.on("auctionOpened", (response) => {
         if (!response.isOk) {
-          handleToast(response.message);
+          handleToast(response);
           return;
         }
 
@@ -80,7 +81,8 @@ function App() {
 
       socket.on("bidPlaced", (response) => {
         if (!response.isOk) {
-          handleToast(response.message);
+          console.log(response)
+          handleToast(response);
           return;
         }
         const audio = new Audio("/notification.wav");
@@ -94,7 +96,7 @@ function App() {
 
       socket.on("auctionStatusChanged", (response) => {
         if (!response.isOk) {
-          handleToast(response.message);
+          handleToast(response);
           return;
         }
         const audio = new Audio("/notification.wav");
@@ -108,7 +110,7 @@ function App() {
 
       socket.on("notifybidders", (response) => {
         if (!response.isOk) {
-          handleToast(response.message);
+          handleToast(response);
           return;
         }
         const audio = new Audio("/notification.wav");
