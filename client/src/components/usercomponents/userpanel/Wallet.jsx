@@ -19,7 +19,6 @@ const Wallet = () => {
   const [filteredDeposits, setFilteredDeposits] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [sortOption, setSortOption] = useState("");
-  const [statusFilter, setStatusFilter] = useState("");
   const [depositAmount, setDepositAmount] = useState(0);
   const [pdf, setPdf] = useState(null);
   const [uploadLoading, setUploadLoading] = useState(false);
@@ -75,10 +74,35 @@ const Wallet = () => {
     }
   }, [token]);
 
+  const getInvoices = useCallback(async () => {
+    const authorizationToken = `Bearer ${token}`;
+    try {
+      setLoading(true);
+      const response = await fetch(`${backendURL}/purchase-invoice/get-inoivces`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: authorizationToken,
+        },
+      });
+      const res_data = await response.json();
+      if (response.ok) {
+        console.log(res_data)
+      } else {
+        toast.error(res_data.message);
+      }
+    } catch (error) {
+      console.error("Error in getting deposits:", error);
+    } finally {
+      setLoading(false);
+    }
+  }, [token]);
+
   useEffect(() => {
     getDeposits();
     getCurrentBalance();
-  }, [getDeposits, getCurrentBalance]);
+    getInvoices();
+  }, [getDeposits, getCurrentBalance, getInvoices]);
 
   const handleSubmit = async () => {
     if (!pdf || !depositAmount) {

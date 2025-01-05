@@ -44,6 +44,7 @@ const Deposits = () => {
     }
   };
 
+
   useEffect(() => {
     getDeposits();
   }, [token]);

@@ -1,16 +1,14 @@
 // Orders Component
 import React, { useState, useEffect } from 'react';
-import '../../assets/stylesheets/admin/carlisting.scss';
-import {Search } from 'lucide-react';
-import Pagination from './Pagination';
+import '../../../assets/stylesheets/admin/carlisting.scss';
+import { Search } from 'lucide-react';
+import Pagination from '../../admincomponents/Pagination';
 import { useSelector } from 'react-redux';
-import LoadingSpinner from "../usercomponents/LoadingSpinner"
-import { backendURL } from '../../utils/Exports';
+import LoadingSpinner from "../../usercomponents/LoadingSpinner"
+import { backendURL } from '../../../utils/Exports';
 import toast from 'react-hot-toast';
-import { useNavigate } from 'react-router-dom';
 
 const Orders = () => {
-  const navigate = useNavigate()
   const {token} = useSelector((state)=>state.auth)
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(false)
@@ -23,7 +21,7 @@ const Orders = () => {
     const authorizationToken = `Bearer ${token}`;
     try {
       setLoading(true);
-      const response = await fetch(`${backendURL}/purchase-invoice/`, {
+      const response = await fetch(`${backendURL}/purchase-invoice/get-inoivces`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -47,21 +45,6 @@ const Orders = () => {
   useEffect(() => {
     getInvoices();
   }, [token]);
-
-  const approveInvoice = async (invNumber) => {
-    const authorizationToken = `Bearer ${token}`;
-    try {
-      const response = await fetch(`${backendURL}/purchase-invoice/approve-invoice/${invNumber}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: authorizationToken,
-        },
-      })
-    } catch (error) {
-      toast.error("Error while Approving")
-    }
-  }
 
   if(loading) return <LoadingSpinner />
 
@@ -111,7 +94,7 @@ const Orders = () => {
             </thead>
             <tbody>
               {invoices.length > 0 && getDisplayedInvoices().map((invoice, index) => (
-                <tr key={index} onClick={()=>navigate(`/admin/invoice/${invoice?.invNumber}`)} style={{cursor: "pointer"}}>
+                <tr key={index}>
                   <td>
                     <div className="car-info">
                       <div className="car-image"></div>
