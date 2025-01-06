@@ -45,8 +45,9 @@ function App() {
   const { token, userdata } = useSelector(state => state.auth);
 
   const handleToast = (response) => {
-    if(userdata?.id === response?.id)
-     toast.error(response.message);
+    if(userdata?.id === response?.id) {
+      toast.error(response.message);
+    }
   }
 
   useEffect(() => {
@@ -115,9 +116,11 @@ function App() {
         }
         const audio = new Audio("/notification.wav");
         audio.play();
+        if(userdata?.id === response?.user) {
         toast.success(response.message, {
           duration: 5000,
         });
+      }
         console.log(response);
         dispatch(removeBidData());
       });
