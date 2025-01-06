@@ -175,10 +175,11 @@ const Invoice = () => {
                                     
                             <div className="row">
                                 <div className="col-xl-8">
+                                    
                                 <img
                                         src={invoice?.carId?.carImages[0] || "N/A"}
                                         alt="car Image"
-                                        style={{ height: "6rem", width: "6rem", marginLeft:"1rem" }}
+                                        style={{ height: "6rem", width: "10rem", marginLeft:"1rem" }}
                                         crossOrigin="anonymous" // Ensure CORS compliance
                                     />
                                     <ul className="list-unstyled float-end me-0">
