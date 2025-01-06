@@ -37,10 +37,10 @@ const Profile = () => {
       if (response.ok) {
         dispatch(setUser({ userdata: res_data }));
       } else {
-        toast.error(res_data.message || "Error in getting user data");
+        console.error(res_data.message || "Error in getting user data");
       }
     } catch (error) {
-      toast.error("Error in fetching user data");
+      console.error("Error in fetching user data");
     }
   };
 
