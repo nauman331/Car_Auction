@@ -178,14 +178,14 @@ const Invoice = () => {
                                 <img
                                         src={invoice?.carId?.carImages[0] || "N/A"}
                                         alt="car Image"
-                                        style={{ height: "8rem", width: "8rem" }}
+                                        style={{ height: "6rem", width: "6rem", marginLeft:"1rem" }}
                                         crossOrigin="anonymous" // Ensure CORS compliance
                                     />
                                     <ul className="list-unstyled float-end me-0">
                                         <li><span className="me-3 float-start">Car Name:</span>{invoice?.carId?.listingTitle || "N/A"}</li>
                                         <li><span className="me-3 float-start">Car VIN:</span>{invoice?.carId?.vin || "N/A"}</li> 
                                         <li><span className="me-3 float-start">Car Lot No:</span>{invoice?.carId?.lotNo || "N/A"}</li> 
-                                        <li> <span className="me-2">User Id:</span>{invoice?.userId || "N/A"}</li>
+                                        <li> <span className="me-2">User Id:</span>{invoice?.userId?._id || "N/A"}</li>
                                     </ul>
                                 </div>
                             </div>
