@@ -30,6 +30,7 @@ const Invoice = () => {
             });
             const res_data = await response.json();
             if (response.ok) {
+                console.log(res_data)
                 setInvoice(res_data);
             } else {
                 console.error(res_data.message);
@@ -171,10 +172,19 @@ const Invoice = () => {
                                     </tbody>
                                 </table>
                             </div>
+                                    
                             <div className="row">
                                 <div className="col-xl-8">
+                                <img
+                                        src={invoice?.carId?.carImages[0] || "N/A"}
+                                        alt="car Image"
+                                        style={{ height: "8rem", width: "8rem" }}
+                                        crossOrigin="anonymous" // Ensure CORS compliance
+                                    />
                                     <ul className="list-unstyled float-end me-0">
-                                        <li><span className="me-3 float-start">Car Id:</span>{invoice?.carId || "N/A"}</li>
+                                        <li><span className="me-3 float-start">Car Name:</span>{invoice?.carId?.listingTitle || "N/A"}</li>
+                                        <li><span className="me-3 float-start">Car VIN:</span>{invoice?.carId?.vin || "N/A"}</li> 
+                                        <li><span className="me-3 float-start">Car Lot No:</span>{invoice?.carId?.lotNo || "N/A"}</li> 
                                         <li> <span className="me-2">User Id:</span>{invoice?.userId || "N/A"}</li>
                                     </ul>
                                 </div>
