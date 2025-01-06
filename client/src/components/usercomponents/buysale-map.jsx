@@ -15,7 +15,7 @@ import img12 from "../../assets/images/color.png";
 import img13 from "../../assets/images/steering-wheel 1.png";
 
 
-const BuyCar = ({ car }) => {
+const BuyCar = ({ car, purchaseCar }) => {
 
 
   return (
@@ -34,7 +34,7 @@ const BuyCar = ({ car }) => {
         </div>
 
       <div className="bid-controls">
-      <button className="place-bid">
+      <button className="place-bid" onClick={()=>purchaseCar()}>
             <img src={img1} />
            Buy Now
           </button>

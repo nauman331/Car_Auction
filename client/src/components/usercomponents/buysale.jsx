@@ -14,8 +14,10 @@ import { backendURL } from "../../utils/Exports";
 import LoadingSpinner from "../usercomponents/LoadingSpinner";
 import toast from "react-hot-toast";
 import Relatedlistening from "./related-listening";
+import { useSelector } from "react-redux"
 
 function Buysale() {
+  const { token } = useSelector((state) => state.auth)
   const { id } = useParams();
   const [car, setCar] = useState(null);
   const [featuresData, setFeaturesData] = useState([]);
@@ -30,11 +32,11 @@ function Buysale() {
       if (!response.ok) {
         console.log(res_data.message);
       }
-      setCar(res_data);
+      setCar(res_data.car);
       setFeaturesData(
-        Object.keys(res_data.features).map((key) => ({
+        Object.keys(res_data.car?.features).map((key) => ({
           category: key,
-          features: res_data.features[key],
+          features: res_data.car?.features[key],
         }))
       );
 
@@ -69,7 +71,28 @@ function Buysale() {
       return ""; // Return an empty string if the URL is invalid
     }
   };
-  
+
+  const purchaseCar = async () => {
+    const authorizationToken = `Bearer ${token}`
+    try {
+      const response = await fetch(`${backendURL}/purchase/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: authorizationToken,
+        },
+      })
+      const res_data = await response.json();
+      if (response.ok) {
+        toast.success(res_data.message)
+      } else {
+        toast.error(res_data.message)
+      }
+    } catch (error) {
+      toast.error("Error while buying")
+    }
+  }
+
 
   return (
     <div>
@@ -114,13 +137,13 @@ function Buysale() {
               </div>
             </div>
             <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 mb-4 px-2">
-              <BuyCar car={car} />
+              <BuyCar car={car} purchaseCar={purchaseCar} />
             </div>
           </div>
         </div>
         <div className="row">
-            <Relatedlistening />
-          </div>
+          <Relatedlistening />
+        </div>
       </div>
 
       {/* Modal for All Photos */}
@@ -155,15 +178,18 @@ function Buysale() {
         </Modal.Header>
         <Modal.Body>
           <div className="video-container">
-            <iframe
-              width="100%"
-              height="400px"
-              src={getEmbedUrl(car.videoLink || "")}
-              title="Car Video"
-              frameBorder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-            ></iframe>
+            {
+              car.videoLink && <iframe
+                width="100%"
+                height="400px"
+                src={getEmbedUrl(car.videoLink || "")}
+                title="Car Video"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              ></iframe>
+            }
+
           </div>
         </Modal.Body>
       </Modal>
@@ -174,4 +200,3 @@ function Buysale() {
 export default Buysale;
 
 
-          
