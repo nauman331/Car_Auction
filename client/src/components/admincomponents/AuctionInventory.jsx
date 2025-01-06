@@ -35,14 +35,18 @@ const AuctionInventory = () => {
 
   const itemsPerPage = 10;
 
-  // Filter cars by search term
-  const filteredCars = cars.filter(
-    (car) =>
-      car.listingTitle?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      car.description?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      car.lotNo?.toString().toLowerCase().includes(searchTerm.toLowerCase()) ||
-      car.auctionLot?.auctionTitle?.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredCars =
+  cars.length > 0
+    ? cars.filter(
+        (car) =>
+          car.listingTitle?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          car.description?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          car.lotNo?.toString().toLowerCase().includes(searchTerm.toLowerCase()) ||
+          car.auctionLot?.auctionTitle?.toLowerCase().includes(searchTerm.toLowerCase())
+      )
+    : [];
+
+  
 
   // Filter cars by sorting option
   const sortedCars = filteredCars.filter((car) => {
@@ -84,11 +88,11 @@ const AuctionInventory = () => {
     try {
       const response = await fetch(`${backendURL}/car`, { method: "GET" });
 
-      if (!response.ok) {
-        toast.error("Error: Failed to fetch cars. Please try again later.");
-      }
-
+      
       const res_data = await response.json();
+      if (!response.ok) {
+        console.log(res_data.message)
+      }
       console.log(res_data)
       setCars(res_data); // Ensure this matches the expected structure
     } catch (error) {
