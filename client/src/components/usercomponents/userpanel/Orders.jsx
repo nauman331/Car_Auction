@@ -7,8 +7,10 @@ import { useSelector } from 'react-redux';
 import LoadingSpinner from "../../usercomponents/LoadingSpinner"
 import { backendURL } from '../../../utils/Exports';
 import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 
 const Orders = () => {
+  const navigate = useNavigate();
   const {token} = useSelector((state)=>state.auth)
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(false)
@@ -87,26 +89,34 @@ const Orders = () => {
                 <th>Vehicle</th>
                 <th>Paid</th>
                 <th>Pending</th>
-                <th>Buyer ID</th>
+                <th>Buyer</th>
                 <th>Payment Status</th>
                 <th>Total</th>
               </tr>
             </thead>
             <tbody>
               {invoices.length > 0 && getDisplayedInvoices().map((invoice, index) => (
-                <tr key={index}>
+                <tr key={index} onClick={()=>navigate(`/user/invoice/${invoice?.invNumber}`)} style={{cursor: "pointer"}}>
                   <td>
                     <div className="car-info">
-                      <div className="car-image"></div>
+                      <div className="car-image">
+                        <img src={invoice?.carId?.carImages[0] || ""} alt="Car Image"
+                         style={{
+                          width: "100%",
+                          height: "100%",
+                          objectFit: "cover",
+                        }}
+                        />
+                      </div>
                       <div className="car-name">
-                        <p>car Title</p>
-                        <p>Lot no: 5674838889</p>
+                        <p>{invoice?.carId?.listingTitle || ""}</p>
+                        <p>Lot no: {invoice?.carId?.lotNo || ""}</p>
                       </div>
                     </div>
                   </td>
                   <td>AED {invoice?.paidAmount || 0}</td>
                   <td>AED {invoice?.pendingAmount || 0}</td>
-                  <td>{invoice?.userId}</td>
+                  <td>{invoice?.userId?.firstName || ""} {invoice?.userId?.lastName || ""}</td>
                   <td>{invoice?.paymentStatus ? "Full Paid" : "Remaining"  || "No Status"}</td>
                   <td>AED {invoice?.totalAmount || 0}</td>
                 </tr>

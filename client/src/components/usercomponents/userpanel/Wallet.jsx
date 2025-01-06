@@ -11,7 +11,7 @@ import Deposit from "./Deposit";
 import { CloudinaryUploader } from "../../../utils/CloudinaryUploader";
 
 const Wallet = () => {
-  const { token, userdata } = useSelector((state) => state.auth);
+  const { token } = useSelector((state) => state.auth);
   const [deposits, setDeposits] = useState([]);
   const [currentBalance, setCurrentBalance] = useState(0);
   const [loading, setLoading] = useState(true);

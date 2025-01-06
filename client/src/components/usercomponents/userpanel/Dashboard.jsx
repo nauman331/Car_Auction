@@ -37,6 +37,7 @@ const Dashboard = () => {
       });
       const res_data = await response.json();
       if (response.ok) {
+        console.log(res_data)
         setData(res_data);
       } else {
         console.log(res_data.message);
@@ -62,7 +63,7 @@ const Dashboard = () => {
       <small>Whole Progress of Data</small>
       <div className="info-boxes">
   {[
-    { title: "Purchase", count: data?.purchase || "N/A", Icon: ShoppingCart, iconClass: "icon1" },
+    { title: "Purchase", count: data?.purchase || 0, Icon: ShoppingCart, iconClass: "icon1" },
     {
       title: "Spent",
       count: `AED ${formatNumber(data?.totalSpent || 0)}`,

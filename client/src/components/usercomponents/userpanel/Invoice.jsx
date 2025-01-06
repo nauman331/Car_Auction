@@ -1,25 +1,17 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { backendURL } from "../../utils/Exports";
-import LoadingSpinner from "../usercomponents/LoadingSpinner";
+import { backendURL } from "../../../utils/Exports";
+import LoadingSpinner from "../LoadingSpinner";
 import toast from "react-hot-toast";
-import { Modal, Button } from "react-bootstrap";
 import html2canvas from "html2canvas";
-import Deposit from "../usercomponents/userpanel/Deposit";
-import { CloudinaryUploader } from "../../utils/CloudinaryUploader";
 import jsPDF from "jspdf";
 
 const Invoice = () => {
     const { id } = useParams();
-   const navigate = useNavigate();
     const { token } = useSelector((state) => state.auth);
     const [loading, setLoading] = useState(false);
     const [invoice, setInvoice] = useState([]);
-    const [showModal, setShowModal] = useState(false);
-    const [pdf, setPdf] = useState(null);
-    const [showUploadModal, setShowUploadModal] = useState(false);
-    const [uploadLoading, setUploadLoading] = useState(false);
     
     const invoiceRef = useRef();
 
@@ -45,29 +37,6 @@ const Invoice = () => {
             console.error("Error fetching invoice:", error);
         } finally {
             setLoading(false);
-        }
-    };
-
-    const approveInvoice = async () => {
-        const authorizationToken = `Bearer ${token}`;
-        try {
-            const response = await fetch(`${backendURL}/purchase-invoice/approve-invoice/${id}`, {
-                method: "PUT",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: authorizationToken
-                }
-            });
-            const res_data = await response.json();
-            if (response.ok) {
-                toast.success(res_data.message);
-                setShowModal(false); // Close modal on success
-               navigate("/admin/orders")
-            } else {
-                toast.error(res_data.message);
-            }
-        } catch (error) {
-            toast.error("Error while approving the invoice.");
         }
     };
 
@@ -114,58 +83,13 @@ const Invoice = () => {
         getInvoice();
     }, [id]);
 
-    const uploadInvoice = async () => {
-        if (!pdf) {
-            toast.error("Please upload a remaining payment proof");
-            return;
-        }
-
-        try {
-            setUploadLoading(true);
-            const uploadResponse = await CloudinaryUploader(pdf);
-            const cloudinaryUrl = uploadResponse.url;
-
-            const response = await fetch(`${backendURL}/purchase-invoice/upload-slip/${id}`, {
-                method: "PUT",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${token}`,
-                },
-                body: JSON.stringify({
-                    invSlip: cloudinaryUrl,
-                }),
-            });
-
-            const resData = await response.json();
-            if (response.ok) {
-                toast.success("Deposit request submitted successfully!");
-                handleModalClose();
-            } else {
-                toast.error(resData.message);
-            }
-        } catch (error) {
-            console.error("Error submitting deposit:", error);
-            toast.error("An error occurred. Please try again.");
-        } finally {
-            setUploadLoading(false);
-        }
-    };
-    const handleUploadModalClose = () => {
-        setShowUploadModal(false);
-        setPdf(null);
-    };
-
-    const handleUploadModalShow = () => setShowUploadModal(true);
-
     if (loading) return <LoadingSpinner />;
 
     return (
         <>
             <div className="container">
                 <div className="d-flex mb-5 gap-3 flex-wrap align-items-center justify-content-between">
-                    <button onClick={printInvoice}>Print Invoice</button>
-                    <button onClick={() => setShowModal(true)}>Approve Invoice</button>
-                    <button onClick={() => handleUploadModalShow()}>Upload Invoice</button>
+                    <button onClick={printInvoice}>Download Invoice</button>
                 </div>
                 <div ref={invoiceRef} className="card">
                     <div className="card-header bg-black" />
@@ -250,49 +174,6 @@ const Invoice = () => {
                     <div className="card-footer bg-black" />
                 </div>
             </div>
-
-            {/* Confirmation Modal */}
-            <Modal show={showModal} onHide={() => setShowModal(false)} centered>
-                <Modal.Header closeButton>
-                    <Modal.Title>Approve Invoice</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    Are you sure you want to approve this invoice?
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={() => setShowModal(false)}>
-                        Cancel
-                    </Button>
-                    <Button variant="primary" onClick={approveInvoice}>
-                        Approve
-                    </Button>
-                </Modal.Footer>
-            </Modal>
-
-
-            <Modal show={showUploadModal} onHide={handleUploadModalClose}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Upload Invoice</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <div>
-                        <h5>Upload invoice after downloading</h5>
-                        <Deposit
-                            NoInput={true}
-                            pdf={pdf}
-                            setPdf={setPdf}
-                        />
-                    </div>
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={handleUploadModalClose}>
-                        Close
-                    </Button>
-                    <Button variant="primary" onClick={uploadInvoice} disabled={uploadLoading}>
-                        {uploadLoading ? "Submitting..." : "Submit"}
-                    </Button>
-                </Modal.Footer>
-            </Modal>
         </>
     );
 };

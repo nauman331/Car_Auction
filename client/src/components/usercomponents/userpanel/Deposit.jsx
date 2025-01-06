@@ -1,7 +1,7 @@
 import React from "react";
 import { Upload, Trash2, Wallet } from "lucide-react";
 
-const Deposit = ({ setDepositAmount, depositAmount, pdf, setPdf }) => {
+const Deposit = ({ setDepositAmount, depositAmount, pdf, setPdf, NoInput }) => {
   const handleFileChange = (e) => {
     setPdf(e.target.files[0]);
   };
@@ -45,6 +45,8 @@ const Deposit = ({ setDepositAmount, depositAmount, pdf, setPdf }) => {
           </label>
         </button>
       )}
+      {
+!NoInput &&
       <div className="video-link">
         <Wallet size={20} />
         <input
@@ -54,6 +56,7 @@ const Deposit = ({ setDepositAmount, depositAmount, pdf, setPdf }) => {
           onChange={(e) => setDepositAmount(e.target.value)}
         />
       </div>
+      }
     </div>
   );
 };

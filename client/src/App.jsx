@@ -37,6 +37,7 @@ import DepositDetail from "./components//admincomponents/DepositDetail"
 import UserDashboard from "./components//usercomponents/userpanel/Dashboard"
 import UserOrders from "./components/usercomponents/userpanel/Orders"
 import Invoice from "./components/admincomponents/Invoice";
+import UserInvoice from "./components/usercomponents//userpanel/Invoice"
 
 function App() {
   const dispatch = useDispatch();
@@ -202,6 +203,7 @@ function App() {
             <Route path="wallet" element={<Wallet />} />
             <Route path="userprofile" element={<Profile />} />
             <Route path="orders" element={<UserOrders />} />
+            <Route path="invoice/:id" element={<UserInvoice />} />
           </Route>
         </Routes>
       </ProtectedRoute>
