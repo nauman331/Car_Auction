@@ -134,7 +134,10 @@ const Signup = () => {
         />
         <label>Address</label>
       </div>
-      <button type="submit" className="btn-primary" style={{marginTop: "25px"}}>
+      <label className="privacy-policy">
+        <input type="checkbox" required /> I accept the privacy policy
+      </label>
+      <button type="submit" className="btn-primary">
         Register{" "}
         <FontAwesomeIcon
           icon={faArrowLeft}
@@ -142,9 +145,7 @@ const Signup = () => {
           className="login-icon"
         />
       </button>
-      <label className="privacy-policy">
-        <input type="checkbox" required /> I accept the privacy policy
-      </label>
+ 
     </form>
   );
 };
