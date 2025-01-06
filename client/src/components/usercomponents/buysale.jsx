@@ -75,7 +75,7 @@ function Buysale() {
   const purchaseCar = async () => {
     const authorizationToken = `Bearer ${token}`
     try {
-      const response = await fetch(`${backendURL}/purchase/${id}`, {
+      const response = await fetch(`${backendURL}/car/purchase/${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

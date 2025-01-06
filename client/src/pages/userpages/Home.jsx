@@ -29,7 +29,7 @@ const Home = () => {
       }
 
       const res_data = await response.json();
-      setCars(res_data); // Ensure this matches the expected structure
+       setCars(res_data);
     } catch (error) {
       console.error("Error fetching cars:", error);
       toast.error("Failed to fetch cars. Please try again later.");

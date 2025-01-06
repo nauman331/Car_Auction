@@ -46,38 +46,11 @@ const Header = () => {
             id="navbarSupportedContent"
           >
             <ul className="navbar-nav">
-              <li class="nav-item dropdown">
-                <a
-                  class="nav-link "
-                  href="/"
-                  id="navbarDropdown"
-                  role="button"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                >
-                  Home
-                  <img src={img3} />
-                </a>
-
-                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <li>
-                    <a class="dropdown-item" href="/">
-                      Action
-                    </a>
-                  </li>
-                  <li>
-                    <a class="dropdown-item" href="/">
-                      Another action
-                    </a>
-                  </li>
-
-                  <li>
-                    <a class="dropdown-item" href="/">
-                      Something else here
-                    </a>
-                  </li>
-                </ul>
-              </li>
+              <div className="header-actions">
+            <NavLink to="/" className="sign-in">
+                Home
+              </NavLink>
+              </div>
               <li class="nav-item dropdown">
                 <a
                   class="nav-link "
@@ -88,38 +61,6 @@ const Header = () => {
                   aria-expanded="false"
                 >
                   Inventory
-                  <img src={img3} />
-                </a>
-
-                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <li>
-                    <a class="dropdown-item" href="/">
-                      Action
-                    </a>
-                  </li>
-                  <li>
-                    <a class="dropdown-item" href="/">
-                      Another action
-                    </a>
-                  </li>
-
-                  <li>
-                    <a class="dropdown-item" href="/">
-                      Something else here
-                    </a>
-                  </li>
-                </ul>
-              </li>
-              <li class="nav-item dropdown">
-                <a
-                  class="nav-link "
-                  href="/"
-                  id="navbarDropdown"
-                  role="button"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                >
-                  Blog
                   <img src={img3} />
                 </a>
 
@@ -173,11 +114,6 @@ const Header = () => {
                     </a>
                   </li>
                 </ul>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link active" aria-current="page" href="/">
-                  Contact
-                </a>
               </li>
             </ul>
             <div className="header-actions">

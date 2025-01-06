@@ -5,11 +5,14 @@ import img3 from "../../assets/images/gasoline-pump 1.png";
 import img4 from "../../assets/images/gearbox 1.png";
 import img5 from "../../assets/images/right-up 1 (1).png";
 import { NavLink } from "react-router-dom";
+import { useSelector } from "react-redux";
 const Cardsing = ({ data }) => {
+  const { currentBidData } = useSelector(state => state.event);
   return (
     <div>
       <div className="row">
         {data.map((item) => (
+          !item.isSold &&
           <div
             key={item._id}
             className="col-xl-3 col-lg-3  col-md-4  col-sm-6  col-12 col-12 mb-4 px-2"
@@ -41,7 +44,9 @@ const Cardsing = ({ data }) => {
                   </ul>
                 </span>
                 <div className="view-detail-section">
-                { item.sellingType === "auction" ? <p className="price">AED {item.startingBid || "N/A"}</p> :  <p className="price">AED {item.discountedPrice || item.price || "N/A"}</p>}
+                { item.sellingType === "auction" ? <p className="price">AED
+                   {item._id === currentBidData?.carId && currentBidData?.currentBid || item.startingBid || "N/A"}
+                   </p> :  <p className="price">AED {item.discountedPrice || item.price || "N/A"}</p>}
                   <div className="viewdetail-btn">
                     {
                       item.sellingType === "auction" ?

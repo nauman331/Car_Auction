@@ -30,6 +30,7 @@ const PaginatedCards = ({ data, itemsPerPage }) => {
       {/* Render cards */}
       <div className="row">
         {currentItems.map((item) => (
+          !item.isSold &&
           <div
             key={item._id}
             className="  col-xl-3 col-lg-3  col-md-4  col-sm-6  col-12 col-12 p-2"
@@ -74,6 +75,7 @@ const PaginatedCards = ({ data, itemsPerPage }) => {
         ))}
       </div>
       {/* Pagination Controls */}
+      {! (currentPage === 1) &&
       <div className="pagination-controls">
         <button onClick={handlePrev} disabled={currentPage === 1}>
           <ChevronLeft
@@ -89,6 +91,7 @@ const PaginatedCards = ({ data, itemsPerPage }) => {
           />
         </button>
       </div>
+}
     </div>
   );
 };
