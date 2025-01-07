@@ -3,7 +3,7 @@ import "../../assets/stylesheets/footer.scss";
 
 const ProductsList = ({ title, items }) => {
   return (
-    <div className="col-xl-2 col-lg-2 col-md-3 col-sm-6 col-6">
+    <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
       <div className="Products">
         <h3>{title}</h3>
         <ul>

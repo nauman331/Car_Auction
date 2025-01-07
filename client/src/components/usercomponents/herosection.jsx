@@ -11,7 +11,7 @@ const Herosection = () => {
           <p>
             Shop Online. Pickup Today. It’s Fast, Simple and Easy.  Learn More.
           </p>
-          <h1>Fast, Simple and Easy</h1>
+          <h1 className="line-1 anim-typewriter">Fast, Simple and Easy</h1>
           <div>
             <HeroTabs />
           </div>

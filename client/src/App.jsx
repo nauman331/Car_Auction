@@ -1,6 +1,8 @@
 import { Routes, Route } from "react-router-dom";
 import Auth from "./pages/userpages/Auth";
 import Home from "./pages/userpages/Home";
+import ContactUs from "./pages/userpages/contactus";
+import Aboutus from "./pages/userpages/about";
 import OTPVerificationForm from "./components/usercomponents/OTPVerificationForm";
 import AdminHome from "./pages/adminpages/AdminHome";
 import Dashboard from "./components/admincomponents/Dashboard";
@@ -20,11 +22,11 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./assets/stylesheets/car responsive.scss";
 import Verificationform from "./components/usercomponents/Verificationform";
 import Deposits from "./components/admincomponents/Deposits";
-import CarSales from "./components/admincomponents/carsale"
-import { useEffect } from "react"
-import { useSelector, useDispatch } from "react-redux"
+import CarSales from "./components/admincomponents/carsale";
+import { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import toast from "react-hot-toast";
-import { setBidData, removeBidData } from "./store/eventSlice"
+import { setBidData, removeBidData } from "./store/eventSlice";
 import UserPanel from "./pages/userpages/UserPanel";
 import Wallet from "./components/usercomponents/userpanel/Wallet";
 import Carsforsale from "./pages/userpages/car";
@@ -33,23 +35,23 @@ import BuyfilterForm from "./pages/userpages/buynowlist";
 import Buycarforsale from "./pages/userpages/buycar";
 import { backendURL } from "./utils/Exports";
 import { setUser } from "./store/slices/authSlice";
-import DepositDetail from "./components//admincomponents/DepositDetail"
-import UserDashboard from "./components//usercomponents/userpanel/Dashboard"
-import UserOrders from "./components/usercomponents/userpanel/Orders"
+import DepositDetail from "./components//admincomponents/DepositDetail";
+import UserDashboard from "./components//usercomponents/userpanel/Dashboard";
+import UserOrders from "./components/usercomponents/userpanel/Orders";
 import Invoice from "./components/admincomponents/Invoice";
-import UserInvoice from "./components/usercomponents//userpanel/Invoice"
+import UserInvoice from "./components/usercomponents//userpanel/Invoice";
 
 function App() {
   const dispatch = useDispatch();
-  const { socket } = useSelector((state) => state.socket)
-  const { currentBidData } = useSelector(state => state.event);
-  const { token, userdata } = useSelector(state => state.auth);
+  const { socket } = useSelector((state) => state.socket);
+  const { currentBidData } = useSelector((state) => state.event);
+  const { token, userdata } = useSelector((state) => state.auth);
 
   const handleToast = (response) => {
-    if(userdata?.id === response?.id) {
+    if (userdata?.id === response?.id) {
       toast.error(response.message);
     }
-  }
+  };
 
   useEffect(() => {
     if (socket) {
@@ -83,7 +85,7 @@ function App() {
 
       socket.on("bidPlaced", (response) => {
         if (!response.isOk) {
-          console.log(response)
+          console.log(response);
           handleToast(response);
           return;
         }
@@ -117,11 +119,11 @@ function App() {
         }
         const audio = new Audio("/notification.wav");
         audio.play();
-        if(userdata?.id === response?.user) {
-        toast.success(response.message, {
-          duration: 5000,
-        });
-      }
+        if (userdata?.id === response?.user) {
+          toast.success(response.message, {
+            duration: 5000,
+          });
+        }
         console.log(response);
         dispatch(removeBidData());
       });
@@ -170,6 +172,8 @@ function App() {
           {/* Public routes */}
           <Route path="/" element={<Home />} />
           <Route path="/auth" element={<Auth />} />
+          <Route path="/contactus" element={<ContactUs />} />
+          <Route path="/about" element={<Aboutus />} />
           <Route path="/verifyotp" element={<OTPVerificationForm />} />
           <Route path="/resetpassword" element={<Verificationform />} />
           <Route path="/vehicle" element={<Vehicle />} />
@@ -177,15 +181,20 @@ function App() {
           <Route path="/auctioncar/:id" element={<Carsforsale />} />
           <Route path="/buycar/:id" element={<Buycarforsale />} />
 
-
           {/* Admin routes */}
           <Route path="/admin" element={<AdminHome />}>
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="carlistings" element={<CarListings />} />
             <Route path="addauctionevent" element={<AddAuctionForm />} />
-            <Route path="addbuynow" element={<AddBuyNow sellingType="fixed" />} />
+            <Route
+              path="addbuynow"
+              element={<AddBuyNow sellingType="fixed" />}
+            />
             <Route path="auctionlistings" element={<AuctionListings />} />
-            <Route path="addauction" element={<AddBuyNow sellingType="auction" />} />
+            <Route
+              path="addauction"
+              element={<AddBuyNow sellingType="auction" />}
+            />
             <Route path="auctioninventory" element={<AuctionInventory />} />
             <Route path="managecategories" element={<CategoryManagement />} />
             <Route path="allusers" element={<AllUsers />} />

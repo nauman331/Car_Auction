@@ -1,6 +1,8 @@
-import React from "react";import "../../assets/stylesheets/header.scss";
+
+import React from "react";
+import "../../assets/stylesheets/header.scss";
 import img1 from "../../assets/images/boxcars.png";
-import img2 from "../../assets/images/search.png";
+
 import img3 from "../../assets/images/arrow-downwhite.png";
 import img4 from "../../assets/images/phone.png";
 import img5 from "../../assets/images/user.png";
@@ -14,14 +16,6 @@ const Header = () => {
           <a className="navbar-brand" href="#">
             <img src={img1} />
           </a>
-          <div className="search-bar-sections">
-            <img src={img2} />
-            <input
-              type="text"
-              placeholder="Search Cars or Add ID?"
-              className="search-input"
-            />
-          </div>
           <button
             className="navbar-toggler"
             type="button"
@@ -52,24 +46,30 @@ const Header = () => {
                   aria-expanded="false"
                 >
                   Home
+                </a>
+              </li>
+              <li class="nav-item dropdown">
+                <a
+                  class="nav-link "
+                  href="#"
+                  id="navbarDropdown"
+                  role="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  Vehicles
                   <img src={img3} />
                 </a>
 
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                   <li>
                     <a class="dropdown-item" href="#">
-                      Action
+                      Auction Vehicles
                     </a>
                   </li>
                   <li>
                     <a class="dropdown-item" href="#">
-                      Another action
-                    </a>
-                  </li>
-
-                  <li>
-                    <a class="dropdown-item" href="#">
-                      Something else here
+                      Buy Now Vehicles
                     </a>
                   </li>
                 </ul>
@@ -83,25 +83,19 @@ const Header = () => {
                   data-bs-toggle="dropdown"
                   aria-expanded="false"
                 >
-                  Inventory
+                  Auctions
                   <img src={img3} />
                 </a>
 
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                   <li>
                     <a class="dropdown-item" href="#">
-                      Action
+                      Auction Events
                     </a>
                   </li>
                   <li>
                     <a class="dropdown-item" href="#">
-                      Another action
-                    </a>
-                  </li>
-
-                  <li>
-                    <a class="dropdown-item" href="#">
-                      Something else here
+                      Live Auction
                     </a>
                   </li>
                 </ul>
@@ -115,65 +109,22 @@ const Header = () => {
                   data-bs-toggle="dropdown"
                   aria-expanded="false"
                 >
-                  Blog
+                  About
                   <img src={img3} />
                 </a>
 
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                   <li>
                     <a class="dropdown-item" href="#">
-                      Action
+                      AboutUs
                     </a>
                   </li>
                   <li>
                     <a class="dropdown-item" href="#">
-                      Another action
-                    </a>
-                  </li>
-
-                  <li>
-                    <a class="dropdown-item" href="#">
-                      Something else here
+                      ContactUs
                     </a>
                   </li>
                 </ul>
-              </li>
-              <li class="nav-item dropdown">
-                <a
-                  class="nav-link "
-                  href="#"
-                  id="navbarDropdown"
-                  role="button"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                >
-                  Pages
-                  <img src={img3} />
-                </a>
-
-                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <li>
-                    <a class="dropdown-item" href="#">
-                      Action
-                    </a>
-                  </li>
-                  <li>
-                    <a class="dropdown-item" href="#">
-                      Another action
-                    </a>
-                  </li>
-
-                  <li>
-                    <a class="dropdown-item" href="#">
-                      Something else here
-                    </a>
-                  </li>
-                </ul>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link active" aria-current="page" href="#">
-                  Contact
-                </a>
               </li>
             </ul>
             <div className="header-actions">
@@ -193,3 +144,4 @@ const Header = () => {
 };
 
 export default Header;
+

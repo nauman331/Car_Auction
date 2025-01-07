@@ -1,0 +1,50 @@
+.features-section {
+  padding-top: 100px;
+  padding-bottom: 80px;
+  .feature-texts {
+    margin-bottom: 60px;
+    h2 {
+      /* What Sets Us Apart in Car Auctions */
+
+      font-family: "DM Sans";
+      font-style: normal;
+      font-weight: 700;
+      font-size: 30px;
+      line-height: 45px;
+      color: #050b20;
+    }
+  }
+  .feature-items {
+    padding: 0 0px;
+    margin-bottom: 20px;
+    img {
+      max-width: 100%;
+      object-fit: cover;
+      margin-bottom: 20px;
+    }
+    .text {
+      h4 {
+        /* Exclusive Auction */
+
+        font-family: "DM Sans";
+        font-style: normal;
+        font-weight: 500;
+        font-size: 18px;
+        line-height: 26px;
+        /* Color/Primary */
+        color: #050b20;
+      }
+      p {
+        /* Access unique and limited-time offers on a variety of vehicles. Get the best value through our exclusive online and in-person auctions. */
+
+        font-family: "DM Sans";
+        font-style: normal;
+        font-weight: 400;
+        font-size: 15px;
+        line-height: 26px;
+
+        color: #050b20;
+      }
+    }
+  }
+}
