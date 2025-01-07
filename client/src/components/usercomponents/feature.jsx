@@ -43,6 +43,7 @@ const features = [
 ];
 
 function Feature() {
+ 
   return <FeaturesSection features={features} />;
 }
 

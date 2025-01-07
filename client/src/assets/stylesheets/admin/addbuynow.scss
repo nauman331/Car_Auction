@@ -153,13 +153,12 @@
             color: gray;
           }
         }
-        #auctionLot{
+        #auctionLot {
           .react-select__control {
-            height: 3.5rem;
-            width: 15rem;
+            height: 65px;
+            width: 320px;
           }
-
-      }
+        }
       }
 
       #auction-container {

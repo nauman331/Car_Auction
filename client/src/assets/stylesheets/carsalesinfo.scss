@@ -18,8 +18,8 @@
     position: relative;
     top: -8px;
     button {
-      width: 40px;
-      height: 40px;
+      width: 47px;
+      // height: 40px;
       padding-top: -10px !important;
       padding: 0px 5px;
       margin: 0 3px;
@@ -27,13 +27,13 @@
       border: none;
       cursor: pointer;
       border: 1px solid #e1e1e1;
-      border-radius: 5px;
+      border-radius: 16px;
       svg {
         width: 20px;
       }
       &:first-child,
       &:last-child {
-        background-color: blue;
+        background-color: #f9fbfc;
         color: black;
       }
       &:hover {

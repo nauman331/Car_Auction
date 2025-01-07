@@ -1,9 +1,16 @@
-import React from "react";
 import "../../assets/stylesheets/feature.scss";
-
+import React, { useEffect } from "react";
+import AOS from "aos";
+import "aos/dist/aos.css";
 function FeaturesSection({ features }) {
+  useEffect(() => {
+    AOS.init({
+      duration: 600, // Animation duration in milliseconds
+      // once: true, // Whether animation should happen only once
+    });
+  }, []);
   return (
-    <div className="features-section container-feature">
+    <div className="features-section container-feature" data-aos="fade-up">
       <div className="row">
         <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
           <div className="feature-text">

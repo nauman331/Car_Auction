@@ -1,7 +1,6 @@
-
 import React from "react";
 import "../../assets/stylesheets/header.scss";
-import img1 from "../../assets/images/boxcars.png";
+import img1 from "../../assets/images/Logo.svg";
 
 import img3 from "../../assets/images/arrow-downwhite.png";
 import img4 from "../../assets/images/phone.png";
@@ -144,4 +143,3 @@ const Header = () => {
 };
 
 export default Header;
-

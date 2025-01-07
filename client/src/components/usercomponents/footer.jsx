@@ -4,7 +4,7 @@ import ProductsList from "../usercomponents/footer-map";
 import "../../assets/stylesheets/footer.scss";
 import ContactButtons from "../usercomponents/contactbutton";
 
-import img2 from "../../assets/images/boxcars.png";
+import img2 from "../../assets/images/Logo.svg";
 const Footer = () => {
   const productsData = [
     {
@@ -16,7 +16,7 @@ const Footer = () => {
     <footer className="footer-section">
       <div className="container">
         <div
-          className="row mb-5 py-5 align-item-baseline footer-mid-section"
+          className="row mb-5 py-1 align-item-baseline footer-mid-section"
           style={{ borderBottom: "1px solid #6b6c7e" }}
         >
           <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">

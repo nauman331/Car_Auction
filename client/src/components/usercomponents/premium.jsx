@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+// import React, { useEffect } from "react";
 import PremiumBrands from "../usercomponents/premiumbrands";
 import "../../assets/stylesheets/premiumbrand.scss";
 import img1 from "../../assets/images/premium 1.png";
@@ -8,7 +8,7 @@ import img4 from "../../assets/images/premium 4.png";
 import img5 from "../../assets/images/premium 5.png";
 import img6 from "../../assets/images/premium 6.png";
 import img7 from "../../assets/images/right-up 1 (2).png";
-// import React, { useEffect } from "react";
+import React, { useEffect } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
 const brands = [

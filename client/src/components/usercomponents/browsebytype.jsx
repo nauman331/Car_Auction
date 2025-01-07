@@ -1,4 +1,3 @@
-import React from "react";
 import "../../assets/stylesheets/browsebytpye.scss";
 
 import CarCategories from "../usercomponents/browse";
@@ -11,10 +10,17 @@ import img6 from "../../assets/images/icon (6).png";
 import img7 from "../../assets/images/icon (7).png";
 import img8 from "../../assets/images/icon (8).png";
 import img9 from "../../assets/images/icon (9).png";
-
-
+import React, { useEffect } from "react";
+import AOS from "aos";
+import "aos/dist/aos.css";
 
 const Browsebytype = () => {
+  useEffect(() => {
+    AOS.init({
+      duration: 600, // Animation duration in milliseconds
+      // once: true, // Whether animation should happen only once
+    });
+  }, []);
   const carCategories = [
     {
       id: 1,
@@ -63,7 +69,7 @@ const Browsebytype = () => {
     },
   ];
   return (
-    <section className="browsebytype-section">
+    <section className="browsebytype-section" data-aos="fade-up">
       <div className="container">
         <div className="browsebytype-title">
           <div className="row">
