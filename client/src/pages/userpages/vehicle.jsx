@@ -36,7 +36,7 @@ if(loading) return <LoadingSpinner />
   return (
     <div>
       <Header />
-      <CarFilterForm cars={cars}/>
+      <CarFilterForm cars={cars} sellingType="auction"/>
       <Footer />
     </div>
   );

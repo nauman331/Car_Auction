@@ -1,5 +1,6 @@
 import { NavLink } from "react-router-dom";
 import "../../assets/stylesheets/admin/leftadminnav.scss";
+import img1 from "../../assets/images/Logo.svg"
 import {
   LayoutDashboard,
   Car,
@@ -43,7 +44,10 @@ const AdminNav = () => {
   return (
     <>
       <header className="admin-header">
-        <h5>username</h5>
+        <div className="logo" style={{ height: "3rem", width: "3rrem", marginLeft: "1rem" }}>
+
+          <img src={img1} alt="...logo" style={{ height: "100%", width: "100%" }} />
+        </div>
         {open ? (
           <X onClick={() => setOpen(false)} className="toggler" />
         ) : (

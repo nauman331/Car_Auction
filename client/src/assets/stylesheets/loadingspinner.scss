@@ -1,26 +1,14 @@
-.wheel {
-    -webkit-animation: spin 5s linear infinite; /* Safari browser */
-    animation: spin 5s linear infinite;}
-  
-  /* for Safari browser  */
-  @-webkit-keyframes spin {
-    0% { -webkit-transform: rotate(0deg); }
-    100% { -webkit-transform: rotate(360deg); }
-  }
-  
-  @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  }
-  
-  #div {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-top: 5rem;
-    height: 100%;
-    width: 100%;
+#div {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0) !important;
+  .wheel {
+    background-color: rgba(0, 0, 0, 0) !important;
     z-index: 999px !important;
-    background-color: white;
+    height: 15rem;
+    width: 15rem;
   }
-  
+}

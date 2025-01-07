@@ -1,5 +1,5 @@
 import React from "react";
-import loader from "../../assets/images/tyre-loader.png"
+import loader from "../../assets/images/Logo-Animation.gif"
 import "../../assets/stylesheets/loadingspinner.scss"
 
 const LoadingSpinner = () => {
@@ -10,8 +10,6 @@ const LoadingSpinner = () => {
         src={loader}
         alt="Loading..."
         border="0"
-        width="300"
-        height="300"
       />
     </div>
   );

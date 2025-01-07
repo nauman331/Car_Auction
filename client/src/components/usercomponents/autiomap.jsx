@@ -9,7 +9,7 @@ import img5 from "../../assets/images/right-up 1 (1).png";
 import { NavLink } from "react-router-dom";
 
 const itemsPerPage = 12;
-const ProductGridWithPagination = ({ cars }) => {
+const ProductGridWithPagination = ({ cars, sellingType }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const totalPages = Math.ceil(cars.length / itemsPerPage);
 
@@ -49,6 +49,7 @@ const ProductGridWithPagination = ({ cars }) => {
 
       <div className="row">
         {paginatedCars.map((item) => (
+          item.sellingType === sellingType && 
           <div
             key={item.id}
             className="col-xl-4 col-lg-4 col-md-6 col-sm-6  col-12 col-12 mb-4 px-2"
