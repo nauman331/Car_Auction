@@ -11,6 +11,7 @@ import "../../assets/stylesheets/FeatureCategory.scss";
 import img7 from "../../assets/images/insta1.png";
 import img8 from "../../assets/images/linkedin1.png";
 import OfficeDetails from "../usercomponents/mapaddress";
+import { Link } from "react-router-dom";
 const Form = () => {
   const carddatas = [
     {
@@ -50,7 +51,8 @@ const Form = () => {
             <nav aria-label="Breadcrumb">
               <ol className="breadcrumb">
                 <li className="breadcrumb-item">
-                  <a href="home.js">Home</a>
+                  {/* <a href="home.js">Home</a> */}
+                  <Link to="/">Home</Link>
                 </li>
                 <li className="breadcrumb-item active" aria-current="page">
                   ContactUs
@@ -62,9 +64,15 @@ const Form = () => {
             <h2>Contact Us</h2>
             {/* Map Section */}
             <div className="map-section">
-              <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3606.6144832206683!2d55.63052427434091!3d25.317153477633887!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ef5f300290be463%3A0x4cc61e3cbadd06c!2sAl%20Bashayera%20Auto%20Auction!5e0!3m2!1sen!2s!4v1736312195050!5m2!1sen!2s" 
-               width="100%" height="450" style={{border: "0"}} loading="lazy"
-                referrerpolicy="no-referrer-when-downgrade" allowFullScreen=""></iframe>
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3606.6144832206683!2d55.63052427434091!3d25.317153477633887!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ef5f300290be463%3A0x4cc61e3cbadd06c!2sAl%20Bashayera%20Auto%20Auction!5e0!3m2!1sen!2s!4v1736312195050!5m2!1sen!2s"
+                width="100%"
+                height="450"
+                style={{ border: "0" }}
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"
+                allowFullScreen=""
+              ></iframe>
             </div>
           </div>
           <div className="row">

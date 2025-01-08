@@ -45,7 +45,11 @@ const Header = () => {
                   role="button"
                   data-bs-toggle="dropdown"
                   aria-expanded="false"
-                  style={{color: "white", textDecoration: "none", marginRight: "1rem"}}
+                  style={{
+                    color: "white",
+                    textDecoration: "none",
+                    marginRight: "1rem",
+                  }}
                 >
                   Home
                 </NavLink>
@@ -65,18 +69,76 @@ const Header = () => {
 
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                   <li>
-                    <NavLink class="dropdown-item" to="/vehicle" style={{textDecoration: "none", marginLeft: "1rem", color: "black"}}>
+                    <NavLink
+                      class="dropdown-item"
+                      to="/vehicle"
+                      style={{
+                        textDecoration: "none",
+                        marginLeft: "1rem",
+                        color: "black",
+                      }}
+                    >
                       Auction Vehicles
                     </NavLink>
                   </li>
                   <li>
-                    <NavLink class="dropdown-item" to="/buynowlist" style={{textDecoration: "none", marginLeft: "1rem", color: "black"}}>
+                    <NavLink
+                      class="dropdown-item"
+                      to="/buynowlist"
+                      style={{
+                        textDecoration: "none",
+                        marginLeft: "1rem",
+                        color: "black",
+                      }}
+                    >
                       Buy Now Vehicles
                     </NavLink>
                   </li>
                 </ul>
               </li>
               <li class="nav-item dropdown">
+                <a
+                  class="nav-link "
+                  href="#"
+                  id="navbarDropdown"
+                  role="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  Auctions
+                  <img src={img3} />
+                </a>
+
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <li>
+                    <NavLink
+                      class="dropdown-item"
+                      to="/vehicle"
+                      style={{
+                        textDecoration: "none",
+                        marginLeft: "1rem",
+                        color: "black",
+                      }}
+                    >
+                      Auction Events
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      class="dropdown-item"
+                      to="/buynowlist"
+                      style={{
+                        textDecoration: "none",
+                        marginLeft: "1rem",
+                        color: "black",
+                      }}
+                    >
+                      Live Auction
+                    </NavLink>
+                  </li>
+                </ul>
+              </li>
+              {/* <li class="nav-item dropdown">
                 <a
                   class="nav-link "
                   href="#"
@@ -101,7 +163,7 @@ const Header = () => {
                     </a>
                   </li>
                 </ul>
-              </li>
+              </li> */}
               <li class="nav-item dropdown">
                 <a
                   class="nav-link "
@@ -117,12 +179,28 @@ const Header = () => {
 
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                   <li>
-                    <NavLink class="dropdown-item" to="/about" style={{textDecoration: "none", marginLeft: "3rem", color: "black"}}>
+                    <NavLink
+                      class="dropdown-item"
+                      to="/about"
+                      style={{
+                        textDecoration: "none",
+                        marginLeft: "3rem",
+                        color: "black",
+                      }}
+                    >
                       AboutUs
                     </NavLink>
                   </li>
                   <li>
-                    <NavLink class="dropdown-item" to="/contactus" style={{textDecoration: "none", marginLeft: "2.9rem", color: "black"}}>
+                    <NavLink
+                      class="dropdown-item"
+                      to="/contactus"
+                      style={{
+                        textDecoration: "none",
+                        marginLeft: "2.9rem",
+                        color: "black",
+                      }}
+                    >
                       ContactUs
                     </NavLink>
                   </li>
@@ -133,17 +211,23 @@ const Header = () => {
               <a href="tel:+75960044042" className="phone">
                 <img src={img4} /> +75 960 044 042
               </a>
-              {
-                token ? 
+              {token ? (
                 <NavLink to="/user/userprofile" className="sign-in">
-                <img src={userdata?.avatarImage} style={{height: "2rem", width: "2rem", borderRadius: "50%"}} /> Profile
-              </NavLink>
-                :
-
-              <NavLink to="/auth" className="sign-in">
-                <img src={img5} /> Sign In
-              </NavLink>
-              }
+                  <img
+                    src={userdata?.avatarImage}
+                    style={{
+                      height: "2rem",
+                      width: "2rem",
+                      borderRadius: "50%",
+                    }}
+                  />{" "}
+                  Profile
+                </NavLink>
+              ) : (
+                <NavLink to="/auth" className="sign-in">
+                  <img src={img5} /> Sign In
+                </NavLink>
+              )}
             </div>
           </div>
         </div>

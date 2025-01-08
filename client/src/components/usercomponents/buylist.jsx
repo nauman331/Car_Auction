@@ -4,7 +4,7 @@ import "../../assets/stylesheets/carddata.scss";
 import "../../assets/stylesheets/FeatureCategory.scss";
 import ProductGridWithPagination from "./autiomap";
 
-const BuyfilterForm = ({cars, sellingType}) => {
+const BuyfilterForm = ({ cars, sellingType }) => {
   const [selectedTypes, setSelectedTypes] = useState([]);
   const [formData, setFormData] = useState({});
   const [minPrice, setMinPrice] = useState(5000);
@@ -45,7 +45,8 @@ const BuyfilterForm = ({cars, sellingType}) => {
             <nav aria-label="Breadcrumb">
               <ol className="breadcrumb">
                 <li className="breadcrumb-item">
-                  <a href="home.js">Home</a>
+                  {/* <a href="home.js">Home</a> */}
+                  <Link to="/">Home</Link>
                 </li>
                 <li className="breadcrumb-item active" aria-current="page">
                   Buy Now Vehicles
@@ -324,7 +325,10 @@ const BuyfilterForm = ({cars, sellingType}) => {
             </div>
             <div className="col-xl-9 col-lg-9 col-md-8 col-sm-12 col-12">
               <div>
-                <ProductGridWithPagination cars={cars} sellingType={sellingType}/>
+                <ProductGridWithPagination
+                  cars={cars}
+                  sellingType={sellingType}
+                />
               </div>
             </div>
           </div>
