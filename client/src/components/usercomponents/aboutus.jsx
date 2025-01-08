@@ -5,7 +5,8 @@ import Feature from "../usercomponents/aboutfeature";
 import Premium from "../usercomponents/premium";
 import TeamSection from "../usercomponents/team";
 import "../../assets/stylesheets/FeatureCategory.scss";
-// import Customer from "../usercomponents/customer";
+import Aboutpaggination from "../usercomponents/aboutpaginations";
+import FAQs from "../usercomponents/faq";
 const Aboutus = () => {
   return (
     <div>
@@ -152,9 +153,12 @@ const Aboutus = () => {
           <div>
             <TeamSection />
           </div>
-          {/* <div>
-        <Customer />
-      </div> */}
+          <div>
+            <Aboutpaggination />
+          </div>
+          <div>
+            <FAQs />
+          </div>
         </div>
       </div>
     </div>
