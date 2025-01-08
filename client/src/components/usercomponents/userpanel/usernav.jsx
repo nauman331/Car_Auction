@@ -8,6 +8,7 @@ import {
   X,
   Wallet,
   ShoppingCart,
+  House,
 } from "lucide-react";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
@@ -15,6 +16,7 @@ import { logOut } from "../../../store/slices/authSlice";
 import img1 from "../../../assets/images/Logo.svg";
 
 const menuItems = [
+  { to: "/", icon: <House />, label: "Home" },
   { to: "/user/userdashboard", icon: <LayoutDashboard />, label: "Dashboard" },
   { to: "/user/orders", icon: <ShoppingCart />, label: "Orders" },
   { to: "/user/wallet", icon: <Wallet />, label: "Wallet" },
