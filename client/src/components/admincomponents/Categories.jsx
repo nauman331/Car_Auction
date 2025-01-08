@@ -108,7 +108,12 @@ const CategoryManagement = () => {
                     id={name}
                   />
                   <label htmlFor={name}>Enter {name}</label>
-                  <button onClick={() => handleAddItem(key, field)}>Add</button>
+                  <button
+                    onClick={() => handleAddItem(key, field)}
+                    style={{ color:"black"}}
+                  >
+                    Add
+                  </button>
                 </div>
                 {categoryData[key]?.items?.map((item) => (
                   <h6 key={item._id}>

@@ -1,4 +1,3 @@
-
 * {
   margin: 0%;
   padding: 0%;
@@ -19,7 +18,7 @@ a {
 ::-webkit-scrollbar-track {
   border-radius: 10px;
 }
- 
+
 /* Handle */
 ::-webkit-scrollbar-thumb {
   background-color: gray;
@@ -28,6 +27,5 @@ a {
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: #aaa; 
+  background: #aaa;
 }
-
