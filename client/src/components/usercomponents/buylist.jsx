@@ -3,7 +3,7 @@ import "../../assets/stylesheets/filter.scss";
 import "../../assets/stylesheets/carddata.scss";
 import "../../assets/stylesheets/FeatureCategory.scss";
 import ProductGridWithPagination from "./autiomap";
-
+import { Link } from "react-router-dom";
 const BuyfilterForm = ({ cars, sellingType }) => {
   const [selectedTypes, setSelectedTypes] = useState([]);
   const [formData, setFormData] = useState({});

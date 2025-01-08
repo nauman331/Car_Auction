@@ -7,6 +7,7 @@ import TeamSection from "../usercomponents/team";
 import "../../assets/stylesheets/FeatureCategory.scss";
 import Aboutpaggination from "../usercomponents/aboutpaginations";
 import FAQs from "../usercomponents/faq";
+import { Link } from "react-router-dom";
 const Aboutus = () => {
   return (
     <div>
