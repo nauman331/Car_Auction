@@ -1,13 +1,15 @@
 #div {
-  position: fixed;
   display: flex;
   align-items: center;
   justify-content: center;
   height: 100vh !important;
   width: 100vw !important;
+  position: fixed;
+  top: 0%;
+  left: 0%;
   background-color: white;
+  z-index: 1100 !important;
   .wheel {
-    z-index: 999px !important;
     height: 15rem;
     width: 15rem;
   }
