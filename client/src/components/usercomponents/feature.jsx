@@ -1,10 +1,9 @@
 import React from "react";
 import FeaturesSection from "../usercomponents/feature-map";
-
 import img from "../../assets/images/tag (1) 1.png";
 import img1 from "../../assets/images/diamond.png";
 import img2 from "../../assets/images/price.png";
-import img3 from "../../assets/images/group.png";
+import img3 from "../../assets/images/Group.png";
 
 const features = [
   {
