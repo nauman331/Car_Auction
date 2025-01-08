@@ -1,11 +1,11 @@
 @import url("bootstrap/dist/css/bootstrap.min.css");
 
-.container-xl {
-  max-width: 1050px !important;
-  margin: 0 auto !important;
-  padding-left: 15px;
-  padding-right: 15px;
-}
+// .container-xl {
+//   max-width: 1050px !important;
+//   margin: 0 auto !important;
+//   padding-left: 15px;
+//   padding-right: 15px;
+// }
 .catagory {
   background: #ffffff;
   border: 1px solid #e7e6e6;
@@ -133,6 +133,7 @@
   justify-content: space-between;
   align-items: baseline;
   margin-bottom: 30px;
+  padding: 90px 0 80px;
   h2 {
     /* Recently Added */
     font-family: "DM Sans";

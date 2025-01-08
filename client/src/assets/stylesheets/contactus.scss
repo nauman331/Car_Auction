@@ -1,5 +1,5 @@
 .contact-section {
-  margin: 20px 0;
+  margin: 0px 0 20px;
   h2 {
     /* Contact Us */
 
@@ -7,8 +7,8 @@
     font-style: normal;
     font-weight: 700;
     font-size: 40px;
-    line-height: 45px;
-    margin-bottom: 30px;
+    line-height: 40px;
+    margin-bottom: 37px;
     color: #050b20;
   }
   .map-section {
@@ -339,6 +339,9 @@
   .footerrightsection .data .information-image img {
     margin-right: 13px !important;
     width: 18px !important;
+  }
+  .contact-container .contact-button .text {
+    font-size: 11px !important;
   }
 }
 

@@ -1,6 +1,6 @@
 .prenium-brand-section {
-  padding-top: 80px;
-  padding-bottom: 80px;
+  padding-top: 32px;
+  padding-bottom: 40px;
 
   .prenium-brand-text {
     display: flex;
@@ -60,7 +60,7 @@
 
   .premium-brands .brand-card:hover {
     //   transform: scale(1.05); /* Scale effect on hover */
-    //   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      // box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     border: 1px solid #405ff2;
   }
   .premium-brands .brand-card:hover h6 {

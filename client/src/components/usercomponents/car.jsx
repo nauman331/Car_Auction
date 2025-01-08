@@ -1,7 +1,7 @@
 import React from "react";
 import "../../assets/stylesheets/car.scss";
 
-import img from "../../assets/images/right-up 1 (3).png"
+import img from "../../assets/images/right-up 1 (3).png";
 function CarSection() {
   const sections = [
     {
@@ -19,7 +19,7 @@ function CarSection() {
   ];
 
   return (
-    <div className="car-section container">
+    <div className="car-section container-carsection">
       <div className="row">
         {sections.map((section, index) => (
           <div

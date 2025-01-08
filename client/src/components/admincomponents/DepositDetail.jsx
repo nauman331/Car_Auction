@@ -16,14 +16,14 @@ const DepositDetail = () => {
 
   const approveDeposit = async (invNumber) => {
     console.log("invNumber before conversion:", invNumber);
-  
+
     const numericInvNumber = Number(invNumber);
     if (isNaN(numericInvNumber)) {
       console.error("Invalid invNumber:", invNumber);
       toast.error("Invalid Invoice Number");
       return;
     }
-  
+
     const authorizationToken = `Bearer ${token}`;
     try {
       const response = await fetch(`${backendURL}/wallet/approve-deposite`, {
@@ -49,11 +49,10 @@ const DepositDetail = () => {
       toast.error("Error in approving deposit");
     }
   };
-  
-  
+
   return (
     <>
-      <div className="car-list-top">
+      {/* <div className="car-list-top">
         <span>
           <h3>Deposit Details</h3>
           <small>All Deposit Requests made by this user</small>
@@ -118,6 +117,100 @@ const DepositDetail = () => {
               </div>
             </div>
           </div>
+        </div>
+      </div> */}
+      <div
+        style={{
+          width: "400px",
+          padding: "20px",
+          borderRadius: "10px",
+          boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
+          backgroundColor: "#fff",
+          fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
+        }}
+      >
+        <h2 style={{ margin: "0 0 15px", color: "#333", fontSize: "18px" }}>
+          Deposit Details
+        </h2>
+        <div style={{ marginBottom: "20px" }}>
+          <h4 style={{ margin: "0 0 10px", color: "#666", fontSize: "14px" }}>
+            Bank Account Details
+          </h4>
+          <p style={{ margin: "5px 0", color: "#444", fontSize: "14px" }}>
+            <strong>Bank Name:</strong> XYZ Bank
+          </p>
+          <p style={{ margin: "5px 0", color: "#444", fontSize: "14px" }}>
+            <strong>Account Number:</strong> 1234567890
+          </p>
+          <p style={{ margin: "5px 0", color: "#444", fontSize: "14px" }}>
+            <strong>IBAN:</strong> XYZ12345IBAN
+          </p>
+          <p style={{ margin: "5px 0", color: "#444", fontSize: "14px" }}>
+            <strong>SWIFT Code:</strong> XYZSWIFT
+          </p>
+        </div>
+        <div style={{ marginBottom: "15px" }}>
+          <h4 style={{ margin: "0 0 10px", color: "#666", fontSize: "14px" }}>
+            Upload Proof of Payment
+          </h4>
+          <label
+            htmlFor="upload"
+            style={{
+              display: "block",
+              padding: "10px",
+              backgroundColor: "#f5f5f5",
+              borderRadius: "5px",
+              border: "1px dashed #ccc",
+              textAlign: "center",
+              color: "#888",
+              cursor: "pointer",
+              fontSize: "14px",
+            }}
+          >
+            Click to Upload
+          </label>
+          <input type="file" id="upload" style={{ display: "none" }} />
+        </div>
+        <input
+          type="text"
+          placeholder="Enter amount"
+          style={{
+            width: "100%",
+            padding: "10px",
+            borderRadius: "5px",
+            border: "1px solid #ccc",
+            marginBottom: "15px",
+            fontSize: "14px",
+            color: "#444",
+          }}
+        />
+        <div style={{ display: "flex", justifyContent: "space-between" }}>
+          <button
+            style={{
+              padding: "10px 20px",
+              backgroundColor: "#ccc",
+              color: "#fff",
+              borderRadius: "5px",
+              border: "none",
+              cursor: "pointer",
+              fontSize: "14px",
+            }}
+          >
+            Close
+          </button>
+          <button
+            style={{
+              padding: "10px 20px",
+              backgroundColor: "#007bff",
+              color: "#fff",
+              borderRadius: "5px",
+              border: "none",
+              cursor: "pointer",
+              fontSize: "14px",
+            }}
+          >
+            Submit
+          </button>
         </div>
       </div>
     </>

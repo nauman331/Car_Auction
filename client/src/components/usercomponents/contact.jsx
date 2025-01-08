@@ -10,7 +10,7 @@ import img5 from "../../assets/images/twitter1.png";
 import "../../assets/stylesheets/FeatureCategory.scss";
 import img7 from "../../assets/images/insta1.png";
 import img8 from "../../assets/images/linkedin1.png";
-import OfficeDetails from "../usercomponents/mapaddress";
+// import OfficeDetails from "../usercomponents/mapaddress";
 import { Link } from "react-router-dom";
 const Form = () => {
   const carddatas = [
@@ -44,8 +44,8 @@ const Form = () => {
 
   return (
     <div>
-      <div style={{ paddingBottom: 58, backgroundColor: "#050b20" }}></div>
-      <div className="mb-5 main">
+      <div style={{ paddingBottom: 40, backgroundColor: "#050b20" }}></div>
+      <div className="mb-5  main">
         <div className="container">
           <div className="Breadcrumb-section">
             <nav aria-label="Breadcrumb">
@@ -75,7 +75,7 @@ const Form = () => {
               ></iframe>
             </div>
           </div>
-          <div className="row">
+          <div className="row mb-5" style={{ marginTop: "98px" }}>
             <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
               <div className="contact-form">
                 <h2>Get In Touch</h2>
@@ -202,9 +202,9 @@ const Form = () => {
               </div>
             </div>
           </div>
-          <div>
+          {/* <div>
             <OfficeDetails />
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

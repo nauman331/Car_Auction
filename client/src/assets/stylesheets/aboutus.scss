@@ -11,7 +11,7 @@
     }
   }
   .about-section2 {
-    margin-top: 30px;
+    margin-top: 50px;
     .about-section2-text {
       h2 {
         font-family: "DM Sans";
@@ -44,14 +44,15 @@
     display: flex;
     justify-content: end;
     font-size: 50px;
-    margin-bottom: -40px;
+    margin-bottom: -50px;
     margin-right: 30px;
     color: rgb(184, 181, 181);
   }
   .cards {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     border: none;
     border-radius: 16px;
-    padding: 15px 26px;
+    padding: 24px 26px;
     background-color: #ffffff;
     .title-text {
       /* Great Work */
@@ -88,8 +89,41 @@
     .texts {
       font-size: 14px;
       font-weight: 500;
-      line-height: 30px;
+      line-height: 28px;
       margin-top: 20px;
+    }
+  }
+}
+.recentlyadd-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 30px;
+  padding: 0px 0 20px;
+  h2 {
+    /* Recently Added */
+    font-family: "DM Sans";
+    font-style: normal;
+    font-weight: 700;
+    font-size: 38px;
+    line-height: 45px;
+    color: #050b20;
+  }
+  .join-auction-btn {
+    a {
+      display: flex;
+      align-items: baseline;
+      justify-content: baseline;
+      font-family: "DM Sans";
+      font-size: 15px;
+      font-weight: 400;
+      text-decoration: none;
+      color: black;
+      img {
+        max-width: 100%;
+        object-fit: cover;
+        margin-left: 5px;
+      }
     }
   }
 }
@@ -102,7 +136,7 @@
     display: ruby !important;
   }
   .features-section {
-    padding-top: 100px;
+    padding-top: 50px !important;
     padding-bottom: 30px !important;
   }
   .prenium-brand-section {

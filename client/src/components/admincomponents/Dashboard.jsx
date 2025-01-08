@@ -59,31 +59,49 @@ const Dashboard = () => {
 
   return (
     <>
-      <h4>Dashboard</h4>
-      <small>Whole Progress of Data</small>
+      <div className="dashboard-text">
+        <h4>Dashboard</h4>
+        <small>Whole Progress of Data</small>
+      </div>
+
       <div className="info-boxes">
-  {[
-    { title: "Listings", count: data?.totalCars || "N/A", Icon: Car, iconClass: "icon1" },
-    { title: "Auctions", count: data?.totalAuctions || "N/A", Icon: Gavel, iconClass: "icon2" },
-    {
-      title: "Revenue",
-      count: `AED ${formatNumber(data?.totalRevenue || 0)}`,
-      Icon: HandCoins,
-      iconClass: "icon3",
-    },
-    { title: "Orders", count: data?.purchase || "N/A", Icon: ShoppingCart, iconClass: "icon4" },
-  ].map(({ title, count, Icon, iconClass }, idx) => (
-    <div key={idx} className="info-box">
-      <span>
-        <small>{title}</small>
-        <h4>{count}</h4>
-      </span>
-      <span className={iconClass}>
-        <Icon />
-      </span>
-    </div>
-  ))}
-</div>
+        {[
+          {
+            title: "Listings",
+            count: data?.totalCars || "N/A",
+            Icon: Car,
+            iconClass: "icon1",
+          },
+          {
+            title: "Auctions",
+            count: data?.totalAuctions || "N/A",
+            Icon: Gavel,
+            iconClass: "icon2",
+          },
+          {
+            title: "Revenue",
+            count: `AED ${formatNumber(data?.totalRevenue || 0)}`,
+            Icon: HandCoins,
+            iconClass: "icon3",
+          },
+          {
+            title: "Orders",
+            count: data?.purchase || "N/A",
+            Icon: ShoppingCart,
+            iconClass: "icon4",
+          },
+        ].map(({ title, count, Icon, iconClass }, idx) => (
+          <div key={idx} className="info-box">
+            <span>
+              <small>{title}</small>
+              <h4>{count}</h4>
+            </span>
+            <span className={iconClass}>
+              <Icon />
+            </span>
+          </div>
+        ))}
+      </div>
       <div className="chart-and-notification">
         <ChartGraph periodicData={data?.periodicData || []} />
         <div className="notifications">

@@ -2,16 +2,16 @@ import React from "react";
 import "../../assets/stylesheets/aboutus.scss";
 import img1 from "../../assets/images/images.png";
 import Feature from "../usercomponents/aboutfeature";
-import Premium from "../usercomponents/premium";
+// import Premium from "../usercomponents/premium";
 import TeamSection from "../usercomponents/team";
 import "../../assets/stylesheets/FeatureCategory.scss";
 import Aboutpaggination from "../usercomponents/aboutpaginations";
-import FAQs from "../usercomponents/faq";
+// import FAQs from "../usercomponents/faq";
 import { Link } from "react-router-dom";
 const Aboutus = () => {
   return (
     <div>
-      <div style={{ paddingBottom: 58, backgroundColor: "#050b20" }}></div>
+      <div style={{ paddingBottom: 40, backgroundColor: "#050b20" }}></div>
       <div className="mb-5 main">
         <div className="container">
           <div className="Breadcrumb-section">
@@ -94,7 +94,7 @@ const Aboutus = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="col-lg-12">
+                  <div className="col-lg-12 mb-3">
                     <img
                       src={img1}
                       style={{
@@ -149,18 +149,19 @@ const Aboutus = () => {
           <div>
             <Feature />
           </div>
-          <div>
+          {/* <div>
             <Premium />
-          </div>
+          </div> */}
           <div>
             <TeamSection />
           </div>
-          <div>
-            <Aboutpaggination />
-          </div>
-          <div>
+
+          {/* <div>
             <FAQs />
-          </div>
+          </div> */}
+        </div>
+        <div>
+          <Aboutpaggination />
         </div>
       </div>
     </div>

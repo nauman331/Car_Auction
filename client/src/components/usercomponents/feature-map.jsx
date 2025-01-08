@@ -10,7 +10,7 @@ function FeaturesSection({ features }) {
     });
   }, []);
   return (
-    <div className="features-section container-feature" data-aos="fade-up">
+    <div className="features-section container" data-aos="fade-up">
       <div className="row">
         <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
           <div className="feature-text">

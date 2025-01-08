@@ -2,7 +2,6 @@ import React from "react";
 import CountUp from "react-countup";
 import "../../assets/stylesheets/loader.scss";
 
-
 const StatsRow = () => {
   const stats = [
     { id: 1, value: 834, suffix: "M", label: "CARS FOR SALE" },
@@ -12,7 +11,7 @@ const StatsRow = () => {
   ];
 
   return (
-    <div className="loader-section  container ">
+    <div className="loader-section  container-xxl ">
       <div className="row">
         {stats.map((stat) => (
           <div

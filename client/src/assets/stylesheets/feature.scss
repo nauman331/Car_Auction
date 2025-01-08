@@ -1,9 +1,9 @@
-.container-feature {
-  max-width: 1000px;
-  margin: 0 auto;
-  padding-left: 15px;
-  padding-right: 15px;
-}
+// .container-feature {
+//   max-width: 1000px;
+//   margin: 0 auto;
+//   padding-left: 15px;
+//   padding-right: 15px;
+// }
 .feature-text {
   text-align: center;
   margin-bottom: 60px;
@@ -19,10 +19,10 @@
   }
 }
 .features-section {
-  padding-top: 100px;
-  padding-bottom: 80px;
+  padding-top: 80px;
+  padding-bottom: 50px !important;
   .feature-item {
-    padding: 0 60px;
+    padding: 0 70px 0 0;
     margin-bottom: 20px;
     img {
       max-width: 100%;

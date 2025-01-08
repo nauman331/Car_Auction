@@ -48,14 +48,14 @@ const teamMembers = [
     image: img1,
     name: "Agha Ahmed",
   },
-  {
-    image: img1,
-    name: "M Umar Barkaat",
-  },
-  {
-    image: img1,
-    name: "M Umar Barkaat",
-  },
+  // {
+  //   image: img1,
+  //   name: "M Umar Barkaat",
+  // },
+  // {
+  //   image: img1,
+  //   name: "M Umar Barkaat",
+  // },
 ];
 
 // Main TeamSection Component

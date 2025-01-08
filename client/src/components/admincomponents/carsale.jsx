@@ -27,14 +27,16 @@ function Carsale() {
 
   const getCarDetails = async () => {
     try {
-      const response = await fetch(`${backendURL}/car/${id}`, { method: "GET" });
+      const response = await fetch(`${backendURL}/car/${id}`, {
+        method: "GET",
+      });
       const res_data = await response.json();
       if (!response.ok) {
         console.log(res_data.message);
       }
-      console.log(res_data)
+      console.log(res_data);
       setCar(res_data.car);
-      if(res_data.currentBid){
+      if (res_data.currentBid) {
         dispatch(setBidData(res_data.currentBid));
       }
       setFeaturesData(
@@ -62,7 +64,10 @@ function Carsale() {
   const getEmbedUrl = (url) => {
     try {
       const urlObj = new URL(url);
-      if (urlObj.hostname === "www.youtube.com" && urlObj.pathname === "/watch") {
+      if (
+        urlObj.hostname === "www.youtube.com" &&
+        urlObj.pathname === "/watch"
+      ) {
         const videoId = urlObj.searchParams.get("v");
         return `https://www.youtube.com/embed/${videoId}`;
       } else if (urlObj.hostname === "youtu.be") {
@@ -75,7 +80,6 @@ function Carsale() {
       return ""; // Return an empty string if the URL is invalid
     }
   };
-  
 
   return (
     <div>
@@ -120,7 +124,11 @@ function Carsale() {
               </div>
             </div>
             <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 mb-4 px-2">
-              <CarAuction car={car} getCarDetails={getCarDetails} backendURL={backendURL}/>
+              <CarAuction
+                car={car}
+                getCarDetails={getCarDetails}
+                backendURL={backendURL}
+              />
             </div>
           </div>
         </div>

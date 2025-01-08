@@ -28,15 +28,17 @@ function Carsale() {
 
   const getCarDetails = async () => {
     try {
-      const response = await fetch(`${backendURL}/car/${id}`, { method: "GET" });
+      const response = await fetch(`${backendURL}/car/${id}`, {
+        method: "GET",
+      });
       const res_data = await response.json();
       if (!response.ok) {
         console.log(res_data.message);
       }
       setCar(res_data.car);
-          if(res_data.currentBid){
-              dispatch(setBidData(res_data.currentBid));
-            }
+      if (res_data.currentBid) {
+        dispatch(setBidData(res_data.currentBid));
+      }
       setFeaturesData(
         Object.keys(res_data.car?.features).map((key) => ({
           category: key,
@@ -62,7 +64,10 @@ function Carsale() {
   const getEmbedUrl = (url) => {
     try {
       const urlObj = new URL(url);
-      if (urlObj.hostname === "www.youtube.com" && urlObj.pathname === "/watch") {
+      if (
+        urlObj.hostname === "www.youtube.com" &&
+        urlObj.pathname === "/watch"
+      ) {
         const videoId = urlObj.searchParams.get("v");
         return `https://www.youtube.com/embed/${videoId}`;
       } else if (urlObj.hostname === "youtu.be") {
@@ -75,10 +80,10 @@ function Carsale() {
       return ""; // Return an empty string if the URL is invalid
     }
   };
-  
 
   return (
     <div>
+      <div style={{ paddingBottom: 40, backgroundColor: "#050b20" }}></div>
       <div className="mb-5 main">
         <div className="container">
           <div className="row">
@@ -123,10 +128,10 @@ function Carsale() {
               <CarAuction car={car} />
             </div>
           </div>
-        </div>
-        <div className="row">
+          <div className="row">
             <Relatedlistening />
           </div>
+        </div>
       </div>
 
       {/* Modal for All Photos */}
@@ -178,6 +183,3 @@ function Carsale() {
 }
 
 export default Carsale;
-
-
-          

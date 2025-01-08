@@ -90,6 +90,9 @@
   .Hero-section .hero-text-section h1 {
     font-size: 50px !important;
   }
+  .browsebytype-section {
+    top: -11px !important ;
+  }
   .search-bar {
     flex-direction: column !important;
   }
@@ -214,17 +217,36 @@
 
 @media only screen and (max-width: 450px) {
   .Hero-section .hero-text-section h1 {
-    font-size: 39px !important;
+    font-size: 29px !important;
+  }
+  .Hero-section .hero-text-section p {
+    font-family: "DM Sans";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px !important;
+    line-height: 26px !important;
+  }
+  .Hero-section {
+    min-height: 640px !important;
+  }
+  .browsebytype-section {
+    top: 0px !important ;
+  }
+  .browsebytype-section .browsebytype-text h1 {
+    font-size: 30px;
   }
 
   .browsebytype-section .browsebytype-title {
-    padding-top: 67px !important;
+    padding-top: 40px !important;
   }
   .browsebytype-section .catageories .card {
     width: 48% !important;
   }
+  .browsebytype-section .browsebytype-title {
+    padding-bottom: 19px !important;
+  }
   .Live-car-section .live-car-title .live-car-bg .Live-car-text h2 {
-    font-size: 26px !important;
+    font-size: 22px !important;
     line-height: 43px !important;
   }
   .Live-car-section .live-car-title .live-car-bg .Live-car-text {
@@ -234,8 +256,8 @@
     font-size: 21px !important;
   }
   .tab-toggle button {
-    font-size: 13px !important;
-    padding: 10px 6px !important;
+    font-size: 11px !important;
+    padding: 10px 3px !important;
   }
   .recentlyadd-section h2 {
     font-size: 25px !important;
@@ -244,17 +266,23 @@
     font-size: 25px !important;
   }
   .prenium-brand-section .prenium-brand-text h2 {
-    font-size: 18px !important;
+    font-size: 12px !important;
   }
   .prenium-brand-section .prenium-brand-text .brand-btn a {
     font-size: 13px !important;
   }
+  .prenium-brand-section {
+    padding-top: 20px !important;
+    padding-bottom: 40px !important;
+  }
+  .Reachus .reachus-text h2 {
+    font-size: 16px !important;
+    line-height: 26px;
+  }
   .prenium-brand-section .prenium-brand-text .brand-btn a img {
     width: 12px !important;
   }
-  .Reachus .reachus-text h2 {
-    font-size: 19px !important;
-  }
+
   .Reachus .reachus-text {
     padding: 10px 0 !important;
   }
@@ -268,11 +296,19 @@
   .car-section {
     padding-bottom: 25px !important;
   }
+  .loader-section {
+    padding: 20px 20px 25px !important;
+    border-bottom: 1px solid #e1e1e1;
+  }
+  .explore-Allvehicles-section {
+    padding-top: 40px !important;
+    padding-bottom: 46px !important;
+  }
   .Hero-section .hero-text-section h1 {
     line-height: 40px !important;
   }
   .car-section .section .loooking-text h2 {
-    font-size: 29px !important;
+    font-size: 24px !important;
     line-height: 37px !important;
   }
   .contact-container {
@@ -282,5 +318,12 @@
   .car-section .section .loooking-text h2 {
     width: 100% !important;
   }
-  
+  .footer-section .copyright p {
+    font-family: "DM Sans";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px !important;
+    line-height: 26px;
+    color: #ffffff;
+  }
 }

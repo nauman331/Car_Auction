@@ -11,7 +11,7 @@ const RecentlyAdded = ({data}) => {
     .slice(0, 12); // Limit to the latest 12 cars
 
   return (
-    <div className="container-xl">
+    <div className="container">
       <div className="recentlyadd-section">
         <h2>Recently Added</h2>
         <div className="join-auction-btn">

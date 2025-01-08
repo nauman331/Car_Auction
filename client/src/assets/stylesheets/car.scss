@@ -1,7 +1,12 @@
-
+.container-carsection {
+  max-width: 1300px;
+  margin: 0 auto;
+  padding-left: 20px;
+  padding-right: 20px;
+}
 .car-section {
-  padding-top: 100px;
-  padding-bottom: 80px;
+  padding-top: 80px;
+  padding-bottom: 50px;
   .section {
     background-image: url("../images/Group\ 2.png");
     background-repeat: no-repeat;

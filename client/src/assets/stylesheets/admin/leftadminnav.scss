@@ -50,10 +50,19 @@
     min-height: calc(90vh - 2rem);
     width: calc(100vw - 18rem);
     margin-left: 15rem;
-    padding: 4rem 1rem;
+    padding: 4rem 3rem;
     background-color: #ffffff;
     border-radius: 10px;
     z-index: 1;
+    .dashboard-text {
+      margin-left: 20px;
+      // h4 {
+
+      // }
+      // small {
+      //   margin-left: 60px;
+      // }
+    }
   }
 }
 

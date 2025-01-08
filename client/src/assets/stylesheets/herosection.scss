@@ -2,13 +2,14 @@ body {
   overflow-x: hidden !important ;
 }
 .Hero-section {
-  background-image: url("../images/aboutcar1.webp");
+  background-image: url("../images/carbg.jpeg");
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
   width: 100%;
   min-height: 700px;
   position: relative;
+
   .hero-text-section {
     padding: 130px 0 50px 0px;
     display: flex;
@@ -24,54 +25,54 @@ body {
       color: #ffffff;
       margin-bottom: 10px;
     }
-    // h1 {
-    //   /* Fast, Simple and Easy */
-    //   font-family: "DM Sans";
-    //   font-style: normal;
-    //   font-weight: 700;
-    //   font-size: 70px;
-    //   line-height: 91px;
-
-    //   color: #ffffff;
-    // }
-    .line-1 {
-      position: relative;
-      top: 0;
-      bottom: 0;
-      margin-bottom: 20px;
-      border-right: 2px solid rgba(255, 255, 255, 0.75);
+    h1 {
+      /* Fast, Simple and Easy */
       font-family: "DM Sans";
       font-style: normal;
       font-weight: 700;
       font-size: 70px;
-      line-height: 90px;
-      color: #ffffff;
-      white-space: nowrap;
-      overflow-x: hidden !important;
-      // transform: translateY(50%, 0);
-    }
+      line-height: 91px;
 
-    /* Animation */
-    .anim-typewriter {
-      animation: typewriter 4s steps(44) 1s 1 normal both,
-        blinkTextCursor 500ms steps(44) infinite normal;
+      color: #ffffff;
     }
-    @keyframes typewriter {
-      from {
-        width: 0;
-      }
-      to {
-        width: 24em;
-      }
-    }
-    @keyframes blinkTextCursor {
-      from {
-        border-right-color: rgba(255, 255, 255, 0.75);
-      }
-      to {
-        border-right-color: transparent;
-      }
-    }
+    // .line-1 {
+    //   position: relative;
+    //   top: 0;
+    //   bottom: 0;
+    //   margin-bottom: 20px;
+    //   border-right: 2px solid rgba(255, 255, 255, 0.75);
+    //   font-family: "DM Sans";
+    //   font-style: normal;
+    //   font-weight: 700;
+    //   font-size: 70px;
+    //   line-height: 90px;
+    //   color: #ffffff;
+    //   white-space: nowrap;
+    //   overflow-x: hidden !important;
+    //   // transform: translateY(50%, 0);
+    // }
+
+    // /* Animation */
+    // .anim-typewriter {
+    //   animation: typewriter 4s steps(44) 1s 1 normal both,
+    //     blinkTextCursor 500ms steps(44) infinite normal;
+    // }
+    // @keyframes typewriter {
+    //   from {
+    //     width: 0;
+    //   }
+    //   to {
+    //     width: 24em;
+    //   }
+    // }
+    // @keyframes blinkTextCursor {
+    //   from {
+    //     border-right-color: rgba(255, 255, 255, 0.75);
+    //   }
+    //   to {
+    //     border-right-color: transparent;
+    //   }
+    // }
   }
   .hero-tab-toggle {
     display: flex;
@@ -87,6 +88,7 @@ body {
       cursor: pointer;
       font-size: 16px;
       font-weight: 600;
+      border-radius: 0 !important;
 
       transition: background-color 0.3s, color 0.3s;
     }
