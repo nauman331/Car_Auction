@@ -1,20 +1,22 @@
 import React from "react";
 import "../../assets/stylesheets/header.scss";
 import img1 from "../../assets/images/Logo.svg";
-
+import { useSelector } from "react-redux";
 import img3 from "../../assets/images/arrow-downwhite.png";
 import img4 from "../../assets/images/phone.png";
 import img5 from "../../assets/images/user.png";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
+import { NavLink } from "react-router-dom";
 
 const Header = () => {
+   const { token, userdata } = useSelector((state) => state.auth);
   return (
     <div className="header-section ">
       <nav className="navbar navbar-expand-lg">
         <div className="container-fluid">
-          <a className="navbar-brand" href="#">
+          <NavLink className="navbar-brand" to="/">
             <img src={img1} />
-          </a>
+          </NavLink>
           <button
             className="navbar-toggler"
             type="button"
@@ -36,16 +38,13 @@ const Header = () => {
           >
             <ul className="navbar-nav">
               <li class="nav-item dropdown">
-                <a
-                  class="nav-link "
-                  href="#"
-                  id="navbarDropdown"
-                  role="button"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
+                <NavLink
+                  class="nav-link"
+                  to="/"
+                  style={{ color: "white", textDecoration: "none", marginRight: "1rem" }}
                 >
                   Home
-                </a>
+                </NavLink>
               </li>
               <li class="nav-item dropdown">
                 <a
@@ -62,14 +61,14 @@ const Header = () => {
 
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                   <li>
-                    <a class="dropdown-item" href="#">
+                    <NavLink class="dropdown-item" to="/vehicle" style={{ textDecoration: "none", marginLeft: "1rem", color: "black" }}>
                       Auction Vehicles
-                    </a>
+                    </NavLink>
                   </li>
                   <li>
-                    <a class="dropdown-item" href="#">
+                    <NavLink class="dropdown-item" to="/buynowlist" style={{ textDecoration: "none", marginLeft: "1rem", color: "black" }}>
                       Buy Now Vehicles
-                    </a>
+                    </NavLink>
                   </li>
                 </ul>
               </li>
@@ -114,14 +113,14 @@ const Header = () => {
 
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                   <li>
-                    <a class="dropdown-item" href="#">
+                    <NavLink class="dropdown-item" to="/about" style={{ textDecoration: "none", marginLeft: "3rem", color: "black" }}>
                       AboutUs
-                    </a>
+                    </NavLink>
                   </li>
                   <li>
-                    <a class="dropdown-item" href="#">
+                    <NavLink class="dropdown-item" to="/contactus" style={{ textDecoration: "none", marginLeft: "2.9rem", color: "black" }}>
                       ContactUs
-                    </a>
+                    </NavLink>
                   </li>
                 </ul>
               </li>
@@ -131,9 +130,16 @@ const Header = () => {
                 <img src={img4} /> +75 960 044 042
               </a>
 
-              <a href="/login" className="sign-in">
-                <img src={img5} /> Sign In
-              </a>
+              {
+                token ?
+                  <NavLink to="/user/userprofile" className="sign-in">
+                    <img src={userdata?.avatarImage} style={{ height: "2rem", width: "2rem", borderRadius: "50%" }} /> Profile
+                  </NavLink>
+                  :
+                  <NavLink to="/auth" className="sign-in">
+                    <img src={img5} /> Sign In
+                  </NavLink>
+              }
             </div>
           </div>
         </div>
