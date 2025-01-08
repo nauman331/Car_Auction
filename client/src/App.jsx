@@ -94,7 +94,7 @@ function App() {
         toast.success(response.message, {
           duration: 5000,
         });
-
+        console.log(response)
         dispatch(setBidData(response));
       });
 

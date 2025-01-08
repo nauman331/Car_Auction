@@ -13,7 +13,7 @@ import DeleteModal from "./DeleteModal";
 import EditModal from "./EditModal";
 
 const AuctionInventory = () => {
-
+  const { currentBidData } = useSelector(state => state.event);
   const navigate = useNavigate();
   const { token } = useSelector((state) => state.auth);
 
@@ -110,6 +110,10 @@ const AuctionInventory = () => {
 
 
   const deletCar = async (id) => {
+    if(currentBidData?.auctionStatus && (currentBidData?.carId === id)){
+      toast.error("Please close auction on this car first");
+      return;
+    }
     const authorizationToken = `Bearer ${token}`;
     try {
       const response = await fetch(`${backendURL}/car/${id}`, {

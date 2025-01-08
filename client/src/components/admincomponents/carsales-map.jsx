@@ -61,7 +61,7 @@ const CarAuction = ({ car, getCarDetails, backendURL }) => {
 
   const handleStartBid = () => {
     if (socket && token && car._id) {
-      if (currentBidData && currentBidData.carId !== car._id) {
+      if (currentBidData?.auctionStatus && (currentBidData.carId !== car._id)) {
         toast.error("Please close the bidding on the current car before starting a new one.");
         return;
       }
@@ -100,6 +100,7 @@ const CarAuction = ({ car, getCarDetails, backendURL }) => {
         token,
       };
       socket.emit("closeAuction", data);
+      getCarDetails();
     } else {
       console.log("Socket not connected or invalid data");
     }
@@ -112,6 +113,7 @@ const handleUnSoldBid = () => {
       token,
     };
     socket.emit("markUnsaved", data);
+    getCarDetails();
   } else {
     console.log("Socket not connected or invalid data");
   }
@@ -167,6 +169,10 @@ const handleUnSoldBid = () => {
   };
 
   const deletCar = async (id) => {
+    if(currentBidData?.auctionStatus && (currentBidData?.carId === id)){
+      toast.error("Please close auction on this car first");
+      return;
+    }
     const authorizationToken = `Bearer ${token}`;
     try {
       const response = await fetch(`${backendURL}/car/${id}`, {
