@@ -1,12 +1,12 @@
 #div {
   height: 100vh;
   width: 100vw;
+  position: fixed;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: rgba(0, 0, 0, 0) !important;
+  background-color: white;
   .wheel {
-    background-color: rgba(0, 0, 0, 0) !important;
     z-index: 999px !important;
     height: 15rem;
     width: 15rem;
