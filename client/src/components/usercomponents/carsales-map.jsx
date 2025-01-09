@@ -74,8 +74,8 @@ const CarAuction = ({ car }) => {
           <p>Bid Starting Price: {car.startingBid || "N/A"} AED</p>
         </div>
         {
-
-          !car.isSold ?
+          token ? 
+          (!car.isSold ?
             <div className="bid-controls">
               <button onClick={decreaseBid}>-</button>
               <span>AED
@@ -100,7 +100,8 @@ const CarAuction = ({ car }) => {
               }
             </div>
             :
-            <h4 style={{ color: "#aaa", margin: "1rem 0" }}>Car is already Sold</h4>
+            <h4 style={{ color: "#aaa", margin: "1rem 0" }}>Car is already Sold</h4>)
+            : <h4 style={{ color: "#aaa", margin: "1rem 0" }}>Please Login to place Bid</h4>
         }
 
         <div className="car-overview">
