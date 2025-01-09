@@ -56,17 +56,35 @@
     border-radius: 10px;
     border: 1px solid #e1e1e1;
     height: 400px;
-    .notification {
-      display: flex;
-      align-items: center;
-      justify-content: start;
-      gap: 1rem;
-      .icon3 {
-        background-color: #eef1fb;
-        color: #405ff2;
-        padding: 0.5rem;
-        border-radius: 50%;
-      }
+
+      .notification {
+        display: flex;
+        align-items: center;
+        margin-bottom: 8px;
+        cursor: pointer;
+        border-radius: 5px;
+        gap: 1rem;
+        &.unread {
+          background-color: #eef1fb;
+          font-weight: bold;
+          .icon3 {
+            color: #405ff2;
+            padding: 0.5rem;
+            border-radius: 50%;
+          }
+        }
+      
+        &.read {
+          background-color: #fff;
+          font-weight: normal;
+          .icon3 {
+            background-color: #eef1fb;
+            color: #405ff2;
+            padding: 0.5rem;
+            border-radius: 50%;
+          }
+        }
+      
     }
     button {
       background-color: transparent;
