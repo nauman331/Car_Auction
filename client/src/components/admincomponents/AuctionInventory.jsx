@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import "../../assets/stylesheets/admin/carlisting.scss";
 import { Trash, PencilLine, Search } from "lucide-react";
 import { NavLink } from "react-router-dom";
-import { useSelector } from "react-redux";
 import toast from "react-hot-toast";
 import { backendURL } from "../../utils/Exports";
 import Pagination from "./Pagination";
@@ -11,9 +10,12 @@ import { CloudinaryUploader } from "../../utils/CloudinaryUploader";
 import { useNavigate } from "react-router-dom";
 import DeleteModal from "./DeleteModal";
 import EditModal from "./EditModal";
+import { useSelector, useDispatch } from "react-redux";
+import {removeBidData} from "../../store/eventSlice"
 
 const AuctionInventory = () => {
   const { currentBidData } = useSelector(state => state.event);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const { token } = useSelector((state) => state.auth);
 
@@ -126,6 +128,9 @@ const AuctionInventory = () => {
       const res_data = await response.json();
       if (response.ok) {
         toast.success(res_data.message);
+         if(id === currentBidData?.carId) {
+                  dispatch(removeBidData());
+                }
         setShowDeleteModal(false); // Close the modal after deletion
         setCarIdToDelete(null); // Clear the ID after deletion
         getAllCars();
