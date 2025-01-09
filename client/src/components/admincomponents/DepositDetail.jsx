@@ -52,7 +52,7 @@ const DepositDetail = () => {
 
   return (
     <>
-      {/* <div className="car-list-top">
+       <div className="car-list-top">
         <span>
           <h3>Deposit Details</h3>
           <small>All Deposit Requests made by this user</small>
@@ -118,8 +118,8 @@ const DepositDetail = () => {
             </div>
           </div>
         </div>
-      </div> */}
-      <div
+      </div> 
+      {/* <div
         style={{
           width: "400px",
           padding: "20px",
@@ -212,7 +212,7 @@ const DepositDetail = () => {
             Submit
           </button>
         </div>
-      </div>
+      </div> /*}
     </>
   );
 };
