@@ -9,10 +9,10 @@ import store, { persistor } from "./store/store.jsx"
 import { PersistGate } from "redux-persist/integration/react"
 import { io } from "socket.io-client"
 import { setSocket } from "./store/socketSlice"
-import { backendURL } from "./utils/Exports.jsx"
+import { socketURL } from "./utils/Exports.jsx"
 
 // Initialize socket.io-client
-const socket = io(backendURL.replace('/api', ''), {
+const socket = io(socketURL, {
   transports: ["websocket", "polling"],
   reconnectionAttempts: 5,
   timeout: 20000,
