@@ -13,7 +13,7 @@ import img10 from "../../assets/images/door.png";
 import img11 from "../../assets/images/piston 1.png";
 import img12 from "../../assets/images/color.png";
 import img13 from "../../assets/images/steering-wheel 1.png";
-import { useSelector} from "react-redux";
+import { useSelector } from "react-redux";
 import toast from "react-hot-toast";
 
 
@@ -38,16 +38,24 @@ const CarAuction = ({ car }) => {
         token,
         bidAmount: parseFloat(bid),
       };
-      if (parseFloat(bid) <= parseFloat(currentBidData?.bidAmount || currentBidData?.currentBid || car.startingBid)) {
+      if (
+        parseFloat(bid) <= 
+        parseFloat(
+          currentBidData?.bidAmount || 
+          currentBidData?.currentBid || 
+          car.startingBid
+        )
+      ) {
         toast.error("Bid amount should be greater than the current bid");
         return;
       }
       socket.emit("placeBid", data);
-      setBid(currentBidData?.bidAmount)
+      setBid(currentBidData?.bidAmount || car.startingBid || 0); // Ensure bid is always valid
     } else {
       console.log("Socket not connected or invalid data");
     }
   };
+  
 
 
   return (
@@ -60,37 +68,40 @@ const CarAuction = ({ car }) => {
           <p className="dots"></p> {car.transmission?.vehicleTransimission || "No Transmission"}
         </p>
         <div className="current-bid">
-                <p>Current Bid</p>
-                <h2>AED {currentBidData && (car._id === currentBidData.carId) ? (currentBidData?.bidAmount || currentBidData?.currentBid || car?.startingBid
-                  || "N/A") : car?.startingBid}</h2>
-                <p>Bid Starting Price: {car.startingBid || "N/A"} AED</p>
+          <p>Current Bid</p>
+          <h2>AED {currentBidData && (car._id === currentBidData.carId) ? (currentBidData?.bidAmount || currentBidData?.currentBid || car?.startingBid
+            || "N/A") : car?.startingBid}</h2>
+          <p>Bid Starting Price: {car.startingBid || "N/A"} AED</p>
         </div>
-{
+        {
 
-!car.isSold ? 
-        <div className="bid-controls">
-          <button onClick={decreaseBid}>-</button>
-          <span>AED
-            <input type="number" value={bid}
-              onChange={(e) => setBid(parseFloat(e.target.value))}
-            /></span>
-          <button onClick={increaseBid}>+</button>
-          {
-            currentBidData?.auctionStatus ?
-          <button className="place-bid" onClick={handlePlaceBid}>
-            <img src={img1} />
-            Place Bid
-          </button>
-          :
-          <button className="place-bid" style={{backgroundColor: "grey", cursor: "not-allowed", border: "none"}}>
-          <img src={img1} />
-          Place Bid
-        </button>
-}
-        </div>
-:
-<h4 style={{color: "#aaa", margin: "1rem 0"}}>Car is already Sold</h4>
-}  
+          !car.isSold ?
+            <div className="bid-controls">
+              <button onClick={decreaseBid}>-</button>
+              <span>AED
+                <input
+                  type="number"
+                  value={bid || car.startingBid || 0} // Fallback to a valid number
+                  onChange={(e) => setBid(parseFloat(e.target.value) || 0)} // Ensure state is valid
+                />
+              </span>
+              <button onClick={increaseBid}>+</button>
+              {
+                currentBidData?.auctionStatus ?
+                  <button className="place-bid" onClick={handlePlaceBid}>
+                    <img src={img1} />
+                    Place Bid
+                  </button>
+                  :
+                  <button className="place-bid" style={{ backgroundColor: "grey", cursor: "not-allowed", border: "none" }}>
+                    <img src={img1} />
+                    Place Bid
+                  </button>
+              }
+            </div>
+            :
+            <h4 style={{ color: "#aaa", margin: "1rem 0" }}>Car is already Sold</h4>
+        }
 
         <div className="car-overview">
           <h3>Car Overview</h3>

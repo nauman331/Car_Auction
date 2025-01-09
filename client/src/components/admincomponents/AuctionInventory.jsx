@@ -11,7 +11,7 @@ import { useNavigate } from "react-router-dom";
 import DeleteModal from "./DeleteModal";
 import EditModal from "./EditModal";
 import { useSelector, useDispatch } from "react-redux";
-import {removeBidData} from "../../store/eventSlice"
+import { removeBidData } from "../../store/eventSlice"
 
 const AuctionInventory = () => {
   const { currentBidData } = useSelector(state => state.event);
@@ -38,17 +38,17 @@ const AuctionInventory = () => {
   const itemsPerPage = 10;
 
   const filteredCars =
-  cars.length > 0
-    ? cars.filter(
+    cars.length > 0
+      ? cars.filter(
         (car) =>
           car.listingTitle?.toLowerCase().includes(searchTerm.toLowerCase()) ||
           car.description?.toLowerCase().includes(searchTerm.toLowerCase()) ||
           car.lotNo?.toString().toLowerCase().includes(searchTerm.toLowerCase()) ||
           car.auctionLot?.auctionTitle?.toLowerCase().includes(searchTerm.toLowerCase())
       )
-    : [];
+      : [];
 
-  
+
 
   // Filter cars by sorting option
   const sortedCars = filteredCars.filter((car) => {
@@ -90,7 +90,7 @@ const AuctionInventory = () => {
     try {
       const response = await fetch(`${backendURL}/car`, { method: "GET" });
 
-      
+
       const res_data = await response.json();
       if (!response.ok) {
         console.log(res_data.message)
@@ -112,7 +112,7 @@ const AuctionInventory = () => {
 
 
   const deletCar = async (id) => {
-    if(currentBidData?.auctionStatus && (currentBidData?.carId === id)){
+    if (currentBidData?.auctionStatus && (currentBidData?.carId === id)) {
       toast.error("Please close auction on this car first");
       return;
     }
@@ -128,9 +128,9 @@ const AuctionInventory = () => {
       const res_data = await response.json();
       if (response.ok) {
         toast.success(res_data.message);
-         if(id === currentBidData?.carId) {
-                  dispatch(removeBidData());
-                }
+        if (id === currentBidData?.carId) {
+          dispatch(removeBidData());
+        }
         setShowDeleteModal(false); // Close the modal after deletion
         setCarIdToDelete(null); // Clear the ID after deletion
         getAllCars();
@@ -231,7 +231,7 @@ const AuctionInventory = () => {
                       <th>Lot No.</th>
                       <th>Starting Price</th>
                       <th>Auction</th>
-                      <th>Bidding Status</th>
+                      <th>Status</th>
                       <th>Action</th>
                     </tr>
                   </thead>
@@ -275,7 +275,7 @@ const AuctionInventory = () => {
                             </td>
                             <td>
                               <small>
-                                {car.auctionLot?.statusText || "No Status Text"}
+                                {car._id === currentBidData?.carId ? (currentBidData?.auctionStatus ? "Ongoing" : "Pending") : "Pending" || "No Status Text"}
                               </small>
                             </td>
                             <td className="action-buttons">
@@ -335,27 +335,27 @@ const AuctionInventory = () => {
 
             {/* Delete Confirmation Modal */}
             <DeleteModal
-        show={showDeleteModal}
-        onClose={() => setShowDeleteModal(false)}
-        onConfirm={handleDeleteConfirm}
-      />
+              show={showDeleteModal}
+              onClose={() => setShowDeleteModal(false)}
+              onConfirm={handleDeleteConfirm}
+            />
             {/* Edit Modal */}
             <EditModal
-        show={showEditModal}
-        onClose={() => setShowEditModal(false)}
-        formData={formData}
-        setFormData={setFormData}
-        step={step}
-        setStep={setStep}
-        steps={steps}
-        submitHandler={submitUpdatedCar}
-        images={images}
-        setImages={setImages}
-        existingImages={existingImages}
-        setExistingImages={setExistingImages}
-        loading={loading}
-        sellingType="auction"
-      />
+              show={showEditModal}
+              onClose={() => setShowEditModal(false)}
+              formData={formData}
+              setFormData={setFormData}
+              step={step}
+              setStep={setStep}
+              steps={steps}
+              submitHandler={submitUpdatedCar}
+              images={images}
+              setImages={setImages}
+              existingImages={existingImages}
+              setExistingImages={setExistingImages}
+              loading={loading}
+              sellingType="auction"
+            />
           </>
       }
     </>

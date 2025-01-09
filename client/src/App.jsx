@@ -48,107 +48,91 @@ function App() {
   const { token, userdata } = useSelector((state) => state.auth);
 
   const handleToast = (response) => {
-    if (userdata?.id === response?.id) {
+    if (userdata?.id === response?.user) {
       toast.error(response.message);
     }
   };
 
-  useEffect(() => {
+  const handleSocketEvents = () => {
+    const handleAuctionOpened = (response) => {
+      console.log(response)
+      if (!response.isOk) {
+        handleToast(response);
+        return;
+      }
+      new Audio("/notification.wav").play();
+      toast.success(response.message, { duration: 5000 });
+      if (currentBidData?.carId === response.carId) {
+        dispatch(setBidData({ ...currentBidData, auctionStatus: true }));
+      } else {
+        dispatch(setBidData(response));
+      }
+    };
+
+    const handleBidPlaced = (response) => {
+      console.log(response)
+      if (!response.isOk) {
+        handleToast(response);
+        return;
+      }
+      new Audio("/notification.wav").play();
+      toast.success(response.message, { duration: 5000 });
+      dispatch(setBidData(response));
+    };
+
+    const handleAuctionStatusChanged = (response) => {
+      console.log(response)
+      if (!response.isOk) {
+        handleToast(response);
+        return;
+      }
+      new Audio("/notification.wav").play();
+      toast.success(response.message, { duration: 5000 });
+      dispatch(setBidData(response));
+    };
+
+    const handleNotifyBidders = (response) => {
+      console.log(response)
+      if (!response.isOk) {
+        handleToast(response);
+        return;
+      }
+      new Audio("/notification.wav").play();
+      if (userdata?.id === response?.user) {
+        toast.success(response.message, { duration: 5000 });
+      }
+      dispatch(removeBidData());
+    };
+
     if (socket) {
-      socket.on("connect", () => {
-        console.log("Socket connected");
-      });
-
-      socket.on("disconnect", () => {
-        console.log("Socket disconnected");
-      });
-
-      socket.on("auctionOpened", (response) => {
-        if (!response.isOk) {
-          handleToast(response);
-          return;
-        }
-
-        const audio = new Audio("/notification.wav");
-        audio.play();
-        toast.success(response.message, {
-          duration: 5000,
-        });
-
-        if (currentBidData?.carId === response.carId) {
-          // Update auctionStatus if carId matches
-          dispatch(setBidData({ ...currentBidData, auctionStatus: true }));
-        } else {
-          dispatch(setBidData(response));
-        }
-      });
-
-      socket.on("bidPlaced", (response) => {
-        if (!response.isOk) {
-          console.log(response);
-          handleToast(response);
-          return;
-        }
-        const audio = new Audio("/notification.wav");
-        audio.play();
-        toast.success(response.message, {
-          duration: 5000,
-        });
-        console.log(response)
-        dispatch(setBidData(response));
-      });
-
-      socket.on("auctionStatusChanged", (response) => {
-        if (!response.isOk) {
-          handleToast(response);
-          return;
-        }
-        const audio = new Audio("/notification.wav");
-        audio.play();
-        toast.success(response.message, {
-          duration: 5000,
-        });
-        console.log(response);
-        dispatch(setBidData(response));
-      });
-
-      socket.on("notifybidders", (response) => {
-        if (!response.isOk) {
-          handleToast(response);
-          return;
-        }
-        const audio = new Audio("/notification.wav");
-        audio.play();
-        if (userdata?.id === response?.user) {
-          toast.success(response.message, {
-            duration: 5000,
-          });
-        }
-        console.log(response);
-        dispatch(removeBidData());
-      });
+      socket.on("connect", () => console.log("Socket connected"));
+      socket.on("disconnect", () => console.log("Socket disconnected"));
+      socket.on("auctionOpened", handleAuctionOpened);
+      socket.on("bidPlaced", handleBidPlaced);
+      socket.on("auctionStatusChanged", handleAuctionStatusChanged);
+      socket.on("notifybidders", handleNotifyBidders);
 
       return () => {
-        socket.off("connect");
-        socket.off("disconnect");
-        socket.off("auctionOpened");
-        socket.off("bidPlaced");
-        socket.off("auctionStatusChanged");
-        socket.off("notifybidders");
+        socket.off("auctionOpened", handleAuctionOpened);
+        socket.off("bidPlaced", handleBidPlaced);
+        socket.off("auctionStatusChanged", handleAuctionStatusChanged);
+        socket.off("notifybidders", handleNotifyBidders);
       };
     }
-  }, [socket, currentBidData, dispatch]);
+  };
+
+  useEffect(handleSocketEvents, [socket, currentBidData]);
 
   const getUserData = async () => {
-    const authorizationToken = `Bearer ${token}`;
     try {
       const response = await fetch(`${backendURL}/user/`, {
         method: "GET",
         headers: {
-          Authorization: authorizationToken,
+          Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
       });
+
       const res_data = await response.json();
       if (response.ok) {
         dispatch(setUser({ userdata: res_data }));
@@ -156,7 +140,7 @@ function App() {
         console.warn(res_data.message || "Error in getting user data");
       }
     } catch (error) {
-      console.warn("Error in fetching user data");
+      console.error("Network error fetching user data:", error);
     }
   };
 
@@ -165,6 +149,7 @@ function App() {
       getUserData();
     }
   }, [token]);
+
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <ProtectedRoute>
