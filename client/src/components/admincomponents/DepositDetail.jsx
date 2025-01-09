@@ -211,8 +211,8 @@ const DepositDetail = () => {
           >
             Submit
           </button>
-        </div>
-      </div> /*}
+        </div> 
+      </div> */}
     </>
   );
 };
