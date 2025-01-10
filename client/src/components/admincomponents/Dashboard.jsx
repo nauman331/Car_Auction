@@ -20,7 +20,7 @@ const Dashboard = () => {
   const { token } = useSelector((state) => state.auth);
   const [data, setData] = useState(null);
   const [dataLoading, setDataLoading] = useState(false);
-const [notificationsLoading, setNotificationsLoading] = useState(false);
+  const [notificationsLoading, setNotificationsLoading] = useState(false);
   const [notifications, setNotifications] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [selectedNotification, setSelectedNotification] = useState(null);
@@ -54,7 +54,7 @@ const [notificationsLoading, setNotificationsLoading] = useState(false);
       setDataLoading(false);
     }
   };
-  
+
   const getNotifications = async () => {
     const authorizationToken = `Bearer ${token}`;
     try {
@@ -76,7 +76,7 @@ const [notificationsLoading, setNotificationsLoading] = useState(false);
       setNotificationsLoading(false);
     }
   };
-  
+
 
   const markNotificationAsRead = async (notificationId) => {
     const authorizationToken = `Bearer ${token}`;
@@ -104,7 +104,7 @@ const [notificationsLoading, setNotificationsLoading] = useState(false);
       console.error("Error while marking notification as read");
     }
   };
-  
+
 
   const handleNotificationClick = (notification) => {
     setSelectedNotification(notification);
@@ -122,7 +122,7 @@ const [notificationsLoading, setNotificationsLoading] = useState(false);
       getNotifications();
     }
   }, [token]);
-  
+
 
   if (dataLoading || notificationsLoading) return <LoadingSpinner />;
 
@@ -138,29 +138,29 @@ const [notificationsLoading, setNotificationsLoading] = useState(false);
 
       <div className="info-boxes">
         {[{
-            title: "Listings",
-            count: data?.totalCars || "N/A",
-            Icon: Car,
-            iconClass: "icon1",
-          },
-          {
-            title: "Auctions",
-            count: data?.totalAuctions || "N/A",
-            Icon: Gavel,
-            iconClass: "icon2",
-          },
-          {
-            title: "Revenue",
-            count: `AED ${formatNumber(data?.totalRevenue || 0)}`,
-            Icon: HandCoins,
-            iconClass: "icon3",
-          },
-          {
-            title: "Orders",
-            count: data?.purchase || "N/A",
-            Icon: ShoppingCart,
-            iconClass: "icon4",
-          },
+          title: "Listings",
+          count: data?.totalCars || "N/A",
+          Icon: Car,
+          iconClass: "icon1",
+        },
+        {
+          title: "Auctions",
+          count: data?.totalAuctions || "N/A",
+          Icon: Gavel,
+          iconClass: "icon2",
+        },
+        {
+          title: "Revenue",
+          count: `AED ${formatNumber(data?.totalRevenue || 0)}`,
+          Icon: HandCoins,
+          iconClass: "icon3",
+        },
+        {
+          title: "Orders",
+          count: data?.purchase || "N/A",
+          Icon: ShoppingCart,
+          iconClass: "icon4",
+        },
         ].map(({ title, count, Icon, iconClass }, idx) => (
           <div key={idx} className="info-box">
             <span>
@@ -179,19 +179,19 @@ const [notificationsLoading, setNotificationsLoading] = useState(false);
         <div className="notifications">
           <h6>Notifications</h6>
           {notifications?.slice(0, 6).map((notification) => (
-              <span
-                key={notification._id}
-                className={`notification ${notification.readStatus ? "read" : "unread"}`}
-                onClick={() => handleNotificationClick(notification)}
-              >
-                <div className="icon3">
-                  <MessagesSquare />
-                </div>
-                <small>
-  {notification.message.split(" ").slice(0, 4).join(" ") || notification.message}...
-</small>
+            <span
+              key={notification._id}
+              className={`notification ${notification.readStatus ? "read" : "unread"}`}
+              onClick={() => handleNotificationClick(notification)}
+            >
+              <div className="icon3">
+                <MessagesSquare />
+              </div>
+              <small>
+                {notification.message.split(" ").slice(0, 4).join(" ") || notification.message}...
+              </small>
 
-              </span>
+            </span>
           ))}
           {notifications?.length > 6 && (
             <button onClick={() => navigate("/admin/notifications")}>

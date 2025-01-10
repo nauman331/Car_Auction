@@ -275,7 +275,7 @@ const AuctionInventory = () => {
                             </td>
                             <td>
                               <small>
-                                {car._id === currentBidData?.carId ? (currentBidData?.auctionStatus ? "Ongoing" : "Pending") : "Pending" || "No Status Text"}
+                                {car.isSold ? "Sold" : "" || car._id === currentBidData?.carId ? (currentBidData?.auctionStatus ? "Ongoing" : "Pending") : "Pending" || "No Status Text"}
                               </small>
                             </td>
                             <td className="action-buttons">
