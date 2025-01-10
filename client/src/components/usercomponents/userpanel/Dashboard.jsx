@@ -15,7 +15,8 @@ import { useNavigate } from "react-router-dom";
 const Dashboard = () => {
   const navigate = useNavigate()
   const { token } = useSelector((state) => state.auth);
-  const [loading, setLoading] = useState(false);
+  const [dataLoading, setDataLoading] = useState(false);
+  const [notificationsLoading, setNotificationsLoading] = useState(false);
   const [data, setData] = useState(null);
   const [notifications, setNotifications] = useState([]);
   const [showModal, setShowModal] = useState(false);
@@ -28,89 +29,99 @@ const Dashboard = () => {
   };
 
   const getData = async () => {
-     const authorizationToken = `Bearer ${token}`;
-     try {
-       setLoading(true);
-       const response = await fetch(`${backendURL}/dashboard/buyer`, {
-         method: "GET",
-         headers: {
-           "Content-Type": "application/json",
-           Authorization: authorizationToken,
-         },
-       });
-       const res_data = await response.json();
-       if (response.ok) {
-         setData(res_data);
-       } else {
-         console.log(res_data.message);
-       }
-     } catch (error) {
-       console.log(error);
-     } finally {
-       setLoading(false);
-     }
-   };
- 
-   const getNotifications = async () => {
-     const authorizationToken = `Bearer ${token}`;
-     try {
-       const response = await fetch(`${backendURL}/notification`, {
-         method: "GET",
-         headers: {
-           "Content-Type": "application/json",
-           Authorization: authorizationToken,
-         },
-       });
-       const res_data = await response.json();
-       if (response.ok) {
-         setNotifications(res_data);
-       }
-     } catch (error) {
-       console.error("Error while getting notifications");
-     }
-   };
- 
-   const markNotificationAsRead = async (notificationId) => {
-     const authorizationToken = `Bearer ${token}`;
-     try {
-       const response = await fetch(`${backendURL}/notification`, {
-         method: "PUT",
-         headers: {
-           "Content-Type": "application/json",
-           Authorization: authorizationToken,
-         },
-         body: JSON.stringify({ notificationId }),
-       });
-       if (response.ok) {
-         setNotifications((prev) =>
-           prev.map((notification) =>
-             notification._id === notificationId
-               ? { ...notification, readStatus: true }
-               : notification
-           )
-         );
-       }
-     } catch (error) {
-       console.error("Error while marking notification as read");
-     }
-   };
- 
-   const handleNotificationClick = (notification) => {
-     setSelectedNotification(notification);
-     setShowModal(true);
- 
-     // Mark as read if not already marked
-     if (!notification.readStatus) {
-       markNotificationAsRead(notification._id);
-     }
-   };
- 
-   useEffect(() => {
-     getData();
-     getNotifications();
-   }, [token]);
+    const authorizationToken = `Bearer ${token}`;
+    try {
+      setDataLoading(true);
+      const response = await fetch(`${backendURL}/dashboard/buyer`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: authorizationToken,
+        },
+      });
+      const res_data = await response.json();
+      if (response.ok) {
+        setData(res_data);
+      } else {
+        console.log(res_data.message);
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setDataLoading(false);
+    }
+  };
 
-  if (loading) return <LoadingSpinner />;
+  const getNotifications = async () => {
+    const authorizationToken = `Bearer ${token}`;
+    try {
+      setNotificationsLoading(true);
+      const response = await fetch(`${backendURL}/notification`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: authorizationToken,
+        },
+      });
+      const res_data = await response.json();
+      if (response.ok) {
+        setNotifications(res_data);
+      }
+    } catch (error) {
+      console.error("Error while getting notifications");
+    } finally {
+      setNotificationsLoading(false);
+    }
+  };
+
+
+  const markNotificationAsRead = async (notificationId) => {
+    const authorizationToken = `Bearer ${token}`;
+    try {
+      const response = await fetch(`${backendURL}/notification`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: authorizationToken,
+        },
+        body: JSON.stringify({ notificationId }),
+      });
+      if (response.ok) {
+        setNotifications((prev) =>
+          prev.map((notification) =>
+            notification._id === notificationId
+              ? { ...notification, readStatus: true }
+              : notification
+          )
+        );
+      } else {
+        console.error("Failed to mark notification as read");
+      }
+    } catch (error) {
+      console.error("Error while marking notification as read");
+    }
+  };
+
+
+  const handleNotificationClick = (notification) => {
+    setSelectedNotification(notification);
+    setShowModal(true);
+
+    // Mark as read if not already marked
+    if (!notification.readStatus) {
+      markNotificationAsRead(notification._id);
+    }
+  };
+
+  useEffect(() => {
+    if (token) {
+      getData();
+      getNotifications();
+    }
+  }, [token]);
+
+
+  if (dataLoading || notificationsLoading) return <LoadingSpinner />;
 
   if (!data) return <p>No data available</p>;
 
@@ -153,8 +164,9 @@ const Dashboard = () => {
                 <MessagesSquare />
               </div>
               <small>
-                {notification.message.split(" ").slice(0, 4).join(" ")}...
+                {notification.message.split(" ").slice(0, 4).join(" ") || notification.message}...
               </small>
+
             </span>
           ))}
           {notifications?.length > 6 && (

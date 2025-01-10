@@ -19,7 +19,8 @@ const Dashboard = () => {
   const navigate = useNavigate()
   const { token } = useSelector((state) => state.auth);
   const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [dataLoading, setDataLoading] = useState(false);
+const [notificationsLoading, setNotificationsLoading] = useState(false);
   const [notifications, setNotifications] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [selectedNotification, setSelectedNotification] = useState(null);
@@ -33,7 +34,7 @@ const Dashboard = () => {
   const getData = async () => {
     const authorizationToken = `Bearer ${token}`;
     try {
-      setLoading(true);
+      setDataLoading(true);
       const response = await fetch(`${backendURL}/dashboard/admin`, {
         method: "GET",
         headers: {
@@ -50,14 +51,14 @@ const Dashboard = () => {
     } catch (error) {
       console.log(error);
     } finally {
-      setLoading(false);
+      setDataLoading(false);
     }
   };
-
+  
   const getNotifications = async () => {
     const authorizationToken = `Bearer ${token}`;
     try {
-      setLoading(true)
+      setNotificationsLoading(true);
       const response = await fetch(`${backendURL}/notification`, {
         method: "GET",
         headers: {
@@ -72,9 +73,10 @@ const Dashboard = () => {
     } catch (error) {
       console.error("Error while getting notifications");
     } finally {
-      setLoading(false)
+      setNotificationsLoading(false);
     }
   };
+  
 
   const markNotificationAsRead = async (notificationId) => {
     const authorizationToken = `Bearer ${token}`;
@@ -95,11 +97,14 @@ const Dashboard = () => {
               : notification
           )
         );
+      } else {
+        console.error("Failed to mark notification as read");
       }
     } catch (error) {
       console.error("Error while marking notification as read");
     }
   };
+  
 
   const handleNotificationClick = (notification) => {
     setSelectedNotification(notification);
@@ -112,11 +117,15 @@ const Dashboard = () => {
   };
 
   useEffect(() => {
-    getData();
-    getNotifications();
+    if (token) {
+      getData();
+      getNotifications();
+    }
   }, [token]);
+  
 
-  if (loading) return <LoadingSpinner />;
+  if (dataLoading || notificationsLoading) return <LoadingSpinner />;
+
 
   if (!data) return <p>No data available</p>;
 
@@ -179,8 +188,9 @@ const Dashboard = () => {
                   <MessagesSquare />
                 </div>
                 <small>
-                  {notification.message.split(" ").slice(0, 4).join(" ")}...
-                </small>
+  {notification.message.split(" ").slice(0, 4).join(" ") || notification.message}...
+</small>
+
               </span>
           ))}
           {notifications?.length > 6 && (

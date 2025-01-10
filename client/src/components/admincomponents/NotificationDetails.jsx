@@ -4,7 +4,7 @@ import { backendURL } from "../../utils/Exports";
 import LoadingSpinner from "../usercomponents/LoadingSpinner";
 import {
     MessagesSquare,
-  } from "lucide-react";
+} from "lucide-react";
 
 const NotificationDetails = () => {
     const { token } = useSelector((state) => state.auth);
@@ -87,26 +87,27 @@ const NotificationDetails = () => {
                 </div>
             </div>
             <div className="car-list-container container">
-            <div className="chart-and-notification" >
-                <div className="notifications d-flex align-items-center flex-wrap w-100 h-auto col-5"
-                 style={{border: "none", columnGap: "1rem"}}>
-                    {notifications?.map((notification) => (
-                        <span
-                            key={notification._id}
-                            className={`notification ${notification.readStatus ? "read" : "unread"} px-4 py-2`}
-                            onClick={() => handleNotificationClick(notification)}
-                            style={{border: "1px solid #e1e1e1"}}
-                        >
-                            <div className="icon3">
-                                <MessagesSquare />
-                            </div>
-                            <small>
-                                {notification.message.split(" ").slice(0, 4).join(" ")}...
-                            </small>
-                        </span>
-                    ))}
+                <div className="chart-and-notification" >
+                    <div className="notifications d-flex align-items-center flex-wrap w-100 h-auto col-5"
+                        style={{ border: "none", columnGap: "1rem" }}>
+                        {notifications?.map((notification) => (
+                            <span
+                                key={notification._id}
+                                className={`notification ${notification.readStatus ? "read" : "unread"} px-4 py-2`}
+                                onClick={() => handleNotificationClick(notification)}
+                                style={{ border: "1px solid #e1e1e1" }}
+                            >
+                                <div className="icon3">
+                                    <MessagesSquare />
+                                </div>
+                                <small>
+                                    {notification.message.split(" ").slice(0, 4).join(" ") || notification.message}...
+                                </small>
+
+                            </span>
+                        ))}
+                    </div>
                 </div>
-            </div>
             </div>
 
             {/* Modal */}
