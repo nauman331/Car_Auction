@@ -4,22 +4,25 @@ import "../../assets/stylesheets/admin/dashboard.scss";
 import {
   Car,
   Gavel,
-  MessagesSquare,
   ShoppingCart,
   MoveUpRight,
-  HandCoins
+  HandCoins,
+  MessagesSquare,
 } from "lucide-react";
 import ChartGraph from "./ChartGraph";
 import { useSelector } from "react-redux";
 import { backendURL } from "../../utils/Exports";
 import LoadingSpinner from "../usercomponents/LoadingSpinner";
+import { useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
-  const { token, userdata } = useSelector((state) => state.auth);
-  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate()
+  const { token } = useSelector((state) => state.auth);
   const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(false);
   const [notifications, setNotifications] = useState([]);
   const [showModal, setShowModal] = useState(false);
+  const [selectedNotification, setSelectedNotification] = useState(null);
 
   const formatNumber = (num) => {
     if (num >= 1e6) return (num / 1e6).toFixed(1) + "M";
@@ -54,6 +57,7 @@ const Dashboard = () => {
   const getNotifications = async () => {
     const authorizationToken = `Bearer ${token}`;
     try {
+      setLoading(true)
       const response = await fetch(`${backendURL}/notification`, {
         method: "GET",
         headers: {
@@ -63,11 +67,12 @@ const Dashboard = () => {
       });
       const res_data = await response.json();
       if (response.ok) {
-        console.log(res_data)
         setNotifications(res_data);
       }
     } catch (error) {
       console.error("Error while getting notifications");
+    } finally {
+      setLoading(false)
     }
   };
 
@@ -80,6 +85,7 @@ const Dashboard = () => {
           "Content-Type": "application/json",
           Authorization: authorizationToken,
         },
+        body: JSON.stringify({ notificationId }),
       });
       if (response.ok) {
         setNotifications((prev) =>
@@ -92,6 +98,16 @@ const Dashboard = () => {
       }
     } catch (error) {
       console.error("Error while marking notification as read");
+    }
+  };
+
+  const handleNotificationClick = (notification) => {
+    setSelectedNotification(notification);
+    setShowModal(true);
+
+    // Mark as read if not already marked
+    if (!notification.readStatus) {
+      markNotificationAsRead(notification._id);
     }
   };
 
@@ -112,8 +128,7 @@ const Dashboard = () => {
       </div>
 
       <div className="info-boxes">
-      {[
-          {
+        {[{
             title: "Listings",
             count: data?.totalCars || "N/A",
             Icon: Car,
@@ -153,66 +168,51 @@ const Dashboard = () => {
       <div className="chart-and-notification">
         <ChartGraph periodicData={data?.periodicData || []} />
         <div className="notifications">
-  <h6>Bidding Notifications</h6>
-  {notifications?.slice(0, 6).map(({ _id, message, readStatus, userId }) => (
-    userdata.id === userId && (
-      <span
-        key={_id}
-        className={`notification ${readStatus ? "read" : "unread"}`}
-        onClick={() => markNotificationAsRead(_id)}
-      >
-        <div className="icon3">
-          <MessagesSquare />
+          <h6>Notifications</h6>
+          {notifications?.slice(0, 6).map((notification) => (
+              <span
+                key={notification._id}
+                className={`notification ${notification.readStatus ? "read" : "unread"}`}
+                onClick={() => handleNotificationClick(notification)}
+              >
+                <div className="icon3">
+                  <MessagesSquare />
+                </div>
+                <small>
+                  {notification.message.split(" ").slice(0, 4).join(" ")}...
+                </small>
+              </span>
+          ))}
+          {notifications?.length > 6 && (
+            <button onClick={() => navigate("/admin/notifications")}>
+              See More <MoveUpRight />
+            </button>
+          )}
         </div>
-        <small>{message}</small>
-      </span>
-    )
-  ))}
-  {notifications?.length > 6 && (
-    <button onClick={() => setShowModal(true)}>
-      View All <MoveUpRight />
-    </button>
-  )}
-</div>
-
       </div>
 
       {/* Modal */}
-      {showModal && (
-        <div className="modal show d-block" tabIndex="-1">
-          <div className="modal-dialog">
+      {showModal && selectedNotification && (
+        <div
+          className={`modal fade show`}
+          tabIndex="-1"
+          role="dialog"
+          style={{ display: "block", background: "rgba(0, 0, 0, 0.5)" }}
+        >
+          <div className="modal-dialog modal-dialog-centered" role="document">
             <div className="modal-content">
               <div className="modal-header">
-                <h5 className="modal-title">All Notifications</h5>
+                <h5 className="modal-title">Notification Details</h5>
                 <button
                   type="button"
                   className="btn-close"
+                  aria-label="Close"
                   onClick={() => setShowModal(false)}
                 ></button>
               </div>
-              <div className="notifications">
-  <h6>Bidding Notifications</h6>
-  {notifications?.slice(0, 6).map(({ _id, message, readStatus, userId }) => (
-    userdata.id === userId && (
-      <span
-        key={_id}
-        className={`notification ${readStatus ? "read" : "unread"}`}
-        onClick={() => markNotificationAsRead(_id)}
-      >
-        <div className="icon3">
-          <MessagesSquare />
-        </div>
-        <small>{message}</small>
-      </span>
-    )
-  ))}
-  {notifications?.length > 7 && (
-    <button onClick={() => setShowModal(true)}>
-      View All <MoveUpRight />
-    </button>
-  )}
-</div>
-
+              <div className="modal-body">
+                <p>{selectedNotification.message}</p>
+              </div>
               <div className="modal-footer">
                 <button
                   type="button"

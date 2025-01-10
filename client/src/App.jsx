@@ -40,6 +40,7 @@ import UserDashboard from "./components//usercomponents/userpanel/Dashboard";
 import UserOrders from "./components/usercomponents/userpanel/Orders";
 import Invoice from "./components/admincomponents/Invoice";
 import UserInvoice from "./components/usercomponents//userpanel/Invoice";
+import NotifcationDetails from "./components/admincomponents/NotificationDetails"
 
 function App() {
   const dispatch = useDispatch();
@@ -189,6 +190,7 @@ function App() {
             <Route path="deposit" element={<DepositDetail />} />
             <Route path="carsales/:id" element={<CarSales />} />
             <Route path="invoice/:id" element={<Invoice />} />
+            <Route path="notifications" element={<NotifcationDetails />} />
           </Route>
 
           {/*User Routes*/}
@@ -198,6 +200,7 @@ function App() {
             <Route path="userprofile" element={<Profile />} />
             <Route path="orders" element={<UserOrders />} />
             <Route path="invoice/:id" element={<UserInvoice />} />
+            <Route path="notifications" element={<NotifcationDetails />} />
           </Route>
         </Routes>
       </ProtectedRoute>
