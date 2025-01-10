@@ -7,28 +7,18 @@ import { Link } from "react-router-dom";
 const CarFilterForm = ({ cars, sellingType }) => {
   const [selectedTypes, setSelectedTypes] = useState([]);
   const [formData, setFormData] = useState({});
-  const [minPrice, setMinPrice] = useState(5000);
-  const [maxPrice, setMaxPrice] = useState(45000);
-
-  // const handleMinChange = (e) => {
-  //   const value = Math.min(Number(e.target.value), maxPrice - 1000);
-  //   setMinPrice(value);
-  // };
-
-  // const handleMaxChange = (e) => {
-  //   const value = Math.max(Number(e.target.value), minPrice + 1000);
-  //   setMaxPrice(value);
-  // };
+  const [minPrice, setMinPrice] = useState(1000);
+  const [maxPrice, setMaxPrice] = useState(100000);
 
   const handleMinChange = (event) => {
-    const value = Math.max(Number(event.target.value), 5000);
+    const value = Math.max(Number(event.target.value), 1000);
     if (value <= maxPrice) {
       setMinPrice(value);
     }
   };
 
   const handleMaxChange = (event) => {
-    const value = Math.min(Number(event.target.value), 45000);
+    const value = Math.min(Number(event.target.value), 100000);
     if (value >= minPrice) {
       setMaxPrice(value);
     }
@@ -212,13 +202,13 @@ const CarFilterForm = ({ cars, sellingType }) => {
                       <div className="input-box">
                         <label>Min price</label>
                         <div className="d-flex">
-                          <span>$</span>
+                          <span>AED</span>
                           <input
                             type="number"
                             value={minPrice}
                             onChange={handleMinChange}
-                            min="5000"
-                            max="45000"
+                            min="1000"
+                            max="100000"
                           />
                         </div>
                       </div>
@@ -227,13 +217,13 @@ const CarFilterForm = ({ cars, sellingType }) => {
                       <div className="input-box">
                         <label>Max price</label>
                         <div className="d-flex">
-                          <span>$</span>
+                          <span>AED</span>
                           <input
                             type="number"
                             value={maxPrice}
                             onChange={handleMaxChange}
-                            min="5000"
-                            max="45000"
+                            min="1000"
+                            max="100000"
                           />
                         </div>
                       </div>
@@ -243,8 +233,8 @@ const CarFilterForm = ({ cars, sellingType }) => {
                     <div>
                       <input
                         type="range"
-                        min="5000"
-                        max="45000"
+                        min="1000"
+                        max="100000"
                         value={minPrice}
                         onChange={handleMinChange}
                         className="slider"
@@ -253,8 +243,8 @@ const CarFilterForm = ({ cars, sellingType }) => {
                     <div>
                       <input
                         type="range"
-                        min="5000"
-                        max="45000"
+                        min="1000"
+                        max="100000"
                         value={maxPrice}
                         onChange={handleMaxChange}
                         className="slider"
@@ -263,8 +253,8 @@ const CarFilterForm = ({ cars, sellingType }) => {
                     <div
                       className="slider-track"
                       style={{
-                        left: `${((minPrice - 5000) / 40000) * 100}%`,
-                        right: `${100 - ((maxPrice - 5000) / 40000) * 100}%`,
+                        left: `${((minPrice - 1000) / 100000) * 100}%`,
+                        right: `${100 - ((maxPrice - 1000) / 100000) * 100}%`,
                       }}
                     ></div>
                   </div>

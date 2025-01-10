@@ -87,7 +87,7 @@ const CarAuction = ({ car }) => {
               </span>
               <button onClick={increaseBid}>+</button>
               {
-                currentBidData?.auctionStatus ?
+                currentBidData?.auctionStatus && (currentBidData?.carId === car._id) ?
                   <button className="place-bid" onClick={handlePlaceBid}>
                     <img src={img1} />
                     Place Bid
