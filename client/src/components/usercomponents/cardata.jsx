@@ -5,7 +5,7 @@ const Vehicles = ({ cars }) => {
 
   return (
     <div>
-      <Cardsing data={cars} />
+      <Cardsing data={cars}/>
     </div>
   );
 };

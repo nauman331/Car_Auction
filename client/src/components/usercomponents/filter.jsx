@@ -4,11 +4,20 @@ import "../../assets/stylesheets/carddata.scss";
 import "../../assets/stylesheets/FeatureCategory.scss";
 import ProductGridWithPagination from "./autiomap";
 import { Link } from "react-router-dom";
+import {useSelector} from "react-redux"
+
 const CarFilterForm = ({ cars, sellingType }) => {
+  const { categories } = useSelector((state) => state.category);
   const [selectedTypes, setSelectedTypes] = useState([]);
   const [formData, setFormData] = useState({});
   const [minPrice, setMinPrice] = useState(1000);
   const [maxPrice, setMaxPrice] = useState(100000);
+
+  const generateOptions = (key, labelKey) =>
+    categories?.[key]?.map((item) => ({
+      label: item[labelKey],
+      value: item._id,
+    })) || [];
 
   const handleMinChange = (event) => {
     const value = Math.max(Number(event.target.value), 1000);
