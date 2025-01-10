@@ -1,5 +1,6 @@
 .footer-section {
-  background-color: #050b20;
+  // background-color: #050b20;
+  background-color: #1d1b1c;
   padding: 40px 0 20px;
 
   .footer-mid-section {
@@ -28,6 +29,7 @@
       justify-content: end;
       .footer-information {
         .Products {
+          margin-top: 50px;
           // padding: 0 15px;
           h3 {
             font-family: "DM Sans";
@@ -35,7 +37,8 @@
             font-weight: 500;
             font-size: 20px;
             line-height: 30px;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
+            // margin-left: -20px;
             color: #ffffff;
           }
           ul {

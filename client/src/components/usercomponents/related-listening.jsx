@@ -66,7 +66,7 @@ const Relatedlistening = () => {
   ];
   return (
     <div className="relatedlistening-section">
-      <div className="recentlyadd-section">
+      <div className="recentlyadd-sections">
         <h2>Related Listings</h2>
         <div className="join-auction-btn">
           <a href="#">

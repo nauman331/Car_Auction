@@ -4,12 +4,12 @@ import ProductsList from "../usercomponents/footer-map";
 import "../../assets/stylesheets/footer.scss";
 import ContactButtons from "../usercomponents/contactbutton";
 
-import img2 from "../../assets/images/Logo.svg";
+import img2 from "../../assets/images/project logo light (1).svg";
 const Footer = () => {
   const productsData = [
     {
       title: "Quick Links",
-      items: ["Get in Touch", "Help cente", "Live chat", "How it works"],
+      items: ["Home", "About Us", "Contact Us"],
     },
   ];
   return (
@@ -49,14 +49,14 @@ const Footer = () => {
         <div className="row">
           <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
             <div className="copyright">
-              <p>© 2023 Boxcars.com. All rights reserved.</p>
+              <p>© 2023 al bashayera.com. All rights reserved.</p>
             </div>
           </div>
           <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
             <div className="copyright">
               <p>
                 <div className="copyright-terms">
-                  <p>Terms & Conditions Privacy Notice</p>
+                  <p>Terms & Conditions | Privacy policy</p>
                 </div>
               </p>
             </div>

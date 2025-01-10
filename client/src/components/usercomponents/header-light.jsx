@@ -1,6 +1,6 @@
 import React from "react";
 import "../../assets/stylesheets/header-light.scss";
-import img1 from "../../assets/images/Logo.svg";
+import img1 from "../../assets/images/project logo light (1).svg";
 import img3 from "../../assets/images/arrow-downwhite.png";
 import img4 from "../../assets/images/phone.png";
 import img5 from "../../assets/images/user.png";
@@ -177,31 +177,34 @@ const Header = () => {
                   <img src={img3} />
                 </a>
 
-                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <li>
+                <ul class=" dropdown-menu " aria-labelledby="navbarDropdown">
+                  <li >
                     <NavLink
                       class="dropdown-item"
                       to="/about"
                       style={{
                         textDecoration: "none",
-                        marginLeft: "3rem",
+                        marginLeft: "30px",
+
                         color: "black",
                       }}
                     >
-                      AboutUs
+                      About Us
                     </NavLink>
                   </li>
-                  <li>
+                  <li >
                     <NavLink
                       class="dropdown-item"
                       to="/contactus"
                       style={{
                         textDecoration: "none",
-                        marginLeft: "2.9rem",
+                        // marginLeft: "2.9rem",
+                        marginLeft: "30px",
+
                         color: "black",
                       }}
                     >
-                      ContactUs
+                      Contact Us
                     </NavLink>
                   </li>
                 </ul>

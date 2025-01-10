@@ -1,6 +1,6 @@
 import React from "react";
 import "../../assets/stylesheets/header.scss";
-import img1 from "../../assets/images/Logo.svg";
+import img1 from "../../assets/images/project logo light (1).svg";
 import { useSelector } from "react-redux";
 import img3 from "../../assets/images/arrow-downwhite.png";
 import img4 from "../../assets/images/phone.png";
@@ -184,7 +184,7 @@ const Header = () => {
                         color: "black",
                       }}
                     >
-                      AboutUs
+                      About Us
                     </NavLink>
                   </li>
                   <li>
@@ -197,7 +197,7 @@ const Header = () => {
                         color: "black",
                       }}
                     >
-                      ContactUs
+                      Contact Us
                     </NavLink>
                   </li>
                 </ul>

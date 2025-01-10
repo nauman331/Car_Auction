@@ -2,16 +2,17 @@ body {
   overflow-x: hidden !important ;
 }
 .Hero-section {
-  background-image: url("../images/carbg.jpeg");
+  background-image: url("../images/autobid-home-scaled.jpg");
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
   width: 100%;
   min-height: 700px;
   position: relative;
+  // border-bottom-right-radius: 50px;
 
   .hero-text-section {
-    padding: 130px 0 50px 0px;
+    padding: 205px 0 50px 0px;
     display: flex;
     justify-content: center;
     flex-direction: column;
