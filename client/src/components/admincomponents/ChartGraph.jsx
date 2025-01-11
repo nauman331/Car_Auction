@@ -99,10 +99,10 @@ const ChartGraph = ({ periodicData }) => {
         ticks: {
           color: "#888",
           font: { size: 12 },
-          stepSize: 50,
+          stepSize: 20000,
         },
         beginAtZero: true,
-        max: 300,
+        max: 100000,
       },
     },
   };

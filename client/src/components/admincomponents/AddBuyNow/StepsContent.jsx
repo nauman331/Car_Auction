@@ -11,6 +11,7 @@ const StepContent = ({ step, formData, setFormData, sellingType, images, setImag
   const { categories } = useSelector((state) => state.category);
   const [auctions, setAuctions] = useState([]);
   const [loading, setLoading] = useState(false);
+
   const getAllAuctions = async () => {
     try {
       setLoading(true);

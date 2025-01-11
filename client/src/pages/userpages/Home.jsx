@@ -20,7 +20,6 @@ import { useDispatch } from "react-redux";
 const Home = () => {
   const dispatch = useDispatch();
   const [cars, setCars] = useState([]);
-  const [categoriesData, setCategoriesData] = useState({});
   const [loading, setLoading] = useState(false);
   const [categoriesLoading, setCategoriesLoading] = useState(false);
 
@@ -50,11 +49,6 @@ const Home = () => {
       const fetchData = async ({ key }) => {
         const res = await fetch(`${backendURL}/${key}`, { headers });
         if (res.ok) {
-          const data = await res.json();
-          setCategoriesData((prev) => ({
-            ...prev,
-            [key]: data,
-          }));
           dispatch(setCategories({ key, items: data }));
         } else {
           console.error("Error while getting categories");

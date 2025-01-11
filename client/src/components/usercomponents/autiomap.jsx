@@ -49,7 +49,7 @@ const ProductGridWithPagination = ({ cars, sellingType }) => {
 
       <div className="row">
         {paginatedCars.map((item) => (
-          item.sellingType === sellingType && 
+        !item.isSold && (item.sellingType === sellingType) && 
           <div
             key={item.id}
             className="col-xl-4 col-lg-4 col-md-6 col-sm-6  col-12 col-12 mb-4 px-2"

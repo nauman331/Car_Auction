@@ -4,17 +4,21 @@ import StepContent from "./StepsContent";
 import "../../../assets/stylesheets/admin/addbuynow.scss";
 import { CloudinaryUploader } from "../../../utils/CloudinaryUploader";
 import toast from "react-hot-toast";
-import { useSelector } from "react-redux";
-import { backendURL } from "../../../utils/Exports";
+import { useSelector, useDispatch } from "react-redux";
+import { backendURL, categories } from "../../../utils/Exports";
 import { useNavigate } from "react-router-dom";
+import { setCategories } from "../../../store/slices/categorySlice";
+import LoadingSpinner from "../../usercomponents/LoadingSpinner";
 
 const AddBuyNow = ({ sellingType }) => {
+  const dispatch = useDispatch();
   const { token, userdata } = useSelector((state) => state.auth);
   const navigate = useNavigate();
   const [step, setStep] = useState(1);
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(false)
-
+  const [categoriesLoading, setCategoriesLoading] = useState(false);
+  const steps = ["Car Details", "Price", "Features", "Media", "Location"];
 
   const baseData = {
     carImages: [],
@@ -109,8 +113,34 @@ const AddBuyNow = ({ sellingType }) => {
   };
   
 
+  
+    const fetchCategories = async () => {
+      setCategoriesLoading(true);
+      const headers = { "Content-Type": "application/json" };
+  
+      try {
+        const fetchData = async ({ key }) => {
+          const res = await fetch(`${backendURL}/${key}`, { headers });
+          if (res.ok) {
+            dispatch(setCategories({ key, items: data }));
+          } else {
+            console.error("Error while getting categories");
+          }
+        };
+  
+        await Promise.all(categories.map(fetchData));
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+      } finally {
+        setCategoriesLoading(false);
+      }
+    };
 
-  const steps = ["Car Details", "Price", "Features", "Media", "Location"];
+     useEffect(() => {
+        fetchCategories();
+      }, []);
+
+if(categoriesLoading) return <LoadingSpinner />
 
   return (
     <div className="form-container">
