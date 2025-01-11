@@ -9,13 +9,14 @@ import "../../assets/stylesheets/admin/carlisting.scss";
 import jsPDF from "jspdf";
 import { Container, Row, Col, Table, Button } from "react-bootstrap";
 import Select from "react-select";
+import proof from "../../assets/images/paid.jpg"
 
 const Invoice = () => {
     const { id } = useParams();
     const { token } = useSelector((state) => state.auth);
     const [loading, setLoading] = useState(false);
     const [invoice, setInvoice] = useState([]);
-    const [status, setStatus] = useState({ value: "Ongoing", label: "Ongoing" });
+    const [status, setStatus] = useState("");
     const invoiceRef = useRef();
 
     const getInvoice = async () => {
@@ -83,9 +84,8 @@ const Invoice = () => {
     if (loading) return <LoadingSpinner />;
 
     const statusOptions = [
-        { value: "Ongoing", label: "Ongoing" },
-        { value: "Completed", label: "Completed" },
-        { value: "Cancelled", label: "Cancelled" }
+        { value: "Approve", label: "Approve" },
+        { value: "Rejected", label: "Rejected" },
     ];
 
     return (
@@ -119,36 +119,38 @@ const Invoice = () => {
 
                     <p className="mb-1 fw-bold">Customer Details:</p>
                     <p>
-                        {invoice?.customerName || "John Doe"}
+                        {invoice?.userId?.firstName || ""} {invoice?.userId?.lastName || ""}
                         <br />
-                        {invoice?.customerAddress || "329 Queensberry Street, North Melbourne"}
-                        <br />
-                        {invoice?.customerCity || "VIC 3051, Australia."}
+                        {invoice?.userId?._id || ""}
                     </p>
                 </Col>
-                <Col md={6} className="d-flex align-items-center rounded-lg justify-content-center" style={{ backgroundColor: "#F9FBFC" }}>
-                    <div className="form-container" style={{ border: "none", padding: "0px" }}>
-                        <div className="form-section" >
-                            <div className="form-grid">
-                                <div className="input-container" id="auction-container" >
-                                    <Select
-                                        options={statusOptions}
-                                        placeholder="Select Status"
-                                        value={status}
-                                        onChange={(selectedOption) => setStatus(selectedOption)}
-                                        className="react-select-container"
-                                        classNamePrefix="react-select"
-                                        id="auctionLot"
-                                    />
-                                    <label htmlFor="auctionLot">Status</label>
-                                    <button className="place-bid">
-                                        Update
-                                    </button>
+                {
+                    !invoice?.paymentStatus &&
+
+                    <Col md={6} className="d-flex align-items-center rounded justify-content-center" style={{ backgroundColor: "#F9FBFC", height: "200px" }}>
+                        <div className="form-container" style={{ border: "none", padding: "0px" }}>
+                            <div className="form-section" >
+                                <div className="form-grid">
+                                    <div className="input-container d-flex align-items-center gap-3" id="auction-container1" >
+                                        <Select
+                                            options={statusOptions}
+                                            placeholder="Select Status"
+                                            value={status}
+                                            onChange={(selectedOption) => setStatus(selectedOption)}
+                                            className="react-select-container"
+                                            classNamePrefix="react-select"
+                                            id="auctionLot1"
+                                        />
+                                        <label htmlFor="auctionLot1">Status</label>
+                                        <button className="place-bid">
+                                            Update
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </Col>
+                    </Col>
+                }
             </Row>
 
             <Row className="mt-4">
@@ -157,17 +159,20 @@ const Invoice = () => {
                         <thead>
                             <tr>
                                 <th>Vehicle Information</th>
-                                <th>Vehicle Price</th>
                                 <th>Wallet Deduction</th>
+                                <th>Pending</th>
                                 <th>Total</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td>{invoice?.vehicleInfo || "Standard Plan"}</td>
-                                <td>{invoice?.vehiclePrice || "$443.00"}</td>
-                                <td>{invoice?.walletDeduction || "-$921.80"}</td>
-                                <td>{invoice?.total || "$9243"}</td>
+                                <td>{invoice?.carId?.listingTitle || "N/A"}
+                                    <br />
+                                    <small>VIN: {invoice?.carId?.vin || 0}</small>
+                                </td>
+                                <td>AED {invoice?.paidAmount || 0}</td>
+                                <td>AED {invoice?.pendingAmount || 0}</td>
+                                <td>AED {invoice?.totalAmount || 0}</td>
                             </tr>
                         </tbody>
                     </Table>
@@ -176,15 +181,23 @@ const Invoice = () => {
 
             <Row className="justify-content-end mt-3">
                 <Col xs={12} md={6} lg={4}>
+                {
+                    invoice?.paymentStatus &&
+                    <img src={proof} alt="..."
+                        style={{
+                            height: "8rem",
+                            width: "8rem",
+                        }} />
+                }
                     <Table>
                         <tbody>
                             <tr>
                                 <td className="fw-bold">Total Paid:</td>
-                                <td className="text-end">{invoice?.totalPaid || "$9243"}</td>
+                                <td className="text-end">AED {invoice?.paidAmount || 0}</td>
                             </tr>
                             <tr>
                                 <td className="fw-bold">Total Due:</td>
-                                <td className="text-end">{invoice?.totalDue || "$9,750"}</td>
+                                <td className="text-end">AED {invoice?.pendingAmount || 0}</td>
                             </tr>
                         </tbody>
                     </Table>

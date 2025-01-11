@@ -85,13 +85,21 @@ const Deposits = () => {
 
   const calculateTotalDeposits = (deposits) => {
     return deposits.reduce(
-      (acc, deposit) => ({
-        totalRequests: acc.totalRequests + 1,
-        totalAmount: acc.totalAmount + (deposit.amount || 0),
-      }),
+      (acc, deposit) => {
+        if (!(deposit.status === "approved")) {
+          return {
+            totalRequests: acc.totalRequests + 1,
+            totalAmount: acc.totalAmount + (deposit.amount || 0),
+          };
+        }
+        return acc;
+      },
       { totalRequests: 0, totalAmount: 0 }
     );
   };
+
+
+  
 
   return (
     <>
@@ -132,10 +140,10 @@ const Deposits = () => {
                 <thead>
                   <tr>
                     <th>User ID</th>
-                    <th>First Name</th>
+                    <th>Name</th>
                     <th>Last Name</th>
-                    <th>Total Requests</th>
-                    <th>Total Amount</th>
+                    <th>Pending Requests</th>
+                    <th>Pending Amount</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -153,8 +161,8 @@ const Deposits = () => {
                           <td>{user._id|| "N/A"}</td>
                           <td>{user.firstName|| "N/A"}</td>
                           <td>{user.lastName|| "N/A"}</td>
-                          <td>{totalRequests|| "N/A"}</td>
-                          <td>{totalAmount|| "N/A"} AED</td>
+                          <td>{totalRequests|| 0}</td>
+                          <td>{totalAmount|| 0} AED</td>
                         </tr>
                       );
                     })
