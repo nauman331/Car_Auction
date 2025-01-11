@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Modal, Carousel } from "react-bootstrap";
 import "../../assets/stylesheets/carsale.scss";
-import BuyCar from "./buysale-map"
+import BuyCar from "./buysale-map";
 import FeatureCategory from "./featurescatageories";
 import "../../assets/stylesheets/FeatureCategory.scss";
 import "../../assets/stylesheets/feature.scss";
@@ -14,10 +14,10 @@ import { backendURL } from "../../utils/Exports";
 import LoadingSpinner from "../usercomponents/LoadingSpinner";
 import toast from "react-hot-toast";
 import Relatedlistening from "./related-listening";
-import { useSelector } from "react-redux"
+import { useSelector } from "react-redux";
 
 function Buysale() {
-  const { token } = useSelector((state) => state.auth)
+  const { token } = useSelector((state) => state.auth);
   const { id } = useParams();
   const [car, setCar] = useState(null);
   const [featuresData, setFeaturesData] = useState([]);
@@ -27,7 +27,9 @@ function Buysale() {
 
   const getCarDetails = async () => {
     try {
-      const response = await fetch(`${backendURL}/car/${id}`, { method: "GET" });
+      const response = await fetch(`${backendURL}/car/${id}`, {
+        method: "GET",
+      });
       const res_data = await response.json();
       if (!response.ok) {
         console.log(res_data.message);
@@ -58,7 +60,10 @@ function Buysale() {
   const getEmbedUrl = (url) => {
     try {
       const urlObj = new URL(url);
-      if (urlObj.hostname === "www.youtube.com" && urlObj.pathname === "/watch") {
+      if (
+        urlObj.hostname === "www.youtube.com" &&
+        urlObj.pathname === "/watch"
+      ) {
         const videoId = urlObj.searchParams.get("v");
         return `https://www.youtube.com/embed/${videoId}`;
       } else if (urlObj.hostname === "youtu.be") {
@@ -73,7 +78,7 @@ function Buysale() {
   };
 
   const purchaseCar = async () => {
-    const authorizationToken = `Bearer ${token}`
+    const authorizationToken = `Bearer ${token}`;
     try {
       const response = await fetch(`${backendURL}/car/purchase/${id}`, {
         method: "PUT",
@@ -81,21 +86,21 @@ function Buysale() {
           "Content-Type": "application/json",
           Authorization: authorizationToken,
         },
-      })
+      });
       const res_data = await response.json();
       if (response.ok) {
-        toast.success(res_data.message)
+        toast.success(res_data.message);
       } else {
-        toast.error(res_data.message)
+        toast.error(res_data.message);
       }
     } catch (error) {
-      toast.error("Error while buying")
+      toast.error("Error while buying");
     }
-  }
-
+  };
 
   return (
     <div>
+      <div style={{ paddingBottom: 40, backgroundColor: "#010153" }}></div>
       <div className="mb-5 main">
         <div className="container">
           <div className="row">
@@ -140,9 +145,9 @@ function Buysale() {
               <BuyCar car={car} purchaseCar={purchaseCar} />
             </div>
           </div>
-        </div>
-        <div className="row">
-          <Relatedlistening />
+          <div className="row">
+            <Relatedlistening />
+          </div>
         </div>
       </div>
 
@@ -178,8 +183,8 @@ function Buysale() {
         </Modal.Header>
         <Modal.Body>
           <div className="video-container">
-            {
-              car.videoLink && <iframe
+            {car.videoLink && (
+              <iframe
                 width="100%"
                 height="400px"
                 src={getEmbedUrl(car.videoLink || "")}
@@ -188,8 +193,7 @@ function Buysale() {
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
               ></iframe>
-            }
-
+            )}
           </div>
         </Modal.Body>
       </Modal>
@@ -198,5 +202,3 @@ function Buysale() {
 }
 
 export default Buysale;
-
-

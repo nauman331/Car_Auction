@@ -14,9 +14,12 @@ const Header = () => {
     <div className="header-sections">
       <nav className="navbar navbar-expand-lg">
         <div className="container-fluid">
-          <a className="navbar-brand" href="#">
+          {/* <a className="navbar-brand" to="/">
             <img src={img1} />
-          </a>
+          </a> */}
+          <NavLink className="navbar-brand" to="/">
+            <img src={img1} />
+          </NavLink>
           <button
             className="navbar-toggler"
             type="button"
@@ -178,7 +181,7 @@ const Header = () => {
                 </a>
 
                 <ul class=" dropdown-menu " aria-labelledby="navbarDropdown">
-                  <li >
+                  <li>
                     <NavLink
                       class="dropdown-item"
                       to="/about"
@@ -192,7 +195,7 @@ const Header = () => {
                       About Us
                     </NavLink>
                   </li>
-                  <li >
+                  <li>
                     <NavLink
                       class="dropdown-item"
                       to="/contactus"

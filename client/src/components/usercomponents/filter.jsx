@@ -4,8 +4,8 @@ import "../../assets/stylesheets/carddata.scss";
 import "../../assets/stylesheets/FeatureCategory.scss";
 import ProductGridWithPagination from "./autiomap";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux"
-import { backendURL } from "../../utils//Exports"
+import { useSelector } from "react-redux";
+import { backendURL } from "../../utils//Exports";
 
 const CarFilterForm = ({ sellingType }) => {
   const { categories } = useSelector((state) => state.category);
@@ -13,8 +13,7 @@ const CarFilterForm = ({ sellingType }) => {
   const [formData, setFormData] = useState({});
   const [minPrice, setMinPrice] = useState(100);
   const [maxPrice, setMaxPrice] = useState(100000);
-  const [cars, setCars] = useState([])
-
+  const [cars, setCars] = useState([]);
 
   const applyFilter = async () => {
     const filterData = {
@@ -35,7 +34,7 @@ const CarFilterForm = ({ sellingType }) => {
       const result = await response.json();
       if (result.success) {
         console.log(result);
-        setCars(result.data)
+        setCars(result.data);
       } else {
         console.log("No cars found with the applied filters.");
       }
@@ -43,7 +42,6 @@ const CarFilterForm = ({ sellingType }) => {
       console.log("Error applying filter:", error);
     }
   };
-
 
   const generateOptions = (key, labelKey) =>
     categories?.[key]?.map((item) => ({
@@ -56,7 +54,7 @@ const CarFilterForm = ({ sellingType }) => {
     if (value <= maxPrice) {
       setMinPrice(value);
     }
-    applyFilter()
+    applyFilter();
   };
 
   const handleMaxChange = (event) => {
@@ -64,7 +62,7 @@ const CarFilterForm = ({ sellingType }) => {
     if (value >= minPrice) {
       setMaxPrice(value);
     }
-    applyFilter()
+    applyFilter();
   };
 
   const handleCheckboxChange = (e) => {
@@ -72,19 +70,18 @@ const CarFilterForm = ({ sellingType }) => {
     setSelectedTypes((prev) =>
       checked ? [...prev, value] : prev.filter((type) => type !== value)
     );
-    applyFilter()
+    applyFilter();
   };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
-    applyFilter()
+    applyFilter();
   };
-
 
   return (
     <div>
-      <div style={{ paddingBottom: 40, backgroundColor: "#050b20" }}></div>
+      <div style={{ paddingBottom: 40, backgroundColor: "#010153" }}></div>
       <div className="mb-5 main">
         <div className="container">
           <div className="Breadcrumb-section">
@@ -148,16 +145,18 @@ const CarFilterForm = ({ sellingType }) => {
                   <div className="p-3 type-section">
                     <label className="type-text">Type</label>
                     <div>
-                      {generateOptions("vehicle-type", "vehicleType").map((type) => (
-                        <label key={type.value}>
-                          <input
-                            type="checkbox"
-                            value={type.value}
-                            onChange={handleCheckboxChange}
-                          />
-                          {type.label}
-                        </label>
-                      ))}
+                      {generateOptions("vehicle-type", "vehicleType").map(
+                        (type) => (
+                          <label key={type.value}>
+                            <input
+                              type="checkbox"
+                              value={type.value}
+                              onChange={handleCheckboxChange}
+                            />
+                            {type.label}
+                          </label>
+                        )
+                      )}
                     </div>
                   </div>
                 </div>
@@ -308,7 +307,9 @@ const CarFilterForm = ({ sellingType }) => {
                       min="100"
                       max="100000"
                       value={minPrice}
-                      onChange={(event) => { handleMinChange(event) }}
+                      onChange={(event) => {
+                        handleMinChange(event);
+                      }}
                       className="slider"
                     />
 
@@ -318,7 +319,9 @@ const CarFilterForm = ({ sellingType }) => {
                       min="100"
                       max="100000"
                       value={maxPrice}
-                      onChange={(event) => { handleMaxChange(event) }}
+                      onChange={(event) => {
+                        handleMaxChange(event);
+                      }}
                       className="slider"
                     />
 
@@ -327,17 +330,21 @@ const CarFilterForm = ({ sellingType }) => {
                       className="slider-track"
                       style={{
                         left: `${((minPrice - 100) / (100000 - 100)) * 100}%`,
-                        right: `${100 - ((maxPrice - 100) / (100000 - 100)) * 100}%`,
+                        right: `${
+                          100 - ((maxPrice - 100) / (100000 - 100)) * 100
+                        }%`,
                       }}
                     ></div>
                   </div>
-
                 </div>
                 <div className="data">
                   <div className="p-3 type-section">
                     <label className="type-text">Transmission</label>
                     <div>
-                      {generateOptions("vehicle-transmission", "vehicleTransimission").map((type) => (
+                      {generateOptions(
+                        "vehicle-transmission",
+                        "vehicleTransimission"
+                      ).map((type) => (
                         <label key={type.value}>
                           <input
                             type="checkbox"
@@ -354,7 +361,10 @@ const CarFilterForm = ({ sellingType }) => {
                   <div className="p-3 type-section">
                     <label className="type-text">Fuel Type</label>
                     <div>
-                      {generateOptions("vehicle-fuel-type", "vehicleFuelTypes").map((type) => (
+                      {generateOptions(
+                        "vehicle-fuel-type",
+                        "vehicleFuelTypes"
+                      ).map((type) => (
                         <label key={type.value}>
                           <input
                             type="checkbox"
@@ -390,13 +400,14 @@ const CarFilterForm = ({ sellingType }) => {
                       <option value="" disabled selected hidden>
                         Select Cylinders
                       </option>
-                      {generateOptions("vehicle-cylinder", "vehicleCylinders").map(
-                        (option) => (
-                          <option key={option.value} value={option.value}>
-                            {option.label}
-                          </option>
-                        )
-                      )}
+                      {generateOptions(
+                        "vehicle-cylinder",
+                        "vehicleCylinders"
+                      ).map((option) => (
+                        <option key={option.value} value={option.value}>
+                          {option.label}
+                        </option>
+                      ))}
                     </select>
                     <label htmlFor="cylinders">Cylinders</label>
                   </div>

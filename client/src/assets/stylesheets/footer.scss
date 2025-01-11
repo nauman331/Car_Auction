@@ -1,6 +1,6 @@
 .footer-section {
   // background-color: #050b20;
-  background-color: #1d1b1c;
+  background-color: #010153;
   padding: 40px 0 20px;
 
   .footer-mid-section {
@@ -87,13 +87,15 @@
     display: flex;
     justify-content: end;
     p {
-      font-family: "DM Sans";
-      font-style: normal;
-      font-weight: 400;
-      font-size: 15px;
-      line-height: 26px;
-
-      color: #ffffff;
+      a {
+        text-decoration: none;
+        color: #ffffff;
+        font-family: "DM Sans";
+        font-style: normal;
+        font-weight: 400;
+        font-size: 15px;
+        line-height: 26px;
+      }
     }
   }
 }

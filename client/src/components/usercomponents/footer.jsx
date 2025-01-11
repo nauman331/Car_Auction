@@ -9,7 +9,12 @@ const Footer = () => {
   const productsData = [
     {
       title: "Quick Links",
-      items: ["Home", "About Us", "Contact Us"],
+      items: [
+        { label: "Home", link: "/" },
+        { label: "About Us", link: "/about" },
+        { label: "Contact Us", link: "/contactus" },
+      ],
+      // items: ["Home", "About Us", "Contact Us"],
     },
   ];
   return (
@@ -56,7 +61,11 @@ const Footer = () => {
             <div className="copyright">
               <p>
                 <div className="copyright-terms">
-                  <p>Terms & Conditions | Privacy policy</p>
+                  {/* <p>Terms & Conditions | Privacy policy</p> */}
+                  <p>
+                    <a href="/terms">Terms & Conditions</a> |{" "}
+                    <a href="/privacy">Privacy Policy</a>
+                  </p>
                 </div>
               </p>
             </div>

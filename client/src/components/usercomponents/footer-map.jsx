@@ -9,7 +9,7 @@ const ProductsList = ({ title, items }) => {
         <ul>
           {items.map((item, index) => (
             <li key={index}>
-              <a href="#">{item}</a>
+              <a href={item.link}>{item.label}</a>
             </li>
           ))}
         </ul>
