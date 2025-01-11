@@ -7,13 +7,13 @@ import { Link } from "react-router-dom";
 import { useSelector } from "react-redux"
 import { backendURL } from "../../utils//Exports"
 
-const CarFilterForm = ({ cars, sellingType }) => {
+const CarFilterForm = ({ sellingType }) => {
   const { categories } = useSelector((state) => state.category);
   const [selectedTypes, setSelectedTypes] = useState([]);
   const [formData, setFormData] = useState({});
   const [minPrice, setMinPrice] = useState(100);
   const [maxPrice, setMaxPrice] = useState(100000);
-
+  const [cars, setCars] = useState([])
 
 
   const applyFilter = async () => {
@@ -34,8 +34,8 @@ const CarFilterForm = ({ cars, sellingType }) => {
       });
       const result = await response.json();
       if (result.success) {
-        // Update the cars state here with the filtered results
         console.log(result);
+        setCars(result.data)
       } else {
         console.log("No cars found with the applied filters.");
       }
@@ -56,6 +56,7 @@ const CarFilterForm = ({ cars, sellingType }) => {
     if (value <= maxPrice) {
       setMinPrice(value);
     }
+    applyFilter()
   };
 
   const handleMaxChange = (event) => {
@@ -63,6 +64,7 @@ const CarFilterForm = ({ cars, sellingType }) => {
     if (value >= minPrice) {
       setMaxPrice(value);
     }
+    applyFilter()
   };
 
   const handleCheckboxChange = (e) => {
@@ -70,11 +72,13 @@ const CarFilterForm = ({ cars, sellingType }) => {
     setSelectedTypes((prev) =>
       checked ? [...prev, value] : prev.filter((type) => type !== value)
     );
+    applyFilter()
   };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
+    applyFilter()
   };
 
 
@@ -106,11 +110,6 @@ const CarFilterForm = ({ cars, sellingType }) => {
           <div className="row">
             <div className=" col-xl-3 col-lg-3 col-md-4 col-sm-12 col-12 mb-4">
               <form className="form_section">
-                <div className="data">
-                  <div className="datainput">
-                    <button onClick={applyFilter}>Apply Selected Filters</button>
-                  </div>
-                </div>
                 <div className="data">
                   <div className="datainput">
                     <select name="color" onChange={handleChange} required>

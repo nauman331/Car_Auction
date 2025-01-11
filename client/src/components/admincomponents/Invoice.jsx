@@ -182,6 +182,7 @@ const Invoice = () => {
             <Row className="justify-content-end mt-3">
                 <Col xs={12} md={6} lg={4}>
                 {
+                    
                     invoice?.paymentStatus &&
                     <img src={proof} alt="..."
                         style={{

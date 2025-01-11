@@ -49,6 +49,7 @@ const Home = () => {
       const fetchData = async ({ key }) => {
         const res = await fetch(`${backendURL}/${key}`, { headers });
         if (res.ok) {
+          const data = await res.json(); 
           dispatch(setCategories({ key, items: data }));
         } else {
           console.error("Error while getting categories");
