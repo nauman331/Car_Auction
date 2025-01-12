@@ -1,81 +1,132 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { backendURL } from "../../../utils/Exports";
 import LoadingSpinner from "../LoadingSpinner";
 import toast from "react-hot-toast";
 import html2canvas from "html2canvas";
+import "../../../assets/stylesheets/admin/carlisting.scss";
 import jsPDF from "jspdf";
+import { Container, Row, Col, Table, Button, Modal } from "react-bootstrap";
+import proof from "../../../assets/images/paid.jpg";
+import Logo from "../../../assets/images/Logo.png";
+import Deposit from "./Deposit";
+import { CloudinaryUploader } from "../../../utils/CloudinaryUploader";
 
 const Invoice = () => {
     const { id } = useParams();
     const { token } = useSelector((state) => state.auth);
     const [loading, setLoading] = useState(false);
     const [invoice, setInvoice] = useState([]);
-    
+    const [pdf, setPdf] = useState(null);
+    const [uploadLoading, setUploadLoading] = useState(false);
+    const [showModal, setShowModal] = useState(false);
     const invoiceRef = useRef();
 
+    // Function to fetch invoice details
     const getInvoice = async () => {
         const authorizationToken = `Bearer ${token}`;
         try {
             setLoading(true);
-            const response = await fetch(`${backendURL}/purchase-invoice/get-invoice/${id}`, {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: authorizationToken
+            const response = await fetch(
+                `${backendURL}/purchase-invoice/get-invoice/${id}`,
+                {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: authorizationToken,
+                    },
                 }
-            });
+            );
             const res_data = await response.json();
             if (response.ok) {
-                console.log(res_data)
+                console.log(res_data);
                 setInvoice(res_data);
             } else {
-                console.error(res_data.message);
+                toast.error(res_data.message);
             }
         } catch (error) {
-            console.error("Error fetching invoice:", error);
+            toast.error("Error fetching invoice");
         } finally {
             setLoading(false);
         }
     };
 
-    const preloadImage = (src) => {
-        return new Promise((resolve, reject) => {
-            const img = new Image();
-            img.crossOrigin = "anonymous"; // Prevent CORS issues
-            img.src = src;
-            img.onload = resolve;
-            img.onerror = reject;
-        });
-    };
-
+    // Function to handle printing the invoice as a PDF
     const printInvoice = async () => {
         const element = invoiceRef.current;
-
-        // Preload all images in the invoice
         const images = element.querySelectorAll("img");
-        const loadImagePromises = Array.from(images).map((img) => preloadImage(img.src));
+        const loadImagePromises = Array.from(images).map((img) => {
+            return new Promise((resolve, reject) => {
+                const imgEl = new Image();
+                imgEl.crossOrigin = "anonymous";
+                imgEl.src = img.src;
+                imgEl.onload = resolve;
+                imgEl.onerror = reject;
+            });
+        });
 
         try {
-            await Promise.all(loadImagePromises); // Wait for all images to load
+            await Promise.all(loadImagePromises);
             const canvas = await html2canvas(element, {
                 scale: 2,
-                useCORS: true, // Enable cross-origin requests for images
-                allowTaint: false
+                useCORS: true,
+                allowTaint: false,
+                ignoreElements: (el) => el.id === "no-print",
             });
             const imgData = canvas.toDataURL("image/png");
 
             const pdf = new jsPDF("p", "mm", "a4");
-            const imgProps = pdf.getImageProperties(imgData);
-            const pdfWidth = pdf.internal.pageSize.getWidth();
-            const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+            const pdfWidth = pdf.internal.pageSize.getWidth() - 20;
+            const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
 
-            pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+            pdf.addImage(imgData, "PNG", 10, 10, pdfWidth, pdfHeight);
             pdf.save(`invoice_${invoice?.invNumber || "N/A"}.pdf`);
         } catch (error) {
-            console.error("Error rendering invoice:", error);
-            toast.error("Failed to render the invoice. Please try again.");
+            toast.error("Failed to render the invoice.");
+        }
+    };
+
+    // Function to handle modal close
+    const handleModalClose = () => setShowModal(false);
+
+    // Function to handle modal open
+    const handleModalOpen = () => setShowModal(true);
+
+    // Function to handle proof file upload
+    const handleSubmit = async () => {
+        if (!pdf) {
+            toast.error("Please upload a proof file");
+            return;
+        }
+        const authorizationToken = `Bearer ${token}`;
+        try {
+            setUploadLoading(true);
+            const uploadResponse = await CloudinaryUploader(pdf);
+            const cloudinaryUrl = uploadResponse.url;
+
+            const response = await fetch(
+                `${backendURL}/purchase-invoice/upload-slip/${id}`,
+                {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: authorizationToken,
+                    },
+                    body: JSON.stringify({ invSlip: cloudinaryUrl }),
+                }
+            );
+            const res_data = await response.json();
+            if (response.ok) {
+                toast.success("Proof uploaded successfully");
+                handleModalClose();
+            } else {
+                toast.error(res_data.message);
+            }
+        } catch (error) {
+            toast.error("Unknown Error Occured");
+        } finally {
+            setUploadLoading(false);
         }
     };
 
@@ -87,93 +138,156 @@ const Invoice = () => {
 
     return (
         <>
-            <div className="container">
-                <div className="d-flex mb-5 gap-3 flex-wrap align-items-center justify-content-between">
-                    <button onClick={printInvoice}>Download Invoice</button>
-                </div>
-                <div ref={invoiceRef} className="card">
-                    <div className="card-header bg-black" />
-                    <div className="card-body">
-                        <div className="container">
-                            {/* Invoice details */}
-                            <div className="row">
-                                <div className="col-xl-12">
-                                    <img
-                                        src="https://th.bing.com/th?id=OIF.mIKJU9dZ9Zdw%2bEM5YhmkXA&rs=1&pid=ImgDetMain"
-                                        alt="Logo"
-                                        style={{ height: "8rem", width: "8rem" }}
-                                        crossOrigin="anonymous" // Ensure CORS compliance
-                                    />
-                                </div>
-                                <div className="col-xl-12">
-                                    <ul className="list-unstyled float-end">
-                                        <li style={{ fontSize: 30 }}>Company</li>
-                                        <li>123, Elm Street</li>
-                                        <li>123-456-789</li>
-                                        <li>mail@mail.com</li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div className="row text-center">
-                                <h3 className="text-uppercase text-center mt-3" style={{ fontSize: 40 }}>Invoice</h3>
-                                <p>{invoice?.invNumber || "N/A"}</p>
-                            </div>
-                            <div className="row mx-3">
-                                <table className="table">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">Description</th>
-                                            <th scope="col">Amount</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>Total</td>
-                                            <td>AED {invoice?.totalAmount || 0}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Paid</td>
-                                            <td>AED {invoice?.paidAmount || 0}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Pending</td>
-                                            <td>AED {invoice?.pendingAmount || 0}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Payment Status</td>
-                                            <td>{invoice?.paymentStatus ? "Approved" : "Not Approved" || "N/A"}</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                                    
-                            <div className="row">
-                                <div className="col-xl-8">
-                                    
-                                <img
-                                        src={invoice?.carId?.carImages[0] || "N/A"}
-                                        alt="car Image"
-                                        style={{ height: "6rem", width: "10rem", marginLeft:"1rem" }}
-                                        crossOrigin="anonymous" // Ensure CORS compliance
-                                    />
-                                    <ul className="list-unstyled float-end me-0">
-                                        <li><span className="me-3 float-start">Car Name:</span>{invoice?.carId?.listingTitle || "N/A"}</li>
-                                        <li><span className="me-3 float-start">Car VIN:</span>{invoice?.carId?.vin || "N/A"}</li> 
-                                        <li><span className="me-3 float-start">Car Lot No:</span>{invoice?.carId?.lotNo || "N/A"}</li> 
-                                        <li> <span className="me-2">User Id:</span>{invoice?.userId?._id || "N/A"}</li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <hr />
-                            <div className="row mt-2 mb-5">
-                                <p className="fw-bold">Date: <span className="text-muted">{new Date(invoice?.createdAt).toLocaleDateString() || "N/A"}</span></p>
-                                <p className="fw-bold mt-3">Signature:</p>
-                            </div>
-                        </div>
+            <Container className="my-4" ref={invoiceRef}>
+                <Row className="justify-content-between align-items-center mb-4" id="no-print">
+                    <Col xs={6} sm={4}>
+                        <Button variant="primary" className="px-4 py-2" onClick={printInvoice}>
+                            Print this Invoice ↗
+                        </Button>
+                    </Col>
+                    <Col xs={6} sm={4} className="text-end">
+                        <h4>Status: {invoice?.statusText || ""}</h4>
+                    </Col>
+                </Row>
+
+                <Row>
+                    <Col>
+                        <img
+                            src={Logo}
+                            alt="..."
+                            style={{ height: "5rem", width: "8rem" }}
+                            className="mb-5"
+                        />
+                    </Col>
+                    <Col className="text-end">
+                        <h5 className="fw-bold">
+                            Invoice # <span style={{ color: "#050B20", fontSize: "15px" }}>{invoice?.invNumber || "N/A"}</span>
+                        </h5>
+                    </Col>
+                </Row>
+
+                <Row className="mt-3">
+                    <Col md={6}>
+                        <p className="mb-1 fw-bold">Invoice Date:</p>
+                        <p>{new Date(invoice?.createdAt).toLocaleDateString() || ""}</p>
+
+                        <p className="mb-1 fw-bold">Customer Details:</p>
+                        <p>
+                            {invoice?.userId?.firstName || ""} {invoice?.userId?.lastName || ""}
+                            <br />
+                            {invoice?.userId?._id || ""}
+                        </p>
+                    </Col>
+                    {
+                        !invoice?.paymentStatus &&
+                        <Col
+                            md={6}
+                            className="d-flex align-items-center rounded justify-content-center"
+                            style={{ backgroundColor: "#F9FBFC", height: "200px" }}
+                            id="no-print"
+                        >
+                            <button onClick={handleModalOpen}>Upload Invoice</button>
+                        </Col>
+                    }
+                </Row>
+
+                <Row className="mt-4">
+                    <Col>
+                        <Table responsive>
+                            <thead>
+                                <tr>
+                                    <th>Vehicle Information</th>
+                                    <th>Wallet Deduction</th>
+                                    <th>Pending</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        {invoice?.carId?.listingTitle || "N/A"}
+                                        <br />
+                                        <small>VIN: {invoice?.carId?.vin || 0}</small>
+                                    </td>
+                                    <td>AED {invoice?.paidAmount || 0}</td>
+                                    <td>AED {invoice?.pendingAmount || 0}</td>
+                                    <td>AED {invoice?.totalAmount || 0}</td>
+                                </tr>
+                            </tbody>
+                        </Table>
+                    </Col>
+                </Row>
+
+                <Row className="justify-content-end mt-3">
+                    <Col xs={12} md={6} lg={4}>
+                        {invoice?.paymentStatus && (
+                            <img
+                                src={proof}
+                                alt="..."
+                                style={{
+                                    height: "8rem",
+                                    width: "8rem",
+                                }}
+                            />
+                        )}
+                        <Table>
+                            <tbody>
+                                <tr>
+                                    <td className="fw-bold">Total Paid:</td>
+                                    <td className="text-end">AED {invoice?.paidAmount || 0}</td>
+                                </tr>
+                                <tr>
+                                    <td className="fw-bold">Total Due:</td>
+                                    <td className="text-end">AED {invoice?.pendingAmount || 0}</td>
+                                </tr>
+                            </tbody>
+                        </Table>
+                    </Col>
+                </Row>
+                <Row className="mt-5 text-center">
+                    <hr />
+                    <Col className="d-flex mt-5 align-items-center w-100 justify-content-evenly flex-wrap gap-3">
+                        <a href="/" style={{ textDecoration: "none" }}>
+                            www.boxcar.com
+                        </a>
+                        <a>invoice@boxcar.com</a>
+                        <a>(123) 123-456</a>
+                    </Col>
+                </Row>
+            </Container>
+
+            <Modal show={showModal} onHide={handleModalClose}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Pay Remaining Amount</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <div>
+                        <h5>Bank Account Details</h5>
+                        <p>
+                            Bank Name: XYZ Bank<br />
+                            Account Number: 1234567890<br />
+                            IBAN: XYZ12345IBAN<br />
+                            SWIFT Code: XYZSWIFT
+                        </p>
                     </div>
-                    <div className="card-footer bg-black" />
-                </div>
-            </div>
+                    <div>
+                        <h5>Upload Proof of Payment</h5>
+                        <Deposit
+                            pdf={pdf}
+                            setPdf={setPdf}
+                            NoInput="true"
+                        />
+                    </div>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={handleModalClose}>
+                        Close
+                    </Button>
+                    <Button variant="primary" onClick={handleSubmit} disabled={uploadLoading}>
+                        {uploadLoading ? "Submitting..." : "Submit"}
+                    </Button>
+                </Modal.Footer>
+            </Modal>
         </>
     );
 };
