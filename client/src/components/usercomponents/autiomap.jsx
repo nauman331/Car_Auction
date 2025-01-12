@@ -6,11 +6,12 @@ import img2 from "../../assets/images/speedometer 1.png";
 import img3 from "../../assets/images/gasoline-pump 1.png";
 import img4 from "../../assets/images/gearbox 1.png";
 import img5 from "../../assets/images/right-up 1 (1).png";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 
 const itemsPerPage = 12;
 
 const ProductGridWithPagination = ({ cars, sellingType }) => {
+  const location = useLocation();
   const [currentPage, setCurrentPage] = useState(1);
   const [filteredCars, setFilteredCars] = useState(cars);
   const [selectedAuctionTitle, setSelectedAuctionTitle] = useState("All");
@@ -37,16 +38,18 @@ const ProductGridWithPagination = ({ cars, sellingType }) => {
     setSelectedAuctionTitle(auctionTitle);
   };
 
-  useEffect(() => {
-    const filtered = cars.filter(
-      (car) =>
-        (selectedAuctionTitle === "All" ||
-          car.auctionLot?.auctionTitle === selectedAuctionTitle) &&
-        !car.isSold &&
-        car.sellingType === sellingType
-    );
-    setFilteredCars(filtered);
-  }, [cars, selectedAuctionTitle, sellingType]);
+  if (location.pathname === "/vehicle") {
+    useEffect(() => {
+      const filtered = cars.filter(
+        (car) =>
+          (selectedAuctionTitle === "All" ||
+            car.auctionLot?.auctionTitle === selectedAuctionTitle) &&
+          !car.isSold &&
+          car.sellingType === sellingType
+      );
+      setFilteredCars(filtered);
+    }, [cars, selectedAuctionTitle, sellingType]);
+  }
 
   const paginatedCars = filteredCars.slice(
     (currentPage - 1) * itemsPerPage,
@@ -59,14 +62,16 @@ const ProductGridWithPagination = ({ cars, sellingType }) => {
         <h2 className="showingvehicles">
           Showing {paginatedCars.length} of {filteredCars.length} Vehicles
         </h2>
-        <div>
-          <SortByDropdown onChange={handleFilterChange} />
-        </div>
+        {location.pathname === "/vehicle" &&
+          <div>
+            <SortByDropdown onChange={handleFilterChange} />
+          </div>}
       </div>
 
       {paginatedCars?.length > 0 ? (
         <div className="row">
           {paginatedCars.map((item) => (
+            item.sellingType === sellingType &&
             <div
               key={item._id}
               className="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12 mb-4 px-2"
