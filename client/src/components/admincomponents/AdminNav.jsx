@@ -1,6 +1,6 @@
 import { NavLink } from "react-router-dom";
 import "../../assets/stylesheets/admin/leftadminnav.scss";
-import img1 from "../../assets/images/Logo.svg"
+import img1 from "../../assets/images/project logo light (1).svg"
 import {
   LayoutDashboard,
   Car,

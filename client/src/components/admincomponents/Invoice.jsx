@@ -9,7 +9,8 @@ import "../../assets/stylesheets/admin/carlisting.scss";
 import jsPDF from "jspdf";
 import { Container, Row, Col, Table, Button } from "react-bootstrap";
 import Select from "react-select";
-import proof from "../../assets/images/paid.jpg"
+import proof from "../../assets/images/paid.jpg";
+import Logo from "../../assets/images/Logo.png"
 
 const Invoice = () => {
     const { id } = useParams();
@@ -27,12 +28,12 @@ const Invoice = () => {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
-                    Authorization: authorizationToken
-                }
+                    Authorization: authorizationToken,
+                },
             });
             const res_data = await response.json();
             if (response.ok) {
-                console.log(res_data)
+                console.log(res_data);
                 setInvoice(res_data);
             } else {
                 toast.error(res_data.message);
@@ -44,38 +45,39 @@ const Invoice = () => {
         }
     };
 
-    const printInvoice = async () => {
-        const element = invoiceRef.current;
-        const images = element.querySelectorAll("img");
-        const loadImagePromises = Array.from(images).map((img) => {
-            return new Promise((resolve, reject) => {
-                const imgEl = new Image();
-                imgEl.crossOrigin = "anonymous";
-                imgEl.src = img.src;
-                imgEl.onload = resolve;
-                imgEl.onerror = reject;
-            });
+   const printInvoice = async () => {
+    const element = invoiceRef.current;
+    const images = element.querySelectorAll("img");
+    const loadImagePromises = Array.from(images).map((img) => {
+        return new Promise((resolve, reject) => {
+            const imgEl = new Image();
+            imgEl.crossOrigin = "anonymous"; // Ensure cross-origin images are handled
+            imgEl.src = img.src;
+            imgEl.onload = resolve;
+            imgEl.onerror = reject;
         });
+    });
 
-        try {
-            await Promise.all(loadImagePromises);
-            const canvas = await html2canvas(element, {
-                scale: 2,
-                useCORS: true,
-                allowTaint: false
-            });
-            const imgData = canvas.toDataURL("image/png");
+    try {
+        await Promise.all(loadImagePromises); // Wait for all images, including the logo, to load
+        const canvas = await html2canvas(element, {
+            scale: 2,
+            useCORS: true, // Enable cross-origin for rendering
+            allowTaint: false,
+            ignoreElements: (el) => el.id === "no-print",
+        });
+        const imgData = canvas.toDataURL("image/png");
 
-            const pdf = new jsPDF("p", "mm", "a4");
-            const pdfWidth = pdf.internal.pageSize.getWidth();
-            const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+        const pdf = new jsPDF("p", "mm", "a4");
+        const pdfWidth = pdf.internal.pageSize.getWidth() - 20; // Add padding
+        const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
 
-            pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
-            pdf.save(`invoice_${invoice?.invNumber || "N/A"}.pdf`);
-        } catch (error) {
-            toast.error("Failed to render the invoice.");
-        }
-    };
+        pdf.addImage(imgData, "PNG", 10, 10, pdfWidth, pdfHeight); // Apply left and right padding
+        pdf.save(`invoice_${invoice?.invNumber || "N/A"}.pdf`);
+    } catch (error) {
+        toast.error("Failed to render the invoice.");
+    }
+};
 
     useEffect(() => {
         getInvoice();
@@ -84,31 +86,58 @@ const Invoice = () => {
     if (loading) return <LoadingSpinner />;
 
     const statusOptions = [
-        { value: "Approve", label: "Approve" },
-        { value: "Rejected", label: "Rejected" },
+        { value: "approved", label: "Approved" },
+        { value: "rejected", label: "Rejected" },
+        { value: "verification pending", label: "Verification Pending" },
     ];
+
+    const updateStatus = async () => {
+        const authorizationToken = `Bearer ${token}`;
+        try {
+            const response = await fetch(`${backendURL}/purchase-invoice/update-invoice/${id}`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: authorizationToken,
+                },
+                body: JSON.stringify({ statusText: status.value }),
+            });
+            const res_data = await response.json();
+            console.log(res_data)
+            if (response.ok) {
+                toast.success(res_data.message);
+            } else {
+                toast.error(res_data.message);
+            }
+        } catch (error) {
+            toast.error("Error while updating status");
+        }
+    };
 
     return (
         <Container className="my-4" ref={invoiceRef}>
-            <Row className="justify-content-between align-items-center mb-4">
+            <Row className="justify-content-between align-items-center mb-4" id="no-print">
                 <Col xs={6} sm={4}>
                     <Button variant="primary" className="px-4 py-2" onClick={printInvoice}>
-                        Download Invoice ↗
+                    Print this Invoice ↗
                     </Button>
                 </Col>
                 <Col xs={6} sm={4} className="text-end">
-                    <Button variant="primary" className="px-4 py-2" onClick={printInvoice}>
-                        Print this Invoice ↗
-                    </Button>
+                    <h4>Status: {invoice?.statusText || ""}</h4>
                 </Col>
             </Row>
 
             <Row>
                 <Col>
-                    <h1 className="fw-bold">BOXCARS</h1>
+                    <img src={Logo} alt="..." 
+                    style={{height: "5rem", width: "8rem"}}
+                    className="mb-5"
+                    />
                 </Col>
                 <Col className="text-end">
-                    <h5 className="fw-bold">Invoice # <span style={{ color: "#050B20", fontSize: "15px" }}>{invoice?.invNumber || "N/A"}</span></h5>
+                    <h5 className="fw-bold">
+                        Invoice # <span style={{ color: "#050B20", fontSize: "15px" }}>{invoice?.invNumber || "N/A"}</span>
+                    </h5>
                 </Col>
             </Row>
 
@@ -124,33 +153,38 @@ const Invoice = () => {
                         {invoice?.userId?._id || ""}
                     </p>
                 </Col>
-                {
-                    !invoice?.paymentStatus &&
 
-                    <Col md={6} className="d-flex align-items-center rounded justify-content-center" style={{ backgroundColor: "#F9FBFC", height: "200px" }}>
-                        <div className="form-container" style={{ border: "none", padding: "0px" }}>
-                            <div className="form-section" >
-                                <div className="form-grid">
-                                    <div className="input-container d-flex align-items-center gap-3" id="auction-container1" >
-                                        <Select
-                                            options={statusOptions}
-                                            placeholder="Select Status"
-                                            value={status}
-                                            onChange={(selectedOption) => setStatus(selectedOption)}
-                                            className="react-select-container"
-                                            classNamePrefix="react-select"
-                                            id="auctionLot1"
-                                        />
-                                        <label htmlFor="auctionLot1">Status</label>
-                                        <button className="place-bid">
-                                            Update
-                                        </button>
-                                    </div>
+                <Col
+                    md={6}
+                    className="d-flex align-items-center rounded justify-content-center"
+                    style={{ backgroundColor: "#F9FBFC", height: "200px" }}
+                    id="no-print"
+                >
+                    <div className="form-container" style={{ border: "none", padding: "0px" }}>
+                        <div className="form-section">
+                            <div className="form-grid">
+                                <div
+                                    className="input-container d-flex align-items-center gap-3"
+                                    id="auction-container1"
+                                >
+                                    <Select
+                                        options={statusOptions}
+                                        placeholder="Select Status"
+                                        value={status}
+                                        onChange={(selectedOption) => setStatus(selectedOption)}
+                                        className="react-select-container"
+                                        classNamePrefix="react-select"
+                                        id="auctionLot1"
+                                    />
+                                    <label htmlFor="auctionLot1">Status</label>
+                                    <button className="place-bid" onClick={updateStatus}>
+                                        Update
+                                    </button>
                                 </div>
                             </div>
                         </div>
-                    </Col>
-                }
+                    </div>
+                </Col>
             </Row>
 
             <Row className="mt-4">
@@ -166,7 +200,8 @@ const Invoice = () => {
                         </thead>
                         <tbody>
                             <tr>
-                                <td>{invoice?.carId?.listingTitle || "N/A"}
+                                <td>
+                                    {invoice?.carId?.listingTitle || "N/A"}
                                     <br />
                                     <small>VIN: {invoice?.carId?.vin || 0}</small>
                                 </td>
@@ -181,15 +216,16 @@ const Invoice = () => {
 
             <Row className="justify-content-end mt-3">
                 <Col xs={12} md={6} lg={4}>
-                {
-                    
-                    invoice?.paymentStatus &&
-                    <img src={proof} alt="..."
-                        style={{
-                            height: "8rem",
-                            width: "8rem",
-                        }} />
-                }
+                    {invoice?.paymentStatus && (
+                        <img
+                            src={proof}
+                            alt="..."
+                            style={{
+                                height: "8rem",
+                                width: "8rem",
+                            }}
+                        />
+                    )}
                     <Table>
                         <tbody>
                             <tr>
@@ -207,7 +243,9 @@ const Invoice = () => {
             <Row className="mt-5 text-center">
                 <hr />
                 <Col className="d-flex mt-5 align-items-center w-100 justify-content-evenly flex-wrap gap-3">
-                    <a href="/" style={{ textDecoration: "none" }}>www.boxcar.com</a>
+                    <a href="/" style={{ textDecoration: "none" }}>
+                        www.boxcar.com
+                    </a>
                     <a>invoice@boxcar.com</a>
                     <a>(123) 123-456</a>
                 </Col>

@@ -2,7 +2,7 @@ import React from "react";
 import { Image } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
 
-const UserDetail= () => {
+const UserDetail = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { user } = location.state || {};
@@ -25,26 +25,26 @@ const UserDetail= () => {
       <br />
       <div className="form-container container">
         <form className="form-section">
-        <div className="d-flex justify-content-between gap-3 flex-wrap">
-          <div className="media-gallery d-block">
-          <h6>Avatar</h6>
-            <div className="image-box">
-              {user ? (
-                <img
-                  src={user.avatarImage}
-                  alt="Avatar"
-                  style={{ width: "100px" }}
-                />
-              ) : (
-                <Image size={24} />
-              )}
+          <div className="d-flex justify-content-between gap-3 flex-wrap">
+            <div className="media-gallery d-block">
+              <h6>Avatar</h6>
+              <div className="image-box">
+                {user ? (
+                  <img
+                    src={user.avatarImage}
+                    alt="Avatar"
+                    style={{ width: "100px" }}
+                  />
+                ) : (
+                  <Image size={24} />
+                )}
+              </div>
             </div>
-          </div>
-          <div className="balance">
-          <h6>Wallet Balance</h6>
-          <h3>AED 100</h3>
-          </div>
-          
+            <div className="balance">
+              <h6>Wallet Balance</h6>
+              <h3>AED {user.currentBalance || 0}</h3>
+            </div>
+
           </div>
           <hr />
           <div className="form-grid">
@@ -60,13 +60,13 @@ const UserDetail= () => {
               id: "password", label: "Password", value: user.password || "Password Not Found"
             }, {
               id: "address", label: "Address", value: user.address || "No Address Provided"
-            },].map(({ id, label, value}) => (
+            },].map(({ id, label, value }) => (
               <div key={id} className="input-container">
-                  <input
-                    id={id}
-                    value={value}
-                    disabled
-                  />
+                <input
+                  id={id}
+                  value={value}
+                  disabled
+                />
                 <label htmlFor={id}>{label}</label>
               </div>
             ))}
