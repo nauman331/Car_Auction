@@ -155,13 +155,8 @@ const Profile = () => {
               id: "password", label: "Password", value: formData.password || "Password Not Found", name: "password", type: "text"
             }, {
               id: "address", label: "Address", value: formData.address || "No Address Provided", name: "address"
-            }, {
-              id: "description", label: "Description", value: formData.description || "No Description Provided", textarea: true, name: "description"
-            }].map(({ id, label, value, type = "text", textarea, name }) => (
+            }].map(({ id, label, value, type = "text", name }) => (
               <div key={id} className="input-container">
-                {textarea ? (
-                  <textarea id={id} value={value} onChange={handleInputChange} name={name}></textarea>
-                ) : (
                   <input
                     type={type}
                     id={id}
@@ -169,7 +164,6 @@ const Profile = () => {
                     onChange={handleInputChange}
                     name={name}
                   />
-                )}
                 <label htmlFor={id}>{label}</label>
               </div>
             ))}

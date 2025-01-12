@@ -41,6 +41,8 @@ import UserOrders from "./components/usercomponents/userpanel/Orders";
 import Invoice from "./components/admincomponents/Invoice";
 import UserInvoice from "./components/usercomponents//userpanel/Invoice";
 import NotifcationDetails from "./components/admincomponents/NotificationDetails"
+import UserDetail from "./components/admincomponents/UserDetail"
+
 
 function App() {
   const dispatch = useDispatch();
@@ -184,6 +186,7 @@ function App() {
             <Route path="auctioninventory" element={<AuctionInventory />} />
             <Route path="managecategories" element={<CategoryManagement />} />
             <Route path="allusers" element={<AllUsers />} />
+            <Route path="userdetails" element={<UserDetail />} />
             <Route path="deposits" element={<Deposits />} />
             <Route path="Orders" element={<Orders />} />
             <Route path="Profile" element={<Profile />} />

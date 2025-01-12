@@ -6,8 +6,10 @@ import { backendURL } from "../../utils/Exports";
 import { Modal, Button, Form } from "react-bootstrap";
 import Pagination from "./Pagination";
 import LoadingSpinner from "../usercomponents/LoadingSpinner";
+import { useNavigate } from "react-router-dom";
 
 const AllUsers = () => {
+  const navigate = useNavigate();
   const { token } = useSelector((state) => state.auth);
   const [allusers, setAllusers] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -22,6 +24,11 @@ const AllUsers = () => {
   const [sortOption, setSortOption] = useState("");
   const itemsPerPage = 10;
   const totalPages = Math.ceil(filteredUsers.length / itemsPerPage);
+
+  const handleUserClick = (user) => {
+    navigate("/admin/userdetails", { state: { user } });
+  };
+
 
   const getAllUsers = async () => {
     const authorizationToken = `Bearer ${token}`;
@@ -228,7 +235,10 @@ const AllUsers = () => {
                           </div>
                         </div>
                       </td>
-                      <td>{user._id || "No User ID"}</td>
+                      <td 
+                      style={{ cursor: "pointer", marginBottom: "10px" }}
+                      onClick={() => handleUserClick(user)}
+                      >{user._id || "No User ID"}</td>
                       <td>
                         {new Date(user.createdAt).toLocaleDateString() ||
                           "No Date"}

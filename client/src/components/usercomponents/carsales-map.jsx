@@ -50,7 +50,7 @@ const CarAuction = ({ car }) => {
         return;
       }
       socket.emit("placeBid", data);
-      setBid(currentBidData?.bidAmount || car.startingBid || 0); // Ensure bid is always valid
+      setBid(currentBidData?.bidAmount || bid); // Ensure bid is always valid
     } else {
       console.log("Socket not connected or invalid data");
     }
