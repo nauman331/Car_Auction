@@ -258,7 +258,7 @@ const AuctionInventory = () => {
                                 </div>
                                 <div className="car-name">
                                   <p>{car.listingTitle || "No Title"}</p>
-                                  <p>{car.description?.length > 20 ? car.description?.substring(0, 20).trimEnd() + '...' : car.description || "No Description"}</p>
+                                  <p>VIN: {car.vin || "No VIN"}</p>
                                 </div>
                               </div>
                             </td>

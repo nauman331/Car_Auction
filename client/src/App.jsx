@@ -78,8 +78,13 @@ function App() {
         handleToast(response);
         return;
       }
-      new Audio("/notification.wav").play();
-      toast.success(response.message, { duration: 5000 });
+      if (userdata.id === response.id) {
+        new Audio("/notification.wav").play();
+        toast.success(response.message, { duration: 5000 });
+      } else if (userdata.id === response.previousBidders[response.previousBidders.length - 1]) {
+        new Audio("/notification.wav").play();
+        toast.error(response.outBidMessage)
+      }
       dispatch(setBidData(response));
     };
 
@@ -89,8 +94,14 @@ function App() {
         handleToast(response);
         return;
       }
-      new Audio("/notification.wav").play();
-      toast.success(response.message, { duration: 5000 });
+      if (userdata.id === response.userId) {
+        new Audio("/notification.wav").play();
+        toast.success(response.winnerMessage, { duration: 5000 });
+      } else {
+        new Audio("/notification.wav").play();
+        toast.success(response.message, { duration: 5000 });
+
+      }
       dispatch(setBidData(response));
     };
 
@@ -101,9 +112,7 @@ function App() {
         return;
       }
       new Audio("/notification.wav").play();
-      if (userdata?.id === response?.user) {
-        toast.success(response.message, { duration: 5000 });
-      }
+      toast.success(response.message, { duration: 5000 });
       dispatch(removeBidData());
     };
 

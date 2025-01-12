@@ -179,7 +179,7 @@ const Invoice = () => {
                         </p>
                     </Col>
                     {
-                        !invoice?.paymentStatus &&
+                        (invoice?.statusText === "pending") &&
                         <Col
                             md={6}
                             className="d-flex align-items-center rounded justify-content-center"
