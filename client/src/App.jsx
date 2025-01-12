@@ -97,11 +97,9 @@ function App() {
       if (userdata.id === response.userId) {
         new Audio("/notification.wav").play();
         toast.success(response.winnerMessage, { duration: 5000 });
-      } else {
+      } 
         new Audio("/notification.wav").play();
         toast.success(response.message, { duration: 5000 });
-
-      }
       dispatch(setBidData(response));
     };
 
