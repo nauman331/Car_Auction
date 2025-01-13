@@ -7,7 +7,7 @@ import "../../assets/stylesheets/FeatureCategory.scss";
 import "../../assets/stylesheets/feature.scss";
 import img6 from "../../assets/images/playbutton.png";
 import img3 from "../../assets/images/camera 1.png";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { backendURL } from "../../utils/Exports";
 import LoadingSpinner from "../usercomponents/LoadingSpinner";
 import toast from "react-hot-toast";
@@ -15,11 +15,13 @@ import Relatedlistening from "./related-listening";
 import { useSelector } from "react-redux";
 
 function Buysale() {
+  const navigate = useNavigate();
   const { token } = useSelector((state) => state.auth);
   const { id } = useParams();
   const [car, setCar] = useState(null);
   const [featuresData, setFeaturesData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [buyLoading, setBuyLoading] = useState(false)
   const [showModal, setShowModal] = useState(false);
   const [showVideoModal, setShowVideoModal] = useState(false);
 
@@ -76,8 +78,12 @@ function Buysale() {
   };
 
   const purchaseCar = async () => {
+    if(!token) {
+      navigate("/auth")
+    }
     const authorizationToken = `Bearer ${token}`;
     try {
+      setBuyLoading(true)
       const response = await fetch(`${backendURL}/car/purchase/${id}`, {
         method: "PUT",
         headers: {
@@ -88,11 +94,14 @@ function Buysale() {
       const res_data = await response.json();
       if (response.ok) {
         toast.success(res_data.message);
+        getCarDetails()
       } else {
         toast.error(res_data.message);
       }
     } catch (error) {
       toast.error("Error while buying");
+    } finally {
+      setBuyLoading(false)
     }
   };
 
@@ -140,7 +149,7 @@ function Buysale() {
               </div>
             </div>
             <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 mb-4 px-2">
-              <BuyCar car={car} purchaseCar={purchaseCar} />
+              <BuyCar car={car} purchaseCar={purchaseCar} buyLoading={buyLoading} />
             </div>
           </div>
           <div className="row">

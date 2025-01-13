@@ -16,16 +16,16 @@ import img13 from "../../assets/images/steering-wheel 1.png";
 import { Modal, Button } from "react-bootstrap";
 
 
-const BuyCar = ({ car, purchaseCar }) => {
+const BuyCar = ({ car, purchaseCar, buyLoading }) => {
 
   const [showConfirmModal, setShowConfirmModal] = useState(false);
+  
 
   const handleBuyNowClick = () => {
     setShowConfirmModal(true);
   };
 
   const handleConfirmPurchase = () => {
-    setShowConfirmModal(false); // Close modal
     purchaseCar(); // Call the purchase function
   };
 
@@ -49,10 +49,15 @@ const BuyCar = ({ car, purchaseCar }) => {
         </div>
 
         <div className="bid-controls">
+          {
+            !car.isSold ? 
           <button className="place-bid" onClick={handleBuyNowClick}>
             <img src={img1} />
             Buy Now
           </button>
+          : 
+          <h4 style={{ color: "#aaa", margin: "1rem 0" }}>Car is already Sold</h4>
+          }
         </div>
 
         <div className="car-overview">
@@ -189,8 +194,8 @@ const BuyCar = ({ car, purchaseCar }) => {
           <Button variant="secondary" onClick={handleCancelPurchase}>
             Cancel
           </Button>
-          <Button variant="primary" onClick={handleConfirmPurchase}>
-            Confirm
+          <Button variant="primary" onClick={handleConfirmPurchase} disabled={buyLoading}>
+            {buyLoading ? "Buying..." : "Buy Car"}
           </Button>
         </Modal.Footer>
       </Modal>

@@ -35,6 +35,8 @@ const CarAuction = ({ car, getCarDetails, backendURL }) => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [carIdToDelete, setCarIdToDelete] = useState(null);
   const [showEditModal, setShowEditModal] = useState(false);
+  const [buyLoading, setBuyLoading] = useState(false)
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [carToEdit, setCarToEdit] = useState(null);
   const [formData, setFormData] = useState({});
   const [images, setImages] = useState([]);
@@ -296,6 +298,46 @@ const handleUnSoldBid = () => {
   };
 
 
+  const purchaseCar = async () => {
+    if(!token) {
+      navigate("/auth")
+    }
+    const authorizationToken = `Bearer ${token}`;
+    try {
+      setBuyLoading(true)
+      const response = await fetch(`${backendURL}/car/purchase/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: authorizationToken,
+        },
+      });
+      const res_data = await response.json();
+      if (response.ok) {
+        toast.success(res_data.message);
+        getCarDetails()
+      } else {
+        toast.error(res_data.message);
+      }
+    } catch (error) {
+      toast.error("Error while buying");
+    } finally {
+      setBuyLoading(false)
+    }
+  };
+
+  const handleBuyNowClick = () => {
+    setShowConfirmModal(true);
+  };
+
+  const handleConfirmPurchase = () => {
+    purchaseCar(); // Call the purchase function
+  };
+
+  const handleCancelPurchase = () => {
+    setShowConfirmModal(false); // Close modal
+  };
+
   return (
     <>
       <div className="car-auction">
@@ -439,7 +481,7 @@ const handleUnSoldBid = () => {
 :
 <>
 <div className="bid-controls">
-<button className="place-bid">
+<button className="place-bid" onClick={handleBuyNowClick}>
     Mark as Sold
   </button>
   </div>
@@ -594,6 +636,25 @@ const handleUnSoldBid = () => {
         loading={loading}
         sellingType={car.sellingType}
       />
+
+
+
+<Modal show={showConfirmModal} onHide={handleCancelPurchase} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>Confirm Purchase</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          Are you sure you want to buy this car? The amount from your wallet will be cut off.
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCancelPurchase}>
+            Cancel
+          </Button>
+          <Button variant="primary" onClick={handleConfirmPurchase} disabled={buyLoading}>
+            {buyLoading ? "Buying..." : "Buy Car"}
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </>
   );
 };

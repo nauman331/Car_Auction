@@ -15,9 +15,11 @@ import img12 from "../../assets/images/color.png";
 import img13 from "../../assets/images/steering-wheel 1.png";
 import { useSelector } from "react-redux";
 import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 
 const CarAuction = ({ car }) => {
+  const navigate = useNavigate()
   const { socket } = useSelector((state) => state.socket);
   const { token } = useSelector(state => state.auth);
   const { currentBidData } = useSelector(state => state.event);
@@ -32,6 +34,9 @@ const CarAuction = ({ car }) => {
   };
 
   const handlePlaceBid = () => {
+    if(!token) {
+      navigate("/auth")
+    }
     if (socket && token && car?._id) {
       const data = {
         carId: car._id,
@@ -74,7 +79,6 @@ const CarAuction = ({ car }) => {
           <p>Bid Starting Price: {car.startingBid || "N/A"} AED</p>
         </div>
         {
-          token ? 
           (!car.isSold ?
             <div className="bid-controls">
               <button onClick={decreaseBid}>-</button>
@@ -101,7 +105,6 @@ const CarAuction = ({ car }) => {
             </div>
             :
             <h4 style={{ color: "#aaa", margin: "1rem 0" }}>Car is already Sold</h4>)
-            : <h4 style={{ color: "#aaa", margin: "1rem 0" }}>Please Login to place Bid</h4>
         }
 
         <div className="car-overview">
