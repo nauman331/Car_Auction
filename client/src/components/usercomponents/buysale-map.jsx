@@ -13,10 +13,25 @@ import img10 from "../../assets/images/door.png";
 import img11 from "../../assets/images/piston 1.png";
 import img12 from "../../assets/images/color.png";
 import img13 from "../../assets/images/steering-wheel 1.png";
+import { Modal, Button } from "react-bootstrap";
 
 
 const BuyCar = ({ car, purchaseCar }) => {
 
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+
+  const handleBuyNowClick = () => {
+    setShowConfirmModal(true);
+  };
+
+  const handleConfirmPurchase = () => {
+    setShowConfirmModal(false); // Close modal
+    purchaseCar(); // Call the purchase function
+  };
+
+  const handleCancelPurchase = () => {
+    setShowConfirmModal(false); // Close modal
+  };
 
   return (
     <>
@@ -28,17 +43,17 @@ const BuyCar = ({ car, purchaseCar }) => {
           <p className="dots"></p> {car.transmission?.vehicleTransimission || "No Transmission"}
         </p>
         <div className="current-bid">
-                <p>Discounted Price</p>
-                <h2>AED {car.discountedPrice ? car.discountedPrice : car.price || "N/A"}</h2>
-                {car.discountedPrice && <p>Original Price: {car.price || "N/A"} AED</p>}
+          <p>Discounted Price</p>
+          <h2>AED {car.discountedPrice ? car.discountedPrice : car.price || "N/A"}</h2>
+          {car.discountedPrice && <p>Original Price: {car.price || "N/A"} AED</p>}
         </div>
 
-      <div className="bid-controls">
-      <button className="place-bid" onClick={()=>purchaseCar()}>
+        <div className="bid-controls">
+          <button className="place-bid" onClick={handleBuyNowClick}>
             <img src={img1} />
-           Buy Now
+            Buy Now
           </button>
-      </div>
+        </div>
 
         <div className="car-overview">
           <h3>Car Overview</h3>
@@ -162,6 +177,23 @@ const BuyCar = ({ car, purchaseCar }) => {
           </p>
         </div>
       </div>
+
+      <Modal show={showConfirmModal} onHide={handleCancelPurchase} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>Confirm Purchase</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          Are you sure you want to buy this car? The amount from your wallet will be cut off.
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCancelPurchase}>
+            Cancel
+          </Button>
+          <Button variant="primary" onClick={handleConfirmPurchase}>
+            Confirm
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </>
   );
 };

@@ -7,8 +7,6 @@ import "../../assets/stylesheets/FeatureCategory.scss";
 import "../../assets/stylesheets/feature.scss";
 import img6 from "../../assets/images/playbutton.png";
 import img3 from "../../assets/images/camera 1.png";
-// import img4 from "../../assets/images/report 1.png";
-// import img5 from "../../assets/images/Car Brochure.png";
 import { useParams } from "react-router-dom";
 import { backendURL } from "../../utils/Exports";
 import LoadingSpinner from "../usercomponents/LoadingSpinner";
