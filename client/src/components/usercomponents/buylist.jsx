@@ -1,34 +1,85 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../../assets/stylesheets/filter.scss";
 import "../../assets/stylesheets/carddata.scss";
 import "../../assets/stylesheets/FeatureCategory.scss";
 import ProductGridWithPagination from "./autiomap";
 import { Link } from "react-router-dom";
-const BuyfilterForm = ({ cars, sellingType }) => {
-  const [selectedTypes, setSelectedTypes] = useState([]);
+import { useSelector } from "react-redux";
+import { backendURL } from "../../utils/Exports";
+
+const BuyfilterForm = ({ sellingType }) => {
+  const { categories } = useSelector((state) => state.category);
+  const [selectedTransmissions, setSelectedTransmissions] = useState([]);
+  const [selectedFuelTypes, setSelectedFuelTypes] = useState([]);
   const [formData, setFormData] = useState({});
-  const [minPrice, setMinPrice] = useState(5000);
-  const [maxPrice, setMaxPrice] = useState(45000);
+  const [minPrice, setMinPrice] = useState(100);
+  const [maxPrice, setMaxPrice] = useState(100000);
+  const [cars, setCars] = useState([]);
 
-  const handleMinChange = (e) => {
-    const value = Math.min(Number(e.target.value), maxPrice - 1000);
-    setMinPrice(value);
-  };
+  const applyFilter = async () => {
+    const filterData = {
+      ...formData,
+      priceMin: minPrice,
+      priceMax: maxPrice,
+      ...(selectedTransmissions.length > 0 && { transmission: selectedTransmissions }),
+      ...(selectedFuelTypes.length > 0 && { fuelType: selectedFuelTypes }),
+    };
 
-  const handleMaxChange = (e) => {
-    const value = Math.max(Number(e.target.value), minPrice + 1000);
-    setMaxPrice(value);
-  };
-
-  const handleCheckboxChange = (e) => {
-    const { value, checked } = e.target;
-
-    if (checked) {
-      setSelectedTypes((prev) => [...prev, value]);
-    } else {
-      setSelectedTypes((prev) => prev.filter((type) => type !== value));
+    try {
+      const response = await fetch(`${backendURL}/car/filter`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(filterData),
+      });
+      const result = await response.json();
+      if (result.success) {
+        setCars(result.data);
+      } else {
+        console.log("No cars found with the applied filters.");
+      }
+    } catch (error) {
+      console.log("Error applying filter:", error);
     }
   };
+
+
+  useEffect(() => {
+    applyFilter();
+  }, [formData, minPrice, maxPrice, selectedTransmissions, selectedFuelTypes]);
+
+
+
+  const generateOptions = (key, labelKey) =>
+    categories?.[key]?.map((item) => ({
+      label: item[labelKey],
+      value: item._id,
+    })) || [];
+
+  const handleMinChange = (event) => {
+    const value = Math.max(Number(event.target.value), 100);
+    if (value <= maxPrice) {
+      setMinPrice(value);
+    }
+  };
+
+  const handleMaxChange = (event) => {
+    const value = Math.min(Number(event.target.value), 100000);
+    if (value >= minPrice) {
+      setMaxPrice(value);
+    }
+  };
+
+  const handleCheckboxChange = (e, category) => {
+    const { value, checked } = e.target;
+
+    const updateState = (prevState) =>
+      checked ? [...prevState, value] : prevState.filter((item) => item !== value);
+    if (category === "transmission") setSelectedTransmissions(updateState);
+    if (category === "fuelType") setSelectedFuelTypes(updateState);
+  };
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -38,18 +89,16 @@ const BuyfilterForm = ({ cars, sellingType }) => {
   return (
     <div>
       <div style={{ paddingBottom: 40, backgroundColor: "#010153" }}></div>
-
       <div className="mb-5 main">
         <div className="container">
           <div className="Breadcrumb-section">
             <nav aria-label="Breadcrumb">
               <ol className="breadcrumb">
                 <li className="breadcrumb-item">
-                  {/* <a href="home.js">Home</a> */}
                   <Link to="/">Home</Link>
                 </li>
                 <li className="breadcrumb-item active" aria-current="page">
-                  Buy Now Vehicles
+                  Auction Vehicles
                 </li>
               </ol>
             </nav>
@@ -57,110 +106,80 @@ const BuyfilterForm = ({ cars, sellingType }) => {
           <div className="row">
             <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
               <div className="Auction-Vehicles-text">
-                <h1>Buy Now Vehicles List</h1>
+                <h1>Auction Vehicles List</h1>
               </div>
             </div>
           </div>
           <div className="row">
-            <div className="  col-xl-3 col-lg-3 col-md-4 col-sm-12 col-12 mb-4">
+            <div className=" col-xl-3 col-lg-3 col-md-4 col-sm-12 col-12 mb-4">
               <form className="form_section">
+
                 <div className="data">
                   <div className="datainput">
-                    <select name="location" onChange={handleChange} required>
+                    <select name="carMake" onChange={handleChange} required>
                       <option value="" disabled selected hidden>
-                        Select Location
+                        Select Car Make
                       </option>
-                      <option value="new-york">New York</option>
-                      <option value="los-angeles">Los Angeles</option>
-                      <option value="chicago">Chicago</option>
+                      {generateOptions("vehicle-make", "vehicleMake").map(
+                        (option) => (
+                          <option key={option.value} value={option.value}>
+                            {option.label}
+                          </option>
+                        )
+                      )}
                     </select>
-                    <label htmlFor="location">Location</label>
+                    <label htmlFor="carMake">Make</label>
                   </div>
                 </div>
                 <div className="data">
                   <div className="datainput">
-                    <select name="condition" onChange={handleChange} required>
+                    <select name="carModal" onChange={handleChange} required>
                       <option value="" disabled selected hidden>
-                        Select Condition
+                        Select Car Model
                       </option>
-                      <option value="new-used">New & Used</option>
-                      <option value="used">Used</option>
+                      {generateOptions("vehicle-modal", "vehicleModal").map(
+                        (option) => (
+                          <option key={option.value} value={option.value}>
+                            {option.label}
+                          </option>
+                        )
+                      )}
                     </select>
-                    <label htmlFor="condition">Condition</label>
-                  </div>
-                </div>
-                <div className="data">
-                  <div className="p-3 type-section">
-                    <label className="type-text">Type</label>
-                    <div>
-                      {[
-                        "SUV  (1,456)",
-                        "Sedan  (1,456)",
-                        "Hatchback  (1,456)",
-                        "Coupe  (1,456)",
-                        "Convertible  (1,456)",
-                      ].map((type) => (
-                        <label key={type}>
-                          <input
-                            type="checkbox"
-                            value={type}
-                            onChange={handleCheckboxChange}
-                          />
-                          {type}
-                        </label>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-                <div className="data">
-                  <div className="datainput">
-                    <select name="make" onChange={handleChange} required>
-                      <option value="" disabled selected hidden>
-                        Add Make
-                      </option>
-                      <option value="toyota">Toyota</option>
-                      <option value="honda">Honda</option>
-                      <option value="ford">Ford</option>
-                    </select>
-                    <label htmlFor="make">Make</label>
-                  </div>
-                </div>
-                <div className="data">
-                  <div className="datainput">
-                    <select name="model" onChange={handleChange} required>
-                      <option value="" disabled selected hidden>
-                        Add Model
-                      </option>
-                      <option value="camry">Camry</option>
-                      <option value="civic">Civic</option>
-                      <option value="mustang">Mustang</option>
-                    </select>
-                    <label htmlFor="model">Model</label>
+                    <label htmlFor="carModal">Model</label>
                   </div>
                 </div>
                 <div className="data">
                   <div className=" d-flex flex-direction-row gap-2 datadetails">
                     <div className="datainputs">
-                      <label htmlFor="minYear">Min Year</label>
+                      <label htmlFor="yearMin">Min Year</label>
 
-                      <select name="minYear" onChange={handleChange} required>
+                      <select name="yearMin" onChange={handleChange} required>
                         <option value="" disabled selected hidden>
-                          2019
+                          Min Year
                         </option>
-                        <option value="2019">2019</option>
-                        <option value="2020">2020</option>
-                        <option value="2021">2021</option>
+                        {generateOptions("vehicle-year", "vehicleYear").map(
+                          (option) => (
+                            <option key={option.value} value={option.value}>
+                              {option.label}
+                            </option>
+                          )
+                        )}
                       </select>
                     </div>
 
                     <div className="datainputs">
-                      <label htmlFor="maxYear">Max Year</label>
-                      <select name="maxYear" onChange={handleChange} required>
+                      <label htmlFor="yearMax">Max Year</label>
+                      <select name="yearMax" onChange={handleChange} required>
                         <option value="" disabled selected hidden>
-                          2023
+                          Max Year
                         </option>
-                        <option value="2022">2022</option>
-                        <option value="2023">2023</option>
+                        {generateOptions("vehicle-year", "vehicleYear").map(
+                          (option) => (
+                            <option key={option.value} value={option.value}>
+                              {option.label}
+                            </option>
+                          )
+                        )}
                       </select>
                     </div>
                   </div>
@@ -168,25 +187,34 @@ const BuyfilterForm = ({ cars, sellingType }) => {
 
                 <div className="data">
                   <div className="datainput">
-                    <select name="mileage" onChange={handleChange} required>
+                    <select name="color" onChange={handleChange} required>
                       <option value="" disabled selected hidden>
-                        Any Mileage
+                        Select Color
                       </option>
-                      <option value="10000">Up to 10,000 miles</option>
-                      <option value="50000">Up to 50,000 miles</option>
+                      {generateOptions("vehicle-color", "vehicleColors").map(
+                        (option) => (
+                          <option key={option.value} value={option.value}>
+                            {option.label}
+                          </option>
+                        )
+                      )}
                     </select>
-                    <label htmlFor="mileage">Mileage</label>
+                    <label htmlFor="color">Color</label>
                   </div>
                 </div>
                 <div className="data">
                   <div className="datainput">
                     <select name="driveType" onChange={handleChange} required>
                       <option value="" disabled selected hidden>
-                        Any Type
+                        Select Drive Type
                       </option>
-                      <option value="awd">AWD</option>
-                      <option value="fwd">FWD</option>
-                      <option value="rwd">RWD</option>
+                      {generateOptions("drive-type", "driveType").map(
+                        (option) => (
+                          <option key={option.value} value={option.value}>
+                            {option.label}
+                          </option>
+                        )
+                      )}
                     </select>
                     <label htmlFor="driveType">Drive Type</label>
                   </div>
@@ -199,13 +227,13 @@ const BuyfilterForm = ({ cars, sellingType }) => {
                       <div className="input-box">
                         <label>Min price</label>
                         <div className="d-flex">
-                          <span>$</span>
+                          <span>AED</span>
                           <input
                             type="number"
                             value={minPrice}
                             onChange={handleMinChange}
-                            min="5000"
-                            max="45000"
+                            min="100"
+                            max="100000"
                           />
                         </div>
                       </div>
@@ -214,40 +242,50 @@ const BuyfilterForm = ({ cars, sellingType }) => {
                       <div className="input-box">
                         <label>Max price</label>
                         <div className="d-flex">
-                          <span>$</span>
+                          <span>AED</span>
                           <input
                             type="number"
                             value={maxPrice}
                             onChange={handleMaxChange}
-                            min="5000"
-                            max="45000"
+                            min="100"
+                            max="100000"
                           />
                         </div>
                       </div>
                     </div>
                   </div>
                   <div className="slider-container">
+                    {/* Left range slider */}
                     <input
                       type="range"
-                      min="5000"
-                      max="45000"
+                      min="100"
+                      max="100000"
                       value={minPrice}
-                      onChange={handleMinChange}
+                      onChange={(event) => {
+                        handleMinChange(event);
+                      }}
                       className="slider"
                     />
+
+                    {/* Right range slider */}
                     <input
                       type="range"
-                      min="5000"
-                      max="45000"
+                      min="100"
+                      max="100000"
                       value={maxPrice}
-                      onChange={handleMaxChange}
+                      onChange={(event) => {
+                        handleMaxChange(event);
+                      }}
                       className="slider"
                     />
+
+                    {/* Visual representation of the range track */}
                     <div
                       className="slider-track"
                       style={{
-                        left: `${((minPrice - 5000) / 40000) * 100}%`,
-                        right: `${100 - ((maxPrice - 5000) / 40000) * 100}%`,
+                        left: `${((minPrice - 100) / (100000 - 100)) * 100}%`,
+                        right: `${100 - ((maxPrice - 100) / (100000 - 100)) * 100
+                          }%`,
                       }}
                     ></div>
                   </div>
@@ -256,20 +294,18 @@ const BuyfilterForm = ({ cars, sellingType }) => {
                   <div className="p-3 type-section">
                     <label className="type-text">Transmission</label>
                     <div>
-                      {[
-                        "Automatic  (1,456)",
-                        "Manual  (1,456)",
-                        "CVT  (1,456)",
-                      ].map((type) => (
-                        <label key={type}>
-                          <input
-                            type="checkbox"
-                            value={type}
-                            onChange={handleCheckboxChange}
-                          />
-                          {type}
-                        </label>
-                      ))}
+                      {generateOptions("vehicle-transmission", "vehicleTransimission").map(
+                        (type) => (
+                          <label key={type.value}>
+                            <input
+                              type="checkbox"
+                              value={type.value}
+                              onChange={(e) => handleCheckboxChange(e, "transmission")}
+                            />
+                            {type.label}
+                          </label>
+                        )
+                      )}
                     </div>
                   </div>
                 </div>
@@ -277,19 +313,14 @@ const BuyfilterForm = ({ cars, sellingType }) => {
                   <div className="p-3 type-section">
                     <label className="type-text">Fuel Type</label>
                     <div>
-                      {[
-                        "Diesel  (1,456)",
-                        "Petrol  (1,456)",
-                        "Hybird  (1,456)",
-                        "Electric  (1,456)",
-                      ].map((type) => (
-                        <label key={type}>
+                      {generateOptions("vehicle-fuel-type", "vehicleFuelTypes").map((type) => (
+                        <label key={type.value}>
                           <input
                             type="checkbox"
-                            value={type}
-                            onChange={handleCheckboxChange}
+                            value={type.value}
+                            onChange={(e) => handleCheckboxChange(e, "fuelType")}
                           />
-                          {type}
+                          {type.label}
                         </label>
                       ))}
                     </div>
@@ -301,9 +332,13 @@ const BuyfilterForm = ({ cars, sellingType }) => {
                       <option value="" disabled selected hidden>
                         Select Doors
                       </option>
-                      <option value="2">2</option>
-                      <option value="3">3</option>
-                      <option value="4">4</option>
+                      {generateOptions("vehicle-door", "vehicleDoor").map(
+                        (option) => (
+                          <option key={option.value} value={option.value}>
+                            {option.label}
+                          </option>
+                        )
+                      )}
                     </select>
                     <label htmlFor="doors">Doors</label>
                   </div>
@@ -314,9 +349,14 @@ const BuyfilterForm = ({ cars, sellingType }) => {
                       <option value="" disabled selected hidden>
                         Select Cylinders
                       </option>
-                      <option value="4">4 </option>
-                      <option value="6">6 </option>
-                      <option value="8">8 </option>
+                      {generateOptions(
+                        "vehicle-cylinder",
+                        "vehicleCylinders"
+                      ).map((option) => (
+                        <option key={option.value} value={option.value}>
+                          {option.label}
+                        </option>
+                      ))}
                     </select>
                     <label htmlFor="cylinders">Cylinders</label>
                   </div>

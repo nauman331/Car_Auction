@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from "react";
-import "../../assets/stylesheets/sortbydropdown.scss";
-import SortByDropdown from "./auto";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import img2 from "../../assets/images/speedometer 1.png";
 import img3 from "../../assets/images/gasoline-pump 1.png";
@@ -34,10 +32,6 @@ const ProductGridWithPagination = ({ cars, sellingType }) => {
     setCurrentPage(page);
   };
 
-  const handleFilterChange = (auctionTitle) => {
-    setSelectedAuctionTitle(auctionTitle);
-  };
-
   if (location.pathname === "/vehicle") {
     useEffect(() => {
       const filtered = cars.filter(
@@ -62,10 +56,6 @@ const ProductGridWithPagination = ({ cars, sellingType }) => {
         <h2 className="showingvehicles">
           Showing {paginatedCars.length} of {filteredCars.length} Vehicles
         </h2>
-        {location.pathname === "/vehicle" &&
-          <div>
-            <SortByDropdown onChange={handleFilterChange} />
-          </div>}
       </div>
 
       {paginatedCars?.length > 0 ? (
@@ -163,7 +153,7 @@ const ProductGridWithPagination = ({ cars, sellingType }) => {
           </div>
           <div>
             <h2 className="showingvehicles-text">
-              Showing Results {paginatedCars.length} - {filteredCars.length} of 1,415
+              Showing Results {paginatedCars.length} of {filteredCars.length}
             </h2>
           </div>
         </>

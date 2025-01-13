@@ -59,7 +59,6 @@ function SortByDropdown({ onChange }) {
 
   return (
     <div className="sort-by-container d-flex justify-content-end">
-      <label htmlFor="sort-by-select">Auctions:</label>
       <select value={selectedOption} onChange={handleOptionChange}>
         {options.map((option) => (
           <option key={option._id} value={option.auctionTitle}>

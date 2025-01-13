@@ -14,7 +14,7 @@ import img11 from "../../assets/images/piston 1.png";
 import img12 from "../../assets/images/color.png";
 import img13 from "../../assets/images/steering-wheel 1.png";
 import { useSelector, useDispatch } from "react-redux";
-import {removeBidData} from "../../store/eventSlice"
+import { removeBidData } from "../../store/eventSlice"
 import toast from "react-hot-toast";
 import { PencilLine, Trash } from "lucide-react";
 import DeleteModal from "./DeleteModal";
@@ -106,20 +106,20 @@ const CarAuction = ({ car, getCarDetails, backendURL }) => {
     } else {
       console.log("Socket not connected or invalid data");
     }
-    }
-
-const handleUnSoldBid = () => {
-  if (socket && token && car._id) {
-    const data = {
-      carId: car._id,
-      token,
-    };
-    socket.emit("markUnsaved", data);
-    getCarDetails();
-  } else {
-    console.log("Socket not connected or invalid data");
   }
-}
+
+  const handleUnSoldBid = () => {
+    if (socket && token && car._id) {
+      const data = {
+        carId: car._id,
+        token,
+      };
+      socket.emit("markUnsaved", data);
+      getCarDetails();
+    } else {
+      console.log("Socket not connected or invalid data");
+    }
+  }
 
   const handleStatusUpdate = (selectedStatus) => {
     if (socket && token && car?._id) {
@@ -127,7 +127,7 @@ const handleUnSoldBid = () => {
         handleStartBid();
       } else if (selectedStatus === "Completed") {
         handleCloseBid();
-      } else if(selectedStatus === "UnSold") {
+      } else if (selectedStatus === "UnSold") {
         handleUnSoldBid();
       }
     } else {
@@ -141,7 +141,7 @@ const handleUnSoldBid = () => {
       toast.error("Please select a status before updating.");
     }
   };
-  
+
 
   const handleImageSubmit = async () => {
     try {
@@ -171,7 +171,7 @@ const handleUnSoldBid = () => {
   };
 
   const deletCar = async (id) => {
-    if(currentBidData?.auctionStatus && (currentBidData?.carId === id)){
+    if (currentBidData?.auctionStatus && (currentBidData?.carId === id)) {
       toast.error("Please close auction on this car first");
       return;
     }
@@ -187,7 +187,7 @@ const handleUnSoldBid = () => {
       const res_data = await response.json();
       if (response.ok) {
         toast.success(res_data.message);
-        if(id === currentBidData?.carId) {
+        if (id === currentBidData?.carId) {
           dispatch(removeBidData());
         }
         setShowDeleteModal(false); // Close the modal after deletion
@@ -299,7 +299,7 @@ const handleUnSoldBid = () => {
 
 
   const purchaseCar = async () => {
-    if(!token) {
+    if (!token) {
       navigate("/auth")
     }
     const authorizationToken = `Bearer ${token}`;
@@ -406,90 +406,90 @@ const handleUnSoldBid = () => {
           }
 
         </div>
-{
-  !car.isSold ? 
-  car.sellingType === "auction" ?
-  <>
-        <div className="bid-controls">
-          <button onClick={decreaseBid}>-</button>
-          <span>AED
-            <input type="number" value={bid}
-              onChange={(e) => setBid(parseFloat(e.target.value))}
-            /></span>
-          <button onClick={increaseBid}>+</button>
-          {
-            currentBidData?.auctionStatus && (currentBidData?.carId === car._id) ?
-          <button className="place-bid" onClick={handlePlaceBid}>
-            <img src={img1} />
-            Place Bid
-          </button>
-          :
-          <button className="place-bid" style={{backgroundColor: "grey", cursor: "not-allowed", border: "none"}}>
-          <img src={img1} />
-          Place Bid
-        </button>
-}
-        </div>
-        <div className="form-container" style={{border:"none", padding:"0px"}}>
-  <div className="form-section" >
-    <div className="form-grid">
-    <div className="input-container" id="auction-container" >
-        <Select
-    options={[
-      { label: "Ongoing", value: "Ongoing" },
-      { label: "Completed", value: "Completed" },
-      { label: "UnSold", value: "UnSold" },
-    ]}
-    placeholder="Select Status"
-    onChange={(selectedOption) => {
-      setSelectedStatus(selectedOption?.value);
-    }}
-    className="react-select-container"
-    classNamePrefix="react-select"
-    id="auctionLot"
-  />
-  <label htmlFor="auctionLot">Select Status</label>
-  <button className="place-bid" onClick={handleUpdateStatus}>
-    Update
-  </button>
-  </div>
-  </div>
-</div>
-</div>
-<div className="form-container" style={{border:"none", padding:"0px"}}>
-  <div className="form-section" >
-    <div className="form-grid">
-  <div className="input-container" id="auction-container" >
-  <Select
-    options={generateAuctionOptions()} // Use the options generated from auctions
-    value={generateAuctionOptions().find(option => option.value === selectedAuctionLot)} // Match the selected value
-    onChange={(selectedOption) => setSelectedAuctionLot(selectedOption?.value)} // Update state on selection
-    placeholder="Select Auction Lot"
-    className="react-select-container"
-    classNamePrefix="react-select"
-    id="auctionLot"
-  />
-  <label htmlFor="auctionLot">Select Auction</label>
-  <button onClick={updateAuctionLot} className="place-bid">
-    Update
-  </button>
-</div>
-</div>
-</div>
-</div>
-</>
-:
-<>
-<div className="bid-controls">
-<button className="place-bid" onClick={handleBuyNowClick}>
-    Mark as Sold
-  </button>
-  </div>
-  </>
-  :
-  <h4 style={{color: "#aaa", margin: "1rem 0"}}>Car is already Sold</h4>
-  }
-      
+        {
+          !car.isSold ?
+            car.sellingType === "auction" ?
+              <>
+                <div className="bid-controls">
+                  <button onClick={decreaseBid}>-</button>
+                  <span>AED
+                    <input type="number" value={bid}
+                      onChange={(e) => setBid(parseFloat(e.target.value))}
+                    /></span>
+                  <button onClick={increaseBid}>+</button>
+                  {
+                    currentBidData?.auctionStatus && (currentBidData?.carId === car._id) ?
+                      <button className="place-bid" onClick={handlePlaceBid}>
+                        <img src={img1} />
+                        Place Bid
+                      </button>
+                      :
+                      <button className="place-bid" style={{ backgroundColor: "grey", cursor: "not-allowed", border: "none" }}>
+                        <img src={img1} />
+                        Place Bid
+                      </button>
+                  }
+                </div>
+                <div className="form-container" style={{ border: "none", padding: "0px" }}>
+                  <div className="form-section" >
+                    <div className="form-grid">
+                      <div className="input-container" id="auction-container" >
+                        <Select
+                          options={[
+                            { label: "Ongoing", value: "Ongoing" },
+                            { label: "Completed", value: "Completed" },
+                            { label: "UnSold", value: "UnSold" },
+                          ]}
+                          placeholder="Select Status"
+                          onChange={(selectedOption) => {
+                            setSelectedStatus(selectedOption?.value);
+                          }}
+                          className="react-select-container"
+                          classNamePrefix="react-select"
+                          id="auctionLot"
+                        />
+                        <label htmlFor="auctionLot">Select Status</label>
+                        <button className="place-bid" onClick={handleUpdateStatus}>
+                          Update
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="form-container" style={{ border: "none", padding: "0px" }}>
+                  <div className="form-section" >
+                    <div className="form-grid">
+                      <div className="input-container" id="auction-container" >
+                        <Select
+                          options={generateAuctionOptions()} // Use the options generated from auctions
+                          value={generateAuctionOptions().find(option => option.value === selectedAuctionLot)} // Match the selected value
+                          onChange={(selectedOption) => setSelectedAuctionLot(selectedOption?.value)} // Update state on selection
+                          placeholder="Select Auction Lot"
+                          className="react-select-container"
+                          classNamePrefix="react-select"
+                          id="auctionLot"
+                        />
+                        <label htmlFor="auctionLot">Select Auction</label>
+                        <button onClick={updateAuctionLot} className="place-bid">
+                          Update
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </>
+              :
+              <>
+                <div className="bid-controls">
+                  <button className="place-bid" onClick={handleBuyNowClick}>
+                    Mark as Sold
+                  </button>
+                </div>
+              </>
+            :
+            <h4 style={{ color: "#aaa", margin: "1rem 0" }}>Car is already Sold</h4>
+        }
+
 
         <div className="car-overview">
           <h3>Car Overview</h3>
@@ -639,7 +639,7 @@ const handleUnSoldBid = () => {
 
 
 
-<Modal show={showConfirmModal} onHide={handleCancelPurchase} centered>
+      <Modal show={showConfirmModal} onHide={handleCancelPurchase} centered>
         <Modal.Header closeButton>
           <Modal.Title>Confirm Purchase</Modal.Title>
         </Modal.Header>

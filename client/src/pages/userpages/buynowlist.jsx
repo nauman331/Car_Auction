@@ -19,6 +19,7 @@ const Vehicle = () => {
         }
   
         const res_data = await response.json();
+        console.log(res_data)
         setCars(res_data); // Ensure this matches the expected structure
       } catch (error) {
         console.error("Error fetching cars:", error);

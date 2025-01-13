@@ -6,6 +6,7 @@ import ProductGridWithPagination from "./autiomap";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { backendURL } from "../../utils//Exports";
+import SortByDropdown from "./auto";
 
 const CarFilterForm = ({ sellingType }) => {
   const { categories } = useSelector((state) => state.category);
@@ -49,6 +50,9 @@ const CarFilterForm = ({ sellingType }) => {
     applyFilter();
   }, [formData, minPrice, maxPrice, selectedTransmissions, selectedFuelTypes]);
 
+  const handleFilterChange = (auctionTitle) => {
+    setSelectedAuctionTitle(auctionTitle);
+  };
 
 
   const generateOptions = (key, labelKey) =>
@@ -115,38 +119,12 @@ const CarFilterForm = ({ sellingType }) => {
             <div className=" col-xl-3 col-lg-3 col-md-4 col-sm-12 col-12 mb-4">
               <form className="form_section">
 
-
                 <div className="data">
                   <div className="datainput">
-                    <select name="auctionStatus" onChange={handleChange} required>
-                      <option value="" disabled selected hidden>
-                        Select Status
-                      </option>
-                      <option key="true" value="true">
-                        Ongoing
-                      </option>
-                      <option key="false" value="false">
-                        Pending
-                      </option>
-                    </select>
-                    <label htmlFor="auctionStatus">Auction Status</label>
-                  </div>
-                </div>
-                <div className="data">
-                  <div className="datainput">
-                    <select name="location" onChange={handleChange} required>
-                      <option value="" disabled selected hidden>
-                        Select Location
-                      </option>
-                      {generateOptions("auction-location", "auctionLocation").map(
-                        (option) => (
-                          <option key={option.value} value={option.value}>
-                            {option.label}
-                          </option>
-                        )
-                      )}
-                    </select>
-                    <label htmlFor="location">Location</label>
+                    {location.pathname === "/vehicle" &&
+                      <div>
+                        <SortByDropdown onChange={handleFilterChange} />
+                      </div>}
                   </div>
                 </div>
                 <div className="data">
