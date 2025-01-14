@@ -264,7 +264,7 @@ const Wallet = () => {
                       <td>{item.amount || "N/A"} AED</td>
                       <td>{item.status || "No Status"}</td>
                       <td>
-                        <a href={`${item.inv}?attachment=true`} download>
+                        <a href={`${item.inv}?attachment=true`}>
                           <Eye />
                         </a>
                       </td>

@@ -3,8 +3,35 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import img1 from "../../assets/images/location.png";
 import img2 from "../../assets/images/body.png";
 import "../../assets/stylesheets/eventauction.scss";
+import { backendURL } from "../../utils/Exports";
 
-const AuctionCard = ({ auctions }) => {
+const AuctionCard = () => {
+
+  const [auctions, setAuctions] = useState([])
+
+  const getAllAuctions = async () => {
+    try {
+      const response = await fetch(`${backendURL}/auction`, {
+        method: "GET",
+      });
+      const res_data = await response.json();
+      console.log(res_data)
+      if (response.ok) {
+        setAuctions(res_data)
+
+      } else {
+        console.log(res_data.message);
+      }
+    } catch (error) {
+      console.log("Error in getting all auctions");
+    }
+  };
+
+  useEffect(() => {
+    getAllAuctions();
+  }, []);
+
+
   const calculateTimeLeft = (date, time) => {
     const auctionDateTime = new Date(`${date} ${time}`);
     const now = new Date();
@@ -22,13 +49,13 @@ const AuctionCard = ({ auctions }) => {
   };
 
   const [timers, setTimers] = useState(
-    auctions.map((auction) => calculateTimeLeft(auction.date, auction.time))
+    auctions.map((auction) => calculateTimeLeft(new Date(auction.auctionDate).toLocaleDateString(), auction.auctionTime))
   );
 
   useEffect(() => {
     const interval = setInterval(() => {
       setTimers(
-        auctions.map((auction) => calculateTimeLeft(auction.date, auction.time))
+        auctions.map((auction) => calculateTimeLeft(new Date(auction.auctionDate).toLocaleDateString(), auction.auctionTime))
       );
     }, 1000);
 
@@ -44,6 +71,7 @@ const AuctionCard = ({ auctions }) => {
       </div>
       <div className="row">
         {auctions.map((auction, index) => (
+          auction.statusText === "Pending" &&
           <div
             className="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12 mb-4"
             key={index}
@@ -52,12 +80,11 @@ const AuctionCard = ({ auctions }) => {
               {/* Header Section */}
               <div className="abs">
                 <h5 className="card-title mb-2">
-                  {auction.title} ({auction.day})
+                  {auction.auctionTitle || "N/A"}
                 </h5>
-                <span className="badge bg-danger mb-2">Live</span>
                 {/* Date and Time */}
                 <p className="texts mb-3" style={{ fontSize: "14px" }}>
-                  {auction.date} at {auction.time}
+                  {new Date(auction.auctionDate).toLocaleDateString()} at {auction.auctionTime || "N/A"}
                 </p>
                 {/* Countdown Timer */}
                 <div className="countdown text-center d-flex justify-content-between gap-3">
@@ -101,28 +128,17 @@ const AuctionCard = ({ auctions }) => {
                     style={{ fontSize: "12px" }}
                   >
                     <img src={img1} alt="Location" />
-                    {auction.location}
+                    {auction.location?.auctionLocation || "N/A"}
                   </span>
                   <span
                     className="d-flex align-items-center"
                     style={{ fontSize: "12px" }}
                   >
                     <img src={img2} alt="Cars" />
-                    No of Cars {auction.cars}
+                    No of Cars {auction.totalVehicles || 0}
                   </span>
-                  <button
-                    className="btn btn-outline-secondary btn-sm w-20"
-                    style={{ fontSize: "12px" }}
-                  >
-                    View All
-                  </button>
+                  <span>Auction No: {auction.auctionNumber || ""}</span>
                 </div>
-                {/* <button
-                  className="btn btn-success w-100 fw-bold"
-                  style={{ fontSize: "14px" }}
-                >
-                  Join Auction
-                </button> */}
               </div>
             </div>
           </div>
@@ -132,36 +148,9 @@ const AuctionCard = ({ auctions }) => {
   );
 };
 
-// Example Usage
-const auctions = [
-  {
-    title: "Onsite & Online Auction",
-    day: "Sunday",
-    date: "Jan 12, 2025",
-    time: "10:00 AM",
-    location: "ACA - Al Sajaa",
-    cars: 136,
-  },
-  {
-    title: "Exclusive Online Auction",
-    day: "Monday",
-    date: "Jan 13, 2025",
-    time: "2:00 PM",
-    location: "Dubai - Auction House",
-    cars: 50,
-  },
-  {
-    title: "Classic Car Auction",
-    day: "Tuesday",
-    date: "Jan 14, 2025",
-    time: "5:00 PM",
-    location: "Sharjah - Al Wahda",
-    cars: 72,
-  },
-];
 
 const Upcomingevents = () => {
-  return <AuctionCard auctions={auctions} />;
+  return <AuctionCard />;
 };
 
 export default Upcomingevents;
