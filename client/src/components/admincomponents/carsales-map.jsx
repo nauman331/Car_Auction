@@ -81,7 +81,9 @@ const CarAuction = ({ car, getCarDetails, backendURL }) => {
   };
 
   const handlePlaceBid = () => {
-    setBidLoading(true)
+    if (bidLoading) return; // Prevent duplicate calls
+    setBidLoading(true);
+
     if (socket && token && car?._id) {
       const data = {
         carId: car._id,
@@ -90,13 +92,15 @@ const CarAuction = ({ car, getCarDetails, backendURL }) => {
       };
       if (parseFloat(bid) <= parseFloat(currentBidData?.bidAmount || currentBidData?.currentBid || car.startingBid)) {
         toast.error("Bid amount should be greater than the current bid");
-        return;
+        setBidLoading(false);
+        return;  
       }
       socket.emit("placeBid", data);
       setBid(currentBidData?.bidAmount)
       setBidLoading(false)
     } else {
       console.log("Socket not connected or invalid data");
+      setBidLoading(false);
     }
   };
 
@@ -424,7 +428,7 @@ const CarAuction = ({ car, getCarDetails, backendURL }) => {
                   <button onClick={increaseBid}>+</button>
                   {
                     currentBidData?.auctionStatus && (currentBidData?.carId === car._id) ?
-                      <button className="place-bid" onClick={handlePlaceBid} disabled={bidLoading} style={{backgroundColor: bidLoading && "gray"}}>
+                      <button className="place-bid" onClick={handlePlaceBid} disabled={bidLoading} style={{ backgroundColor: bidLoading && "gray" }}>
                         <img src={img1} />
                         {bidLoading ? "Placing Bid..." : "Place Bid"}
                       </button>

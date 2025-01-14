@@ -24,8 +24,7 @@ const CarAuction = ({ car }) => {
   const { token } = useSelector(state => state.auth);
   const { currentBidData } = useSelector(state => state.event);
   const [bid, setBid] = useState(car.startingBid || 0);
-
-
+  const [bidLoading, setBidLoading] = useState(false)
 
 
   const increaseBid = () => setBid(bid + car.bidMargin);
@@ -34,9 +33,11 @@ const CarAuction = ({ car }) => {
   };
 
   const handlePlaceBid = () => {
-    if(!token) {
+    if (!token) {
       navigate("/auth")
     }
+    if (bidLoading) return; // Prevent duplicate calls
+    setBidLoading(true);
     if (socket && token && car?._id) {
       const data = {
         carId: car._id,
@@ -44,23 +45,26 @@ const CarAuction = ({ car }) => {
         bidAmount: parseFloat(bid),
       };
       if (
-        parseFloat(bid) <= 
+        parseFloat(bid) <=
         parseFloat(
-          currentBidData?.bidAmount || 
-          currentBidData?.currentBid || 
+          currentBidData?.bidAmount ||
+          currentBidData?.currentBid ||
           car.startingBid
         )
       ) {
         toast.error("Bid amount should be greater than the current bid");
+        setBidLoading(false);
         return;
       }
       socket.emit("placeBid", data);
-      setBid(currentBidData?.bidAmount || bid); // Ensure bid is always valid
+      setBid(currentBidData?.bidAmount || bid);
+      setBidLoading(false)
     } else {
       console.log("Socket not connected or invalid data");
+      setBidLoading(false)
     }
   };
-  
+
 
 
   return (
@@ -92,9 +96,9 @@ const CarAuction = ({ car }) => {
               <button onClick={increaseBid}>+</button>
               {
                 currentBidData?.auctionStatus && (currentBidData?.carId === car._id) ?
-                  <button className="place-bid" onClick={handlePlaceBid}>
+                  <button className="place-bid" onClick={handlePlaceBid} disabled={bidLoading} style={{ backgroundColor: bidLoading && "gray" }}>
                     <img src={img1} />
-                    Place Bid
+                    {bidLoading ? "Placing Bid..." : "Place Bid"}
                   </button>
                   :
                   <button className="place-bid" style={{ backgroundColor: "grey", cursor: "not-allowed", border: "none" }}>
