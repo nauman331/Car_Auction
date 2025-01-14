@@ -23,6 +23,8 @@ import { CloudinaryUploader } from "../../utils/CloudinaryUploader";
 import { useNavigate } from "react-router-dom";
 import LoadingSpinner from "../usercomponents/LoadingSpinner";
 import Select from "react-select";
+import { Modal, Button } from 'react-bootstrap';
+
 
 
 const CarAuction = ({ car, getCarDetails, backendURL }) => {
