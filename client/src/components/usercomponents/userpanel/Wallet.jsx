@@ -42,6 +42,7 @@ const Wallet = () => {
       console.log(res_data)
       if (response.ok) {
         setDeposits(res_data.depositeHistory);
+        setCurrentBalance(res_data.currentBalance)
       } else {
         toast.error(res_data.message);
       }
@@ -52,35 +53,11 @@ const Wallet = () => {
     }
   }, [token]);
 
-  const getCurrentBalance = useCallback(async () => {
-    const authorizationToken = `Bearer ${token}`;
-    try {
-      setLoading(true);
-      const response = await fetch(`${backendURL}/wallet/current-balance`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: authorizationToken,
-        },
-      });
-      const res_data = await response.json();
-      if (response.ok) {
-        setCurrentBalance(res_data.currentAmount);
-      } else {
-        toast.error(res_data.message);
-      }
-    } catch (error) {
-      console.error("Error in getting current balance:", error);
-    } finally {
-      setLoading(false);
-    }
-  }, [token]);
 
 
   useEffect(() => {
     getDeposits();
-    getCurrentBalance();
-  }, [getDeposits, getCurrentBalance]);
+  }, [getDeposits]);
 
   const handleSubmit = async () => {
     if (!pdf || !depositAmount) {
