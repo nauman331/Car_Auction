@@ -152,7 +152,7 @@ const WithdrawDetail = () => {
                         </tbody>
                     </table>
                     <button onClick={() => handleClearPaymentClick(withdraw)}>
-                        Clear Payment
+                        Update Status
                     </button>
                 </div>
             </div>

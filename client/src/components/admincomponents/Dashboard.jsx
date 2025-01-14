@@ -188,7 +188,7 @@ const Dashboard = () => {
                 <MessagesSquare />
               </div>
               <small>
-                {notification.message.split(" ").slice(0, 4).join(" ") || notification.message}...
+              {notification.message.slice(0, 25) + (notification.message.length > 25 ? "..." : "")}
               </small>
 
             </span>

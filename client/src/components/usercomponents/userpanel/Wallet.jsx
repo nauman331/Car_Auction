@@ -93,7 +93,7 @@ const Wallet = () => {
       const uploadResponse = await CloudinaryUploader(pdf);
       const cloudinaryUrl = uploadResponse.url;
 
-      const response = await fetch(`${backendURL}/wallet/deposit`, {
+      const response = await fetch(`${backendURL}/wallet`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
