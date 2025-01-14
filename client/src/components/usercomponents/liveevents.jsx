@@ -79,7 +79,12 @@ const AuctionCard = () => {
                     <img src={img2} />
                     No of Cars {auction.totalVehicles || 0}
                   </span>
-                 <span>Auction No: {auction.auctionNumber || ""}</span>
+                  <button
+                    className="btn btn-outline-secondary btn-sm w-20"
+                    style={{ fontSize: "12px" }}
+                  >
+                    View All
+                  </button>
                 </div>
                 {/* Join Auction Button */}
                 <button
