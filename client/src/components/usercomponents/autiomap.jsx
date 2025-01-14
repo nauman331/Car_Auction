@@ -8,11 +8,30 @@ import { NavLink, useLocation } from "react-router-dom";
 
 const itemsPerPage = 12;
 
-const ProductGridWithPagination = ({ cars, sellingType }) => {
+const ProductGridWithPagination = ({ cars }) => {
   const location = useLocation();
   const [currentPage, setCurrentPage] = useState(1);
-  const [filteredCars, setFilteredCars] = useState(cars);
+  const [filteredCars, setFilteredCars] = useState([]);
   const [selectedAuctionTitle, setSelectedAuctionTitle] = useState("All");
+  const [sellingType, setSellingType] = useState("");
+
+  useEffect(() => {
+    if (location.pathname === "/vehicle") {
+      setSellingType("auction");
+    } else if (location.pathname === "/buynowlist") {
+      setSellingType("fixed");
+    }
+  }, [location]);
+
+  useEffect(() => {
+    const filtered = cars.filter(
+      (car) =>
+        (selectedAuctionTitle === "All" || car.auctionLot?.auctionTitle === selectedAuctionTitle) &&
+        !car.isSold &&
+        car.sellingType === sellingType
+    );
+    setFilteredCars(filtered);
+  }, [cars, selectedAuctionTitle, sellingType]);
 
   const totalPages = Math.ceil(filteredCars.length / itemsPerPage);
 
@@ -32,19 +51,6 @@ const ProductGridWithPagination = ({ cars, sellingType }) => {
     setCurrentPage(page);
   };
 
-  if (location.pathname === "/vehicle") {
-    useEffect(() => {
-      const filtered = cars.filter(
-        (car) =>
-          (selectedAuctionTitle === "All" ||
-            car.auctionLot?.auctionTitle === selectedAuctionTitle) &&
-          !car.isSold &&
-          car.sellingType === sellingType
-      );
-      setFilteredCars(filtered);
-    }, [cars, selectedAuctionTitle, sellingType]);
-  }
-
   const paginatedCars = filteredCars.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
@@ -58,26 +64,19 @@ const ProductGridWithPagination = ({ cars, sellingType }) => {
         </h2>
       </div>
 
-      {paginatedCars?.length > 0 ? (
+      {paginatedCars.length > 0 ? (
         <div className="row">
           {paginatedCars.map((item) => (
-            item.sellingType === sellingType &&
-            <div
-              key={item._id}
-              className="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12 mb-4 px-2"
-            >
+            <div key={item._id} className="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12 mb-4 px-2">
               <div className="catagorys-section">
-                {/* Image Section */}
                 <div className="images-section">
                   <img src={item.carImages[0]} alt={item.listingTitle} />
                 </div>
-
-                {/* Content Section */}
                 <div className="Contents-Section">
                   <h4>{item.listingTitle || "No Title"}</h4>
                   <p className="address">
                     {item.description?.length > 40
-                      ? item.description?.substring(0, 40).trimEnd() + "..."
+                      ? item.description.substring(0, 40).trimEnd() + "..."
                       : item.description || "No Description"}
                   </p>
                   <span className="detailsdata">
@@ -98,7 +97,6 @@ const ProductGridWithPagination = ({ cars, sellingType }) => {
                   </span>
                   <div className="view-detail-section">
                     <p className="price">AED {item.price || item.startingBid}</p>
-
                     <div className="viewdetail-btn">
                       {item.sellingType === "auction" ? (
                         <NavLink to={`/auctioncar/${item._id}`}>
@@ -119,44 +117,35 @@ const ProductGridWithPagination = ({ cars, sellingType }) => {
           ))}
         </div>
       ) : (
-        <h4 className="text-center my-5">No Filtered Cars Please Change Filters</h4>
+        <h4 className="text-center my-5">No Filtered Cars. Please Change Filters</h4>
       )}
 
-      {paginatedCars?.length > 0 && (
-        <>
-          <div style={{ marginTop: "20px", textAlign: "center" }} className="pagination-controls">
-            <button onClick={handlePrev} disabled={currentPage === 1}>
-              <ChevronLeft className={`icon ${currentPage === 1 ? "disabled" : ""}`} />
+      {paginatedCars.length > 0 && (
+        <div className="pagination-controls">
+          <button onClick={handlePrev} disabled={currentPage === 1}>
+            <ChevronLeft className={`icon ${currentPage === 1 ? "disabled" : ""}`} />
+          </button>
+          {[...Array(totalPages)].map((_, index) => (
+            <button
+              key={index}
+              style={{
+                padding: "6px 13px",
+                margin: "0 5px",
+                cursor: "pointer",
+                background: currentPage === index + 1 ? "#000" : "transparent",
+                color: currentPage === index + 1 ? "#fff" : "#000",
+                border: "none",
+                borderRadius: "50px",
+              }}
+              onClick={() => handlePageChange(index + 1)}
+            >
+              {index + 1}
             </button>
-            {[...Array(totalPages)].map((_, index) => (
-              <button
-                key={index}
-                style={{
-                  padding: "6px 13px",
-                  margin: "0 5px",
-                  cursor: "pointer",
-                  textAlign: "center",
-                  background: currentPage === index + 1 ? "#000" : "transparent",
-                  color: currentPage === index + 1 ? "#fff" : "#000",
-                  border: "none",
-                  borderRadius: "50px",
-                }}
-                onClick={() => handlePageChange(index + 1)}
-              >
-                {index + 1}
-              </button>
-            ))}
-
-            <button onClick={handleNext} disabled={currentPage === totalPages}>
-              <ChevronRight className={`icon ${currentPage === totalPages ? "disabled" : ""}`} />
-            </button>
-          </div>
-          <div>
-            <h2 className="showingvehicles-text">
-              Showing Results {paginatedCars.length} of {filteredCars.length}
-            </h2>
-          </div>
-        </>
+          ))}
+          <button onClick={handleNext} disabled={currentPage === totalPages}>
+            <ChevronRight className={`icon ${currentPage === totalPages ? "disabled" : ""}`} />
+          </button>
+        </div>
       )}
     </div>
   );
