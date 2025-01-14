@@ -34,6 +34,7 @@ const BuyfilterForm = ({ sellingType }) => {
         body: JSON.stringify(filterData),
       });
       const result = await response.json();
+      console.log(result)
       if (result.success) {
         setCars(result.data);
       } else {
