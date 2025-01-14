@@ -14,24 +14,26 @@ const Wallet = () => {
   const navigate = useNavigate();
   const { token } = useSelector((state) => state.auth);
   const [deposits, setDeposits] = useState([]);
+  const [withdrawals, setWithdrawals] = useState([]);
   const [currentBalance, setCurrentBalance] = useState(0);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
-  const [filteredDeposits, setFilteredDeposits] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [sortOption, setSortOption] = useState("");
+  const [activeTab, setActiveTab] = useState("deposits"); // State for active tab
   const [depositAmount, setDepositAmount] = useState(0);
   const [pdf, setPdf] = useState(null);
   const [uploadLoading, setUploadLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const itemsPerPage = 10;
-  const totalPages = Math.ceil(filteredDeposits.length / itemsPerPage);
+  const totalPages = Math.ceil(filteredData.length / itemsPerPage);
 
   const getDeposits = useCallback(async () => {
     const authorizationToken = `Bearer ${token}`;
     try {
       setLoading(true);
-      const response = await fetch(`${backendURL}/wallet/deposite-history`, {
+      const response = await fetch(`${backendURL}/wallet`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -39,10 +41,10 @@ const Wallet = () => {
         },
       });
       const res_data = await response.json();
-      console.log(res_data)
       if (response.ok) {
         setDeposits(res_data.depositeHistory);
-        setCurrentBalance(res_data.currentBalance)
+        setWithdrawals(res_data.withdrawHistory);
+        setCurrentBalance(res_data.currentAmount);
       } else {
         toast.error(res_data.message);
       }
@@ -53,11 +55,58 @@ const Wallet = () => {
     }
   }, [token]);
 
-
-
   useEffect(() => {
     getDeposits();
   }, [getDeposits]);
+
+  useEffect(() => {
+    let filtered = activeTab === "deposits" ? deposits : withdrawals;
+
+    // Apply search query
+    if (searchQuery) {
+      filtered = filtered.filter((item) =>
+        item.invNumber?.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+    }
+
+    // Apply sorting
+    if (sortOption) {
+      switch (sortOption) {
+        case "amountAsc":
+          filtered = [...filtered].sort((a, b) => a.amount - b.amount);
+          break;
+        case "amountDesc":
+          filtered = [...filtered].sort((a, b) => b.amount - a.amount);
+          break;
+        case "date":
+          filtered = [...filtered].sort(
+            (a, b) => new Date(b.date || b.depositeDate) - new Date(a.date || a.depositeDate)
+          );
+          break;
+        case "approved":
+          filtered = filtered.filter((item) => item.status === "approved");
+          break;
+        case "pending":
+          filtered = filtered.filter((item) => item.status === "pending");
+          break;
+        default:
+          break;
+      }
+    }
+
+    setFilteredData(filtered);
+  }, [searchQuery, deposits, withdrawals, sortOption, activeTab]);
+
+  const getDisplayedData = () => {
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    return filteredData.slice(startIndex, startIndex + itemsPerPage);
+  };
+
+  const handleTabChange = (tab) => {
+    setActiveTab(tab);
+    setCurrentPage(1); // Reset pagination on tab switch
+    setSearchQuery(""); // Reset search query
+  };
 
   const handleSubmit = async () => {
     if (!pdf || !depositAmount) {
@@ -109,53 +158,10 @@ const Wallet = () => {
 
   const handleWithdrawClick = () => {
     if (currentBalance > 1) {
-      // Navigate to /user/withdraw with balance in state
       navigate("/user/withdraw", { state: { balance: currentBalance } });
     } else {
-      // Show an error toast
       toast.error("Balance should be greater than zero to withdraw.");
     }
-  };
-
-  useEffect(() => {
-    let filtered = deposits;
-
-    // Apply search query
-    if (searchQuery) {
-      filtered = filtered.filter((deposit) =>
-        deposit.invNumber?.toLowerCase().includes(searchQuery.toLowerCase())
-      );
-    }
-
-    // Apply combined sorting and filtering
-    if (sortOption) {
-      switch (sortOption) {
-        case "amountAsc":
-          filtered = [...filtered].sort((a, b) => a.amount - b.amount);
-          break;
-        case "amountDesc":
-          filtered = [...filtered].sort((a, b) => b.amount - a.amount);
-          break;
-        case "date":
-          filtered = [...filtered].sort((a, b) => new Date(b.depositeDate) - new Date(a.depositeDate));
-          break;
-        case "approved":
-          filtered = filtered.filter((deposit) => deposit.status === "approved");
-          break;
-        case "pending":
-          filtered = filtered.filter((deposit) => deposit.status === "pending");
-          break;
-        default:
-          break;
-      }
-    }
-
-    setFilteredDeposits(filtered);
-  }, [searchQuery, deposits, sortOption]);
-
-  const getDisplayedDeposits = () => {
-    const startIndex = (currentPage - 1) * itemsPerPage;
-    return filteredDeposits.slice(startIndex, startIndex + itemsPerPage);
   };
 
   return (
@@ -167,7 +173,7 @@ const Wallet = () => {
           <div className="car-list-top">
             <span>
               <h3>Wallet</h3>
-              <small>List of Payment Approvals</small>
+              <small>Manage Deposits and Withdrawals</small>
             </span>
             <div className="last">
               <div className="text">
@@ -181,6 +187,33 @@ const Wallet = () => {
                 Withdraw
               </button>
             </div>
+          </div>
+
+          <div className="d-flex justify-content-center my-3">
+            <button
+              className={`btn me-3 ${activeTab === "deposits" ? "btn-primary" : "btn-outline-primary"}`}
+              style={{
+                borderRadius: "25px",
+                fontWeight: "600",
+                padding: "10px 20px",
+                transition: "all 0.3s ease",
+              }}
+              onClick={() => handleTabChange("deposits")}
+            >
+              Deposit History
+            </button>
+            <button
+              className={`btn ${activeTab === "withdrawals" ? "btn-primary" : "btn-outline-primary"}`}
+              style={{
+                borderRadius: "25px",
+                fontWeight: "600",
+                padding: "10px 20px",
+                transition: "all 0.3s ease",
+              }}
+              onClick={() => handleTabChange("withdrawals")}
+            >
+              Withdraw History
+            </button>
           </div>
 
           <div className="car-list-container container">
@@ -204,7 +237,6 @@ const Wallet = () => {
                   <option value="pending">Pending</option>
                 </select>
               </div>
-
             </header>
 
             <div className="table-wrapper">
@@ -219,18 +251,20 @@ const Wallet = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {getDisplayedDeposits().map((deposit, index) => (
+                  {getDisplayedData().map((item, index) => (
                     <tr key={index}>
-                      <td>{deposit.invNumber || "N/A"}</td>
+                      <td>{item.invNumber || "N/A"}</td>
                       <td>
-                        {deposit.depositeDate
-                          ? new Date(deposit.depositeDate).toLocaleString()
+                        {item.withdrawRequestDate
+ || item.depositeDate
+                          ? new Date(item.withdrawRequestDate
+                            || item.depositeDate).toLocaleString()
                           : "N/A"}
                       </td>
-                      <td>{deposit.amount || "N/A"} AED</td>
-                      <td>{deposit.status || "No Status"}</td>
+                      <td>{item.amount || "N/A"} AED</td>
+                      <td>{item.status || "No Status"}</td>
                       <td>
-                        <a href={`${deposit.inv}?attachment=true`} download>
+                        <a href={`${item.inv}?attachment=true`} download>
                           <Eye />
                         </a>
                       </td>
@@ -239,7 +273,7 @@ const Wallet = () => {
                 </tbody>
               </table>
             </div>
-            {filteredDeposits.length > itemsPerPage && (
+            {filteredData.length > itemsPerPage && (
               <Pagination
                 currentPage={currentPage}
                 totalPages={totalPages}
