@@ -6,11 +6,12 @@ import toast from "react-hot-toast";
 import { backendURL } from "../../../utils/Exports";
 import Pagination from "../../admincomponents/Pagination";
 import LoadingSpinner from "../LoadingSpinner";
-import { NavLink } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Deposit from "./Deposit";
 import { CloudinaryUploader } from "../../../utils/CloudinaryUploader";
 
 const Wallet = () => {
+  const navigate = useNavigate();
   const { token } = useSelector((state) => state.auth);
   const [deposits, setDeposits] = useState([]);
   const [currentBalance, setCurrentBalance] = useState(0);
@@ -152,6 +153,16 @@ const Wallet = () => {
 
   const handleModalShow = () => setShowModal(true);
 
+  const handleWithdrawClick = () => {
+    if (currentBalance > 1) {
+      // Navigate to /user/withdraw with balance in state
+      navigate("/user/withdraw", { state: { balance: currentBalance } });
+    } else {
+      // Show an error toast
+      toast.error("Balance should be greater than zero to withdraw.");
+    }
+  };
+
   useEffect(() => {
     let filtered = deposits;
 
@@ -212,9 +223,9 @@ const Wallet = () => {
               <button className="add-vehicle-button" onClick={handleModalShow}>
                 Deposit
               </button>
-              <NavLink to="/user/withdraw" className="add-vehicle-button">
+              <button onClick={handleWithdrawClick} className="add-vehicle-button">
                 Withdraw
-              </NavLink>
+              </button>
             </div>
           </div>
 

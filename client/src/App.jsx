@@ -13,7 +13,6 @@ import AuctionListings from "./components/admincomponents/AuctionListings";
 import Events from "./pages/userpages/events";
 import CategoryManagement from "./components/admincomponents/Categories";
 import Withdraw from "./components/usercomponents/withdrawform";
-
 import Orders from "./components/admincomponents/Orders";
 import AuctionInventory from "./components/admincomponents/AuctionInventory";
 import Profile from "./components/admincomponents/Profile";
@@ -181,7 +180,6 @@ function App() {
           <Route path="/buynowlist" element={<BuyfilterForm />} />
           <Route path="/auctioncar/:id" element={<Carsforsale />} />
           <Route path="/events" element={<Events />} />
-          <Route path="/withdraw" element={<Withdraw />} />
 
           <Route path="/buycar/:id" element={<Buycarforsale />} />
 
@@ -220,6 +218,7 @@ function App() {
             <Route path="orders" element={<UserOrders />} />
             <Route path="invoice/:id" element={<UserInvoice />} />
             <Route path="notifications" element={<NotifcationDetails />} />
+            <Route path="withdraw" element={<Withdraw />} />
           </Route>
         </Routes>
       </ProtectedRoute>
