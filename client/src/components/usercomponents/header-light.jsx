@@ -116,7 +116,7 @@ const Header = () => {
                   <li>
                     <NavLink
                       class="dropdown-item"
-                      to="/vehicle"
+                      to="/events"
                       style={{
                         textDecoration: "none",
                         marginLeft: "1rem",

@@ -1,0 +1,220 @@
+/* AuctionCard Component CSS */
+
+/* General Styling */
+// .container {
+//   padding: 20px;
+// }
+
+// .card {
+//   border-radius: 16px;
+//   background-color: #ffffff;
+//   //   background-color: #343a40;
+//   color: white;
+//   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+// }
+// .abs {
+//   border-radius: 16px 16px 0 0;
+//   background-color: #343a40;
+//   padding: 20px 20px;
+//   .live-car {
+//     // padding-bottom: 20px;
+//     border: 1px solid gray;
+//     border-radius: 20px;
+//     padding: 5px 10px;
+//     margin-bottom: 20px;
+//     width: 200px;
+//     /* Header Section */
+//     .live-car .badge {
+//       font-size: 12px;
+//       padding: 4px 8px;
+//       border-radius: 16px !important;
+//     }
+
+//     .live-car .live-text {
+//       font-size: 12px;
+//       color: #ffffff;
+//       margin-left: 10px !important;
+
+//       //   margin-left: auto;
+//     }
+//     .card-title {
+//       font-size: 18px;
+//       font-weight: bold;
+//       margin-bottom: 8px;
+//     }
+//     .texts {
+//       color: #ffffff;
+//       margin-top: 10px !important;
+//     }
+//   }
+// }
+
+// /* Card Body */
+// .card-body {
+//   padding: 16px;
+// }
+
+// // .card-title {
+// //   font-size: 18px;
+// //   font-weight: bold;
+// //   margin-bottom: 8px;
+// // }
+
+// .card-body p {
+//   font-size: 14px;
+//   color: black;
+//   margin-bottom: 16px;
+// }
+
+// /* Details Section */
+// .card-body .d-flex {
+//   display: flex;
+//   align-items: center;
+//   gap: 8px;
+// }
+
+// .card-body img {
+//   height: 16px;
+//   width: 16px;
+//   margin-right: 8px;
+// }
+
+// /* Buttons */
+// .btn-outline-secondary {
+//   border-color: #6c757d;
+//   color: #6c757d;
+//   font-size: 12px;
+// }
+
+// .btn-outline-secondary:hover {
+//   background-color: #6c757d;
+//   color: white;
+// }
+
+// .btn-success {
+//   font-size: 14px;
+//   font-weight: bold;
+// }
+
+// .btn-success:hover {
+//   background-color: #28a745;
+// }
+
+// /* Responsive Design */
+// @media (max-width: 768px) {
+//   .card {
+//     margin-bottom: 20px;
+//   }
+
+//   .card-body {
+//     padding: 12px;
+//   }
+
+//   .btn-outline-secondary {
+//     font-size: 10px;
+//   }
+// }
+
+.container {
+   
+  .live-car {
+    //   display: flex;
+    //   align-items: center;
+    //   margin-bottom: 0.5rem;
+    border: 1px solid gray;
+    border-radius: 40px;
+    padding: 5px 10px;
+    margin-bottom: 20px;
+    width: 200px;
+
+    .badge {
+      margin-right: 0.5rem;
+    }
+
+    .live-text {
+      color: #000;
+      font-family: "DM Sans";
+      font-weight: 900;
+      font-size: 15px;
+    }
+  }
+  .row {
+    .card {
+      background-color: #ffffff; // Card background color
+      border: none;
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+      border-radius: 10px;
+      overflow: hidden;
+
+      .abs {
+        padding: 1rem;
+        background-color: #333;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+
+        .card-title {
+          font-size: 18px;
+          font-weight: bold;
+          margin: 0.5rem 0;
+        }
+
+        .texts {
+          color: #b3b3b3;
+        }
+      }
+
+      .card-body {
+        padding: 1rem;
+
+        .card-text {
+          display: flex;
+          justify-content: space-between;
+          margin-bottom: 1rem;
+
+          span {
+            display: flex;
+            align-items: center;
+            color: black;
+            font-size: 12px;
+            font-weight: 500;
+
+            img {
+              width: 16px;
+              height: 16px;
+              margin-right: 5px;
+            }
+
+            &:first-of-type {
+              font-size: 10px;
+            }
+          }
+
+          button {
+            font-size: 10px;
+            // text-transform: uppercase;
+            border: 1px solid #ccc;
+            background-color: #333;
+            color: #fff;
+            transition: 0.3s;
+            border-radius: 8px;
+            padding: 5px 15px;
+
+            &:hover {
+              background-color: #555;
+              color: #fff;
+            }
+          }
+        }
+
+        .btn-success {
+          background-color: #28a745;
+          font-size: 14px;
+          font-weight: bold;
+
+          &:hover {
+            background-color: #218838;
+          }
+        }
+      }
+    }
+  }
+}

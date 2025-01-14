@@ -17,6 +17,7 @@ import LoadingSpinner from "../../components/usercomponents/LoadingSpinner";
 import { setCategories } from "../../store/slices/categorySlice";
 import { useDispatch } from "react-redux";
 
+
 const Home = () => {
   const dispatch = useDispatch();
   const [cars, setCars] = useState([]);
@@ -49,7 +50,7 @@ const Home = () => {
       const fetchData = async ({ key }) => {
         const res = await fetch(`${backendURL}/${key}`, { headers });
         if (res.ok) {
-          const data = await res.json(); 
+          const data = await res.json();
           dispatch(setCategories({ key, items: data }));
         } else {
           console.error("Error while getting categories");
@@ -87,6 +88,8 @@ const Home = () => {
           <Premium />
           <Reachus />
           <Footer />
+      
+        
         </div>
       )}
     </>

@@ -1,0 +1,86 @@
+.form-containers {
+  max-width: 400px;
+  margin: 50px auto;
+  padding: 20px;
+  background: transparent;
+  border: none !important;
+  //   border-radius: 10px;
+  //   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+  }
+
+  .wrapper {
+    position: relative;
+    width: 100%;
+    margin-bottom: 0px;
+
+    input {
+      background-color: transparent;
+      border: 1px solid blue;
+      display: block;
+      font-size: 15px;
+      &[type="text"],
+      &[type="password"],
+      &[type="tel"],
+      &[type="email"],
+      &[type="number"] {
+        border: 2px solid rgb(212, 211, 211);
+        border-radius: 10px;
+        color: black;
+        padding: 20px 10px 10px 15px;
+        width: 100%;
+        margin-top: 25px;
+      }
+
+      &:focus {
+        color: scale-color(black);
+        outline: 0;
+        background-color: transparent;
+      }
+
+      &:focus ~ label,
+      &.valid ~ label {
+        border-color: black;
+        color: gray;
+        font-size: 12px;
+        top: -5px;
+        //   bottom: -15px;
+        background-color: transparent;
+      }
+    }
+
+    label {
+      font-size: 14px;
+      font-weight: normal;
+      color: scale-color(gray);
+      position: absolute;
+      pointer-events: none;
+      padding: 10px;
+      top: -5px;
+      // bottom: -10px;
+      left: 10px;
+      background-color: transparent;
+    }
+  }
+
+  .submit-button {
+    width: 100%;
+    padding: 12px;
+    font-family: "DM Sans";
+    background-color: #405ff2;
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: 500;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    margin-top: 30px;
+  }
+
+  .submit-button:hover {
+    background-color: #405ff2;
+  }
+}

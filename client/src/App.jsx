@@ -10,7 +10,10 @@ import AddAuctionForm from "./components/admincomponents/AddAuction";
 import AddBuyNow from "./components/admincomponents/AddBuyNow/AddBuyNow";
 import CarListings from "./components/admincomponents/CarListings";
 import AuctionListings from "./components/admincomponents/AuctionListings";
+import Events from "./pages/userpages/events";
 import CategoryManagement from "./components/admincomponents/Categories";
+import Withdraw from "./components/usercomponents/withdrawform";
+
 import Orders from "./components/admincomponents/Orders";
 import AuctionInventory from "./components/admincomponents/AuctionInventory";
 import Profile from "./components/admincomponents/Profile";
@@ -40,9 +43,8 @@ import UserDashboard from "./components//usercomponents/userpanel/Dashboard";
 import UserOrders from "./components/usercomponents/userpanel/Orders";
 import Invoice from "./components/admincomponents/Invoice";
 import UserInvoice from "./components/usercomponents//userpanel/Invoice";
-import NotifcationDetails from "./components/admincomponents/NotificationDetails"
-import UserDetail from "./components/admincomponents/UserDetail"
-
+import NotifcationDetails from "./components/admincomponents/NotificationDetails";
+import UserDetail from "./components/admincomponents/UserDetail";
 
 function App() {
   const dispatch = useDispatch();
@@ -58,7 +60,7 @@ function App() {
 
   const handleSocketEvents = () => {
     const handleAuctionOpened = (response) => {
-      console.log(response)
+      console.log(response);
       if (!response.isOk) {
         handleToast(response);
         return;
@@ -73,7 +75,7 @@ function App() {
     };
 
     const handleBidPlaced = (response) => {
-      console.log(response)
+      console.log(response);
       if (!response.isOk) {
         handleToast(response);
         return;
@@ -81,15 +83,18 @@ function App() {
       if (userdata.id === response.id) {
         new Audio("/notification.wav").play();
         toast.success(response.message, { duration: 5000 });
-      } else if (userdata.id === response.previousBidders[response.previousBidders.length - 1]) {
+      } else if (
+        userdata.id ===
+        response.previousBidders[response.previousBidders.length - 1]
+      ) {
         new Audio("/notification.wav").play();
-        toast.error(response.outBidMessage)
+        toast.error(response.outBidMessage);
       }
       dispatch(setBidData(response));
     };
 
     const handleAuctionStatusChanged = (response) => {
-      console.log(response)
+      console.log(response);
       if (!response.isOk) {
         handleToast(response);
         return;
@@ -105,7 +110,7 @@ function App() {
     };
 
     const handleNotifyBidders = (response) => {
-      console.log(response)
+      console.log(response);
       if (!response.isOk) {
         handleToast(response);
         return;
@@ -175,6 +180,9 @@ function App() {
           <Route path="/vehicle" element={<Vehicle />} />
           <Route path="/buynowlist" element={<BuyfilterForm />} />
           <Route path="/auctioncar/:id" element={<Carsforsale />} />
+          <Route path="/events" element={<Events />} />
+          <Route path="/withdraw" element={<Withdraw />} />
+
           <Route path="/buycar/:id" element={<Buycarforsale />} />
 
           {/* Admin routes */}

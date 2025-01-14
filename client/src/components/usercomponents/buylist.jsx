@@ -88,7 +88,7 @@ const BuyfilterForm = ({ sellingType }) => {
 
   return (
     <div>
-      <div style={{ paddingBottom: 40, backgroundColor: "#010153" }}></div>
+      <div style={{ paddingBottom: 40, backgroundColor: "#050b20" }}></div>
       <div className="mb-5 main">
         <div className="container">
           <div className="Breadcrumb-section">
@@ -113,7 +113,6 @@ const BuyfilterForm = ({ sellingType }) => {
           <div className="row">
             <div className=" col-xl-3 col-lg-3 col-md-4 col-sm-12 col-12 mb-4">
               <form className="form_section">
-
                 <div className="data">
                   <div className="datainput">
                     <select name="carMake" onChange={handleChange} required>
@@ -284,8 +283,9 @@ const BuyfilterForm = ({ sellingType }) => {
                       className="slider-track"
                       style={{
                         left: `${((minPrice - 100) / (100000 - 100)) * 100}%`,
-                        right: `${100 - ((maxPrice - 100) / (100000 - 100)) * 100
-                          }%`,
+                        right: `${
+                          100 - ((maxPrice - 100) / (100000 - 100)) * 100
+                        }%`,
                       }}
                     ></div>
                   </div>
@@ -294,18 +294,21 @@ const BuyfilterForm = ({ sellingType }) => {
                   <div className="p-3 type-section">
                     <label className="type-text">Transmission</label>
                     <div>
-                      {generateOptions("vehicle-transmission", "vehicleTransimission").map(
-                        (type) => (
-                          <label key={type.value}>
-                            <input
-                              type="checkbox"
-                              value={type.value}
-                              onChange={(e) => handleCheckboxChange(e, "transmission")}
-                            />
-                            {type.label}
-                          </label>
-                        )
-                      )}
+                      {generateOptions(
+                        "vehicle-transmission",
+                        "vehicleTransimission"
+                      ).map((type) => (
+                        <label key={type.value}>
+                          <input
+                            type="checkbox"
+                            value={type.value}
+                            onChange={(e) =>
+                              handleCheckboxChange(e, "transmission")
+                            }
+                          />
+                          {type.label}
+                        </label>
+                      ))}
                     </div>
                   </div>
                 </div>
@@ -313,12 +316,17 @@ const BuyfilterForm = ({ sellingType }) => {
                   <div className="p-3 type-section">
                     <label className="type-text">Fuel Type</label>
                     <div>
-                      {generateOptions("vehicle-fuel-type", "vehicleFuelTypes").map((type) => (
+                      {generateOptions(
+                        "vehicle-fuel-type",
+                        "vehicleFuelTypes"
+                      ).map((type) => (
                         <label key={type.value}>
                           <input
                             type="checkbox"
                             value={type.value}
-                            onChange={(e) => handleCheckboxChange(e, "fuelType")}
+                            onChange={(e) =>
+                              handleCheckboxChange(e, "fuelType")
+                            }
                           />
                           {type.label}
                         </label>

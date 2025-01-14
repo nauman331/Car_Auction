@@ -22,7 +22,9 @@ const CarFilterForm = ({ sellingType }) => {
       ...formData,
       priceMin: minPrice,
       priceMax: maxPrice,
-      ...(selectedTransmissions.length > 0 && { transmission: selectedTransmissions }),
+      ...(selectedTransmissions.length > 0 && {
+        transmission: selectedTransmissions,
+      }),
       ...(selectedFuelTypes.length > 0 && { fuelType: selectedFuelTypes }),
     };
 
@@ -45,7 +47,6 @@ const CarFilterForm = ({ sellingType }) => {
     }
   };
 
-
   useEffect(() => {
     applyFilter();
   }, [formData, minPrice, maxPrice, selectedTransmissions, selectedFuelTypes]);
@@ -53,7 +54,6 @@ const CarFilterForm = ({ sellingType }) => {
   const handleFilterChange = (auctionTitle) => {
     setSelectedAuctionTitle(auctionTitle);
   };
-
 
   const generateOptions = (key, labelKey) =>
     categories?.[key]?.map((item) => ({
@@ -79,11 +79,12 @@ const CarFilterForm = ({ sellingType }) => {
     const { value, checked } = e.target;
 
     const updateState = (prevState) =>
-      checked ? [...prevState, value] : prevState.filter((item) => item !== value);
+      checked
+        ? [...prevState, value]
+        : prevState.filter((item) => item !== value);
     if (category === "transmission") setSelectedTransmissions(updateState);
     if (category === "fuelType") setSelectedFuelTypes(updateState);
   };
-
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -92,7 +93,7 @@ const CarFilterForm = ({ sellingType }) => {
 
   return (
     <div>
-      <div style={{ paddingBottom: 40, backgroundColor: "#010153" }}></div>
+      <div style={{ paddingBottom: 40, backgroundColor: "#050b20" }}></div>
       <div className="mb-5 main">
         <div className="container">
           <div className="Breadcrumb-section">
@@ -118,13 +119,13 @@ const CarFilterForm = ({ sellingType }) => {
           <div className="row">
             <div className=" col-xl-3 col-lg-3 col-md-4 col-sm-12 col-12 mb-4">
               <form className="form_section">
-
                 <div className="data">
                   <div className="datainput">
-                    {location.pathname === "/vehicle" &&
+                    {location.pathname === "/vehicle" && (
                       <div>
                         <SortByDropdown onChange={handleFilterChange} />
-                      </div>}
+                      </div>
+                    )}
                   </div>
                 </div>
                 <div className="data">
@@ -297,8 +298,9 @@ const CarFilterForm = ({ sellingType }) => {
                       className="slider-track"
                       style={{
                         left: `${((minPrice - 100) / (100000 - 100)) * 100}%`,
-                        right: `${100 - ((maxPrice - 100) / (100000 - 100)) * 100
-                          }%`,
+                        right: `${
+                          100 - ((maxPrice - 100) / (100000 - 100)) * 100
+                        }%`,
                       }}
                     ></div>
                   </div>
@@ -307,18 +309,21 @@ const CarFilterForm = ({ sellingType }) => {
                   <div className="p-3 type-section">
                     <label className="type-text">Transmission</label>
                     <div>
-                      {generateOptions("vehicle-transmission", "vehicleTransimission").map(
-                        (type) => (
-                          <label key={type.value}>
-                            <input
-                              type="checkbox"
-                              value={type.value}
-                              onChange={(e) => handleCheckboxChange(e, "transmission")}
-                            />
-                            {type.label}
-                          </label>
-                        )
-                      )}
+                      {generateOptions(
+                        "vehicle-transmission",
+                        "vehicleTransimission"
+                      ).map((type) => (
+                        <label key={type.value}>
+                          <input
+                            type="checkbox"
+                            value={type.value}
+                            onChange={(e) =>
+                              handleCheckboxChange(e, "transmission")
+                            }
+                          />
+                          {type.label}
+                        </label>
+                      ))}
                     </div>
                   </div>
                 </div>
@@ -326,12 +331,17 @@ const CarFilterForm = ({ sellingType }) => {
                   <div className="p-3 type-section">
                     <label className="type-text">Fuel Type</label>
                     <div>
-                      {generateOptions("vehicle-fuel-type", "vehicleFuelTypes").map((type) => (
+                      {generateOptions(
+                        "vehicle-fuel-type",
+                        "vehicleFuelTypes"
+                      ).map((type) => (
                         <label key={type.value}>
                           <input
                             type="checkbox"
                             value={type.value}
-                            onChange={(e) => handleCheckboxChange(e, "fuelType")}
+                            onChange={(e) =>
+                              handleCheckboxChange(e, "fuelType")
+                            }
                           />
                           {type.label}
                         </label>
