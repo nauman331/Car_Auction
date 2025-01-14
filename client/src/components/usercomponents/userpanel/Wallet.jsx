@@ -256,7 +256,7 @@ const Wallet = () => {
                       <td>{item.invNumber || "N/A"}</td>
                       <td>
                         {item.withdrawRequestDate
- || item.depositeDate
+                          || item.depositeDate
                           ? new Date(item.withdrawRequestDate
                             || item.depositeDate).toLocaleString()
                           : "N/A"}
