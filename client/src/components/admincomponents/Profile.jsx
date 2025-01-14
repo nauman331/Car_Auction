@@ -14,7 +14,6 @@ const Profile = () => {
     firstName: "",
     lastName: "",
     phone: "",
-    password: "",
     address: "",
     description: "",
   });
@@ -151,8 +150,6 @@ const Profile = () => {
               id: "email", label: "Email", value: userdata?.email || "Email Not Found", type: "email", name: "email",
             }, {
               id: "phone", label: "Phone", value: formData.phone || "Phone Not Found", name: "phone"
-            }, {
-              id: "password", label: "Password", value: formData.password || "Password Not Found", name: "password", type: "text"
             }, {
               id: "address", label: "Address", value: formData.address || "No Address Provided", name: "address"
             }].map(({ id, label, value, type = "text", name }) => (

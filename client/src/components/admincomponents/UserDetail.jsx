@@ -56,9 +56,8 @@ const UserDetail = () => {
               id: "email", label: "Email", value: user.email || "Email Not Found"
             }, {
               id: "phone", label: "Phone", value: user.contact || "Phone Not Found"
-            }, {
-              id: "password", label: "Password", value: user.password || "Password Not Found"
-            }, {
+            },
+            {
               id: "address", label: "Address", value: user.address || "No Address Provided"
             },].map(({ id, label, value }) => (
               <div key={id} className="input-container">
