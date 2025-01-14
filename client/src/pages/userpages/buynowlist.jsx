@@ -9,7 +9,7 @@ const Vehicle = () => {
   return (
     <div>
       <Header />
-      <BuyfilterForm sellingType="fixed"/>
+      <BuyfilterForm />
       <Footer />
     </div>
   );

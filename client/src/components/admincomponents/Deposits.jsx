@@ -64,14 +64,17 @@ const Deposits = () => {
   
     if (sortOption) {
       filtered = [...filtered].sort((a, b) => {
-        const totalA = a.deposits.reduce((sum, d) => sum + d.amount, 0);
-        const totalB = b.deposits.reduce((sum, d) => sum + d.amount, 0);
-        return sortOption === "asc" ? totalA - totalB : totalB - totalA;
+        const pendingRequestsA = a.deposits.filter(d => d.status !== "approved").length;
+        const pendingRequestsB = b.deposits.filter(d => d.status !== "approved").length;
+        return sortOption === "asc"
+          ? pendingRequestsA - pendingRequestsB
+          : pendingRequestsB - pendingRequestsA;
       });
     }
   
     setFilteredDeposits(filtered);
   }, [searchQuery, deposits, sortOption]);
+  
   
   const getDisplayedDeposits = () => {
     const startIndex = (currentPage - 1) * itemsPerPage;
