@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { backendURL } from "../../utils/Exports";
 
-const BuyfilterForm = ({ sellingType }) => {
+const BuyfilterForm = () => {
   const { categories } = useSelector((state) => state.category);
   const [selectedTransmissions, setSelectedTransmissions] = useState([]);
   const [selectedFuelTypes, setSelectedFuelTypes] = useState([]);
@@ -376,7 +376,6 @@ const BuyfilterForm = ({ sellingType }) => {
               <div>
                 <ProductGridWithPagination
                   cars={cars}
-                  sellingType={sellingType}
                 />
               </div>
             </div>
