@@ -38,6 +38,7 @@ const CarAuction = ({ car, getCarDetails, backendURL }) => {
   const [carIdToDelete, setCarIdToDelete] = useState(null);
   const [showEditModal, setShowEditModal] = useState(false);
   const [buyLoading, setBuyLoading] = useState(false)
+  const [bidLoading, setBidLoading] = useState(false)
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [carToEdit, setCarToEdit] = useState(null);
   const [formData, setFormData] = useState({});
@@ -80,6 +81,7 @@ const CarAuction = ({ car, getCarDetails, backendURL }) => {
   };
 
   const handlePlaceBid = () => {
+    setBidLoading(true)
     if (socket && token && car?._id) {
       const data = {
         carId: car._id,
@@ -92,6 +94,7 @@ const CarAuction = ({ car, getCarDetails, backendURL }) => {
       }
       socket.emit("placeBid", data);
       setBid(currentBidData?.bidAmount)
+      setBidLoading(false)
     } else {
       console.log("Socket not connected or invalid data");
     }
@@ -421,9 +424,9 @@ const CarAuction = ({ car, getCarDetails, backendURL }) => {
                   <button onClick={increaseBid}>+</button>
                   {
                     currentBidData?.auctionStatus && (currentBidData?.carId === car._id) ?
-                      <button className="place-bid" onClick={handlePlaceBid}>
+                      <button className="place-bid" onClick={handlePlaceBid} disabled={bidLoading} style={{backgroundColor: bidLoading && "gray"}}>
                         <img src={img1} />
-                        Place Bid
+                        {bidLoading ? "Placing Bid..." : "Place Bid"}
                       </button>
                       :
                       <button className="place-bid" style={{ backgroundColor: "grey", cursor: "not-allowed", border: "none" }}>

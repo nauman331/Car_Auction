@@ -51,7 +51,7 @@ const Deposits = () => {
 
   useEffect(() => {
     let filtered = [...deposits];
-  
+
     if (searchQuery) {
       filtered = filtered.filter(
         (item) =>
@@ -61,7 +61,7 @@ const Deposits = () => {
           )
       );
     }
-  
+
     if (sortOption) {
       filtered = [...filtered].sort((a, b) => {
         const pendingRequestsA = a.deposits.filter(d => d.status !== "approved").length;
@@ -71,11 +71,11 @@ const Deposits = () => {
           : pendingRequestsB - pendingRequestsA;
       });
     }
-  
+
     setFilteredDeposits(filtered);
   }, [searchQuery, deposits, sortOption]);
-  
-  
+
+
   const getDisplayedDeposits = () => {
     const startIndex = (currentPage - 1) * itemsPerPage;
     return filteredDeposits.slice(startIndex, startIndex + itemsPerPage);
@@ -102,7 +102,7 @@ const Deposits = () => {
   };
 
 
-  
+
 
   return (
     <>
@@ -161,11 +161,11 @@ const Deposits = () => {
                           onClick={() => handleRowClick(user, deposits)}
                           style={{ cursor: "pointer" }}
                         >
-                          <td>{user._id|| "N/A"}</td>
-                          <td>{user.firstName|| "N/A"}</td>
-                          <td>{user.lastName|| "N/A"}</td>
-                          <td>{totalRequests|| 0}</td>
-                          <td>{totalAmount|| 0} AED</td>
+                          <td>{user._id || "N/A"}</td>
+                          <td>{user.firstName || "N/A"}</td>
+                          <td>{user.lastName || "N/A"}</td>
+                          <td>{totalRequests || 0}</td>
+                          <td>{totalAmount || 0} AED</td>
                         </tr>
                       );
                     })
