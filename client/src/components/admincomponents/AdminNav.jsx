@@ -14,6 +14,7 @@ import {
   Wallet,
   Users,
   Gavel,
+  HandCoins,
 } from "lucide-react";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
@@ -27,6 +28,7 @@ const menuItems = [
   { to: "/admin/managecategories", icon: <ListTodo />, label: "Category Options" },
   { to: "/admin/orders", icon: <ShoppingCart />, label: "Orders" },
   { to: "/admin/deposits", icon: <Wallet />, label: "Deposits" },
+  { to: "/admin/withdrawals", icon: <HandCoins />, label: "Withdrawals" },
   { to: "/admin/allusers", icon: <Users />, label: "Users" },
   { to: "/admin/profile", icon: <SquareUser />, label: "My Profile" },
 ];

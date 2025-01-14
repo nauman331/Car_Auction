@@ -42,7 +42,7 @@ const WithdrawalForm = () => {
     const authorizationToken = `Bearer ${token}`;
     try {
       setLoading(true)
-      const response = await fetch(`${backendURL}/wallet/create-widraw-request`, {
+      const response = await fetch(`${backendURL}/wallet/create-withdraw-request`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

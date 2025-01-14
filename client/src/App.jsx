@@ -44,6 +44,8 @@ import Invoice from "./components/admincomponents/Invoice";
 import UserInvoice from "./components/usercomponents//userpanel/Invoice";
 import NotifcationDetails from "./components/admincomponents/NotificationDetails";
 import UserDetail from "./components/admincomponents/UserDetail";
+import Withdrawals from "./components/admincomponents/Withdrawals";
+import WithdrawDetail from "./components/admincomponents/WithdrawDetail";
 
 function App() {
   const dispatch = useDispatch();
@@ -180,7 +182,6 @@ function App() {
           <Route path="/buynowlist" element={<BuyfilterForm />} />
           <Route path="/auctioncar/:id" element={<Carsforsale />} />
           <Route path="/events" element={<Events />} />
-
           <Route path="/buycar/:id" element={<Buycarforsale />} />
 
           {/* Admin routes */}
@@ -202,9 +203,11 @@ function App() {
             <Route path="allusers" element={<AllUsers />} />
             <Route path="userdetails" element={<UserDetail />} />
             <Route path="deposits" element={<Deposits />} />
+            <Route path="deposit" element={<DepositDetail />} />
+            <Route path="withdrawals" element={<Withdrawals />} />
+            <Route path="withdraw" element={<WithdrawDetail />} />
             <Route path="Orders" element={<Orders />} />
             <Route path="Profile" element={<Profile />} />
-            <Route path="deposit" element={<DepositDetail />} />
             <Route path="carsales/:id" element={<CarSales />} />
             <Route path="invoice/:id" element={<Invoice />} />
             <Route path="notifications" element={<NotifcationDetails />} />
