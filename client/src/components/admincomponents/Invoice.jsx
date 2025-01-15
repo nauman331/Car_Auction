@@ -88,7 +88,7 @@ const Invoice = () => {
     const statusOptions = [
         { value: "approved", label: "Approved" },
         { value: "rejected", label: "Rejected" },
-        { value: "verification pending", label: "Verification Pending" },
+        { value: "pending", label: "Payment Pending" },
     ];
 
     const updateStatus = async () => {
@@ -156,11 +156,22 @@ const Invoice = () => {
 
                 <Col
                     md={6}
-                    className="d-flex align-items-center rounded justify-content-center"
+                    className="d-flex align-items-center rounded justify-content-center gap-4 flex-column"
                     style={{ backgroundColor: "#F9FBFC", height: "200px" }}
                     id="no-print"
                 >
-                    <div className="form-container" style={{ border: "none", padding: "0px" }}>
+                    {
+                    invoice.invSlip ? <a
+                    href={encodeURI(invoice?.invSlip)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="bg-primary text-light px-4 py-2 rounded text-decoration-none"
+                  >
+                    Proof ↗
+                  </a> :
+                    <h6>Remaining Payment Proof Not Uploaded Yet</h6>
+                    }
+                    <div className="form-container" style={{ border: "none", padding: "0px", margin: "0" }}>
                         <div className="form-section">
                             <div className="form-grid">
                                 <div

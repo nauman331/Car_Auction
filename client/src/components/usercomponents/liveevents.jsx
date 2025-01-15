@@ -9,6 +9,7 @@ import { backendURL } from "../../utils/Exports";
 const AuctionCard = () => {
 
   const [auctions, setAuctions] = useState([])
+  const [currentCar, setCurrentCar] = useState()
 
   const getAllAuctions = async () => {
     try {
@@ -27,6 +28,14 @@ const AuctionCard = () => {
       console.log("Error in getting all auctions");
     }
   };
+
+  const getCurrentCar = async () => {
+try {
+  const response = fetch (`${backendURL}/`)
+} catch (error) {
+  console.log(error)
+}
+  }
 
   useEffect(() => {
     getAllAuctions();
