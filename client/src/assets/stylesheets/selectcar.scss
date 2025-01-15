@@ -1,19 +1,17 @@
 .search-section {
-  max-width: 630px;
+  max-width: 700px;
 }
 .search-bar {
   display: flex;
   flex-wrap: wrap;
-  //   justify-content: space-between;
   border: 1px solid #ffff;
   background: #ffff !important;
   border-radius: 16px;
   padding: 10px !important;
-
   margin-bottom: 15px;
 }
 
-.search-bar select {
+.search-bar .select-input {
   margin-right: 10px;
   padding: 5px 20px;
   border: none;
@@ -23,16 +21,11 @@
   outline: none;
   // appearance: none;
 }
-.search-bar select option {
+.search-bar .select-input option {
   background-color: #f0f0ff !important;
   color: #333;
   border-radius: 20px !important;
   border: none !important;
-}
-
-.search-bar select option:hover {
-  background-color: red !important;
-  color: #000;
 }
 
 .search-bar button {
