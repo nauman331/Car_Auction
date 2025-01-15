@@ -22,11 +22,6 @@ const ProtectedRoute = ({ children }) => {
         navigate("/", { replace: true });
     }
 
-    // Redirect admins to /admin dashboard if they try to access non-admin routes
-    if (userdata && (userdata.role === "admin" || userdata.role === "superadmin") && !pathname.startsWith("/admin")) {
-        navigate("/admin/dashboard", { replace: true });
-    }
-
     // Redirect unauthenticated users trying to access /admin routes to /auth
     if (!token && (pathname.startsWith("/admin") || pathname.startsWith("/user"))) {
       navigate("/auth", { replace: true });

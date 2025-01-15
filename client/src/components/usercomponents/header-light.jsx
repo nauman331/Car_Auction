@@ -14,9 +14,6 @@ const Header = () => {
     <div className="header-sections">
       <nav className="navbar navbar-expand-lg">
         <div className="container-fluid">
-          {/* <a className="navbar-brand" to="/">
-            <img src={img1} />
-          </a> */}
           <NavLink className="navbar-brand" to="/">
             <img src={img1} />
           </NavLink>
@@ -141,32 +138,6 @@ const Header = () => {
                   </li>
                 </ul>
               </li>
-              {/* <li class="nav-item dropdown">
-                <a
-                  class="nav-link "
-                  href="#"
-                  id="navbarDropdown"
-                  role="button"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                >
-                  Auctions
-                  <img src={img3} />
-                </a>
-
-                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <li>
-                    <a class="dropdown-item" href="#">
-                      Auction Events
-                    </a>
-                  </li>
-                  <li>
-                    <a class="dropdown-item" href="#">
-                      Live Auction
-                    </a>
-                  </li>
-                </ul>
-              </li> */}
               <li class="nav-item dropdown">
                 <a
                   class="nav-link "
@@ -201,7 +172,6 @@ const Header = () => {
                       to="/contactus"
                       style={{
                         textDecoration: "none",
-                        // marginLeft: "2.9rem",
                         marginLeft: "30px",
 
                         color: "black",
@@ -218,17 +188,30 @@ const Header = () => {
                 <img src={img4} /> +75 960 044 042
               </a>
               {token ? (
-                <NavLink to="/user/userprofile" className="sign-in">
-                  <img
-                    src={userdata?.avatarImage}
-                    style={{
-                      height: "2rem",
-                      width: "2rem",
-                      borderRadius: "50%",
-                    }}
-                  />{" "}
-                  Profile
-                </NavLink>
+                (userdata?.role === "admin" || userdata?.role === "superadmin") ?
+                  <NavLink to="/admin/profile" className="sign-in">
+                    <img
+                      src={userdata?.avatarImage}
+                      style={{
+                        height: "2rem",
+                        width: "2rem",
+                        borderRadius: "50%",
+                      }}
+                    />{" "}
+                    Profile
+                  </NavLink>
+                  :
+                  <NavLink to="/user/userprofile" className="sign-in">
+                    <img
+                      src={userdata?.avatarImage}
+                      style={{
+                        height: "2rem",
+                        width: "2rem",
+                        borderRadius: "50%",
+                      }}
+                    />{" "}
+                    Profile
+                  </NavLink>
               ) : (
                 <NavLink to="/auth" className="sign-in">
                   <img src={img5} /> Sign In

@@ -134,32 +134,6 @@ const Header = () => {
                   </li>
                 </ul>
               </li>
-              {/* <li class="nav-item dropdown">
-                <a
-                  class="nav-link "
-                  href="#"
-                  id="navbarDropdown"
-                  role="button"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                >
-                  Auctions
-                  <img src={img3} />
-                </a>
-
-                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <li>
-                    <a class="dropdown-item" href="#">
-                      Auction Events
-                    </a>
-                  </li>
-                  <li>
-                    <a class="dropdown-item" href="#">
-                      Live Auction
-                    </a>
-                  </li>
-                </ul>
-              </li> */}
               <li class="nav-item dropdown">
                 <a
                   class="nav-link "
@@ -209,6 +183,19 @@ const Header = () => {
               </a>
 
               {token ? (
+                (userdata?.role === "admin" || userdata?.role === "superadmin") ?
+                <NavLink to="/admin/profile" className="sign-in">
+                  <img
+                    src={userdata?.avatarImage}
+                    style={{
+                      height: "2rem",
+                      width: "2rem",
+                      borderRadius: "50%",
+                    }}
+                  />{" "}
+                  Profile
+                </NavLink>
+                :
                 <NavLink to="/user/userprofile" className="sign-in">
                   <img
                     src={userdata?.avatarImage}

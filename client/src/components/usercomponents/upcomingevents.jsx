@@ -82,7 +82,6 @@ const AuctionCard = () => {
                 <h5 className="card-title mb-2">
                   {auction.auctionTitle || "N/A"}
                 </h5>
-                <span className="badge bg-danger mb-2">Live</span>
                 {/* Date and Time */}
                 <p className="texts mb-3" style={{ fontSize: "14px" }}>
                   {new Date(auction.auctionDate).toLocaleDateString()} at {auction.auctionTime || "N/A"}

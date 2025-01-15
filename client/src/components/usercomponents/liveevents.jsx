@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
-import "bootstrap/dist/css/bootstrap.min.css";
 import img1 from "../../assets/images/location.png";
 import img2 from "../../assets/images/body.png";
 import "../../assets/stylesheets/eventauction.scss";
 import { backendURL } from "../../utils/Exports";
+import { NavLink, useNavigate } from 'react-router-dom';
 
 
 const AuctionCard = () => {
+  const navigate = useNavigate();
 
   const [auctions, setAuctions] = useState([])
   const [currentCar, setCurrentCar] = useState()
@@ -30,16 +31,34 @@ const AuctionCard = () => {
   };
 
   const getCurrentCar = async () => {
-try {
-  const response = fetch (`${backendURL}/`)
-} catch (error) {
-  console.log(error)
-}
-  }
+    try {
+      const response = await fetch(`${backendURL}/auction/active-car`, {
+        method: "GET",
+      });
+      const res_data = await response.json(); // Wait for JSON data
+      if (response.ok) {
+        setCurrentCar(res_data);
+      } else {
+        console.log(res_data.message || "Failed to fetch the current car.");
+      }
+    } catch (error) {
+      console.log("Error in getting the current car:", error);
+    }
+  };
+
 
   useEffect(() => {
     getAllAuctions();
+    getCurrentCar()
   }, []);
+
+  const handleJoin = () => {
+    if (currentCar) {
+      navigate(`/auctioncar/${currentCar._id}`);
+    } else {
+      navigate("/vehicle");
+    }
+  };
 
 
   return (
@@ -88,17 +107,19 @@ try {
                     <img src={img2} />
                     No of Cars {auction.totalVehicles || 0}
                   </span>
-                  <button
-                    className="btn btn-outline-secondary btn-sm w-20"
-                    style={{ fontSize: "12px" }}
+                  <NavLink to="/vehicle"
+                    className="btn btn-outline-secondary btn-sm w-20 text-white"
+                    style={{ fontSize: "12px", backgroundColor: "#333" }}
                   >
                     View All
-                  </button>
+                  </NavLink>
                 </div>
                 {/* Join Auction Button */}
+
                 <button
                   className="btn btn-success w-100 fw-bold"
                   style={{ fontSize: "14px" }}
+                  onClick={handleJoin}
                 >
                   Join Auction
                 </button>
