@@ -262,7 +262,7 @@ const Wallet = () => {
                           : "N/A"}
                       </td>
                       <td>{item.amount || "N/A"} AED</td>
-                      <td>{item.status || "No Status"}</td>
+                      <td>{item.status.charAt(0).toUpperCase() + item.status.slice(1) || "No Status"}</td>
                       <td>
                         <a href={`${item.inv}?attachment=true`}>
                           <Eye />

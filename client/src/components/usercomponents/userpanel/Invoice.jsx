@@ -139,14 +139,14 @@ const Invoice = () => {
     return (
         <>
             <Container className="my-4" ref={invoiceRef}>
-                <Row className="justify-content-between align-items-center mb-4" id="no-print">
-                    <Col xs={6} sm={4}>
+                <Row className="justify-content-between align-items-center mb-4">
+                    <Col xs={6} sm={4} id="no-print">
                         <Button variant="primary" className="px-4 py-2" onClick={printInvoice}>
                             Print this Invoice ↗
                         </Button>
                     </Col>
                     <Col xs={6} sm={4} className="text-end">
-                        <h4>Status: {invoice?.statusText || ""}</h4>
+                    <h4>Status: {invoice?.statusText === "pending" ? "Payment Pending" : invoice?.statusText?.charAt(0).toUpperCase() + invoice?.statusText?.slice(1) || ""}</h4>
                     </Col>
                 </Row>
 

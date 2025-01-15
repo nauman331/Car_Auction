@@ -117,7 +117,7 @@ const Orders = () => {
                   <td>AED {invoice?.paidAmount || 0}</td>
                   <td>AED {invoice?.pendingAmount || 0}</td>
                   <td>{invoice?.userId?.firstName || ""} {invoice?.userId?.lastName || ""}</td>
-                  <td>{invoice?.paymentStatus ? "Full Paid" : "Remaining"  || "No Status"}</td>
+                  <td>{invoice?.paymentStatus ? "Full Paid" : "Pending Payment"  || "No Status"}</td>
                   <td>AED {invoice?.totalAmount || 0}</td>
                 </tr>
               ))}

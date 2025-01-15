@@ -55,7 +55,7 @@ const DepositDetail = () => {
   const statusOptions = [
     { value: "approved", label: "Approved" },
     { value: "rejected", label: "Rejected" },
-    { value: "verification pending", label: "Verification Pending" },
+    { value: "pending", label: "Payment Pending" },
   ];
 
   const handleStatusChange = (selectedOption) => {
@@ -108,7 +108,7 @@ const DepositDetail = () => {
               <tr>
                 <td className="col-md-6">Status</td>
                 <td className="col-md-6">
-                  <p>{deposit?.status || "N/A"}</p>
+                  <p>{deposit?.status === "pending" ? "Payment Pending" : deposit?.status?.charAt(0).toUpperCase() + deposit?.status?.slice(1) || "N/A"}</p>
                 </td>
               </tr>
               <tr>

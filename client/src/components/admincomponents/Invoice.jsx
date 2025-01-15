@@ -45,39 +45,39 @@ const Invoice = () => {
         }
     };
 
-   const printInvoice = async () => {
-    const element = invoiceRef.current;
-    const images = element.querySelectorAll("img");
-    const loadImagePromises = Array.from(images).map((img) => {
-        return new Promise((resolve, reject) => {
-            const imgEl = new Image();
-            imgEl.crossOrigin = "anonymous"; // Ensure cross-origin images are handled
-            imgEl.src = img.src;
-            imgEl.onload = resolve;
-            imgEl.onerror = reject;
+    const printInvoice = async () => {
+        const element = invoiceRef.current;
+        const images = element.querySelectorAll("img");
+        const loadImagePromises = Array.from(images).map((img) => {
+            return new Promise((resolve, reject) => {
+                const imgEl = new Image();
+                imgEl.crossOrigin = "anonymous"; // Ensure cross-origin images are handled
+                imgEl.src = img.src;
+                imgEl.onload = resolve;
+                imgEl.onerror = reject;
+            });
         });
-    });
 
-    try {
-        await Promise.all(loadImagePromises); // Wait for all images, including the logo, to load
-        const canvas = await html2canvas(element, {
-            scale: 2,
-            useCORS: true, // Enable cross-origin for rendering
-            allowTaint: false,
-            ignoreElements: (el) => el.id === "no-print",
-        });
-        const imgData = canvas.toDataURL("image/png");
+        try {
+            await Promise.all(loadImagePromises); // Wait for all images, including the logo, to load
+            const canvas = await html2canvas(element, {
+                scale: 2,
+                useCORS: true, // Enable cross-origin for rendering
+                allowTaint: false,
+                ignoreElements: (el) => el.id === "no-print",
+            });
+            const imgData = canvas.toDataURL("image/png");
 
-        const pdf = new jsPDF("p", "mm", "a4");
-        const pdfWidth = pdf.internal.pageSize.getWidth() - 20; // Add padding
-        const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+            const pdf = new jsPDF("p", "mm", "a4");
+            const pdfWidth = pdf.internal.pageSize.getWidth() - 20; // Add padding
+            const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
 
-        pdf.addImage(imgData, "PNG", 10, 10, pdfWidth, pdfHeight); // Apply left and right padding
-        pdf.save(`invoice_${invoice?.invNumber || "N/A"}.pdf`);
-    } catch (error) {
-        toast.error("Failed to render the invoice.");
-    }
-};
+            pdf.addImage(imgData, "PNG", 10, 10, pdfWidth, pdfHeight); // Apply left and right padding
+            pdf.save(`invoice_${invoice?.invNumber || "N/A"}.pdf`);
+        } catch (error) {
+            toast.error("Failed to render the invoice.");
+        }
+    };
 
     useEffect(() => {
         getInvoice();
@@ -116,22 +116,22 @@ const Invoice = () => {
 
     return (
         <Container className="my-4" ref={invoiceRef}>
-            <Row className="justify-content-between align-items-center mb-4" id="no-print">
-                <Col xs={6} sm={4}>
+            <Row className="justify-content-between align-items-center mb-4">
+                <Col xs={6} sm={4} id="no-print">
                     <Button variant="primary" className="px-4 py-2" onClick={printInvoice}>
-                    Print this Invoice ↗
+                        Print this Invoice ↗
                     </Button>
                 </Col>
                 <Col xs={6} sm={4} className="text-end">
-                    <h4>Status: {invoice?.statusText || ""}</h4>
+                    <h4>Status: {invoice?.statusText === "pending" ? "Payment Pending" : invoice?.statusText?.charAt(0).toUpperCase() + invoice?.statusText?.slice(1) || ""}</h4>
                 </Col>
             </Row>
 
             <Row>
                 <Col>
-                    <img src={Logo} alt="..." 
-                    style={{height: "5rem", width: "8rem"}}
-                    className="mb-5"
+                    <img src={Logo} alt="..."
+                        style={{ height: "5rem", width: "8rem" }}
+                        className="mb-5"
                     />
                 </Col>
                 <Col className="text-end">
@@ -161,15 +161,15 @@ const Invoice = () => {
                     id="no-print"
                 >
                     {
-                    invoice.invSlip ? <a
-                    href={encodeURI(invoice?.invSlip)}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="bg-primary text-light px-4 py-2 rounded text-decoration-none"
-                  >
-                    Proof ↗
-                  </a> :
-                    <h6>Remaining Payment Proof Not Uploaded Yet</h6>
+                        invoice.invSlip ? <a
+                            href={encodeURI(invoice?.invSlip)}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="bg-primary text-light px-4 py-2 rounded text-decoration-none"
+                        >
+                            Proof ↗
+                        </a> :
+                            <h6>Remaining Payment Proof Not Uploaded Yet</h6>
                     }
                     <div className="form-container" style={{ border: "none", padding: "0px", margin: "0" }}>
                         <div className="form-section">
