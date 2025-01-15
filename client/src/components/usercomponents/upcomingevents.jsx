@@ -4,8 +4,10 @@ import img1 from "../../assets/images/location.png";
 import img2 from "../../assets/images/body.png";
 import "../../assets/stylesheets/eventauction.scss";
 import { backendURL } from "../../utils/Exports";
+import { useNavigate } from "react-router-dom";
 
 const AuctionCard = () => {
+  const navigate = useNavigate();
 
   const [auctions, setAuctions] = useState([])
 
@@ -31,6 +33,9 @@ const AuctionCard = () => {
     getAllAuctions();
   }, []);
 
+  const handleAuctionClick = (auctionTitle) => {
+    navigate("/vehicle", { state: { selectedAuction: auctionTitle } });
+  };
 
   const calculateTimeLeft = (date, time) => {
     const auctionDateTime = new Date(`${date} ${time}`);
@@ -140,6 +145,7 @@ const AuctionCard = () => {
                   <button
                     className="btn btn-outline-secondary btn-sm w-20"
                     style={{ fontSize: "12px" }}
+                    onClick={()=>handleAuctionClick(auction.auctionTitle)}
                   >
                     View All
                   </button>

@@ -2,59 +2,54 @@ import React, { useEffect, useState } from "react";
 import "../../assets/stylesheets/sortbydropdown.scss";
 import { backendURL } from "../../utils/Exports";
 
-function SortByDropdown({ onChange }) {
-  const [selectedOption, setSelectedOption] = useState(""); // Set to empty initially
+const SortByDropdown = ({ onChange, preselected }) => {
+  const [selectedOption, setSelectedOption] = useState("");
   const [options, setOptions] = useState([]);
-
-  const getAllAuctions = async () => {
-    try {
-      const response = await fetch(`${backendURL}/auction`, {
-        method: "GET",
-      });
-      const res_data = await response.json();
-      if (response.ok) {
-        // Combine auctionDate and auctionTime to create a complete Date object
-        const sortedOptions = res_data.map((auction) => {
-          const { auctionDate, auctionTime } = auction;
-          const date = new Date(auctionDate);
-          const [hour, minute] = auctionTime.split(":");
-          const [ampm] = auctionTime.split(" ").slice(1); // Get AM or PM
-
-          // Adjust the time based on AM/PM
-          const adjustedHour = ampm === "PM" && parseInt(hour, 10) !== 12 ? parseInt(hour, 10) + 12 : parseInt(hour, 10);
-          date.setHours(adjustedHour, minute);
-
-          return {
-            ...auction,
-            fullAuctionDate: date,
-          };
-        });
-
-        // Sort auctions by the combined date in ascending order
-        const sortedByDate = sortedOptions.sort((a, b) => a.fullAuctionDate - b.fullAuctionDate);
-
-        setOptions(sortedByDate);
-
-        // Set the first auction as the selected option after sorting
-        if (sortedByDate.length > 0) {
-          setSelectedOption(sortedByDate[0].auctionTitle); // Select the first auction
-          onChange(sortedByDate[0].auctionTitle); // Trigger the filter change
-        }
-      } else {
-        console.log(res_data.message);
-      }
-    } catch (error) {
-      console.log("Error in getting all auctions");
-    }
-  };
+  const [initialized, setInitialized] = useState(false); // Flag to track initialization
 
   useEffect(() => {
+    const getAllAuctions = async () => {
+      try {
+        const response = await fetch(`${backendURL}/auction`);
+        const res_data = await response.json();
+
+        if (response.ok) {
+          const sortedOptions = res_data.map((auction) => ({
+            ...auction,
+            fullAuctionDate: new Date(`${auction.auctionDate} ${auction.auctionTime}`),
+          })).sort((a, b) => a.fullAuctionDate - b.fullAuctionDate);
+
+          setOptions(sortedOptions);
+
+          // If preselected is available, set it once
+          if (preselected && !initialized) {
+            const auctionExists = sortedOptions.some(auction => auction.auctionTitle === preselected);
+            if (auctionExists) {
+              setSelectedOption(preselected);
+              onChange(preselected);
+              setInitialized(true); // Set the initialized flag
+            }
+          } else if (!preselected && sortedOptions.length > 0 && !initialized) {
+            // Default to the first auction if no preselected value
+            setSelectedOption(sortedOptions[0].auctionTitle);
+            onChange(sortedOptions[0].auctionTitle);
+            setInitialized(true); // Set the initialized flag
+          }
+        } else {
+          console.error("Failed to fetch auctions:", res_data.message);
+        }
+      } catch (error) {
+        console.error("Error fetching auctions:", error);
+      }
+    };
+
     getAllAuctions();
-  }, []);
+  }, [preselected, onChange, initialized]);
 
   const handleOptionChange = (event) => {
-    setSelectedOption(event.target.value);
-    onChange(event.target.value); // Trigger the filter change
+    const value = event.target.value;
+    setSelectedOption(value);
+    onChange(value);
   };
 
   return (
@@ -68,6 +63,6 @@ function SortByDropdown({ onChange }) {
       </select>
     </div>
   );
-}
+};
 
 export default SortByDropdown;

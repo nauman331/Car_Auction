@@ -3,19 +3,23 @@ import "../../assets/stylesheets/filter.scss";
 import "../../assets/stylesheets/carddata.scss";
 import "../../assets/stylesheets/FeatureCategory.scss";
 import ProductGridWithPagination from "./autiomap";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { backendURL } from "../../utils//Exports";
 import SortByDropdown from "./auto";
 
 const CarFilterForm = ({ sellingType }) => {
+  const location = useLocation();
+  const selectedAuction = location.state?.selectedAuction || null;
   const { categories } = useSelector((state) => state.category);
   const [selectedTransmissions, setSelectedTransmissions] = useState([]);
+  const [auctionTitle, setAuctionTitle] = useState("")
   const [selectedFuelTypes, setSelectedFuelTypes] = useState([]);
   const [formData, setFormData] = useState({});
   const [minPrice, setMinPrice] = useState(100);
   const [maxPrice, setMaxPrice] = useState(100000);
   const [cars, setCars] = useState([]);
+  const [filteredCars, setFilteredCars] = useState([]);
 
   const applyFilter = async () => {
     const filterData = {
@@ -39,6 +43,7 @@ const CarFilterForm = ({ sellingType }) => {
       const result = await response.json();
       if (result.success) {
         setCars(result.data);
+        setFilteredCars(result.data);
       } else {
         console.log("No cars found with the applied filters.");
       }
@@ -48,12 +53,33 @@ const CarFilterForm = ({ sellingType }) => {
   };
 
   useEffect(() => {
-    applyFilter();
+    const timeoutId = setTimeout(() => {
+      applyFilter();
+    }, 500); // 500ms debounce time
+    return () => clearTimeout(timeoutId);
   }, [formData, minPrice, maxPrice, selectedTransmissions, selectedFuelTypes]);
 
-  const handleFilterChange = (auctionTitle) => {
-    setSelectedAuctionTitle(auctionTitle);
+
+  useEffect(() => {
+    if (selectedAuction) {
+      setAuctionTitle(selectedAuction);
+    }
+  }, [selectedAuction]);
+
+  const handleFilterChange = (selectedAuction) => {
+    setAuctionTitle(selectedAuction);
   };
+
+  useEffect(() => {
+    if (auctionTitle) {
+      const filtered = cars?.filter((car) =>
+        car.auctionLot?.auctionTitle?.toLowerCase().includes(auctionTitle?.toLowerCase())
+      );
+      setFilteredCars(filtered);
+    } else {
+      setFilteredCars(cars); // Reset to all cars if no auction title
+    }
+  }, [auctionTitle, cars]);
 
   const generateOptions = (key, labelKey) =>
     categories?.[key]?.map((item) => ({
@@ -123,7 +149,7 @@ const CarFilterForm = ({ sellingType }) => {
                   <div className="datainput">
                     {location.pathname === "/vehicle" && (
                       <div>
-                        <SortByDropdown onChange={handleFilterChange} />
+                        <SortByDropdown onChange={handleFilterChange} preselected={auctionTitle} />
                       </div>
                     )}
                   </div>
@@ -298,9 +324,8 @@ const CarFilterForm = ({ sellingType }) => {
                       className="slider-track"
                       style={{
                         left: `${((minPrice - 100) / (100000 - 100)) * 100}%`,
-                        right: `${
-                          100 - ((maxPrice - 100) / (100000 - 100)) * 100
-                        }%`,
+                        right: `${100 - ((maxPrice - 100) / (100000 - 100)) * 100
+                          }%`,
                       }}
                     ></div>
                   </div>
@@ -389,7 +414,7 @@ const CarFilterForm = ({ sellingType }) => {
             <div className="col-xl-9 col-lg-9 col-md-8 col-sm-12 col-12">
               <div>
                 <ProductGridWithPagination
-                  cars={cars}
+                  cars={filteredCars}
                   sellingType={sellingType}
                 />
               </div>
