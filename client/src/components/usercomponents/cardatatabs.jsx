@@ -41,16 +41,16 @@ const CarTabs = ({ cars }) => {
               All Vehicles
             </button>
             <button
-              onClick={() => toggleTab("buyNow")}
-              className={activeTab === "buyNow" ? "active" : ""}
-            >
-              Buy Now Vehicles
-            </button>
-            <button
               onClick={() => toggleTab("auction")}
               className={activeTab === "auction" ? "active" : ""}
             >
               Auction Vehicles
+            </button>
+            <button
+              onClick={() => toggleTab("buyNow")}
+              className={activeTab === "buyNow" ? "active" : ""}
+            >
+              Buy Now Vehicles
             </button>
           </div>
 
