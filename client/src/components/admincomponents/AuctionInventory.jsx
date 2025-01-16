@@ -50,12 +50,26 @@ const AuctionInventory = () => {
 
 
 
-  // Filter cars by sorting option
-  const sortedCars = filteredCars.filter((car) => {
-    if (sortOption === "ongoing") return car.auctionStatus; // True for Ongoing
-    if (sortOption === "not started") return !car.auctionStatus; // False for Not Started
-    return true; // All cars
-  });
+  // Update the sort options
+  const sortedCars = filteredCars
+    .filter((car) => {
+      if (sortOption === "ongoing") return car.auctionStatus; // True for Ongoing
+      if (sortOption === "sold") return car.isSold; // True for Sold
+      if (sortOption === "pending") {
+        return !car.auctionStatus && !car.isSold && car._id !== currentBidData?.carId; // Pending logic
+      }
+      return true; // All cars
+    })
+    .sort((a, b) => {
+      if (sortOption === "lot-asc") {
+        return a.lotNo - b.lotNo; // Sort by Lot No: Low to High
+      }
+      if (sortOption === "lot-desc") {
+        return b.lotNo - a.lotNo; // Sort by Lot No: High to Low
+      }
+      return 0; // No sorting for other options
+    });
+
 
 
   const handleImageSubmit = async () => {
@@ -215,13 +229,17 @@ const AuctionInventory = () => {
                   <span>Sort By:</span>
                   <select
                     value={sortOption}
-                    onChange={(e) => setSortOption(e.target.value)} // Handle sorting option change
+                    onChange={(e) => setSortOption(e.target.value)}
                   >
                     <option value="all">All</option>
                     <option value="ongoing">Ongoing</option>
-                    <option value="not started">Not Started</option>
+                    <option value="sold">Sold</option>
+                    <option value="pending">Pending</option>
+                    <option value="lot-asc">Lot-asc</option>
+                    <option value="lot-desc">Lot-desc</option>
                   </select>
                 </div>
+
               </header>
               <div className="table-wrapper">
                 <table className="car-table">
