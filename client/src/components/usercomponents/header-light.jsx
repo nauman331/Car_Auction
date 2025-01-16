@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "../../assets/stylesheets/header-light.scss";
 import img1 from "../../assets/images/project logo light (1).svg";
 import img3 from "../../assets/images/arrow-downwhite.png";
@@ -6,10 +6,34 @@ import img4 from "../../assets/images/phone.png";
 import img5 from "../../assets/images/user.png";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import { useSelector } from "react-redux";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+import { backendURL } from "../../utils/Exports";
 
 const Header = () => {
   const { token, userdata } = useSelector((state) => state.auth);
+  const navigate = useNavigate()
+  const [currentCar, setCurrentCar] = useState();
+
+  const getCurrentCar = async () => {
+    try {
+      const response = await fetch(`${backendURL}/auction/active-car`, {
+        method: "GET",
+      });
+      const res_data = await response.json(); // Wait for JSON data
+      if (response.ok) {
+        setCurrentCar(res_data);
+      } else {
+        console.log(res_data.message || "Failed to fetch the current car.");
+      }
+    } catch (error) {
+      console.log("Error in getting the current car:", error);
+    }
+  };
+
+  useEffect(() => {
+    getCurrentCar()
+  }, []);
+
   return (
     <div className="header-sections">
       <nav className="navbar navbar-expand-lg">
@@ -123,10 +147,10 @@ const Header = () => {
                       Auction Events
                     </NavLink>
                   </li>
-                  <li>
+                  <li className="nav-item">
                     <NavLink
-                      class="dropdown-item"
-                      to="/buynowlist"
+                      className="nav-link"
+                      to={currentCar && currentCar._id ? `/auctioncar/${currentCar._id}` : "/vehicle"}
                       style={{
                         textDecoration: "none",
                         marginLeft: "1rem",
@@ -136,6 +160,7 @@ const Header = () => {
                       Live Auction
                     </NavLink>
                   </li>
+
                 </ul>
               </li>
               <li class="nav-item dropdown">
@@ -159,7 +184,6 @@ const Header = () => {
                       style={{
                         textDecoration: "none",
                         marginLeft: "30px",
-
                         color: "black",
                       }}
                     >
