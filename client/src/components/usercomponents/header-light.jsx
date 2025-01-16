@@ -6,12 +6,11 @@ import img4 from "../../assets/images/phone.png";
 import img5 from "../../assets/images/user.png";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import { useSelector } from "react-redux";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { backendURL } from "../../utils/Exports";
 
 const Header = () => {
   const { token, userdata } = useSelector((state) => state.auth);
-  const navigate = useNavigate()
   const [currentCar, setCurrentCar] = useState();
 
   const getCurrentCar = async () => {

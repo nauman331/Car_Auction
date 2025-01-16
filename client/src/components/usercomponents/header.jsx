@@ -1,4 +1,4 @@
-import React from "react";
+import { backendURL } from "../../utils/Exports";
 import "../../assets/stylesheets/header.scss";
 import img1 from "../../assets/images/project logo light (1).svg";
 import { useSelector } from "react-redux";
@@ -8,8 +8,32 @@ import img5 from "../../assets/images/user.png";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import { NavLink } from "react-router-dom";
 
+
 const Header = () => {
   const { token, userdata } = useSelector((state) => state.auth);
+  const [currentCar, setCurrentCar] = useState();
+
+  const getCurrentCar = async () => {
+    try {
+      const response = await fetch(`${backendURL}/auction/active-car`, {
+        method: "GET",
+      });
+      const res_data = await response.json(); // Wait for JSON data
+      if (response.ok) {
+        setCurrentCar(res_data);
+      } else {
+        console.log(res_data.message || "Failed to fetch the current car.");
+      }
+    } catch (error) {
+      console.log("Error in getting the current car:", error);
+    }
+  };
+
+  useEffect(() => {
+    getCurrentCar()
+  }, []);
+
+
   return (
     <div className="header-section ">
       <nav className="navbar navbar-expand-lg">
@@ -119,19 +143,19 @@ const Header = () => {
                       Auction Events
                     </NavLink>
                   </li>
-                  <li>
-                    <NavLink
-                      class="dropdown-item"
-                      to="/buynowlist"
-                      style={{
-                        textDecoration: "none",
-                        marginLeft: "1rem",
-                        color: "black",
-                      }}
-                    >
-                      Live Auction
-                    </NavLink>
-                  </li>
+                  <li className="nav-item">
+                                     <NavLink
+                                       className="nav-link"
+                                       to={currentCar && currentCar._id ? `/auctioncar/${currentCar._id}` : "/vehicle"}
+                                       style={{
+                                         textDecoration: "none",
+                                         marginLeft: "1rem",
+                                         color: "black",
+                                       }}
+                                     >
+                                       Live Auction
+                                     </NavLink>
+                                   </li>
                 </ul>
               </li>
               <li class="nav-item dropdown">
