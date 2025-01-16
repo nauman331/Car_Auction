@@ -225,18 +225,8 @@ const Invoice = () => {
                 </Col>
             </Row>
 
-            <Row className="justify-content-end mt-3">
+            <Row className="justify-content-end mt-3" >
                 <Col xs={12} md={6} lg={4}>
-                    {invoice?.paymentStatus && (
-                        <img
-                            src={proof}
-                            alt="..."
-                            style={{
-                                height: "8rem",
-                                width: "8rem",
-                            }}
-                        />
-                    )}
                     <Table>
                         <tbody>
                             <tr>
@@ -248,6 +238,17 @@ const Invoice = () => {
                                 <td className="text-end">AED {invoice?.pendingAmount || 0}</td>
                             </tr>
                         </tbody>
+                    {invoice?.paymentStatus && (
+                        <img
+                            src={proof}
+                            alt="..."
+                            style={{
+                                height: "8rem",
+                                width: "8rem",
+                                float: "right"
+                            }}
+                        />
+                    )}
                     </Table>
                 </Col>
             </Row>
