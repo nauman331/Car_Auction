@@ -35,7 +35,7 @@ const Orders = () => {
         console.log(res_data)
         setInvoices(res_data)
       } else {
-        toast.error(res_data.message);
+        console.error(res_data.message);
       }
     } catch (error) {
       console.error("Error in getting deposits", error);

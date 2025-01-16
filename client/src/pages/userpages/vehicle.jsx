@@ -15,14 +15,13 @@ const Vehicle = () => {
         const response = await fetch(`${backendURL}/car`, { method: "GET" });
   
         if (!response.ok) {
-          toast.error("Error: Failed to fetch cars. Please try again later.");
+          console.error("Error: Failed to fetch cars. Please try again later.");
         }
   
         const res_data = await response.json();
         setCars(res_data); // Ensure this matches the expected structure
       } catch (error) {
         console.error("Error fetching cars:", error);
-        toast.error("Failed to fetch cars. Please try again later.");
       } finally {
         setLoading(false);
       }

@@ -35,7 +35,7 @@ const Orders = () => {
         console.log(res_data)
         setInvoices(res_data)
       } else {
-        toast.error(res_data.message);
+        console.error(res_data.message);
       }
     } catch (error) {
       console.error("Error in getting deposits", error);
@@ -47,21 +47,6 @@ const Orders = () => {
   useEffect(() => {
     getInvoices();
   }, [token]);
-
-  const approveInvoice = async (invNumber) => {
-    const authorizationToken = `Bearer ${token}`;
-    try {
-      const response = await fetch(`${backendURL}/purchase-invoice/approve-invoice/${invNumber}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: authorizationToken,
-        },
-      })
-    } catch (error) {
-      toast.error("Error while Approving")
-    }
-  }
 
   if(loading) return <LoadingSpinner />
 

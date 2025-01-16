@@ -46,7 +46,7 @@ const AllUsers = () => {
         console.log(res_data);
         setAllusers(res_data);
       } else {
-        toast.error(res_data.message);
+        console.error(res_data.message);
       }
     } catch (error) {
       console.log("Error in getting users");

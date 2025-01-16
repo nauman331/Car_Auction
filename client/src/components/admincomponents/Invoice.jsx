@@ -39,7 +39,7 @@ const Invoice = () => {
                 toast.error(res_data.message);
             }
         } catch (error) {
-            toast.error("Error fetching invoice");
+            console.error("Error fetching invoice");
         } finally {
             setLoading(false);
         }

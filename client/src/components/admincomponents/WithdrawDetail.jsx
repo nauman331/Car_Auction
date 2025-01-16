@@ -20,7 +20,9 @@ const WithdrawDetail = () => {
     const [uploadLoading, setUploadLoading] = useState(false);
 
     if (!user || !withdrawals.length) {
-        return <p>Error: Missing user or withdraw details. Please try again.</p>;
+         toast.error("Missing user or withdraw details. Please try again")
+        navigate("/admin/withdrawals")
+        return;
     }
 
     useEffect(() => {

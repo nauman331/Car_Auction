@@ -43,7 +43,7 @@ const Invoice = () => {
                 console.log(res_data);
                 setInvoice(res_data);
             } else {
-                toast.error(res_data.message);
+            console.error(res_data.message);
             }
         } catch (error) {
             toast.error("Error fetching invoice");
@@ -146,7 +146,7 @@ const Invoice = () => {
                         </Button>
                     </Col>
                     <Col xs={6} sm={4} className="text-end">
-                    <h4>Status: {invoice?.statusText === "pending" ? "Payment Pending" : invoice?.statusText?.charAt(0).toUpperCase() + invoice?.statusText?.slice(1) || ""}</h4>
+                        <h4>Status: {invoice?.statusText === "pending" ? "Payment Pending" : invoice?.statusText?.charAt(0).toUpperCase() + invoice?.statusText?.slice(1) || ""}</h4>
                     </Col>
                 </Row>
 

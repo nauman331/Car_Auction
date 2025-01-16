@@ -22,7 +22,7 @@ const Profile = () => {
     const authorizationToken = `Bearer ${token}`;
     try {
       if (!token) {
-        toast.error("User not logged in");
+        console.error("User not logged in");
         return;
       }
       const response = await fetch(`${backendURL}/user/`, {

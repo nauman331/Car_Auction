@@ -43,11 +43,10 @@ const Withdrawals = () => {
           }))
         );
       } else {
-        toast.error(data.message || "Failed to fetch withdrawals.");
+        console.error(data.message || "Failed to fetch withdrawals.");
       }
     } catch (error) {
       console.error("Error fetching withdrawals:", error);
-      toast.error("Error fetching withdrawals. Please try again.");
     } finally {
       setLoading(false);
     }

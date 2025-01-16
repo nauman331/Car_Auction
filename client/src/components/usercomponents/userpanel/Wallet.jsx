@@ -46,7 +46,7 @@ const Wallet = () => {
         setWithdrawals(res_data.withdrawHistory);
         setCurrentBalance(res_data.currentAmount);
       } else {
-        toast.error(res_data.message);
+        console.error(res_data.message);
       }
     } catch (error) {
       console.error("Error in getting deposits:", error);
