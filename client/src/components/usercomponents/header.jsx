@@ -144,18 +144,18 @@ const Header = () => {
                     </NavLink>
                   </li>
                   <li className="nav-item">
-                                     <NavLink
-                                       className="nav-link"
-                                       to={currentCar && currentCar._id ? `/auctioncar/${currentCar._id}` : "/vehicle"}
-                                       style={{
-                                         textDecoration: "none",
-                                         marginLeft: "1rem",
-                                         color: "black",
-                                       }}
-                                     >
-                                       Live Auction
-                                     </NavLink>
-                                   </li>
+                    <NavLink
+                      className="nav-link"
+                      to={currentCar && currentCar._id ? `/auctioncar/${currentCar._id}` : "/vehicle"}
+                      style={{
+                        textDecoration: "none",
+                        marginLeft: "1rem",
+                        color: "black",
+                      }}
+                    >
+                      Live Auction
+                    </NavLink>
+                  </li>
                 </ul>
               </li>
               <li class="nav-item dropdown">
@@ -208,29 +208,29 @@ const Header = () => {
 
               {token ? (
                 (userdata?.role === "admin" || userdata?.role === "superadmin") ?
-                <NavLink to="/admin/profile" className="sign-in">
-                  <img
-                    src={userdata?.avatarImage}
-                    style={{
-                      height: "2rem",
-                      width: "2rem",
-                      borderRadius: "50%",
-                    }}
-                  />{" "}
-                  Profile
-                </NavLink>
-                :
-                <NavLink to="/user/userprofile" className="sign-in">
-                  <img
-                    src={userdata?.avatarImage}
-                    style={{
-                      height: "2rem",
-                      width: "2rem",
-                      borderRadius: "50%",
-                    }}
-                  />{" "}
-                  Profile
-                </NavLink>
+                  <NavLink to="/admin/profile" className="sign-in">
+                    <img
+                      src={userdata?.avatarImage}
+                      style={{
+                        height: "2rem",
+                        width: "2rem",
+                        borderRadius: "50%",
+                      }}
+                    />{" "}
+                    Profile
+                  </NavLink>
+                  :
+                  <NavLink to="/user/userprofile" className="sign-in">
+                    <img
+                      src={userdata?.avatarImage}
+                      style={{
+                        height: "2rem",
+                        width: "2rem",
+                        borderRadius: "50%",
+                      }}
+                    />{" "}
+                    Profile
+                  </NavLink>
               ) : (
                 <NavLink to="/auth" className="sign-in">
                   <img src={img5} /> Sign In
