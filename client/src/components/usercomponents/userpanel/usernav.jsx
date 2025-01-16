@@ -16,7 +16,6 @@ import { logOut } from "../../../store/slices/authSlice";
 import img1 from "../../../assets/images/Logo.svg";
 
 const menuItems = [
-  { to: "/", icon: <House />, label: "Home" },
   { to: "/user/userdashboard", icon: <LayoutDashboard />, label: "Dashboard" },
   { to: "/user/orders", icon: <ShoppingCart />, label: "Orders" },
   { to: "/user/wallet", icon: <Wallet />, label: "Wallet" },
@@ -41,6 +40,9 @@ const UserNav = () => {
 
                     <img src={img1} alt="...logo" style={{height: "100%", width: "100%"}}/>
         </div>
+        <NavLink to="/" style={{cursor: "pointer", color: "white"}}>
+        <House />
+        </NavLink>
         {open ? (
           <X onClick={() => setOpen(false)} className="toggler" />
         ) : (

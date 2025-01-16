@@ -20,7 +20,7 @@ const WithdrawDetail = () => {
     const [uploadLoading, setUploadLoading] = useState(false);
 
     if (!user || !withdrawals.length) {
-         toast.error("Missing user or withdraw details. Please try again")
+        toast.error("Missing user or withdraw details. Please try again")
         navigate("/admin/withdrawals")
         return;
     }

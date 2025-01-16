@@ -15,6 +15,7 @@ import {
   Users,
   Gavel,
   HandCoins,
+  House,
 } from "lucide-react";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
@@ -50,11 +51,15 @@ const AdminNav = () => {
 
           <img src={img1} alt="...logo" style={{ height: "100%", width: "100%" }} />
         </div>
+        <NavLink to="/" style={{cursor: "pointer", color: "white"}}>
+        <House />
+        </NavLink>
         {open ? (
           <X onClick={() => setOpen(false)} className="toggler" />
         ) : (
           <Menu onClick={() => setOpen(true)} className="toggler" />
         )}
+
       </header>
       <aside className={open ? "open-adminnav" : "close-adminnav"}>
         {menuItems.map(({ to, icon, label }, index) => (
