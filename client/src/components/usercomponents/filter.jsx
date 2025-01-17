@@ -10,7 +10,7 @@ import SortByDropdown from "./auto";
 
 const CarFilterForm = ({ sellingType }) => {
   const location = useLocation();
-  const selectedAuction = location.state?.selectedAuction || null;
+  const { selectedAuction, SelectedFilters } = location.state || {};
   const { categories } = useSelector((state) => state.category);
   const [selectedTransmissions, setSelectedTransmissions] = useState([]);
   const [auctionTitle, setAuctionTitle] = useState("")
@@ -22,6 +22,7 @@ const CarFilterForm = ({ sellingType }) => {
   const [filteredCars, setFilteredCars] = useState([]);
 
   const applyFilter = async () => {
+    console.log(SelectedFilters)
     const filterData = {
       ...formData,
       priceMin: minPrice,
@@ -58,6 +59,21 @@ const CarFilterForm = ({ sellingType }) => {
     }, 500); // 500ms debounce time
     return () => clearTimeout(timeoutId);
   }, [formData, minPrice, maxPrice, selectedTransmissions, selectedFuelTypes]);
+
+  useEffect(() => {
+    if (SelectedFilters) {
+      const { carMake, carModal, driveType } = SelectedFilters;
+      const updatedMake = carMake.value;
+      const updatedModal = carModal.value;
+      const updateddriveType = driveType.value;
+      setFormData((prevData) => ({
+        ...prevData,
+        carMake: updatedMake || "",
+        carModal: updatedModal || "",
+        driveType: updateddriveType || "",
+      }));
+    }
+  }, [SelectedFilters]);
 
 
   useEffect(() => {
@@ -157,8 +173,8 @@ const CarFilterForm = ({ sellingType }) => {
                 <div className="data">
                   <div className="datainput">
                     <select name="carMake" onChange={handleChange} required>
-                      <option value="" disabled selected hidden>
-                        Select Car Make
+                      <option value={SelectedFilters.carMake.label || ""} disabled selected hidden>
+                        {SelectedFilters.carMake.label || "Select Car Make"}
                       </option>
                       {generateOptions("vehicle-make", "vehicleMake").map(
                         (option) => (
@@ -174,8 +190,8 @@ const CarFilterForm = ({ sellingType }) => {
                 <div className="data">
                   <div className="datainput">
                     <select name="carModal" onChange={handleChange} required>
-                      <option value="" disabled selected hidden>
-                        Select Car Model
+                      <option value={SelectedFilters.carModal.label || ""} disabled selected hidden>
+                        {SelectedFilters.carModal.label || "Select Car Modal"}
                       </option>
                       {generateOptions("vehicle-modal", "vehicleModal").map(
                         (option) => (
@@ -245,8 +261,8 @@ const CarFilterForm = ({ sellingType }) => {
                 <div className="data">
                   <div className="datainput">
                     <select name="driveType" onChange={handleChange} required>
-                      <option value="" disabled selected hidden>
-                        Select Drive Type
+                      <option value={SelectedFilters.driveType.label || ""} disabled selected hidden>
+                        {SelectedFilters.driveType.label || "Select Drive Type"}
                       </option>
                       {generateOptions("drive-type", "driveType").map(
                         (option) => (
