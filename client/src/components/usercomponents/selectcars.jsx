@@ -21,12 +21,12 @@ function SearchBar() {
     })) || [];
 
   const handleChange = (name) => (selectedOption) => {
-    setFormData({ ...formData, [name]: selectedOption?.value || "" });
+    setFormData({ ...formData, [name]: selectedOption || "" });
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    navigate("/vehicle");
+    navigate("/vehicle", {state: {SelectedFilters: formData}});
   };
 
   // Custom styles for react-select

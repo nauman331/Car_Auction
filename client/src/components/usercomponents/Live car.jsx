@@ -1,9 +1,31 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "../../assets/stylesheets/livecar.scss";
-
 import img1 from "../../assets/images/images.png";
 import img2 from "../../assets/images/right-up 1.png";
+import { NavLink } from 'react-router-dom';
+import { backendURL } from "../../utils/Exports"
 function Livecar() {
+  const [currentCar, setCurrentCar] = useState();
+
+  const getCurrentCar = async () => {
+    try {
+      const response = await fetch(`${backendURL}/auction/active-car`, {
+        method: "GET",
+      });
+      const res_data = await response.json(); // Wait for JSON data
+      if (response.ok) {
+        setCurrentCar(res_data);
+      } else {
+        console.log(res_data.message || "Failed to fetch the current car.");
+      }
+    } catch (error) {
+      console.log("Error in getting the current car:", error);
+    }
+  };
+
+  useEffect(() => {
+    getCurrentCar()
+  }, []);
   return (
     <section className="Live-car-section">
       <div className="live-car-title">
@@ -24,10 +46,13 @@ function Livecar() {
               you are.
             </p>
             <div className="btn">
-              <a href="#">
+              <NavLink
+                className="nav-link"
+                to={currentCar && currentCar._id ? `/auctioncar/${currentCar._id}` : "/vehicle"}
+              >
                 Join Auction{" "}
                 <img src={img2} />
-              </a>
+              </NavLink>
             </div>
           </div>
         </div>
