@@ -182,7 +182,7 @@ const Dashboard = () => {
         </div>
       </div>
 
-      {/* Modal */}
+      {/* Modall */}
       {showModal && selectedNotification && (
         <div
           className={`modal fade show`}
