@@ -22,7 +22,6 @@ const CarFilterForm = ({ sellingType }) => {
   const [filteredCars, setFilteredCars] = useState([]);
 
   const applyFilter = async () => {
-    console.log(SelectedFilters)
     const filterData = {
       ...formData,
       priceMin: minPrice,
@@ -173,8 +172,8 @@ const CarFilterForm = ({ sellingType }) => {
                 <div className="data">
                   <div className="datainput">
                     <select name="carMake" onChange={handleChange} required>
-                      <option value={SelectedFilters.carMake.label || ""} disabled selected hidden>
-                        {SelectedFilters.carMake.label || "Select Car Make"}
+                      <option value={SelectedFilters?.carMake?.label || ""} disabled selected hidden>
+                        {SelectedFilters?.carMake?.label || "Select Car Make"}
                       </option>
                       {generateOptions("vehicle-make", "vehicleMake").map(
                         (option) => (
@@ -190,8 +189,8 @@ const CarFilterForm = ({ sellingType }) => {
                 <div className="data">
                   <div className="datainput">
                     <select name="carModal" onChange={handleChange} required>
-                      <option value={SelectedFilters.carModal.label || ""} disabled selected hidden>
-                        {SelectedFilters.carModal.label || "Select Car Modal"}
+                      <option value={SelectedFilters?.carModal?.label || ""} disabled selected hidden>
+                        {SelectedFilters?.carModal?.label || "Select Car Modal"}
                       </option>
                       {generateOptions("vehicle-modal", "vehicleModal").map(
                         (option) => (
@@ -261,8 +260,8 @@ const CarFilterForm = ({ sellingType }) => {
                 <div className="data">
                   <div className="datainput">
                     <select name="driveType" onChange={handleChange} required>
-                      <option value={SelectedFilters.driveType.label || ""} disabled selected hidden>
-                        {SelectedFilters.driveType.label || "Select Drive Type"}
+                      <option value={SelectedFilters?.driveType?.label || ""} disabled selected hidden>
+                        {SelectedFilters?.driveType?.label || "Select Drive Type"}
                       </option>
                       {generateOptions("drive-type", "driveType").map(
                         (option) => (
