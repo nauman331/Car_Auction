@@ -21,7 +21,7 @@ function Buysale() {
   const [car, setCar] = useState(null);
   const [featuresData, setFeaturesData] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [buyLoading, setBuyLoading] = useState(false)
+  const [buyLoading, setBuyLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [showVideoModal, setShowVideoModal] = useState(false);
 
@@ -78,12 +78,12 @@ function Buysale() {
   };
 
   const purchaseCar = async () => {
-    if(!token) {
-      navigate("/auth")
+    if (!token) {
+      navigate("/auth");
     }
     const authorizationToken = `Bearer ${token}`;
     try {
-      setBuyLoading(true)
+      setBuyLoading(true);
       const response = await fetch(`${backendURL}/car/purchase/${id}`, {
         method: "PUT",
         headers: {
@@ -94,20 +94,20 @@ function Buysale() {
       const res_data = await response.json();
       if (response.ok) {
         toast.success(res_data.message);
-        getCarDetails()
+        getCarDetails();
       } else {
         toast.error(res_data.message);
       }
     } catch (error) {
       toast.error("Error while buying");
     } finally {
-      setBuyLoading(false)
+      setBuyLoading(false);
     }
   };
 
   return (
     <div>
-      <div style={{ paddingBottom: 40, backgroundColor: "#010153" }}></div>
+      <div style={{ paddingBottom: 40, backgroundColor: "#050b20" }}></div>
       <div className="mb-5 main">
         <div className="container">
           <div className="row">
@@ -149,7 +149,11 @@ function Buysale() {
               </div>
             </div>
             <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 mb-4 px-2">
-              <BuyCar car={car} purchaseCar={purchaseCar} buyLoading={buyLoading} />
+              <BuyCar
+                car={car}
+                purchaseCar={purchaseCar}
+                buyLoading={buyLoading}
+              />
             </div>
           </div>
           <div className="row">

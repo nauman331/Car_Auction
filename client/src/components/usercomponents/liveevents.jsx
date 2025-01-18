@@ -3,14 +3,13 @@ import img1 from "../../assets/images/location.png";
 import img2 from "../../assets/images/body.png";
 import "../../assets/stylesheets/eventauction.scss";
 import { backendURL } from "../../utils/Exports";
-import { NavLink, useNavigate } from 'react-router-dom';
-
+import { NavLink, useNavigate } from "react-router-dom";
 
 const AuctionCard = () => {
   const navigate = useNavigate();
 
-  const [auctions, setAuctions] = useState([])
-  const [currentCar, setCurrentCar] = useState()
+  const [auctions, setAuctions] = useState([]);
+  const [currentCar, setCurrentCar] = useState();
 
   const getAllAuctions = async () => {
     try {
@@ -18,10 +17,9 @@ const AuctionCard = () => {
         method: "GET",
       });
       const res_data = await response.json();
-      console.log(res_data)
+      console.log(res_data);
       if (response.ok) {
-        setAuctions(res_data)
-
+        setAuctions(res_data);
       } else {
         console.log(res_data.message);
       }
@@ -46,10 +44,9 @@ const AuctionCard = () => {
     }
   };
 
-
   useEffect(() => {
     getAllAuctions();
-    getCurrentCar()
+    getCurrentCar();
   }, []);
 
   const handleJoin = () => {
@@ -60,7 +57,6 @@ const AuctionCard = () => {
     }
   };
 
-
   return (
     <div>
       <div className="d-flex live-car">
@@ -70,68 +66,71 @@ const AuctionCard = () => {
         </span>
       </div>
       <div className="row">
-        {auctions.map((auction, index) => (
-          auction.statusText === "Ongoing" &&
-          <div
-            className="col-xl-4 col-lg-4  col-md-6  col-sm-12  col-12 col-12 mb-4"
-            key={index}
-          >
-            <div className="card h-100 text-white ">
-              {/* Header Section */}
+        {auctions.map(
+          (auction, index) =>
+            auction.statusText === "Ongoing" && (
+              <div
+                className="col-xl-4 col-lg-4  col-md-6  col-sm-12  col-12 col-12 mb-4"
+                key={index}
+              >
+                <div className="card h-100 text-white ">
+                  {/* Header Section */}
 
-              <div className="abs">
-                <h5 className="card-title mb-2">
-                  {auction.auctionTitle || "N/A"}
-                </h5>
-                <span className="badge bg-danger mb-2">Live</span>
-                {/* Date and Time */}
-                <p className="texts mb-3" style={{ fontSize: "14px" }}>
-                  {new Date(auction.auctionDate).toLocaleDateString()} at {auction.auctionTime || "N/A"}
-                </p>
-              </div>
-              {/* Auction Title */}
-              <div className="card-body">
-                {/* Details Section */}
-                <div className="d-flex justify-content-between align-items-center mb-3 gap-1 card-text">
-                  <span
-                    className="d-flex align-items-center"
-                    style={{ fontSize: "12px" }}
-                  >
-                    <img src={img1} />
-                    {auction.location?.auctionLocation || "N/A"}
-                  </span>
-                  <span
-                    className="d-flex align-items-center"
-                    style={{ fontSize: "12px" }}
-                  >
-                    <img src={img2} />
-                    No of Cars {auction.totalVehicles || 0}
-                  </span>
-                  <NavLink to="/vehicle"
-                    className="btn btn-outline-secondary btn-sm w-20 text-white"
-                    style={{ fontSize: "12px", backgroundColor: "#333" }}
-                  >
-                    View All
-                  </NavLink>
+                  <div className="abs">
+                    <h5 className="card-title mb-2">
+                      {auction.auctionTitle || "N/A"}
+                    </h5>
+                    <span className="badge bg-danger mb-2">Live</span>
+                    {/* Date and Time */}
+                    <p className="texts mb-3" style={{ fontSize: "14px" }}>
+                      {new Date(auction.auctionDate).toLocaleDateString()} at{" "}
+                      {auction.auctionTime || "N/A"}
+                    </p>
+                  </div>
+                  {/* Auction Title */}
+                  <div className="card-body">
+                    {/* Details Section */}
+                    <div className="d-flex justify-content-between align-items-center mb-3 gap-1 card-text">
+                      <span
+                        className="d-flex align-items-center"
+                        style={{ fontSize: "12px" }}
+                      >
+                        <img src={img1} />
+                        {auction.location?.auctionLocation || "N/A"}
+                      </span>
+                      <span
+                        className="d-flex align-items-center"
+                        style={{ fontSize: "12px" }}
+                      >
+                        <img src={img2} />
+                        No of Cars {auction.totalVehicles || 0}
+                      </span>
+                      <NavLink
+                        to="/vehicle"
+                        className="btn  btn-sm w-20 text-white"
+                        style={{ fontSize: "12px", backgroundColor: "#333" }}
+                      >
+                        View All
+                      </NavLink>
+                    </div>
+                    {/* Join Auction Button */}
+
+                    <button
+                      className="btn btn-success w-100 fw-bold"
+                      style={{ fontSize: "14px" }}
+                      onClick={handleJoin}
+                    >
+                      Join Auction
+                    </button>
+                  </div>
                 </div>
-                {/* Join Auction Button */}
-
-                <button
-                  className="btn btn-success w-100 fw-bold"
-                  style={{ fontSize: "14px" }}
-                  onClick={handleJoin}
-                >
-                  Join Auction
-                </button>
               </div>
-            </div>
-          </div>
-        ))}
+            )
+        )}
       </div>
     </div>
   );
 };
-
 
 const Liveevents = () => {
   return (

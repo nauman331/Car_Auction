@@ -22,14 +22,14 @@ const Aboutus = () => {
                   <Link to="/">Home</Link>
                 </li>
                 <li className="breadcrumb-item active" aria-current="page">
-                  AboutUs
+                  About Us
                 </li>
               </ol>
             </nav>
           </div>
           <div className="aboutus-section mb-5">
             <div className="about-text">
-              <h2>About Us</h2>
+              <h1>About Us</h1>
             </div>
             <div className="about-section2">
               <div className="row">

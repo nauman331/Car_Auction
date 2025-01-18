@@ -4,48 +4,103 @@
   justify-content: center;
   min-height: 100vh;
 
-.container {
+  .container {
     width: 100%;
     max-width: 400px !important;
     margin: 0 auto;
     padding: 20px;
-    border: 1px solid #ccc;
+    border: none;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     text-align: center;
-  
+    img {
+      width: 150px;
+      height: 100%;
+      object-fit: cover;
+      margin-bottom: 30px;
+    }
     .form {
       display: flex;
       flex-direction: column;
       gap: 15px;
-  
+
       .label {
         font-size: 16px;
         font-weight: bold;
       }
-  
-      .input {
-        padding: 10px;
-        font-size: 16px;
-        border-radius: 4px;
-        border: 1px solid #ccc;
+
+      // .input {
+      //   padding: 10px;
+      //   font-size: 16px;
+      //   border-radius: 4px;
+      //   border: 1px solid #ccc;
+      // }
+      .wrapper--input {
+        position: relative;
+        width: 100%;
+        margin-bottom: 0px;
+
+        input {
+          background-color: transparent;
+          border: 1px solid blue;
+          display: block;
+          font-size: 15px;
+          &[type="text"],
+          &[type="password"],
+          &[type="tel"],
+          &[type="email"] {
+            border: 2px solid rgb(212, 211, 211);
+            border-radius: 10px;
+            color: black;
+            padding: 20px 10px 10px 15px;
+            width: 100%;
+            margin-top: 25px;
+          }
+
+          &:focus {
+            color: scale-color(black);
+            outline: 0;
+            background-color: transparent;
+          }
+
+          &:focus ~ label,
+          &.valid ~ label {
+            border-color: black;
+            color: gray;
+            font-size: 12px;
+            top: 20px;
+            background-color: transparent;
+          }
+        }
+
+        label {
+          font-size: 14px;
+          font-weight: normal;
+          color: scale-color(gray);
+          position: absolute;
+          pointer-events: none;
+          padding: 10px;
+          top: 20px;
+          left: 7px;
+          background-color: transparent;
+        }
       }
-  
+
       .button {
         padding: 10px;
         font-size: 16px;
         color: #fff;
-        background-color: #007bff;
+        background-color: #405ff2;
         border: none;
         border-radius: 4px;
         cursor: pointer;
         transition: background-color 0.3s;
       }
-  
+
       .button:hover {
-        background-color: #0056b3;
+        background-color: #405ff2;
       }
-  
+
       .error {
         color: red;
         font-size: 14px;
