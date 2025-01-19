@@ -22,6 +22,9 @@ const Eventauction = () => {
               </ol>
             </nav>
           </div>
+          <div className="Auction-Vehicles-text">
+            <h1> Auction Events</h1>
+          </div>
           <Liveevents />
           <Upcomingevents />
         </div>

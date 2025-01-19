@@ -13,7 +13,7 @@ import {
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { logOut } from "../../../store/slices/authSlice";
-import img1 from "../../../assets/images/Logo.svg";
+import img1 from "../../../assets/images/project logo light (1).svg";
 
 const menuItems = [
   { to: "/user/userdashboard", icon: <LayoutDashboard />, label: "Dashboard" },
@@ -36,12 +36,18 @@ const UserNav = () => {
   return (
     <>
       <header className="admin-header">
-        <div className="logo" style={{height: "3rem", width: "3rrem", marginLeft: "1rem"}}>
-
-                    <img src={img1} alt="...logo" style={{height: "100%", width: "100%"}}/>
+        <div
+          className="logo"
+          style={{ height: "3rem", width: "3rrem", marginLeft: "1rem" }}
+        >
+          <img
+            src={img1}
+            alt="...logo"
+            style={{ height: "100%", width: "100%" }}
+          />
         </div>
-        <NavLink to="/" style={{cursor: "pointer", color: "white"}}>
-        <House />
+        <NavLink to="/" style={{ cursor: "pointer", color: "white" }}>
+          <House />
         </NavLink>
         {open ? (
           <X onClick={() => setOpen(false)} className="toggler" />
@@ -67,7 +73,6 @@ const UserNav = () => {
             dispatch(logOut());
             navigate("/auth");
           }}
-          
         >
           <LogOut style={{ transform: "rotate(180deg)" }} />
           <span>Log Out</span>

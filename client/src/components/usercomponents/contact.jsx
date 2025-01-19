@@ -55,13 +55,13 @@ const Form = () => {
                   <Link to="/">Home</Link>
                 </li>
                 <li className="breadcrumb-item active" aria-current="page">
-                  ContactUs
+                  Contact Us
                 </li>
               </ol>
             </nav>
           </div>
           <div className="contact-section">
-            <h2>Contact Us</h2>
+            <h1>Contact Us</h1>
             {/* Map Section */}
             <div className="map-section">
               <iframe
@@ -98,7 +98,7 @@ const Form = () => {
                         autoComplete="off"
                         onChange={handleInputChange}
                         name="firstName"
-                        placeholder="Syeda"
+                        placeholder="first Name"
                         required
                       />
                       <label>First Name</label>
@@ -109,10 +109,10 @@ const Form = () => {
                         autoComplete="off"
                         onChange={handleInputChange}
                         name="lastName"
-                        placeholder="Asra"
+                        placeholder="lastName"
                         required
                       />
-                      <label>LastName</label>
+                      <label>Last Name</label>
                     </div>
                   </div>
                   <div

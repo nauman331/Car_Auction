@@ -13,7 +13,7 @@ import LoadingSpinner from "../LoadingSpinner";
 import { useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const { token } = useSelector((state) => state.auth);
   const [dataLoading, setDataLoading] = useState(false);
   const [notificationsLoading, setNotificationsLoading] = useState(false);
@@ -74,7 +74,6 @@ const Dashboard = () => {
     }
   };
 
-
   const markNotificationAsRead = async (notificationId) => {
     const authorizationToken = `Bearer ${token}`;
     try {
@@ -102,7 +101,6 @@ const Dashboard = () => {
     }
   };
 
-
   const handleNotificationClick = (notification) => {
     setSelectedNotification(notification);
     setShowModal(true);
@@ -120,7 +118,6 @@ const Dashboard = () => {
     }
   }, [token]);
 
-
   if (dataLoading || notificationsLoading) return <LoadingSpinner />;
 
   if (!data) return <p>No data available</p>;
@@ -131,7 +128,12 @@ const Dashboard = () => {
       <small>Whole Progress of Data</small>
       <div className="info-boxes">
         {[
-          { title: "Purchase", count: data?.purchase || 0, Icon: ShoppingCart, iconClass: "icon1" },
+          {
+            title: "Purchase",
+            count: data?.purchase || 0,
+            Icon: ShoppingCart,
+            iconClass: "icon1",
+          },
           {
             title: "Spent",
             count: `AED ${formatNumber(data?.totalSpent || 0)}`,
@@ -139,7 +141,7 @@ const Dashboard = () => {
             iconClass: "icon3",
           },
         ].map(({ title, count, Icon, iconClass }, idx) => (
-          <div key={idx} className="info-box" style={{ width: "29rem" }}>
+          <div key={idx} className="info-box" style={{ width: "30rem" }}>
             <span>
               <small>{title}</small>
               <h4>{count}</h4>
@@ -157,16 +159,19 @@ const Dashboard = () => {
           {notifications?.slice(0, 6).map((notification) => (
             <span
               key={notification._id}
-              className={`notification ${notification.readStatus ? "read" : "unread"}`}
+              className={`notification ${
+                notification.readStatus ? "read" : "unread"
+              }`}
               onClick={() => handleNotificationClick(notification)}
             >
               <div className="icon3">
                 <MessagesSquare />
               </div>
               <small>
-                {notification.message.split(" ").slice(0, 4).join(" ") || notification.message}...
+                {notification.message.split(" ").slice(0, 4).join(" ") ||
+                  notification.message}
+                ...
               </small>
-
             </span>
           ))}
           {notifications?.length > 6 && (
@@ -175,10 +180,9 @@ const Dashboard = () => {
             </button>
           )}
         </div>
-
       </div>
 
-      {/* Modal */}
+      {/* Modall */}
       {showModal && selectedNotification && (
         <div
           className={`modal fade show`}

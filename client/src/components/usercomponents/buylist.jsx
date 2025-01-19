@@ -21,7 +21,9 @@ const BuyfilterForm = () => {
       ...formData,
       priceMin: minPrice,
       priceMax: maxPrice,
-      ...(selectedTransmissions.length > 0 && { transmission: selectedTransmissions }),
+      ...(selectedTransmissions.length > 0 && {
+        transmission: selectedTransmissions,
+      }),
       ...(selectedFuelTypes.length > 0 && { fuelType: selectedFuelTypes }),
     };
 
@@ -34,7 +36,7 @@ const BuyfilterForm = () => {
         body: JSON.stringify(filterData),
       });
       const result = await response.json();
-      console.log(result)
+      console.log(result);
       if (result.success) {
         setCars(result.data);
       } else {
@@ -45,12 +47,9 @@ const BuyfilterForm = () => {
     }
   };
 
-
   useEffect(() => {
     applyFilter();
   }, [formData, minPrice, maxPrice, selectedTransmissions, selectedFuelTypes]);
-
-
 
   const generateOptions = (key, labelKey) =>
     categories?.[key]?.map((item) => ({
@@ -76,11 +75,12 @@ const BuyfilterForm = () => {
     const { value, checked } = e.target;
 
     const updateState = (prevState) =>
-      checked ? [...prevState, value] : prevState.filter((item) => item !== value);
+      checked
+        ? [...prevState, value]
+        : prevState.filter((item) => item !== value);
     if (category === "transmission") setSelectedTransmissions(updateState);
     if (category === "fuelType") setSelectedFuelTypes(updateState);
   };
-
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -99,7 +99,7 @@ const BuyfilterForm = () => {
                   <Link to="/">Home</Link>
                 </li>
                 <li className="breadcrumb-item active" aria-current="page">
-                  Auction Vehicles
+                  Buy Now Vehicles
                 </li>
               </ol>
             </nav>
@@ -107,7 +107,7 @@ const BuyfilterForm = () => {
           <div className="row">
             <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
               <div className="Auction-Vehicles-text">
-                <h1>Auction Vehicles List</h1>
+                <h1>Buy Now Vehicles List</h1>
               </div>
             </div>
           </div>
@@ -374,9 +374,7 @@ const BuyfilterForm = () => {
             </div>
             <div className="col-xl-9 col-lg-9 col-md-8 col-sm-12 col-12">
               <div>
-                <ProductGridWithPagination
-                  cars={cars}
-                />
+                <ProductGridWithPagination cars={cars} />
               </div>
             </div>
           </div>

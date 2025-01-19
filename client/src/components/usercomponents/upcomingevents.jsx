@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 const AuctionCard = () => {
   const navigate = useNavigate();
 
-  const [auctions, setAuctions] = useState([])
+  const [auctions, setAuctions] = useState([]);
 
   const getAllAuctions = async () => {
     try {
@@ -17,10 +17,9 @@ const AuctionCard = () => {
         method: "GET",
       });
       const res_data = await response.json();
-      console.log(res_data)
+      console.log(res_data);
       if (response.ok) {
-        setAuctions(res_data)
-
+        setAuctions(res_data);
       } else {
         console.log(res_data.message);
       }
@@ -54,13 +53,23 @@ const AuctionCard = () => {
   };
 
   const [timers, setTimers] = useState(
-    auctions.map((auction) => calculateTimeLeft(new Date(auction.auctionDate).toLocaleDateString(), auction.auctionTime))
+    auctions.map((auction) =>
+      calculateTimeLeft(
+        new Date(auction.auctionDate).toLocaleDateString(),
+        auction.auctionTime
+      )
+    )
   );
 
   useEffect(() => {
     const interval = setInterval(() => {
       setTimers(
-        auctions.map((auction) => calculateTimeLeft(new Date(auction.auctionDate).toLocaleDateString(), auction.auctionTime))
+        auctions.map((auction) =>
+          calculateTimeLeft(
+            new Date(auction.auctionDate).toLocaleDateString(),
+            auction.auctionTime
+          )
+        )
       );
     }, 1000);
 
@@ -71,94 +80,96 @@ const AuctionCard = () => {
     <div>
       <div className="d-flex live-car">
         <span className="live-text" style={{ fontSize: "12px" }}>
-          UpComing Live Auction
+          Upcoming Auctions
         </span>
       </div>
       <div className="row">
-        {auctions.map((auction, index) => (
-          auction.statusText === "Pending" &&
-          <div
-            className="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12 mb-4"
-            key={index}
-          >
-            <div className="card h-100 text-white">
-              {/* Header Section */}
-              <div className="abs">
-                <h5 className="card-title mb-2">
-                  {auction.auctionTitle || "N/A"}
-                </h5>
-                {/* Date and Time */}
-                <p className="texts mb-3" style={{ fontSize: "14px" }}>
-                  {new Date(auction.auctionDate).toLocaleDateString()} at {auction.auctionTime || "N/A"}
-                </p>
-                {/* Countdown Timer */}
-                <div className="countdown text-center d-flex justify-content-between gap-3">
-                  {timers[index] ? (
-                    <>
-                      <div className="text-center">
-                        <span className="d-block fw-bold">
-                          {timers[index].days}
-                        </span>
-                        <span style={{ fontSize: "12px" }}>Days</span>
-                      </div>
-                      <div className="text-center">
-                        <span className="d-block fw-bold">
-                          {timers[index].hours}
-                        </span>
-                        <span style={{ fontSize: "12px" }}>Hours</span>
-                      </div>
-                      <div className="text-center">
-                        <span className="d-block fw-bold">
-                          {timers[index].minutes}
-                        </span>
-                        <span style={{ fontSize: "12px" }}>Min</span>
-                      </div>
-                      <div className="text-center">
-                        <span className="d-block fw-bold">
-                          {timers[index].seconds}
-                        </span>
-                        <span style={{ fontSize: "12px" }}>Sec</span>
-                      </div>
-                    </>
-                  ) : (
-                    <span>Started</span>
-                  )}
+        {auctions.map(
+          (auction, index) =>
+            auction.statusText === "Pending" && (
+              <div
+                className="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12 mb-4"
+                key={index}
+              >
+                <div className="card h-100 text-white">
+                  {/* Header Section */}
+                  <div className="abs">
+                    <h5 className="card-title mb-2">
+                      {auction.auctionTitle || "N/A"}
+                    </h5>
+                    {/* Date and Time */}
+                    <p className="texts mb-3" style={{ fontSize: "14px" }}>
+                      {new Date(auction.auctionDate).toLocaleDateString()} at{" "}
+                      {auction.auctionTime || "N/A"}
+                    </p>
+                    {/* Countdown Timer */}
+                    <div className="countdown text-center d-flex justify-content-between gap-3">
+                      {timers[index] ? (
+                        <>
+                          <div className="text-center">
+                            <span className="d-block fw-bold">
+                              {timers[index].days}
+                            </span>
+                            <span style={{ fontSize: "12px" }}>Days</span>
+                          </div>
+                          <div className="text-center">
+                            <span className="d-block fw-bold">
+                              {timers[index].hours}
+                            </span>
+                            <span style={{ fontSize: "12px" }}>Hours</span>
+                          </div>
+                          <div className="text-center">
+                            <span className="d-block fw-bold">
+                              {timers[index].minutes}
+                            </span>
+                            <span style={{ fontSize: "12px" }}>Min</span>
+                          </div>
+                          <div className="text-center">
+                            <span className="d-block fw-bold">
+                              {timers[index].seconds}
+                            </span>
+                            <span style={{ fontSize: "12px" }}>Sec</span>
+                          </div>
+                        </>
+                      ) : (
+                        <span>Started</span>
+                      )}
+                    </div>
+                  </div>
+                  {/* Auction Details */}
+                  <div className="card-body">
+                    <div className="d-flex justify-content-between align-items-center mb-3 gap-1 card-text">
+                      <span
+                        className="d-flex align-items-center"
+                        style={{ fontSize: "12px" }}
+                      >
+                        <img src={img1} alt="Location" />
+                        {auction.location?.auctionLocation || "N/A"}
+                      </span>
+                      <span
+                        className="d-flex align-items-center"
+                        style={{ fontSize: "12px" }}
+                      >
+                        <img src={img2} alt="Cars" />
+                        No of Cars {auction.totalVehicles || 0}
+                      </span>
+                      <button
+                        className="btn btn-outline-secondary btn-sm w-20"
+                        style={{ fontSize: "12px" }}
+                        onClick={() => handleAuctionClick(auction.auctionTitle)}
+                      >
+                        View All
+                      </button>
+                    </div>
+                  </div>
                 </div>
               </div>
-              {/* Auction Details */}
-              <div className="card-body">
-                <div className="d-flex justify-content-between align-items-center mb-3 gap-1 card-text">
-                  <span
-                    className="d-flex align-items-center"
-                    style={{ fontSize: "12px" }}
-                  >
-                    <img src={img1} alt="Location" />
-                    {auction.location?.auctionLocation || "N/A"}
-                  </span>
-                  <span
-                    className="d-flex align-items-center"
-                    style={{ fontSize: "12px" }}
-                  >
-                    <img src={img2} alt="Cars" />
-                    No of Cars {auction.totalVehicles || 0}
-                  </span>
-                  <button
-                    className="btn btn-outline-secondary btn-sm w-20"
-                    style={{ fontSize: "12px" }}
-                    onClick={()=>handleAuctionClick(auction.auctionTitle)}
-                  >
-                    View All
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        ))}
+            )
+        )}
       </div>
     </div>
   );
 };
-
 
 const Upcomingevents = () => {
   return <AuctionCard />;

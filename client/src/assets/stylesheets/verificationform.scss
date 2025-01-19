@@ -2,6 +2,7 @@
 .otp-container {
   max-width: 400px;
   margin: 0 auto;
+  margin-top: 40px;
   text-align: center;
   font-family: "DM Sans";
 
@@ -11,15 +12,70 @@
     margin-bottom: 20px;
     color: #333;
   }
-
+  img {
+    width: 150px;
+    height: 100%;
+    object-fit: cover;
+    margin-bottom: 30px;
+  }
   /* Input Fields */
-  input {
-    padding: 10px;
+  // input {
+  //   padding: 10px;
+  //   width: 100%;
+  //   margin: 10px 0;
+  //   border: 1px solid #ccc;
+  //   border-radius: 5px;
+  //   font-size: 14px;
+  // }
+  .wrapper--input {
+    position: relative;
     width: 100%;
-    margin: 10px 0;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 14px;
+    margin-bottom: 0px;
+
+    input {
+      background-color: transparent;
+      border: 1px solid blue;
+      display: block;
+      font-size: 15px;
+      &[type="text"],
+      &[type="password"],
+      &[type="tel"],
+      &[type="email"] {
+        border: 2px solid rgb(212, 211, 211);
+        border-radius: 10px;
+        color: black;
+        padding: 20px 10px 10px 15px;
+        width: 100%;
+        margin-top: 25px;
+      }
+
+      &:focus {
+        color: scale-color(black);
+        outline: 0;
+        background-color: transparent;
+      }
+
+      &:focus ~ label,
+      &.valid ~ label {
+        border-color: black;
+        color: gray;
+        font-size: 12px;
+        top: -5px;
+        background-color: transparent;
+      }
+    }
+
+    label {
+      font-size: 15px;
+      font-weight: normal;
+      color: scale-color(gray);
+      position: absolute;
+      pointer-events: none;
+      padding: 10px;
+      top: -5px;
+      left: 7px;
+      background-color: transparent;
+    }
   }
 
   /* Error Message */
@@ -46,25 +102,25 @@
   }
 
   .send-otp-btn {
-    background-color: #007bff;
+    background-color: #405ff2;
   }
 
   .send-otp-btn:hover {
-    background-color: #0056b3;
+    background-color: #405ff2;
   }
   .verify-otp-btn {
-    background-color: #007bff;
+    background-color: #405ff2;
   }
 
   .verify-otp-btn:hover {
-    background-color: #0056b3;
+    background-color: #405ff2;
   }
 
   .update-password-btn {
-    background-color: #28a745;
+    background-color: #405ff2;
   }
 
   .update-password-btn:hover {
-    background-color: #218838;
+    background-color: #405ff2;
   }
 }
