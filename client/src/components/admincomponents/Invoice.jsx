@@ -88,7 +88,7 @@ const Invoice = () => {
     const statusOptions = [
         { value: "approved", label: "Approved" },
         { value: "rejected", label: "Rejected" },
-        { value: "pending", label: "Payment Pending" },
+        { value: "payment pending", label: "Payment Pending" },
     ];
 
     const updateStatus = async () => {
@@ -123,7 +123,7 @@ const Invoice = () => {
                     </Button>
                 </Col>
                 <Col xs={6} sm={4} className="text-end">
-                    <h4>Status: {invoice?.statusText === "pending" ? "Payment Pending" : invoice?.statusText?.charAt(0).toUpperCase() + invoice?.statusText?.slice(1) || ""}</h4>
+                    <h4>Status: { invoice?.statusText?.charAt(0).toUpperCase() + invoice?.statusText?.slice(1) || ""}</h4>
                 </Col>
             </Row>
 
