@@ -20,6 +20,7 @@ const CarFilterForm = ({ sellingType }) => {
   const [maxPrice, setMaxPrice] = useState(100000);
   const [cars, setCars] = useState([]);
   const [filteredCars, setFilteredCars] = useState([]);
+  const [resetLabel, setResetLabel] = useState(false)
 
   const applyFilter = async () => {
     const filterData = {
@@ -80,6 +81,15 @@ const CarFilterForm = ({ sellingType }) => {
       setAuctionTitle(selectedAuction);
     }
   }, [selectedAuction]);
+
+  const resetFilters = () => {
+    setFormData({});
+    setSelectedTransmissions([]);
+    setSelectedFuelTypes([]);
+    setMinPrice(100);
+    setMaxPrice(100000);
+    setResetLabel(true)
+  };
 
   const handleFilterChange = (selectedAuction) => {
     setAuctionTitle(selectedAuction);
@@ -155,11 +165,17 @@ const CarFilterForm = ({ sellingType }) => {
               <div className="Auction-Vehicles-text">
                 <h1>Auction Vehicles List</h1>
               </div>
+
             </div>
           </div>
           <div className="row">
             <div className=" col-xl-3 col-lg-3 col-md-4 col-sm-12 col-12 mb-4">
               <form className="form_section">
+                <div className="data p-3">
+                        <button
+                          onClick={resetFilters}
+                        >Reset Filters</button>
+                </div>
                 <div className="data">
                   <div className="datainput">
                     {location.pathname === "/vehicle" && (
@@ -169,12 +185,21 @@ const CarFilterForm = ({ sellingType }) => {
                     )}
                   </div>
                 </div>
+
                 <div className="data">
                   <div className="datainput">
                     <select name="carMake" onChange={handleChange} required>
-                      <option value={SelectedFilters?.carMake?.label || ""} disabled selected hidden>
-                        {SelectedFilters?.carMake?.label || "Select Car Make"}
-                      </option>
+                      {
+                        resetLabel ?
+                          <option value="" disabled selected hidden>
+                            Select Car Make
+                          </option>
+                          :
+                          <option value={SelectedFilters?.carMake?.label || ""} disabled selected hidden>
+                            {SelectedFilters?.carMake?.label || "Select Car Make"}
+                          </option>
+                      }
+
                       {generateOptions("vehicle-make", "vehicleMake").map(
                         (option) => (
                           <option key={option.value} value={option.value}>
@@ -189,9 +214,17 @@ const CarFilterForm = ({ sellingType }) => {
                 <div className="data">
                   <div className="datainput">
                     <select name="carModal" onChange={handleChange} required>
-                      <option value={SelectedFilters?.carModal?.label || ""} disabled selected hidden>
-                        {SelectedFilters?.carModal?.label || "Select Car Modal"}
-                      </option>
+                      {
+                        resetLabel
+                          ?
+                          <option value="" disabled selected hidden>
+                            Select Car Modal
+                          </option>
+                          :
+                          <option value={SelectedFilters?.carModal?.label || ""} disabled selected hidden>
+                            {SelectedFilters?.carModal?.label || "Select Car Modal"}
+                          </option>
+                      }
                       {generateOptions("vehicle-modal", "vehicleModal").map(
                         (option) => (
                           <option key={option.value} value={option.value}>
@@ -260,9 +293,17 @@ const CarFilterForm = ({ sellingType }) => {
                 <div className="data">
                   <div className="datainput">
                     <select name="driveType" onChange={handleChange} required>
-                      <option value={SelectedFilters?.driveType?.label || ""} disabled selected hidden>
-                        {SelectedFilters?.driveType?.label || "Select Drive Type"}
-                      </option>
+                      {
+                        resetLabel ?
+                          <option value="" disabled selected hidden>
+                            Select Drive Type
+                          </option>
+                          :
+                          <option value={SelectedFilters?.driveType?.label || ""} disabled selected hidden>
+                            {SelectedFilters?.driveType?.label || "Select Drive Type"}
+                          </option>
+                      }
+
                       {generateOptions("drive-type", "driveType").map(
                         (option) => (
                           <option key={option.value} value={option.value}>
