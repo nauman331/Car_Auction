@@ -4,6 +4,7 @@ import Select from "react-select";
 import { TextField } from "@mui/material";
 import dayjs from "dayjs";
 
+
 const FormGrid = ({ fields, formData, setFormData }) => {
   const handleChange = (e) => {
     const { id, value } = e.target;
@@ -68,6 +69,9 @@ const FormGrid = ({ fields, formData, setFormData }) => {
                   value={formData[id] ? dayjs(formData[id]) : null}
                   onChange={(value) => handleDateChange(value, id)}
                   className="date-picker-input"
+                  InputProps={{
+                    disableUnderline: true
+                  }}
                   renderInput={(params) => (
                     <TextField
                       {...params}

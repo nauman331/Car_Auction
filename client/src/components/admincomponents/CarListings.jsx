@@ -29,8 +29,8 @@ const CarListings = () => {
   const [formData, setFormData] = useState({});
   const [images, setImages] = useState([]);
   const [existingImages, setExistingImages] = useState([]);
-   const [step, setStep] = useState(1);
-    const steps = ["Car Details", "Price", "Features", "Media", "Location"];
+  const [step, setStep] = useState(1);
+  const steps = ["Car Details", "Price", "Features", "Media", "Location"];
 
 
   const handleImageSubmit = async () => {
@@ -120,9 +120,6 @@ const CarListings = () => {
     }
   };
 
-  const handleCancelDelete = () => {
-    setShowDeleteModal(false);
-  };
 
 
   const submitUpdatedCar = async () => {
@@ -242,8 +239,8 @@ const CarListings = () => {
                       car.sellingType === "fixed" && (
                         <tr key={index}>
                           <td
-                          style={{ cursor: "pointer" }}
-                          onClick={() => navigate(`/admin/carsales/${car._id}`)}
+                            style={{ cursor: "pointer" }}
+                            onClick={() => navigate(`/admin/carsales/${car._id}`)}
                           >
                             <div className="car-info">
                               <div className="car-image">
@@ -279,44 +276,56 @@ const CarListings = () => {
                           <td>
                             <small>{car.fuelType && car.fuelType.vehicleFuelTypes || "No Fuel Type"}</small>
                           </td>
-                          <td className="action-buttons">
-                            <button onClick={() => handleDeleteClick(car._id)}>
-                              <Trash size={16} />
-                            </button>
-                            <button
-                              onClick={() => {
-                                setCarToEdit(car._id);
-                                setExistingImages(car.carImages || []);
-                                setFormData({
-                                  listingTitle: car.listingTitle || "",
-                                  carMake: car.carMake?._id || "",
-                                  carModal: car.carModal?._id || "",
-                                  friendlyLocation: car.friendlyLocation || "",
-                                  mapLocation: car.mapLocation || "",
-                                  carType: car.carType?._id || "",
-                                  description: car.description || "",
-                                  year: car.year?._id || "",
-                                  mileage: car.mileage || "",
-                                  fuelType: car.fuelType?._id || "",
-                                  transmission: car.transmission?._id || "",
-                                  driveType: car.driveType?._id || "",
-                                  damage: car.damage?._id || "",
-                                  cylinders: car.cylinders?._id || "",
-                                  engineSize: car.engineSize?._id || "",
-                                  color: car.color?._id || "",
-                                  vin: car.vin || "",
-                                  noOfDoors: car.noOfDoors?._id || "",
-                                  videoLink: car.videoLink || "",
-                                  price: car.price || "",
-                                  discountedPrice: car.discountedPrice || "",
-                                  features: car.features || {},
-                                });
-                                setShowEditModal(true);
-                              }}
-                            >
-                              <PencilLine size={16} />
-                            </button>
-                          </td>
+                          {
+                            !car.isSold ?
+                              <td className="action-buttons">
+                                <button onClick={() => handleDeleteClick(car._id)}>
+                                  <Trash size={16} />
+                                </button>
+                                <button
+                                  onClick={() => {
+                                    setCarToEdit(car._id);
+                                    setExistingImages(car.carImages || []);
+                                    setFormData({
+                                      listingTitle: car.listingTitle || "",
+                                      carMake: car.carMake?._id || "",
+                                      carModal: car.carModal?._id || "",
+                                      friendlyLocation: car.friendlyLocation || "",
+                                      mapLocation: car.mapLocation || "",
+                                      carType: car.carType?._id || "",
+                                      description: car.description || "",
+                                      year: car.year?._id || "",
+                                      mileage: car.mileage || "",
+                                      fuelType: car.fuelType?._id || "",
+                                      transmission: car.transmission?._id || "",
+                                      driveType: car.driveType?._id || "",
+                                      damage: car.damage?._id || "",
+                                      cylinders: car.cylinders?._id || "",
+                                      engineSize: car.engineSize?._id || "",
+                                      color: car.color?._id || "",
+                                      vin: car.vin || "",
+                                      noOfDoors: car.noOfDoors?._id || "",
+                                      videoLink: car.videoLink || "",
+                                      price: car.price || "",
+                                      discountedPrice: car.discountedPrice || "",
+                                      features: car.features || {},
+                                    });
+                                    setShowEditModal(true);
+                                  }}
+                                >
+                                  <PencilLine size={16} />
+                                </button>
+                              </td>
+                              :
+                              <td className="action-buttons">
+                                <button style={{ cursor: "not-allowed" }} >
+                                  <Trash size={16} />
+                                </button>
+                                <button style={{ cursor: "not-allowed" }} >
+                                  <PencilLine size={16} />
+                                </button>
+                              </td>
+                          }
                         </tr>
                       )
                   )}
@@ -333,29 +342,29 @@ const CarListings = () => {
             }
           </div>
 
-           {/* Delete Confirmation Modal */}
-           <DeleteModal
-        show={showDeleteModal}
-        onClose={() => setShowDeleteModal(false)}
-        onConfirm={handleDeleteConfirm}
-      />
-            {/* Edit Modal */}
-            <EditModal
-        show={showEditModal}
-        onClose={() => setShowEditModal(false)}
-        formData={formData}
-        setFormData={setFormData}
-        step={step}
-        setStep={setStep}
-        steps={steps}
-        submitHandler={submitUpdatedCar}
-        images={images}
-        setImages={setImages}
-        existingImages={existingImages}
-        setExistingImages={setExistingImages}
-        loading={loading}
-        sellingType="fixed"
-      />
+          {/* Delete Confirmation Modal */}
+          <DeleteModal
+            show={showDeleteModal}
+            onClose={() => setShowDeleteModal(false)}
+            onConfirm={handleDeleteConfirm}
+          />
+          {/* Edit Modal */}
+          <EditModal
+            show={showEditModal}
+            onClose={() => setShowEditModal(false)}
+            formData={formData}
+            setFormData={setFormData}
+            step={step}
+            setStep={setStep}
+            steps={steps}
+            submitHandler={submitUpdatedCar}
+            images={images}
+            setImages={setImages}
+            existingImages={existingImages}
+            setExistingImages={setExistingImages}
+            loading={loading}
+            sellingType="fixed"
+          />
 
         </>
       }

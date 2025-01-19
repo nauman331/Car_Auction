@@ -146,7 +146,7 @@ const Invoice = () => {
                         </Button>
                     </Col>
                     <Col xs={6} sm={4} className="text-end">
-                        <h4>Status: {invoice?.statusText === "pending" ? "Payment Pending" : invoice?.statusText?.charAt(0).toUpperCase() + invoice?.statusText?.slice(1) || ""}</h4>
+                        <h4>Status: { invoice?.statusText?.charAt(0).toUpperCase() + invoice?.statusText?.slice(1) || ""}</h4>
                     </Col>
                 </Row>
 
@@ -179,7 +179,7 @@ const Invoice = () => {
                         </p>
                     </Col>
                     {
-                        (invoice?.statusText === "pending") &&
+                        (invoice?.statusText === "payment pending") &&
                         <Col
                             md={6}
                             className="d-flex align-items-center rounded justify-content-center"
@@ -209,7 +209,7 @@ const Invoice = () => {
                                         <br />
                                         <small>VIN: {invoice?.carId?.vin || 0}</small>
                                     </td>
-                                    <td>AED {invoice?.paidAmount || 0}</td>
+                                    <td>AED {invoice?.walletDeduction || 0}</td>
                                     <td>AED {invoice?.pendingAmount || 0}</td>
                                     <td>AED {invoice?.totalAmount || 0}</td>
                                 </tr>

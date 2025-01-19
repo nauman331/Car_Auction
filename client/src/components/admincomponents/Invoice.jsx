@@ -216,7 +216,7 @@ const Invoice = () => {
                                     <br />
                                     <small>VIN: {invoice?.carId?.vin || 0}</small>
                                 </td>
-                                <td>AED {invoice?.paidAmount || 0}</td>
+                                <td>AED {invoice?.walletDeduction || 0}</td>
                                 <td>AED {invoice?.pendingAmount || 0}</td>
                                 <td>AED {invoice?.totalAmount || 0}</td>
                             </tr>

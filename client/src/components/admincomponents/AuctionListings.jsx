@@ -258,8 +258,7 @@ const AuctionListings = () => {
                             setAuctionIdToEdit(auction._id);
                             setFormData({
                               auctionTitle: auction.auctionTitle,
-                              auctionLocation:
-                                auction.location?.auctionLocation || "",
+                              auctionLocation: auction.location?.auctionLocation || "",
                               totalVehicles: auction.totalVehicles || 0,
                               auctionDate: auction.auctionDate || "",
                               auctionTime: auction.auctionTime || "",

@@ -9,11 +9,11 @@ import {
 import { backendURL } from "../../utils/Exports";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
-import img1 from "../../assets/images/Logo.svg";
 
 const Signup = () => {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false)
   const [user, setUser] = useState({
     firstName: "",
     lastName: "",
@@ -39,8 +39,8 @@ const Signup = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
+      setLoading(true)
       const response = await fetch(`${backendURL}/user/register`, {
         method: "POST",
         headers: {
@@ -56,12 +56,14 @@ const Signup = () => {
       } else {
         toast.error(
           res_data?.errors?.[0]?.msg ||
-            res_data?.message ||
-            "Unknown error occurred."
+          res_data?.message ||
+          "Unknown error occurred."
         );
       }
     } catch (error) {
       toast.error("Error in registering a new user");
+    } finally {
+      setLoading(false)
     }
   };
 
@@ -146,8 +148,8 @@ const Signup = () => {
         <label className="privacy-policy">
           <input type="checkbox" required /> I accept the privacy policy
         </label>
-        <button type="submit" className="btn-primary">
-          Register{" "}
+        <button type="submit" className="btn-primary" disabled={loading} style={{ backgroundColor: loading && "#167CB9" }}>
+          {loading ? "Registering..." : "register"}
           <FontAwesomeIcon
             icon={faArrowLeft}
             transform="rotate-140"

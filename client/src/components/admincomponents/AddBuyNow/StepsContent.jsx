@@ -4,7 +4,7 @@ import FormGrid from "./FormGrid";
 import FeaturesGrid from "./FeaturesGrid";
 import MediaUpload from "./MediaUpload";
 import LoadingSpinner from "../../usercomponents/LoadingSpinner";
-import {backendURL} from "../../../utils/Exports"
+import { backendURL } from "../../../utils/Exports"
 
 
 const StepContent = ({ step, formData, setFormData, sellingType, images, setImages, existingImages, setExistingImages }) => {
@@ -195,15 +195,15 @@ const StepContent = ({ step, formData, setFormData, sellingType, images, setImag
     locationFields: [
       {
         id: "mapLocation",
-        label: "Friendly Address",
+        label: "Map Address",
         type: "text",
-        placeholder: "Enter Freindly Address",
+        placeholder: "Enter Map Address",
       },
       {
         id: "friendlyLocation",
-        label: "Map Location",
+        label: "Freindly Location",
         type: "text",
-        placeholder: "Enter Map Location",
+        placeholder: "Enter Freindly Address",
       },
     ],
   };

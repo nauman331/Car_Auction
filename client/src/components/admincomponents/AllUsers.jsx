@@ -211,6 +211,7 @@ const AllUsers = () => {
                   <tr>
                     <th>Profile</th>
                     <th>User ID</th>
+                    <th>Name</th>
                     <th>Joined</th>
                     <th>Role</th>
                     <th>Status</th>
@@ -239,6 +240,7 @@ const AllUsers = () => {
                       style={{ cursor: "pointer", marginBottom: "10px" }}
                       onClick={() => handleUserClick(user)}
                       >{user._id || "No User ID"}</td>
+                        <td>{user.firstName || "No Name"}</td>
                       <td>
                         {new Date(user.createdAt).toLocaleDateString() ||
                           "No Date"}

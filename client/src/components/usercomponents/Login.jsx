@@ -11,14 +11,13 @@ import { backendURL } from "../../utils/Exports";
 import { useDispatch } from "react-redux";
 import { setToken } from "../../store/slices/authSlice";
 import { NavLink } from "react-router-dom";
-import img1 from "../../assets/images/Logo.svg";
 
 const Login = () => {
   const dispatch = useDispatch();
-
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false)
 
   const togglePasswordVisibility = () => {
     setShowPassword((prevState) => !prevState);
@@ -27,6 +26,7 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      setLoading(true)
       const response = await fetch(`${backendURL}/user/login`, {
         method: "POST",
         headers: {
@@ -46,12 +46,14 @@ const Login = () => {
       }
     } catch (error) {
       toast.error("Error while Logging In");
+    } finally {
+      setLoading(false)
     }
   };
 
   return (
     <div>
-     
+
       <form className="auth-form" onSubmit={handleSubmit}>
         <div className="wrapper--input input--email">
           <input
@@ -98,8 +100,8 @@ const Login = () => {
           </label>
           <NavLink to="/resetpassword">Forgotten password?</NavLink>
         </div>
-        <button type="submit" className="btn-primary">
-          Login{" "}
+        <button type="submit" className="btn-primary" disabled={loading} style={{ backgroundColor: loading && "#167CB9" }}>
+          {loading ? "Logging In..." : "Log In"}
           <FontAwesomeIcon
             icon={faArrowLeft}
             transform="rotate-140"

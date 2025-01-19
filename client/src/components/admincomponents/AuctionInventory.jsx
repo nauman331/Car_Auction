@@ -44,21 +44,24 @@ const AuctionInventory = () => {
           car.listingTitle?.toLowerCase().includes(searchTerm.toLowerCase()) ||
           car.description?.toLowerCase().includes(searchTerm.toLowerCase()) ||
           car.lotNo?.toString().toLowerCase().includes(searchTerm.toLowerCase()) ||
-          car.auctionLot?.auctionTitle?.toLowerCase().includes(searchTerm.toLowerCase())
+          car.auctionLot?.auctionTitle?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          car.vin.includes(searchTerm)
+
       )
       : [];
 
 
 
-  // Update the sort options
+
   const sortedCars = filteredCars
     .filter((car) => {
+      if (sortOption === "all") return true; // Include all cars
       if (sortOption === "ongoing") return car.auctionStatus; // True for Ongoing
       if (sortOption === "sold") return car.isSold; // True for Sold
       if (sortOption === "pending") {
         return !car.auctionStatus && !car.isSold && car._id !== currentBidData?.carId; // Pending logic
       }
-      return true; // All cars
+      return true; // Default to include all
     })
     .sort((a, b) => {
       if (sortOption === "lot-asc") {
@@ -67,8 +70,10 @@ const AuctionInventory = () => {
       if (sortOption === "lot-desc") {
         return b.lotNo - a.lotNo; // Sort by Lot No: High to Low
       }
-      return 0; // No sorting for other options
+      return 0; // No sorting for "all" or other options
     });
+
+
 
 
 
@@ -208,7 +213,7 @@ const AuctionInventory = () => {
             <div className="car-list-top">
               <span>
                 <h3>My Listings</h3>
-                <small>List of vehicles Uploaded for Buy Now</small>
+                <small>List of vehicles Uploaded for Auction</small>
               </span>
               <NavLink to="/admin/addauction" className="add-vehicle-button">
                 Add New Vehicle ↗
@@ -296,45 +301,58 @@ const AuctionInventory = () => {
                                 {car.isSold ? "Sold" : "" || car._id === currentBidData?.carId ? (currentBidData?.auctionStatus ? "Ongoing" : "Pending") : "Pending" || "No Status Text"}
                               </small>
                             </td>
-                            <td className="action-buttons">
-                              <button onClick={() => confirmDelete(car._id)}>
-                                <Trash size={16} />
-                              </button>
-                              <button
-                                onClick={() => {
-                                  setCarToEdit(car._id);
-                                  setExistingImages(car.carImages || []);
-                                  setFormData({
-                                    listingTitle: car.listingTitle || "",
-                                    auctionLot: car.auctionLot?._id || "",
-                                    carMake: car.carMake?._id || "",
-                                    carModal: car.carModal?._id || "",
-                                    friendlyLocation: car.friendlyLocation || "",
-                                    mapLocation: car.mapLocation || "",
-                                    carType: car.carType?._id || "",
-                                    description: car.description || "",
-                                    year: car.year?._id || "",
-                                    mileage: car.mileage || "",
-                                    fuelType: car.fuelType?._id || "",
-                                    transmission: car.transmission?._id || "",
-                                    driveType: car.driveType?._id || "",
-                                    damage: car.damage?._id || "",
-                                    cylinders: car.cylinders?._id || "",
-                                    engineSize: car.engineSize?._id || "",
-                                    color: car.color?._id || "",
-                                    vin: car.vin || "",
-                                    noOfDoors: car.noOfDoors?._id || "",
-                                    videoLink: car.videoLink || "",
-                                    startingBid: car.startingBid || "",
-                                    bidMargin: car.bidMargin || "",
-                                    features: car.features || {},
-                                  });
-                                  setShowEditModal(true);
-                                }}
-                              >
-                                <PencilLine size={16} />
-                              </button>
-                            </td>
+                            {
+                              !car.isSold ?
+                                <td className="action-buttons">
+                                  <button onClick={() => confirmDelete(car._id)}>
+                                    <Trash size={16} />
+                                  </button>
+                                  <button
+                                    onClick={() => {
+                                      setCarToEdit(car._id);
+                                      setExistingImages(car.carImages || []);
+                                      setFormData({
+                                        listingTitle: car.listingTitle || "",
+                                        auctionLot: car.auctionLot?._id || "",
+                                        carMake: car.carMake?._id || "",
+                                        carModal: car.carModal?._id || "",
+                                        friendlyLocation: car.friendlyLocation || "",
+                                        mapLocation: car.mapLocation || "",
+                                        carType: car.carType?._id || "",
+                                        description: car.description || "",
+                                        year: car.year?._id || "",
+                                        mileage: car.mileage || "",
+                                        fuelType: car.fuelType?._id || "",
+                                        transmission: car.transmission?._id || "",
+                                        driveType: car.driveType?._id || "",
+                                        damage: car.damage?._id || "",
+                                        cylinders: car.cylinders?._id || "",
+                                        engineSize: car.engineSize?._id || "",
+                                        color: car.color?._id || "",
+                                        vin: car.vin || "",
+                                        noOfDoors: car.noOfDoors?._id || "",
+                                        videoLink: car.videoLink || "",
+                                        startingBid: car.startingBid || "",
+                                        bidMargin: car.bidMargin || "",
+                                        features: car.features || {},
+                                      });
+                                      setShowEditModal(true);
+                                    }}
+                                  >
+                                    <PencilLine size={16} />
+                                  </button>
+                                </td>
+                                :
+                                <td className="action-buttons">
+                                  <button style={{ cursor: "not-allowed" }} >
+                                    <Trash size={16} />
+                                  </button>
+                                  <button style={{ cursor: "not-allowed" }} >
+                                    <PencilLine size={16} />
+                                  </button>
+                                </td>
+                            }
+
                           </tr>
                         )
                     )}
@@ -342,7 +360,7 @@ const AuctionInventory = () => {
                 </table>
               </div>
               {
-                cars.length > itemsPerPage &&
+                getDisplayedCars().length > itemsPerPage &&
                 <Pagination
                   currentPage={currentPage}
                   totalPages={Math.ceil(sortedCars.length / itemsPerPage)}

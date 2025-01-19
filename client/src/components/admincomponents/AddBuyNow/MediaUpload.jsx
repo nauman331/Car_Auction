@@ -2,12 +2,12 @@ import React from "react";
 import { Upload, Trash2, Link2 } from "lucide-react";
 
 const MediaUpload = ({
-  setFormData = () => {}, // Default to a no-op function
+  setFormData = () => { }, // Default to a no-op function
   formData = {},         // Default to an empty object
   images = [],           // Default to an empty array
-  setImages = () => {},  // Default to a no-op function
+  setImages = () => { },  // Default to a no-op function
   existingImages = [],   // Default to an empty array
-  setExistingImages = () => {}, // Default to a no-op function
+  setExistingImages = () => { }, // Default to a no-op function
 }) => {
   // Handle new image uploads
   const handleFileChange = (e) => {
@@ -72,6 +72,7 @@ const MediaUpload = ({
         <button type="button" className="image-box upload">
           <Upload size={24} />
           <input
+            accept="image/*"
             type="file"
             multiple
             onChange={handleFileChange}
@@ -84,24 +85,24 @@ const MediaUpload = ({
         </button>
       </div>
 
-        <>
-          <small>Don't forget to upload images using the upload button above.</small>
-          <hr />
-          <div className="video-link">
-            <Link2 size={20} />
-            <input
-              type="text"
-              placeholder="Enter YouTube Video URL"
-              value={formData.videoLink || ""}
-              onChange={(e) =>
-                setFormData((prevState) => ({
-                  ...prevState,
-                  videoLink: e.target.value,
-                }))
-              }
-            />
-          </div>
-        </>
+      <>
+        <small>Don't forget to upload images using the upload button above.</small>
+        <hr />
+        <div className="video-link">
+          <Link2 size={20} />
+          <input
+            type="text"
+            placeholder="Enter YouTube Video URL"
+            value={formData.videoLink || ""}
+            onChange={(e) =>
+              setFormData((prevState) => ({
+                ...prevState,
+                videoLink: e.target.value,
+              }))
+            }
+          />
+        </div>
+      </>
     </>
   );
 };
