@@ -151,7 +151,7 @@ const Orders = () => {
                       </div>
                       <div className="car-name">
                         <p>{invoice?.carId?.listingTitle || ''}</p>
-                        <p>Lot no: {invoice?.carId?.lotNo || ''}</p>
+                        <p>VIN: {invoice?.carId?.vin || ''}</p>
                       </div>
                     </div>
                   </td>

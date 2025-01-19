@@ -258,12 +258,13 @@ const AuctionListings = () => {
                             setAuctionIdToEdit(auction._id);
                             setFormData({
                               auctionTitle: auction.auctionTitle,
-                              auctionLocation: auction.location?.auctionLocation || "",
+                              location: auction.location?._id || "",  // Ensure auctionLocation is correctly assigned
                               totalVehicles: auction.totalVehicles || 0,
                               auctionDate: auction.auctionDate || "",
                               auctionTime: auction.auctionTime || "",
                               statusText: auction.statusText || "",
                             });
+
                             setShowEditModal(true);
                           }}
                         >
