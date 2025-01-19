@@ -112,7 +112,7 @@ const Withdrawals = () => {
         <LoadingSpinner />
       ) : (
         <>
-          <div className="car-list-top">
+          <div className="car-list-top d-block">
             <h3>withdrawals</h3>
             <small>List of all withdrawals made by users</small>
           </div>
