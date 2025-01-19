@@ -1,23 +1,23 @@
-// Orders Component
 import React, { useState, useEffect } from 'react';
 import '../../assets/stylesheets/admin/carlisting.scss';
-import {Search } from 'lucide-react';
+import { Search } from 'lucide-react';
 import Pagination from './Pagination';
 import { useSelector } from 'react-redux';
-import LoadingSpinner from "../usercomponents/LoadingSpinner"
+import LoadingSpinner from "../usercomponents/LoadingSpinner";
 import { backendURL } from '../../utils/Exports';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 
 const Orders = () => {
-  const navigate = useNavigate()
-  const {token} = useSelector((state)=>state.auth)
+  const navigate = useNavigate();
+  const { token } = useSelector((state) => state.auth);
   const [currentPage, setCurrentPage] = useState(1);
-  const [loading, setLoading] = useState(false)
-  const [invoices, setInvoices] = useState([])
+  const [loading, setLoading] = useState(false);
+  const [invoices, setInvoices] = useState([]);
+  const [filterText, setFilterText] = useState('');
+  const [sortOption, setSortOption] = useState('');
   const itemsPerPage = 10;
   const totalPages = Math.ceil(invoices.length / itemsPerPage);
-
 
   const getInvoices = async () => {
     const authorizationToken = `Bearer ${token}`;
@@ -32,8 +32,7 @@ const Orders = () => {
       });
       const res_data = await response.json();
       if (response.ok) {
-        console.log(res_data)
-        setInvoices(res_data)
+        setInvoices(res_data);
       } else {
         console.error(res_data.message);
       }
@@ -48,7 +47,7 @@ const Orders = () => {
     getInvoices();
   }, [token]);
 
-  if(loading) return <LoadingSpinner />
+  if (loading) return <LoadingSpinner />;
 
   const handlePageChange = (page) => {
     if (page >= 1 && page <= totalPages) {
@@ -56,9 +55,42 @@ const Orders = () => {
     }
   };
 
+  const handleFilterChange = (e) => {
+    setFilterText(e.target.value.toLowerCase());
+    setCurrentPage(1); // Reset to the first page when filtering
+  };
+
+  const handleSortChange = (e) => {
+    setSortOption(e.target.value);
+    setCurrentPage(1); // Reset to the first page when sorting
+  };
+
+  const getFilteredInvoices = () => {
+    return invoices.filter((invoice) => {
+      const title = invoice?.carId?.listingTitle?.toLowerCase() || '';
+      const lotNo = invoice?.carId?.lotNo?.toString() || '';
+      return title.includes(filterText) || lotNo.includes(filterText);
+    });
+  };
+
+  const getSortedInvoices = (filteredInvoices) => {
+    if (sortOption === 'paid') {
+      return [...filteredInvoices].sort((a, b) => b.paidAmount - a.paidAmount);
+    }
+    if (sortOption === 'pending') {
+      return [...filteredInvoices].sort((a, b) => b.pendingAmount - a.pendingAmount);
+    }
+    if (sortOption === 'total') {
+      return [...filteredInvoices].sort((a, b) => b.totalAmount - a.totalAmount);
+    }
+    return filteredInvoices; // Default: No sorting
+  };
+
   const getDisplayedInvoices = () => {
+    const filtered = getFilteredInvoices();
+    const sorted = getSortedInvoices(filtered);
     const startIndex = (currentPage - 1) * itemsPerPage;
-    return invoices.slice(startIndex, startIndex + itemsPerPage);
+    return sorted.slice(startIndex, startIndex + itemsPerPage);
   };
 
   return (
@@ -73,12 +105,20 @@ const Orders = () => {
         <header className="car-list-header">
           <div className="car-list-header-input">
             <Search />
-            <input type="text" placeholder="Search Orders e.g., Lot No" />
+            <input
+              type="text"
+              placeholder="Search Orders e.g., Lot No"
+              value={filterText}
+              onChange={handleFilterChange}
+            />
           </div>
           <div className="sort-options">
-            <span>Type:</span>
-            <select>
-              <option value="all">All</option>
+            <span>Sort by:</span>
+            <select value={sortOption} onChange={handleSortChange}>
+              <option value="">All</option>
+              <option value="paid">Paid Amount</option>
+              <option value="pending">Pending Amount</option>
+              <option value="total">Total Amount</option>
             </select>
           </div>
         </header>
@@ -95,17 +135,23 @@ const Orders = () => {
               </tr>
             </thead>
             <tbody>
-              {invoices.length > 0 && getDisplayedInvoices().map((invoice, index) => (
-                <tr key={index} onClick={()=>navigate(`/admin/invoice/${invoice?.invNumber}`)} style={{cursor: "pointer"}}>
+              {getDisplayedInvoices().map((invoice, index) => (
+                <tr
+                  key={index}
+                  onClick={() => navigate(`/admin/invoice/${invoice?.invNumber}`)}
+                  style={{ cursor: "pointer" }}
+                >
                   <td>
                     <div className="car-info">
                       <div className="car-image">
-                        <img src={invoice?.carId?.carImages[0] || ""} alt="Car Image"
-                         style={{
-                          width: "100%",
-                          height: "100%",
-                          objectFit: "cover",
-                        }}
+                        <img
+                          src={invoice?.carId?.carImages[0] || ""}
+                          alt="Car Image"
+                          style={{
+                            width: "100%",
+                            height: "100%",
+                            objectFit: "cover",
+                          }}
                         />
                       </div>
                       <div className="car-name">
@@ -116,22 +162,27 @@ const Orders = () => {
                   </td>
                   <td>AED {invoice?.paidAmount || 0}</td>
                   <td>AED {invoice?.pendingAmount || 0}</td>
-                  <td>{invoice?.userId?.firstName || "N/A"} {invoice?.userId?.lastName || "N/A"}</td>
-                  <td>{invoice?.paymentStatus ? "Full Paid" : "Pending Amount"  || "No Status"}</td>
+                  <td>
+                    {invoice?.userId?.firstName || "N/A"} {invoice?.userId?.lastName || "N/A"}
+                  </td>
+                  <td>
+                    {invoice?.paymentStatus
+                      ? "Full Paid"
+                      : "Pending Amount" || "No Status"}
+                  </td>
                   <td>AED {invoice?.totalAmount || 0}</td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
-        {
-         getDisplayedInvoices.length > itemsPerPage && 
-        <Pagination
-          currentPage={currentPage}
-          totalPages={totalPages}
-          onPageChange={handlePageChange}
-        />
-}
+        {getFilteredInvoices().length > itemsPerPage && (
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={handlePageChange}
+          />
+        )}
       </div>
     </>
   );
