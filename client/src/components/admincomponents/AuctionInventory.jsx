@@ -55,7 +55,7 @@ const AuctionInventory = () => {
 
   const sortedCars = filteredCars
     .filter((car) => {
-      if (sortOption === "all") return true; // Include all cars
+      if (sortOption === "all") return true; // Show all cars including sold ones
       if (sortOption === "ongoing") return car.auctionStatus; // True for Ongoing
       if (sortOption === "sold") return car.isSold; // True for Sold
       if (sortOption === "pending") {
@@ -72,6 +72,7 @@ const AuctionInventory = () => {
       }
       return 0; // No sorting for "all" or other options
     });
+
 
 
 
@@ -236,7 +237,7 @@ const AuctionInventory = () => {
                     value={sortOption}
                     onChange={(e) => setSortOption(e.target.value)}
                   >
-                    <option value="all">All</option>
+                    <option value="all">Not Sold</option>
                     <option value="ongoing">Ongoing</option>
                     <option value="sold">Sold</option>
                     <option value="pending">Pending</option>
