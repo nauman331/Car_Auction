@@ -141,7 +141,7 @@ const Dashboard = () => {
             iconClass: "icon3",
           },
         ].map(({ title, count, Icon, iconClass }, idx) => (
-          <div key={idx} className="info-box" style={{ width: "30rem" }}>
+          <div key={idx} className="info-box" style={{ width: "29.9rem" }}>
             <span>
               <small>{title}</small>
               <h4>{count}</h4>

@@ -110,7 +110,7 @@ const Deposits = () => {
         <LoadingSpinner />
       ) : (
         <>
-          <div className="car-list-top">
+          <div className="car-list-top d-block">
             <h3>Deposits</h3>
             <small>List of all deposits made by users</small>
           </div>
