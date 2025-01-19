@@ -55,7 +55,7 @@ const UserNav = () => {
           <Menu onClick={() => setOpen(true)} className="toggler" />
         )}
       </header>
-      <aside className={open ? "oUser" : "close-adminnav"}>
+      <aside className={open ? "open-adminnav" : "close-adminnav"}>
         {menuItems.map(({ to, icon, label }, index) => (
           <NavLink
             to={to}
