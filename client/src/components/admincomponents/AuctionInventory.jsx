@@ -11,15 +11,16 @@ import { useNavigate } from "react-router-dom";
 import DeleteModal from "./DeleteModal";
 import EditModal from "./EditModal";
 import { useSelector, useDispatch } from "react-redux";
-import { removeBidData } from "../../store/eventSlice"
+import { removeBidData } from "../../store/eventSlice";
 
 const AuctionInventory = () => {
   const { currentBidData } = useSelector(state => state.event);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { token } = useSelector((state) => state.auth);
-
-  const [cars, setCars] = useState([])
+  const [auctions, setAuctions] = useState([]);
+  const [cars, setCars] = useState([]);
+  const [selectedAuctionLot, setSelectedAuctionLot] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -27,7 +28,6 @@ const AuctionInventory = () => {
   const [showEditModal, setShowEditModal] = useState(false);
   const [carToEdit, setCarToEdit] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
-  const [sortOption, setSortOption] = useState("all");
   const [formData, setFormData] = useState({});
   const [images, setImages] = useState([]);
   const [existingImages, setExistingImages] = useState([]);
@@ -41,40 +41,19 @@ const AuctionInventory = () => {
     cars.length > 0
       ? cars.filter(
         (car) =>
-          car.listingTitle?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          car.description?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          car.lotNo?.toString().toLowerCase().includes(searchTerm.toLowerCase()) ||
-          car.auctionLot?.auctionTitle?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          car.vin.includes(searchTerm)
-
+          (car.auctionLot?._id === selectedAuctionLot || selectedAuctionLot === "") && // Filter by selected auction lot
+          (
+            car.listingTitle?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            car.description?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            car.lotNo?.toString().toLowerCase().includes(searchTerm.toLowerCase()) ||
+            car.vin.includes(searchTerm)
+          )
       )
       : [];
 
-
-
-
-  const sortedCars = filteredCars
-    .filter((car) => {
-      if (sortOption === "all") return true; // Show all cars including sold ones
-      if (sortOption === "ongoing") return car.auctionStatus; // True for Ongoing
-      if (sortOption === "sold") return car.isSold; // True for Sold
-      if (sortOption === "pending") {
-        return !car.auctionStatus && !car.isSold && car._id !== currentBidData?.carId; // Pending logic
-      }
-      return true; // Default to include all
-    })
-    .sort((a, b) => {
-      if (sortOption === "lot-asc") {
-        return a.lotNo - b.lotNo; // Sort by Lot No: Low to High
-      }
-      if (sortOption === "lot-desc") {
-        return b.lotNo - a.lotNo; // Sort by Lot No: High to Low
-      }
-      return 0; // No sorting for "all" or other options
-    });
-
-
-
+  const handleAuctionLotChange = (event) => {
+    setSelectedAuctionLot(event.target.value); // Update selected auction lot
+  };
 
 
 
@@ -109,13 +88,10 @@ const AuctionInventory = () => {
     setLoading(true);
     try {
       const response = await fetch(`${backendURL}/car`, { method: "GET" });
-
-
       const res_data = await response.json();
       if (!response.ok) {
         console.log(res_data.message)
       }
-      console.log(res_data)
       setCars(res_data);
     } catch (error) {
       console.error("Error fetching cars:", error);
@@ -124,11 +100,71 @@ const AuctionInventory = () => {
       setLoading(false);
     }
   };
-
+  const getAllAuctions = async () => {
+    try {
+      setLoading(true);
+      const response = await fetch(`${backendURL}/auction`, {
+        method: "GET",
+      });
+      const res_data = await response.json();
+      console.log(res_data)
+      if (response.ok) {
+        setAuctions(res_data);
+      } else {
+        console.log(res_data.message);
+      }
+    } catch (error) {
+      console.log("Error in getting all auctions");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
     getAllCars();
+    getAllAuctions();
   }, []);
+  useEffect(() => {
+    if (auctions.length > 0) {
+      const nearestAuction = sortAuctionsByTime(auctions)[0]; // Get the nearest auction (first in the sorted array)
+      setSelectedAuctionLot(nearestAuction._id); // Set the default selected auction lot to the nearest auction
+    }
+  }, [auctions]);
+  const sortedCarsByLotNo = filteredCars.sort((a, b) => {
+    const lotNoA = a.lotNo ? parseInt(a.lotNo) : 0; // Ensure valid number parsing
+    const lotNoB = b.lotNo ? parseInt(b.lotNo) : 0;
+    return lotNoA - lotNoB;
+  });
+
+  const sortAuctionsByTime = (auctions) => {
+    const currentTime = new Date();
+
+    // Function to combine auctionDate and auctionTime into a single Date object
+    const getAuctionDateTime = (auctionDate, auctionTime) => {
+      const date = new Date(auctionDate);
+      const [hours, minutes] = auctionTime.split(" ")[0].split(":").map(num => parseInt(num, 10)); // Extract hours and minutes
+      const ampm = auctionTime.split(" ")[1]; // AM/PM part
+      date.setHours(ampm === "PM" ? hours + 12 : hours); // Set hours based on AM/PM
+      date.setMinutes(minutes);
+      return date;
+    };
+
+    // Sort auctions by the nearest upcoming date and time
+    auctions.sort((a, b) => {
+      const aDateTime = getAuctionDateTime(a.auctionDate, a.auctionTime);
+      const bDateTime = getAuctionDateTime(b.auctionDate, b.auctionTime);
+
+      // Compare auction times to current time
+      return aDateTime - bDateTime;
+    });
+
+    return auctions;
+  };
+
+  const sortedAuctions = sortAuctionsByTime(auctions);
+
+
+
 
 
   const deletCar = async (id) => {
@@ -176,8 +212,9 @@ const AuctionInventory = () => {
 
   const getDisplayedCars = () => {
     const startIndex = (currentPage - 1) * itemsPerPage;
-    return sortedCars.slice(startIndex, startIndex + itemsPerPage);
+    return filteredCars.slice(startIndex, startIndex + itemsPerPage);
   };
+
 
   const submitUpdatedCar = async () => {
     const authorizationToken = `Bearer ${token}`;
@@ -233,16 +270,16 @@ const AuctionInventory = () => {
                 </div>
                 <div className="sort-options">
                   <span>Sort By:</span>
-                  <select
-                    value={sortOption}
-                    onChange={(e) => setSortOption(e.target.value)}
-                  >
-                    <option value="all">UnSold</option>
-                    <option value="ongoing">Ongoing</option>
-                    <option value="sold">Sold</option>
-                    <option value="pending">Pending</option>
-                    <option value="lot-asc">Lot-asc</option>
-                    <option value="lot-desc">Lot-desc</option>
+                  <select onChange={handleAuctionLotChange} value={selectedAuctionLot}>
+                    {sortedAuctions.length > 0 ? (
+                      sortedAuctions.map((item) => (
+                        <option key={item._id} value={item._id}>
+                          {item.auctionTitle}
+                        </option>
+                      ))
+                    ) : (
+                      <option value="">No Auctions Available</option>
+                    )}
                   </select>
                 </div>
 
@@ -260,7 +297,7 @@ const AuctionInventory = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {getDisplayedCars().map(
+                    {getDisplayedCars().length > 0 && sortedCarsByLotNo.map(
                       (car, index) =>
                         car.sellingType === "auction" && (
                           <tr key={index}>
@@ -299,7 +336,16 @@ const AuctionInventory = () => {
                             </td>
                             <td>
                               <small>
-                                {car.isSold ? "Sold" : "" || car._id === currentBidData?.carId ? (currentBidData?.auctionStatus ? "Ongoing" : "Pending") : "Pending" || "No Status Text"}
+                                {
+                                  car.isSold
+                                    ? "Sold"
+                                    : car._id === currentBidData?.carId
+                                      ? currentBidData?.auctionStatus
+                                        ? "Ongoing"
+                                        : "Pending"
+                                      : "Pending"
+
+                                }
                               </small>
                             </td>
 

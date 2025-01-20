@@ -131,7 +131,7 @@ const BuyfilterForm = () => {
                 <div className="data">
                   <div className="datainput">
                     <select name="carMake" onChange={handleChange} >
-                      <option value=""  selected >
+                      <option value="" selected >
                         Select Car Make
                       </option>
                       {generateOptions("vehicle-make", "vehicleMake").map(
@@ -148,7 +148,7 @@ const BuyfilterForm = () => {
                 <div className="data">
                   <div className="datainput">
                     <select name="carModal" onChange={handleChange} >
-                      <option value=""  selected >
+                      <option value="" selected >
                         Select Car Model
                       </option>
                       {generateOptions("vehicle-modal", "vehicleModal").map(
@@ -168,7 +168,7 @@ const BuyfilterForm = () => {
                       <label htmlFor="yearMin">Min Year</label>
 
                       <select name="yearMin" onChange={handleChange} >
-                        <option value=""  selected >
+                        <option value="" selected >
                           Min Year
                         </option>
                         {generateOptions("vehicle-year", "vehicleYear").map(
@@ -184,7 +184,7 @@ const BuyfilterForm = () => {
                     <div className="datainputs">
                       <label htmlFor="yearMax">Max Year</label>
                       <select name="yearMax" onChange={handleChange} >
-                        <option value=""  selected >
+                        <option value="" selected >
                           Max Year
                         </option>
                         {generateOptions("vehicle-year", "vehicleYear").map(
@@ -202,7 +202,7 @@ const BuyfilterForm = () => {
                 <div className="data">
                   <div className="datainput">
                     <select name="color" onChange={handleChange} >
-                      <option value=""  selected >
+                      <option value="" selected >
                         Select Color
                       </option>
                       {generateOptions("vehicle-color", "vehicleColors").map(
@@ -219,7 +219,7 @@ const BuyfilterForm = () => {
                 <div className="data">
                   <div className="datainput">
                     <select name="driveType" onChange={handleChange} >
-                      <option value=""  selected >
+                      <option value="" selected >
                         Select Drive Type
                       </option>
                       {generateOptions("drive-type", "driveType").map(
@@ -351,7 +351,7 @@ const BuyfilterForm = () => {
                 <div className="data">
                   <div className="datainput">
                     <select name="doors" onChange={handleChange} >
-                      <option value=""  selected >
+                      <option value="" selected >
                         Select Doors
                       </option>
                       {generateOptions("vehicle-door", "vehicleDoor").map(
@@ -368,7 +368,7 @@ const BuyfilterForm = () => {
                 <div className="data">
                   <div className="datainput">
                     <select name="cylinders" onChange={handleChange} >
-                      <option value=""  selected >
+                      <option value="" selected >
                         Select Cylinders
                       </option>
                       {generateOptions(
