@@ -356,40 +356,46 @@ const CarAuction = ({ car, getCarDetails, backendURL }) => {
           >
             <Trash size={16} />
           </button>
-          <button
-            onClick={() => {
-              setCarToEdit(car._id);
-              setExistingImages(car.carImages || []);
-              setFormData({
-                listingTitle: car.listingTitle || "",
-                carMake: car.carMake?._id || "",
-                carModal: car.carModal?._id || "",
-                friendlyLocation: car.friendlyLocation || "",
-                mapLocation: car.mapLocation || "",
-                carType: car.carType?._id || "",
-                description: car.description || "",
-                year: car.year?._id || "",
-                mileage: car.mileage || "",
-                fuelType: car.fuelType?._id || "",
-                transmission: car.transmission?._id || "",
-                driveType: car.driveType?._id || "",
-                damage: car.damage?._id || "",
-                cylinders: car.cylinders?._id || "",
-                engineSize: car.engineSize?._id || "",
-                color: car.color?._id || "",
-                vin: car.vin || "",
-                noOfDoors: car.noOfDoors?._id || "",
-                videoLink: car.videoLink || "",
-                features: car.features || {},
-                ...carPriceData,
-                ...carLotNumber,
-                ...carLotData,
-              });
-              setShowEditModal(true);
-            }}
-          >
+          {
+            car.isSold ? <button style={{cursor: "not-allowed"}}>
             <PencilLine size={16} />
           </button>
+          :
+          <button
+          onClick={() => {
+            setCarToEdit(car._id);
+            setExistingImages(car.carImages || []);
+            setFormData({
+              listingTitle: car.listingTitle || "",
+              carMake: car.carMake?._id || "",
+              carModal: car.carModal?._id || "",
+              friendlyLocation: car.friendlyLocation || "",
+              mapLocation: car.mapLocation || "",
+              carType: car.carType?._id || "",
+              description: car.description || "",
+              year: car.year?._id || "",
+              mileage: car.mileage || "",
+              fuelType: car.fuelType?._id || "",
+              transmission: car.transmission?._id || "",
+              driveType: car.driveType?._id || "",
+              damage: car.damage?._id || "",
+              cylinders: car.cylinders?._id || "",
+              engineSize: car.engineSize?._id || "",
+              color: car.color?._id || "",
+              vin: car.vin || "",
+              noOfDoors: car.noOfDoors?._id || "",
+              videoLink: car.videoLink || "",
+              features: car.features || {},
+              ...carPriceData,
+              ...carLotNumber,
+              ...carLotData,
+            });
+            setShowEditModal(true);
+          }}
+        >
+          <PencilLine size={16} />
+        </button>
+          }
         </span></h1>
         <p className="lot-info">Lot No. {car.lotNo}</p>
         <p className="car-details">
