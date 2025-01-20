@@ -333,7 +333,7 @@ const CarListings = () => {
               </table>
             </div>
             {
-              cars.length > itemsPerPage &&
+              getDisplayedCars().length > itemsPerPage &&
               <Pagination
                 currentPage={currentPage}
                 totalPages={totalPages}
