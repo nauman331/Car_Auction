@@ -47,7 +47,8 @@ const BuyfilterForm = () => {
     }
   };
 
-  const resetFilters = () => {
+  const resetFilters = (e) => {
+    e.preventDefault();
     setFormData({});
     setSelectedTransmissions([]);
     setSelectedFuelTypes([]);

@@ -82,7 +82,8 @@ const CarFilterForm = ({ sellingType }) => {
     }
   }, [selectedAuction]);
 
-  const resetFilters = () => {
+  const resetFilters = (e) => {
+    e.preventDefault();
     setFormData({});
     setSelectedTransmissions([]);
     setSelectedFuelTypes([]);
@@ -195,7 +196,7 @@ const CarFilterForm = ({ sellingType }) => {
                             Select Car Make
                           </option>
                           :
-                          <option value={SelectedFilters?.carMake?.label || ""} disabled selected hidden>
+                          <option value={SelectedFilters?.carMake?.label || ""} selected hidden>
                             {SelectedFilters?.carMake?.label || "Select Car Make"}
                           </option>
                       }
