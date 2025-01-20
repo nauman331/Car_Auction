@@ -192,11 +192,11 @@ const CarFilterForm = ({ sellingType }) => {
                     <select name="carMake" onChange={handleChange} >
                       {
                         resetLabel ?
-                          <option value="" disabled selected hidden>
+                          <option value="" selected >
                             Select Car Make
                           </option>
                           :
-                          <option value={SelectedFilters?.carMake?.label || ""} selected hidden>
+                          <option value={SelectedFilters?.carMake?.label || ""} selected >
                             {SelectedFilters?.carMake?.label || "Select Car Make"}
                           </option>
                       }
@@ -218,11 +218,11 @@ const CarFilterForm = ({ sellingType }) => {
                       {
                         resetLabel
                           ?
-                          <option value="" disabled selected hidden>
+                          <option value="" selected >
                             Select Car Modal
                           </option>
                           :
-                          <option value={SelectedFilters?.carModal?.label || ""} disabled selected hidden>
+                          <option value={SelectedFilters?.carModal?.label || ""} selected >
                             {SelectedFilters?.carModal?.label || "Select Car Modal"}
                           </option>
                       }
@@ -243,7 +243,7 @@ const CarFilterForm = ({ sellingType }) => {
                       <label htmlFor="yearMin">Min Year</label>
 
                       <select name="yearMin" onChange={handleChange} >
-                        <option value="" disabled selected hidden>
+                        <option value="" selected >
                           Min Year
                         </option>
                         {generateOptions("vehicle-year", "vehicleYear").map(
@@ -259,7 +259,7 @@ const CarFilterForm = ({ sellingType }) => {
                     <div className="datainputs">
                       <label htmlFor="yearMax">Max Year</label>
                       <select name="yearMax" onChange={handleChange} >
-                        <option value="" disabled selected hidden>
+                        <option value="" selected >
                           Max Year
                         </option>
                         {generateOptions("vehicle-year", "vehicleYear").map(
@@ -277,7 +277,7 @@ const CarFilterForm = ({ sellingType }) => {
                 <div className="data">
                   <div className="datainput">
                     <select name="color" onChange={handleChange} >
-                      <option value="" disabled selected hidden>
+                      <option value="" selected >
                         Select Color
                       </option>
                       {generateOptions("vehicle-color", "vehicleColors").map(
@@ -296,11 +296,11 @@ const CarFilterForm = ({ sellingType }) => {
                     <select name="driveType" onChange={handleChange} >
                       {
                         resetLabel ?
-                          <option value="" disabled selected hidden>
+                          <option value="" selected >
                             Select Drive Type
                           </option>
                           :
-                          <option value={SelectedFilters?.driveType?.label || ""} disabled selected hidden>
+                          <option value={SelectedFilters?.driveType?.label || ""} selected >
                             {SelectedFilters?.driveType?.label || "Select Drive Type"}
                           </option>
                       }
@@ -434,7 +434,7 @@ const CarFilterForm = ({ sellingType }) => {
                 <div className="data">
                   <div className="datainput">
                     <select name="doors" onChange={handleChange} >
-                      <option value="" disabled selected hidden>
+                      <option value="" selected >
                         Select Doors
                       </option>
                       {generateOptions("vehicle-door", "vehicleDoor").map(
@@ -451,7 +451,7 @@ const CarFilterForm = ({ sellingType }) => {
                 <div className="data">
                   <div className="datainput">
                     <select name="cylinders" onChange={handleChange} >
-                      <option value="" disabled selected hidden>
+                      <option value="" selected >
                         Select Cylinders
                       </option>
                       {generateOptions(
