@@ -192,7 +192,7 @@ const CarListings = () => {
     const startIndex = (currentPage - 1) * itemsPerPage;
     return sortedCars.slice(startIndex, startIndex + itemsPerPage);
   };
-  
+
 
   return (
     <>

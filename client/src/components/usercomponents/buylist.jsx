@@ -47,6 +47,14 @@ const BuyfilterForm = () => {
     }
   };
 
+  const resetFilters = () => {
+    setFormData({});
+    setSelectedTransmissions([]);
+    setSelectedFuelTypes([]);
+    setMinPrice(100);
+    setMaxPrice(100000);
+  };
+
   useEffect(() => {
     applyFilter();
   }, [formData, minPrice, maxPrice, selectedTransmissions, selectedFuelTypes]);
@@ -114,9 +122,14 @@ const BuyfilterForm = () => {
           <div className="row">
             <div className=" col-xl-3 col-lg-3 col-md-4 col-sm-12 col-12 mb-4">
               <form className="form_section">
+                <div className="data p-3">
+                  <button
+                    onClick={resetFilters}
+                  >Reset Filters</button>
+                </div>
                 <div className="data">
                   <div className="datainput">
-                    <select name="carMake" onChange={handleChange} required>
+                    <select name="carMake" onChange={handleChange} >
                       <option value="" disabled selected hidden>
                         Select Car Make
                       </option>
@@ -133,7 +146,7 @@ const BuyfilterForm = () => {
                 </div>
                 <div className="data">
                   <div className="datainput">
-                    <select name="carModal" onChange={handleChange} required>
+                    <select name="carModal" onChange={handleChange} >
                       <option value="" disabled selected hidden>
                         Select Car Model
                       </option>
@@ -153,7 +166,7 @@ const BuyfilterForm = () => {
                     <div className="datainputs">
                       <label htmlFor="yearMin">Min Year</label>
 
-                      <select name="yearMin" onChange={handleChange} required>
+                      <select name="yearMin" onChange={handleChange} >
                         <option value="" disabled selected hidden>
                           Min Year
                         </option>
@@ -169,7 +182,7 @@ const BuyfilterForm = () => {
 
                     <div className="datainputs">
                       <label htmlFor="yearMax">Max Year</label>
-                      <select name="yearMax" onChange={handleChange} required>
+                      <select name="yearMax" onChange={handleChange} >
                         <option value="" disabled selected hidden>
                           Max Year
                         </option>
@@ -187,7 +200,7 @@ const BuyfilterForm = () => {
 
                 <div className="data">
                   <div className="datainput">
-                    <select name="color" onChange={handleChange} required>
+                    <select name="color" onChange={handleChange} >
                       <option value="" disabled selected hidden>
                         Select Color
                       </option>
@@ -204,7 +217,7 @@ const BuyfilterForm = () => {
                 </div>
                 <div className="data">
                   <div className="datainput">
-                    <select name="driveType" onChange={handleChange} required>
+                    <select name="driveType" onChange={handleChange} >
                       <option value="" disabled selected hidden>
                         Select Drive Type
                       </option>
@@ -284,9 +297,8 @@ const BuyfilterForm = () => {
                       className="slider-track"
                       style={{
                         left: `${((minPrice - 100) / (100000 - 100)) * 100}%`,
-                        right: `${
-                          100 - ((maxPrice - 100) / (100000 - 100)) * 100
-                        }%`,
+                        right: `${100 - ((maxPrice - 100) / (100000 - 100)) * 100
+                          }%`,
                       }}
                     ></div>
                   </div>
@@ -337,7 +349,7 @@ const BuyfilterForm = () => {
                 </div>
                 <div className="data">
                   <div className="datainput">
-                    <select name="doors" onChange={handleChange} required>
+                    <select name="doors" onChange={handleChange} >
                       <option value="" disabled selected hidden>
                         Select Doors
                       </option>
@@ -354,7 +366,7 @@ const BuyfilterForm = () => {
                 </div>
                 <div className="data">
                   <div className="datainput">
-                    <select name="cylinders" onChange={handleChange} required>
+                    <select name="cylinders" onChange={handleChange} >
                       <option value="" disabled selected hidden>
                         Select Cylinders
                       </option>

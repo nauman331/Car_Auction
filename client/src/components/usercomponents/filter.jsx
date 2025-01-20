@@ -88,7 +88,7 @@ const CarFilterForm = ({ sellingType }) => {
     setSelectedFuelTypes([]);
     setMinPrice(100);
     setMaxPrice(100000);
-    setResetLabel(true)
+    setResetLabel(true);
   };
 
   const handleFilterChange = (selectedAuction) => {
@@ -172,9 +172,9 @@ const CarFilterForm = ({ sellingType }) => {
             <div className=" col-xl-3 col-lg-3 col-md-4 col-sm-12 col-12 mb-4">
               <form className="form_section">
                 <div className="data p-3">
-                        <button
-                          onClick={resetFilters}
-                        >Reset Filters</button>
+                  <button
+                    onClick={resetFilters}
+                  >Reset Filters</button>
                 </div>
                 <div className="data">
                   <div className="datainput">
@@ -188,7 +188,7 @@ const CarFilterForm = ({ sellingType }) => {
 
                 <div className="data">
                   <div className="datainput">
-                    <select name="carMake" onChange={handleChange} required>
+                    <select name="carMake" onChange={handleChange} >
                       {
                         resetLabel ?
                           <option value="" disabled selected hidden>
@@ -213,7 +213,7 @@ const CarFilterForm = ({ sellingType }) => {
                 </div>
                 <div className="data">
                   <div className="datainput">
-                    <select name="carModal" onChange={handleChange} required>
+                    <select name="carModal" onChange={handleChange} >
                       {
                         resetLabel
                           ?
@@ -241,7 +241,7 @@ const CarFilterForm = ({ sellingType }) => {
                     <div className="datainputs">
                       <label htmlFor="yearMin">Min Year</label>
 
-                      <select name="yearMin" onChange={handleChange} required>
+                      <select name="yearMin" onChange={handleChange} >
                         <option value="" disabled selected hidden>
                           Min Year
                         </option>
@@ -257,7 +257,7 @@ const CarFilterForm = ({ sellingType }) => {
 
                     <div className="datainputs">
                       <label htmlFor="yearMax">Max Year</label>
-                      <select name="yearMax" onChange={handleChange} required>
+                      <select name="yearMax" onChange={handleChange} >
                         <option value="" disabled selected hidden>
                           Max Year
                         </option>
@@ -275,7 +275,7 @@ const CarFilterForm = ({ sellingType }) => {
 
                 <div className="data">
                   <div className="datainput">
-                    <select name="color" onChange={handleChange} required>
+                    <select name="color" onChange={handleChange} >
                       <option value="" disabled selected hidden>
                         Select Color
                       </option>
@@ -292,7 +292,7 @@ const CarFilterForm = ({ sellingType }) => {
                 </div>
                 <div className="data">
                   <div className="datainput">
-                    <select name="driveType" onChange={handleChange} required>
+                    <select name="driveType" onChange={handleChange} >
                       {
                         resetLabel ?
                           <option value="" disabled selected hidden>
@@ -432,7 +432,7 @@ const CarFilterForm = ({ sellingType }) => {
                 </div>
                 <div className="data">
                   <div className="datainput">
-                    <select name="doors" onChange={handleChange} required>
+                    <select name="doors" onChange={handleChange} >
                       <option value="" disabled selected hidden>
                         Select Doors
                       </option>
@@ -449,7 +449,7 @@ const CarFilterForm = ({ sellingType }) => {
                 </div>
                 <div className="data">
                   <div className="datainput">
-                    <select name="cylinders" onChange={handleChange} required>
+                    <select name="cylinders" onChange={handleChange} >
                       <option value="" disabled selected hidden>
                         Select Cylinders
                       </option>
