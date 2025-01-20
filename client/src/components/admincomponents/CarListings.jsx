@@ -176,10 +176,15 @@ const CarListings = () => {
         return [...carsToSort].sort((a, b) => (a.price || a.discountedPrice) - (b.price || b.discountedPrice));
       case "year":
         return [...carsToSort].sort((a, b) => a.year - b.year);
+      case "sold":
+        return carsToSort.filter((car) => car.isSold);
+      case "unsold":
+        return carsToSort.filter((car) => !car.isSold);
       default:
         return carsToSort;
     }
   };
+
 
   const getDisplayedCars = () => {
     const filteredCars = getFilteredCars();
@@ -187,6 +192,7 @@ const CarListings = () => {
     const startIndex = (currentPage - 1) * itemsPerPage;
     return sortedCars.slice(startIndex, startIndex + itemsPerPage);
   };
+  
 
   return (
     <>
@@ -218,8 +224,11 @@ const CarListings = () => {
                   <option value="all">All</option>
                   <option value="price">Price</option>
                   <option value="year">Year</option>
+                  <option value="sold">Sold</option>
+                  <option value="unsold">Unsold</option>
                 </select>
               </div>
+
             </header>
             <div className="table-wrapper">
               <table className="car-table">
@@ -230,6 +239,7 @@ const CarListings = () => {
                     <th>Year</th>
                     <th>Transmission</th>
                     <th>FuelType</th>
+                    <th>Status</th>
                     <th>Action</th>
                   </tr>
                 </thead>
@@ -276,12 +286,16 @@ const CarListings = () => {
                           <td>
                             <small>{car.fuelType && car.fuelType.vehicleFuelTypes || "No Fuel Type"}</small>
                           </td>
-                          {
-                            !car.isSold ?
-                              <td className="action-buttons">
-                                <button onClick={() => handleDeleteClick(car._id)}>
-                                  <Trash size={16} />
-                                </button>
+                          <td>
+                            <small>{car.isSold ? "Sold" : "UnSold" || "No Status"}</small>
+                          </td>
+
+                          <td className="action-buttons">
+                            <button onClick={() => handleDeleteClick(car._id)}>
+                              <Trash size={16} />
+                            </button>
+                            {
+                              !car.isSold ?
                                 <button
                                   onClick={() => {
                                     setCarToEdit(car._id);
@@ -315,17 +329,12 @@ const CarListings = () => {
                                 >
                                   <PencilLine size={16} />
                                 </button>
-                              </td>
-                              :
-                              <td className="action-buttons">
-                                <button style={{ cursor: "not-allowed" }} >
-                                  <Trash size={16} />
-                                </button>
+                                :
                                 <button style={{ cursor: "not-allowed" }} >
                                   <PencilLine size={16} />
                                 </button>
-                              </td>
-                          }
+                            }
+                          </td>
                         </tr>
                       )
                   )}

@@ -237,7 +237,7 @@ const AuctionInventory = () => {
                     value={sortOption}
                     onChange={(e) => setSortOption(e.target.value)}
                   >
-                    <option value="all">Not Sold</option>
+                    <option value="all">UnSold</option>
                     <option value="ongoing">Ongoing</option>
                     <option value="sold">Sold</option>
                     <option value="pending">Pending</option>
@@ -302,12 +302,13 @@ const AuctionInventory = () => {
                                 {car.isSold ? "Sold" : "" || car._id === currentBidData?.carId ? (currentBidData?.auctionStatus ? "Ongoing" : "Pending") : "Pending" || "No Status Text"}
                               </small>
                             </td>
-                            {
-                              !car.isSold ?
-                                <td className="action-buttons">
-                                  <button onClick={() => confirmDelete(car._id)}>
-                                    <Trash size={16} />
-                                  </button>
+
+                            <td className="action-buttons">
+                              <button onClick={() => confirmDelete(car._id)}>
+                                <Trash size={16} />
+                              </button>
+                              {
+                                !car.isSold ?
                                   <button
                                     onClick={() => {
                                       setCarToEdit(car._id);
@@ -342,18 +343,13 @@ const AuctionInventory = () => {
                                   >
                                     <PencilLine size={16} />
                                   </button>
-                                </td>
-                                :
-                                <td className="action-buttons">
-                                  <button style={{ cursor: "not-allowed" }} >
-                                    <Trash size={16} />
-                                  </button>
+                                  :
                                   <button style={{ cursor: "not-allowed" }} >
                                     <PencilLine size={16} />
                                   </button>
-                                </td>
-                            }
 
+                              }
+                            </td>
                           </tr>
                         )
                     )}
