@@ -175,9 +175,9 @@ const CarFilterForm = ({ sellingType }) => {
                 <div className="data p-3">
                   <button onClick={resetFilters}>Reset Filters</button>
                 </div>
-                {/* <div className="data">
+                <div className="data">
                   <div className="datainput">
-                    {location.pathname === "/vehicle" && (
+                    {location.pathname === "/auction-vehicle" && (
                       <div>
                         <SortByDropdown
                           onChange={handleFilterChange}
@@ -186,7 +186,7 @@ const CarFilterForm = ({ sellingType }) => {
                       </div>
                     )}
                   </div>
-                </div> */}
+                </div>
 
                 <div className="data">
                   <div className="datainput">
