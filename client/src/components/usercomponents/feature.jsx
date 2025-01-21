@@ -1,9 +1,11 @@
 import React from "react";
 import FeaturesSection from "../usercomponents/feature-map";
-import img from "../../assets/images/tag (1) 1.png";
-import img1 from "../../assets/images/diamond.png";
-import img2 from "../../assets/images/price.png";
-import img3 from "../../assets/images/Group.png";
+import img from "../../assets/images/exclusive_5110900.svg";
+import img1 from "../../assets/images/overview_13794240.svg";
+import img2 from "../../assets/images/auction_563518.svg";
+import img3 from "../../assets/images/monetary_17011743.svg";
+import img4 from "../../assets/images/notification_18087044.svg";
+import img5 from "../../assets/images/monetary_17011743.svg";
 
 const features = [
   {
@@ -31,13 +33,13 @@ const features = [
       "Bid with confidence knowing there are no hidden fees. What you see is what you pay, with full transparency at every step.",
   },
   {
-    image: img2,
+    image: img4,
     title: "Instant Notifications & Updates",
     description:
       "Stay informed with instant notifications on your bids, auction results, and special offers. Never miss a chance to get the best deal.",
   },
   {
-    image: img3,
+    image: img5,
     title: "Expert Auction Support",
     description:
       "Get the assistance you need from our experienced auction professionals. Whether you’re buying or selling, we’re here to help.",

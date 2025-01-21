@@ -24,11 +24,14 @@
   .feature-item {
     padding: 0 70px 0 0;
     margin-bottom: 20px;
-    img {
-      max-width: 100%;
-      object-fit: cover;
-      margin-bottom: 20px;
+    .icon {
+      img {
+        width: 80px;
+        object-fit: cover;
+        margin-bottom: 20px;
+      }
     }
+
     .text {
       h4 {
         /* Exclusive Auction */

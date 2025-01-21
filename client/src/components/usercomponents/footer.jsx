@@ -63,7 +63,7 @@ const Footer = () => {
                 <div className="copyright-terms">
                   {/* <p>Terms & Conditions | Privacy policy</p> */}
                   <p>
-                    <a href="/terms">Terms & Conditions</a> |{" "}
+                    <a href="/terms">Terms & Conditions</a> |
                     <a href="/privacy">Privacy Policy</a>
                   </p>
                 </div>

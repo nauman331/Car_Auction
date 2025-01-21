@@ -9,7 +9,6 @@ import img5 from "../../assets/images/user.png";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import { NavLink } from "react-router-dom";
 
-
 const Header = () => {
   const { token, userdata } = useSelector((state) => state.auth);
   const [currentCar, setCurrentCar] = useState();
@@ -31,9 +30,8 @@ const Header = () => {
   };
 
   useEffect(() => {
-    getCurrentCar()
+    getCurrentCar();
   }, []);
-
 
   return (
     <div className="header-section ">
@@ -92,7 +90,7 @@ const Header = () => {
                   <li>
                     <NavLink
                       class="dropdown-item"
-                      to="/vehicle"
+                      to="/auction-vehicle"
                       style={{
                         textDecoration: "none",
                         marginLeft: "1rem",
@@ -105,7 +103,7 @@ const Header = () => {
                   <li>
                     <NavLink
                       class="dropdown-item"
-                      to="/buynowlist"
+                      to="/buynow-vehicle"
                       style={{
                         textDecoration: "none",
                         marginLeft: "1rem",
@@ -134,7 +132,7 @@ const Header = () => {
                   <li>
                     <NavLink
                       class="dropdown-item"
-                      to="/events"
+                      to="/auction-events"
                       style={{
                         textDecoration: "none",
                         marginLeft: "1rem",
@@ -147,7 +145,11 @@ const Header = () => {
                   <li className="nav-item">
                     <NavLink
                       className="nav-link"
-                      to={currentCar && currentCar._id ? `/auctioncar/${currentCar._id}` : "/vehicle"}
+                      to={
+                        currentCar && currentCar._id
+                          ? `/auctioncar/${currentCar._id}`
+                          : "/vehicle"
+                      }
                       style={{
                         textDecoration: "none",
                         marginLeft: "1rem",
@@ -172,11 +174,11 @@ const Header = () => {
                   <img src={img3} />
                 </a>
 
-                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <ul class="dropdown-menu " aria-labelledby="navbarDropdown">
                   <li>
                     <NavLink
                       class="dropdown-item"
-                      to="/about"
+                      to="/about-us"
                       style={{
                         textDecoration: "none",
                         marginLeft: "3rem",
@@ -189,7 +191,7 @@ const Header = () => {
                   <li>
                     <NavLink
                       class="dropdown-item"
-                      to="/contactus"
+                      to="/contact-us"
                       style={{
                         textDecoration: "none",
                         marginLeft: "2.9rem",
@@ -204,11 +206,12 @@ const Header = () => {
             </ul>
             <div className="header-actions">
               <a href="tel:+75960044042" className="phone">
-                <img src={img4} /> +75 960 044 042
+                <img src={img4} /> +971 509496511
               </a>
 
               {token ? (
-                (userdata?.role === "admin" || userdata?.role === "superadmin") ?
+                userdata?.role === "admin" ||
+                userdata?.role === "superadmin" ? (
                   <NavLink to="/admin/profile" className="sign-in">
                     <img
                       src={userdata?.avatarImage}
@@ -220,7 +223,7 @@ const Header = () => {
                     />{" "}
                     Profile
                   </NavLink>
-                  :
+                ) : (
                   <NavLink to="/user/userprofile" className="sign-in">
                     <img
                       src={userdata?.avatarImage}
@@ -232,6 +235,7 @@ const Header = () => {
                     />{" "}
                     Profile
                   </NavLink>
+                )
               ) : (
                 <NavLink to="/auth" className="sign-in">
                   <img src={img5} /> Sign In

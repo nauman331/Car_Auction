@@ -18,19 +18,19 @@ const Form = () => {
       id: 1,
       image: img1,
       title: "Address",
-      text: "329 Queensberry Street, North Melbourne VIC3051, Australia. ",
+      text: "Land # 6401-1 & 6401-2 - Emirates road - Al Sajaah - Emirates Industrial City - Sharjah. ",
     },
     {
       id: 2,
       image: img2,
       title: "Email",
-      text: "syedaasra@gmail.com",
+      text: "Info@abaautoauctions.com",
     },
     {
       id: 3,
       image: img3,
       title: "Phone",
-      text: "+76 956 039 967",
+      text: "+971 509496511",
     },
   ];
   const handleInputChange = (e) => {
@@ -98,7 +98,7 @@ const Form = () => {
                         autoComplete="off"
                         onChange={handleInputChange}
                         name="firstName"
-                        placeholder="first Name"
+                        placeholder="First Name"
                         required
                       />
                       <label>First Name</label>
@@ -109,7 +109,7 @@ const Form = () => {
                         autoComplete="off"
                         onChange={handleInputChange}
                         name="lastName"
-                        placeholder="lastName"
+                        placeholder="Last Name"
                         required
                       />
                       <label>Last Name</label>
@@ -128,7 +128,7 @@ const Form = () => {
                         type="email"
                         autoComplete="off"
                         name="email"
-                        placeholder="syedaasra@gail.com"
+                        placeholder="example@.com"
                         required
                         onChange={handleInputChange}
                       />
@@ -138,7 +138,7 @@ const Form = () => {
                       <input
                         type="tel"
                         name="contact"
-                        placeholder="+90 47458 27 3287 12"
+                        placeholder="+9(XXX) XXX-XXXX"
                         onChange={handleInputChange}
                         required
                       />
@@ -150,7 +150,7 @@ const Form = () => {
                     <textarea
                       id="comment"
                       name="comment"
-                      placeholder="Lorem Ipsum Dolar Sit Amet"
+                      placeholder="Type your comment here..."
                       rows="4"
                     />
                     <label> Comment</label>

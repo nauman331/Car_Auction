@@ -97,7 +97,7 @@ const Aboutpaggination = () => {
     },
   ];
   return (
-    <div style={{ background: "#F9FBFC", padding: "54px 20px" }}>
+    <div style={{ background: "#F9FBFC", padding: "4px 20px 30px" }}>
       <div className="container">
         <div className="recentlyadd-section">
           <h2>What our customers say</h2>

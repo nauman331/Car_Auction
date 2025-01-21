@@ -1,8 +1,8 @@
 import { Routes, Route } from "react-router-dom";
 import Auth from "./pages/userpages/Auth";
 import Home from "./pages/userpages/Home";
-import ContactUs from "./pages/userpages/contactus";
-import Aboutus from "./pages/userpages/about";
+import ContactUs from "./pages/userpages/contact-us";
+import Aboutus from "./pages/userpages/about-us";
 import OTPVerificationForm from "./components/usercomponents/OTPVerificationForm";
 import AdminHome from "./pages/adminpages/AdminHome";
 import Dashboard from "./components/admincomponents/Dashboard";
@@ -10,7 +10,9 @@ import AddAuctionForm from "./components/admincomponents/AddAuction";
 import AddBuyNow from "./components/admincomponents/AddBuyNow/AddBuyNow";
 import CarListings from "./components/admincomponents/CarListings";
 import AuctionListings from "./components/admincomponents/AuctionListings";
-import Events from "./pages/userpages/events";
+import Events from "./pages/userpages/auction-events";
+import Privacypolicy from "./pages/userpages/privacy";
+import Terms from "./pages/userpages/terms";
 import CategoryManagement from "./components/admincomponents/Categories";
 import Withdraw from "./components/usercomponents/withdrawform";
 import Orders from "./components/admincomponents/Orders";
@@ -32,8 +34,8 @@ import { setBidData, removeBidData } from "./store/eventSlice";
 import UserPanel from "./pages/userpages/UserPanel";
 import Wallet from "./components/usercomponents/userpanel/Wallet";
 import Carsforsale from "./pages/userpages/car";
-import Vehicle from "./pages/userpages/vehicle";
-import BuyfilterForm from "./pages/userpages/buynowlist";
+import Vehicle from "./pages/userpages/auction-vehicle";
+import BuyfilterForm from "./pages/userpages/buynow-vehicle";
 import Buycarforsale from "./pages/userpages/buycar";
 import { backendURL } from "./utils/Exports";
 import { setUser } from "./store/slices/authSlice";
@@ -174,14 +176,16 @@ function App() {
           {/* Publics routes */}
           <Route path="/" element={<Home />} />
           <Route path="/auth" element={<Auth />} />
-          <Route path="/contactus" element={<ContactUs />} />
-          <Route path="/about" element={<Aboutus />} />
+          <Route path="/contact-us" element={<ContactUs />} />
+          <Route path="/about-us" element={<Aboutus />} />
           <Route path="/verifyotp" element={<OTPVerificationForm />} />
           <Route path="/resetpassword" element={<Verificationform />} />
-          <Route path="/vehicle" element={<Vehicle />} />
-          <Route path="/buynowlist" element={<BuyfilterForm />} />
+          <Route path="/auction-vehicle" element={<Vehicle />} />
+          <Route path="/buynow-vehicle" element={<BuyfilterForm />} />
+          <Route path="/privacy" element={<Privacypolicy />} />
+          <Route path="/terms" element={<Terms />} />
           <Route path="/auctioncar/:id" element={<Carsforsale />} />
-          <Route path="/events" element={<Events />} />
+          <Route path="/auction-events" element={<Events />} />
           <Route path="/buycar/:id" element={<Buycarforsale />} />
 
           {/* Admin routes */}

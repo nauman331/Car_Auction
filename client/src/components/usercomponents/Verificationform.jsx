@@ -134,6 +134,7 @@ const Verificationform = () => {
         </>
       ) : (
         <>
+          <img src={img1} />
           <h2>Set New Password</h2>
           <div className="wrapper--input">
             <input
@@ -155,7 +156,7 @@ const Verificationform = () => {
           <div className="wrapper--input">
             <input
               type="password"
-              placeholder="Confirm Password"
+              placeholder="Confirm New Password"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
             />

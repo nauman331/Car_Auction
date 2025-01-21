@@ -2,7 +2,7 @@ import React from "react";
 import "../../assets/stylesheets/contactusbutton.scss";
 
 import img1 from "../../assets/images/smartphone 1.png";
-import img2 from "../../assets/images/email 1.png"
+import img2 from "../../assets/images/email 1.png";
 
 const ContactButtons = () => {
   return (
@@ -11,13 +11,16 @@ const ContactButtons = () => {
         <span className="icon">
           <img src={img1} />
         </span>
-        <span className="text">+92 309 039 0631</span>
+        <span className="text">+971 509496511</span>
       </div>
       <div className="contact-button">
         <span className="icon">
           <img src={img2} />
         </span>
-        <span className="text">info@abc.com</span>
+        <span className="text">
+          Info@abaautoauctions.com
+          {/* <a href="mailto:Info@abaautoauctions.com">Info@abaautoauctions.com</a> */}
+        </span>
       </div>
     </div>
   );

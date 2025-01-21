@@ -66,7 +66,7 @@
     }
 
     label {
-      font-size: 15px;
+      font-size: 13px;
       font-weight: normal;
       color: scale-color(gray);
       position: absolute;
@@ -103,6 +103,7 @@
 
   .send-otp-btn {
     background-color: #405ff2;
+    margin-top: 30px;
   }
 
   .send-otp-btn:hover {
@@ -110,6 +111,7 @@
   }
   .verify-otp-btn {
     background-color: #405ff2;
+    margin-top: 30px;
   }
 
   .verify-otp-btn:hover {
@@ -118,6 +120,7 @@
 
   .update-password-btn {
     background-color: #405ff2;
+    margin-top: 30px;
   }
 
   .update-password-btn:hover {

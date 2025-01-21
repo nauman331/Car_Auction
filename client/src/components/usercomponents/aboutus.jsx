@@ -3,7 +3,7 @@ import "../../assets/stylesheets/aboutus.scss";
 import img1 from "../../assets/images/images.png";
 import Feature from "../usercomponents/aboutfeature";
 // import Premium from "../usercomponents/premium";
-import TeamSection from "../usercomponents/team";
+// import TeamSection from "../usercomponents/team";
 import "../../assets/stylesheets/FeatureCategory.scss";
 import Aboutpaggination from "../usercomponents/aboutpaginations";
 // import FAQs from "../usercomponents/faq";
@@ -152,9 +152,9 @@ const Aboutus = () => {
           {/* <div>
             <Premium />
           </div> */}
-          <div>
+          {/* <div>
             <TeamSection />
-          </div>
+          </div> */}
 
           {/* <div>
             <FAQs />
