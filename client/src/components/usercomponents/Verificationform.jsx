@@ -117,7 +117,7 @@ const Verificationform = () => {
               <label>Enter the OTP</label>
             </div>
           )}
-          {/* <div>
+          {/*otp <div>
               <input
                 type="text"
                 placeholder="Enter OTP"
