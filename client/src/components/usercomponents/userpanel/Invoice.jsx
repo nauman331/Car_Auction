@@ -247,11 +247,11 @@ const Invoice = () => {
                 <Row className="mt-5 text-center">
                     <hr />
                     <Col className="d-flex mt-5 align-items-center w-100 justify-content-evenly flex-wrap gap-3">
-                        <a href="/" style={{ textDecoration: "none" }}>
-                            www.boxcar.com
+                        <a href="https://abaautoauctions.com/" style={{ textDecoration: "none" }}>
+                            https://abaautoauctions.com
                         </a>
-                        <a>invoice@boxcar.com</a>
-                        <a>(123) 123-456</a>
+                        <a>Info@abaautoauctions.com</a>
+                        <a>+971 509496511</a>
                     </Col>
                 </Row>
             </Container>

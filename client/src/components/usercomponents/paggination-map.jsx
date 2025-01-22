@@ -11,14 +11,6 @@ const PaginatedCards = ({ data, itemsPerPage }) => {
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
-  
-
-  // Debugging
-  console.log("Current Page:", currentPage);
-  console.log("Items Per Page:", itemsPerPage);
-  console.log("Index of First Item:", indexOfFirstItem);
-  console.log("Index of Last Item:", indexOfLastItem);
-  console.log("Current Items:", currentItems);
 
   const handleNext = () => {
     if (currentPage < totalPages) {
