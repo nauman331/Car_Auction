@@ -33,7 +33,7 @@ const AuctionCard = () => {
   }, []);
 
   const handleAuctionClick = (auctionTitle) => {
-    navigate("/vehicle", { state: { selectedAuction: auctionTitle } });
+    navigate("/auction-vehicle", { state: { selectedAuction: auctionTitle } });
   };
 
   const calculateTimeLeft = (date, time) => {

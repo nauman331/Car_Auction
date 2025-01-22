@@ -152,7 +152,7 @@ const Header = () => {
                       to={
                         currentCar && currentCar._id
                           ? `/auctioncar/${currentCar._id}`
-                          : "/vehicle"
+                          : "/auction-vehicle"
                       }
                       style={{
                         textDecoration: "none",

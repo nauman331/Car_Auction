@@ -53,7 +53,7 @@ const AuctionCard = () => {
     if (currentCar) {
       navigate(`/auctioncar/${currentCar._id}`);
     } else {
-      navigate("/vehicle");
+      navigate("/auction-vehicle");
     }
   };
 
@@ -106,7 +106,7 @@ const AuctionCard = () => {
                         No of Cars {auction.totalVehicles || 0}
                       </span>
                       <NavLink
-                        to="/vehicle"
+                        to="/auction-vehicle"
                         className="btn  btn-sm w-20 text-white"
                         style={{ fontSize: "12px", backgroundColor: "#333" }}
                       >

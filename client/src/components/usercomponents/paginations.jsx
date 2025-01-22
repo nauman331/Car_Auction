@@ -15,7 +15,7 @@ const RecentlyAdded = ({data}) => {
       <div className="recentlyadd-section">
         <h2>Recently Added</h2>
         <div className="join-auction-btn">
-          <NavLink to="/vehicle">
+          <NavLink to="/auction-vehicle">
             View All
             <img src={img1} />
           </NavLink>

@@ -26,7 +26,7 @@ function SearchBar() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    navigate("/vehicle", {state: {SelectedFilters: formData}});
+    navigate("/auction-vehicle", {state: {SelectedFilters: formData}});
   };
 
   // Custom styles for react-select

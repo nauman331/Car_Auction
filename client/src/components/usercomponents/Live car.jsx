@@ -48,7 +48,7 @@ function Livecar() {
             <div className="btn">
               <NavLink
                 className="nav-link"
-                to={currentCar && currentCar._id ? `/auctioncar/${currentCar._id}` : "/vehicle"}
+                to={currentCar && currentCar._id ? `/auctioncar/${currentCar._id}` : "/auction-vehicle"}
               >
                 Join Auction{" "}
                 <img src={img2} />

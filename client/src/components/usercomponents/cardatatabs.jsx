@@ -25,7 +25,7 @@ const CarTabs = ({ cars }) => {
         <div className="Explore-text-section">
           <h2>Explore All Vehicles</h2>
           <div className="view-btn">
-            <NavLink to="/vehicle">
+            <NavLink to="/auction-vehicle">
               View All
               <img src={img} />
             </NavLink>

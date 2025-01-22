@@ -16,9 +16,9 @@ const ProductGridWithPagination = ({ cars }) => {
   const [sellingType, setSellingType] = useState("");
 
   useEffect(() => {
-    if (location.pathname === "/vehicle") {
+    if (location.pathname === "/auction-vehicle") {
       setSellingType("auction");
-    } else if (location.pathname === "/buynowlist") {
+    } else if (location.pathname === "/buynow-vehicle") {
       setSellingType("fixed");
     }
   }, [location]);
