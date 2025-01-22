@@ -19,7 +19,7 @@ const CarListings = () => {
   const [loading, setLoading] = useState(false)
   const [currentPage, setCurrentPage] = useState(1);
   const [searchInput, setSearchInput] = useState("");
-  const [sortOption, setSortOption] = useState("all");
+  const [sortOption, setSortOption] = useState("unsold");
   const itemsPerPage = 10;
   const totalPages = Math.ceil(cars.length / itemsPerPage);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -152,37 +152,37 @@ const CarListings = () => {
 
 
   const getFilteredCars = () => {
-    if (!searchInput.trim()) {
-      return cars;
-    }
-    return cars.filter(
-      (car) =>
-        (car.listingTitle &&
-          car.listingTitle
-            ?.toLowerCase()
-            .includes(searchInput.toLowerCase())) ||
-        (car.carModal &&
-          car.carModal?.vehicleModal
-            .toLowerCase()
-            .includes(searchInput.toLowerCase())) ||
-        (car.description &&
-          car.description?.toLowerCase().includes(searchInput.toLowerCase()))
-    );
+    const filtered = !searchInput.trim()
+      ? cars
+      : cars.filter(
+        (car) =>
+          (car.listingTitle &&
+            car.listingTitle.toLowerCase().includes(searchInput.toLowerCase())) ||
+          (car.carModal &&
+            car.carModal.vehicleModal.toLowerCase().includes(searchInput.toLowerCase())) ||
+          (car.description &&
+            car.description.toLowerCase().includes(searchInput.toLowerCase()))
+      );
+    console.log("Filtered Cars:", filtered);
+    return filtered;
   };
 
   const getSortedCars = (carsToSort) => {
+    let sortedCars = carsToSort;
     switch (sortOption) {
-      case "price":
-        return [...carsToSort].sort((a, b) => (a.price || a.discountedPrice) - (b.price || b.discountedPrice));
-      case "year":
-        return [...carsToSort].sort((a, b) => a.year - b.year);
       case "sold":
-        return carsToSort.filter((car) => car.isSold);
+        sortedCars = carsToSort.filter((car) => car.isSold);
+        break;
       case "unsold":
-        return carsToSort.filter((car) => !car.isSold);
-      default:
-        return carsToSort;
+        sortedCars = carsToSort.filter((car) => !car.isSold);
+        break;
     }
+    return sortedCars;
+  };
+
+  const handleSortChange = (e) => {
+    const selectedOption = e.target.value;
+    setSortOption(selectedOption);
   };
 
 
@@ -190,8 +190,11 @@ const CarListings = () => {
     const filteredCars = getFilteredCars();
     const sortedCars = getSortedCars(filteredCars);
     const startIndex = (currentPage - 1) * itemsPerPage;
-    return sortedCars.slice(startIndex, startIndex + itemsPerPage);
+    const displayedCars = sortedCars.slice(startIndex, startIndex + itemsPerPage);
+    return displayedCars;
   };
+
+
 
 
   return (
@@ -220,12 +223,9 @@ const CarListings = () => {
               </div>
               <div className="sort-options">
                 <span>Sort By:</span>
-                <select value={sortOption} onChange={(e) => setSortOption(e.target.value)}>
-                  <option value="all">All</option>
-                  <option value="price">Price</option>
-                  <option value="year">Year</option>
-                  <option value="sold">Sold</option>
+                <select value={sortOption} onChange={handleSortChange}>
                   <option value="unsold">Unsold</option>
+                  <option value="sold">Sold</option>
                 </select>
               </div>
 

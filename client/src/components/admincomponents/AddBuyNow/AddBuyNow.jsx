@@ -74,33 +74,38 @@ const AddBuyNow = ({ sellingType }) => {
     }
     return uploadedImages;
   };
-  
+
   const handleSubmit = async () => {
     setLoading(true);
     try {
       // Upload images and get URLs
       const uploadedImages = await handleImageSubmit();
-  
+
       // Build formData with the uploaded images
       const updatedFormData = {
         ...formData,
         carImages: uploadedImages,
       };
-  
+
       // Send the updated formData
       const response = await fetch(`${backendURL}/car/`, {
         method: "POST",
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
         body: JSON.stringify(updatedFormData),
       });
-  
+
       const res_data = await response.json();
-  
+
       if (response.ok) {
         toast.success("Car Added Successfully!");
-        setFormData({ ...baseData, sellingType, ...auctionData }); // Reset formData
-        setStep(1); // Reset step
-        setImages([]); // Clear images
+        setFormData({ ...baseData, sellingType, ...auctionData });
+        setImages([]);
+        if (sellingType === "fixed") {
+          navigate("/admin/carlistings")
+        } else if (sellingType === "auction") {
+          navigate("/admin/auctioninventory")
+        }
+
       } else {
         toast.error(res_data?.errors?.[0]?.msg || res_data?.message || "Unknown error occurred.");
       }
@@ -111,38 +116,38 @@ const AddBuyNow = ({ sellingType }) => {
       setLoading(false);
     }
   };
-  
 
-  
-    const fetchCategories = async () => {
-      setCategoriesLoading(true);
-      const headers = { "Content-Type": "application/json" };
-  
-      try {
-        const fetchData = async ({ key }) => {
-          const res = await fetch(`${backendURL}/${key}`, { headers });
-          
-          if (res.ok) {
-              const data = await res.json(); 
-            dispatch(setCategories({ key, items: data }));
-          } else {
-            console.error("Error while getting categories");
-          }
-        };
-  
-        await Promise.all(categories.map(fetchData));
-      } catch (error) {
-        console.error("Error fetching categories:", error);
-      } finally {
-        setCategoriesLoading(false);
-      }
-    };
 
-     useEffect(() => {
-        fetchCategories();
-      }, []);
 
-if(categoriesLoading) return <LoadingSpinner />
+  const fetchCategories = async () => {
+    setCategoriesLoading(true);
+    const headers = { "Content-Type": "application/json" };
+
+    try {
+      const fetchData = async ({ key }) => {
+        const res = await fetch(`${backendURL}/${key}`, { headers });
+
+        if (res.ok) {
+          const data = await res.json();
+          dispatch(setCategories({ key, items: data }));
+        } else {
+          console.error("Error while getting categories");
+        }
+      };
+
+      await Promise.all(categories.map(fetchData));
+    } catch (error) {
+      console.error("Error fetching categories:", error);
+    } finally {
+      setCategoriesLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchCategories();
+  }, []);
+
+  if (categoriesLoading) return <LoadingSpinner />
 
   return (
     <div className="form-container">
@@ -155,6 +160,7 @@ if(categoriesLoading) return <LoadingSpinner />
           <div className="next-button">
             <button
               onClick={step < steps.length ? () => setStep(step + 1) : handleSubmit}
+              disabled={loading}
               style={{ backgroundColor: loading && "#167CB9" }}
             >
               {step < steps.length ? `Next: ${steps[step]}` : loading ? "Submitting..." : "Submit"}
