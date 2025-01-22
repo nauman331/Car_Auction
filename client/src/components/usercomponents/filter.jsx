@@ -172,9 +172,13 @@ const CarFilterForm = ({ sellingType }) => {
           <div className="row">
             <div className=" col-xl-3 col-lg-3 col-md-4 col-sm-12 col-12 mb-4">
               <form className="form_section">
-                <div className="data p-3">
-                  <button onClick={resetFilters}>Reset Filters</button>
-                </div>
+                {
+                  (formData.priceMin !== 100 || formData.priceMax !== 100000 || selectedFuelTypes.length > 0 || selectedTransmissions.length > 0)
+                  &&
+                  <div className="data p-3">
+                    <button onClick={resetFilters}>Reset Filters</button>
+                  </div>
+                }
                 <div className="data">
                   <div className="datainput">
                     {location.pathname === "/auction-vehicle" && (
@@ -192,13 +196,13 @@ const CarFilterForm = ({ sellingType }) => {
                   <div className="datainput">
                     <select name="carMake" onChange={handleChange}>
                       {resetLabel ? (
-                        <option value="" selected>
+                        <option value="">
                           Select Car Make
                         </option>
                       ) : (
                         <option
                           value={SelectedFilters?.carMake?.label || ""}
-                          selected
+
                         >
                           {SelectedFilters?.carMake?.label || "Select Car Make"}
                         </option>
@@ -219,13 +223,13 @@ const CarFilterForm = ({ sellingType }) => {
                   <div className="datainput">
                     <select name="carModal" onChange={handleChange}>
                       {resetLabel ? (
-                        <option value="" selected>
+                        <option value="">
                           Select Car Modal
                         </option>
                       ) : (
                         <option
                           value={SelectedFilters?.carModal?.label || ""}
-                          selected
+
                         >
                           {SelectedFilters?.carModal?.label ||
                             "Select Car Modal"}
@@ -248,7 +252,7 @@ const CarFilterForm = ({ sellingType }) => {
                       <label htmlFor="yearMin">Min Year</label>
 
                       <select name="yearMin" onChange={handleChange}>
-                        <option value="" selected>
+                        <option value="">
                           Min Year
                         </option>
                         {generateOptions("vehicle-year", "vehicleYear").map(
@@ -264,7 +268,7 @@ const CarFilterForm = ({ sellingType }) => {
                     <div className="datainputs">
                       <label htmlFor="yearMax">Max Year</label>
                       <select name="yearMax" onChange={handleChange}>
-                        <option value="" selected>
+                        <option value="">
                           Max Year
                         </option>
                         {generateOptions("vehicle-year", "vehicleYear").map(
@@ -282,7 +286,7 @@ const CarFilterForm = ({ sellingType }) => {
                 <div className="data">
                   <div className="datainput">
                     <select name="color" onChange={handleChange}>
-                      <option value="" selected>
+                      <option value="">
                         Select Color
                       </option>
                       {generateOptions("vehicle-color", "vehicleColors").map(
@@ -300,13 +304,13 @@ const CarFilterForm = ({ sellingType }) => {
                   <div className="datainput">
                     <select name="driveType" onChange={handleChange}>
                       {resetLabel ? (
-                        <option value="" selected>
+                        <option value="">
                           Select Drive Type
                         </option>
                       ) : (
                         <option
                           value={SelectedFilters?.driveType?.label || ""}
-                          selected
+
                         >
                           {SelectedFilters?.driveType?.label ||
                             "Select Drive Type"}
@@ -389,9 +393,8 @@ const CarFilterForm = ({ sellingType }) => {
                       className="slider-track"
                       style={{
                         left: `${((minPrice - 100) / (100000 - 100)) * 100}%`,
-                        right: `${
-                          100 - ((maxPrice - 100) / (100000 - 100)) * 100
-                        }%`,
+                        right: `${100 - ((maxPrice - 100) / (100000 - 100)) * 100
+                          }%`,
                       }}
                     ></div>
                   </div>
@@ -443,7 +446,7 @@ const CarFilterForm = ({ sellingType }) => {
                 <div className="data">
                   <div className="datainput">
                     <select name="doors" onChange={handleChange}>
-                      <option value="" selected>
+                      <option value="">
                         Select Doors
                       </option>
                       {generateOptions("vehicle-door", "vehicleDoor").map(
@@ -460,7 +463,7 @@ const CarFilterForm = ({ sellingType }) => {
                 <div className="data">
                   <div className="datainput">
                     <select name="cylinders" onChange={handleChange}>
-                      <option value="" selected>
+                      <option value="">
                         Select Cylinders
                       </option>
                       {generateOptions(

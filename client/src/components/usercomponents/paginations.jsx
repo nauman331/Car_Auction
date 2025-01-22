@@ -4,11 +4,7 @@ import PaginatedCards from "../usercomponents/paggination-map";
 import img1 from "../../assets/images/right-up 1 (2).png";
 import { NavLink } from "react-router-dom";
 
-const RecentlyAdded = ({data}) => {
-
-  const latestCars = data
-    .sort((a, b) => new Date(b.dateAdded) - new Date(a.dateAdded)) // Sort by newest first
-    .slice(0, 12); // Limit to the latest 12 cars
+const RecentlyAdded = ({ data }) => {
 
   return (
     <div className="container">
@@ -22,7 +18,7 @@ const RecentlyAdded = ({data}) => {
         </div>
       </div>
 
-      <PaginatedCards data={latestCars} itemsPerPage={4} />
+      <PaginatedCards data={data} itemsPerPage={4} />
     </div>
   );
 };
