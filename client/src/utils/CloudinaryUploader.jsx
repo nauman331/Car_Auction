@@ -1,7 +1,8 @@
 import toast from "react-hot-toast";
+import { cloudinaryURL } from "./Exports";
 export const CloudinaryUploader = async (file) => {
   const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'application/pdf'];
-  
+
   // Validate file type
   if (!allowedTypes.includes(file.type)) {
     toast.error('Invalid file type');
@@ -10,9 +11,9 @@ export const CloudinaryUploader = async (file) => {
   const formData = new FormData();
   formData.append('file', file);
   formData.append('upload_preset', 'car_auction');
-  
+
   try {
-    const response = await fetch('https://api.cloudinary.com/v1_1/dq5jqnxju/image/upload', {
+    const response = await fetch(cloudinaryURL, {
       method: 'POST',
       body: formData,
     });
