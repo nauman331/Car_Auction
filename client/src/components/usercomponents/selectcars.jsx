@@ -80,7 +80,6 @@ function SearchBar() {
             value={generateOptions("vehicle-make", "vehicleMake").find(
               (option) => option.value === formData.carMake
             )}
-            isClearable
             styles={customStyles} // Apply custom styles
           />
 
@@ -93,7 +92,6 @@ function SearchBar() {
             value={generateOptions("vehicle-modal", "vehicleModal").find(
               (option) => option.value === formData.carModal
             )}
-            isClearable
             styles={customStyles} // Apply custom styles
           />
 
@@ -106,7 +104,6 @@ function SearchBar() {
             value={generateOptions("drive-type", "driveType").find(
               (option) => option.value === formData.driveType
             )}
-            isClearable
             styles={customStyles} // Apply custom styles
           />
 
