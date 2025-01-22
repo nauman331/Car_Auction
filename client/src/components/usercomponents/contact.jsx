@@ -6,10 +6,10 @@ import img1 from "../../assets/images/location.png";
 import img2 from "../../assets/images/email.png";
 import img3 from "../../assets/images/phones.png";
 import img6 from "../../assets/images/facebook1.png";
-import img5 from "../../assets/images/twitter1.png";
+import img5 from "../../assets/images/tiktok.png";
 import "../../assets/stylesheets/FeatureCategory.scss";
 import img7 from "../../assets/images/insta1.png";
-import img8 from "../../assets/images/linkedin1.png";
+
 // import OfficeDetails from "../usercomponents/mapaddress";
 import { Link } from "react-router-dom";
 const Form = () => {
@@ -128,7 +128,7 @@ const Form = () => {
                         type="email"
                         autoComplete="off"
                         name="email"
-                        placeholder="example@.com"
+                        placeholder="mail@example.com"
                         required
                         onChange={handleInputChange}
                       />
@@ -138,7 +138,7 @@ const Form = () => {
                       <input
                         type="tel"
                         name="contact"
-                        placeholder="+9(XXX) XXX-XXXX"
+                        placeholder="(XXX) XXX-XXXX"
                         onChange={handleInputChange}
                         required
                       />
@@ -167,8 +167,7 @@ const Form = () => {
               <div className="footerrightsection">
                 <h2>Contact details</h2>
                 <h5>
-                  Etiam pharetra egestas interdum blandit viverra morbi
-                  consequat mi non bibendum egestas quam egestas nulla.
+                  The contact information of Al Bashayera is listed below:
                 </h5>
                 <div>
                   {carddatas.map((card, index) => (
@@ -186,16 +185,13 @@ const Form = () => {
                   </div>
                   <div className="follow-us-imagesection">
                     <div className="follow-image">
-                      <img src={img5} />
+                      <img src={img5} style={{ width: "12px" }} />
                     </div>
                     <div className="follow-image">
                       <img src={img6} />
                     </div>
                     <div className="follow-image">
                       <img src={img7} />
-                    </div>
-                    <div className="follow-image">
-                      <img src={img8} />
                     </div>
                   </div>
                 </div>

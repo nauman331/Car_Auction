@@ -1,5 +1,6 @@
 import React from "react";
-
+import "../../assets/stylesheets/FeatureCategory.scss";
+import { Link } from "react-router-dom";
 const Termsandcondition = () => {
   return (
     <>
@@ -7,6 +8,18 @@ const Termsandcondition = () => {
       <div className="mb-5 main">
         <div className="container">
           <div className="about-section2-detail">
+            <div className="Breadcrumb-section">
+              <nav aria-label="Breadcrumb">
+                <ol className="breadcrumb">
+                  <li className="breadcrumb-item">
+                    <Link to="/">Home</Link>
+                  </li>
+                  <li className="breadcrumb-item active" aria-current="page">
+                    Terms & condition
+                  </li>
+                </ol>
+              </nav>
+            </div>
             <h1 className="mb-4">Terms & condition</h1>
             <p>
               Lorem ipsum dolor sit amet consectetur. Convallis integer enim

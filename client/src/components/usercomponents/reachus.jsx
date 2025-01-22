@@ -2,8 +2,8 @@ import React from "react";
 import ContactButtons from "../usercomponents/contactbutton";
 
 import "../../assets/stylesheets/reachus.scss";
-import img1 from "../../assets/images/image 178.png"
-import img2 from "../../assets/images/right-up 1.png"
+import img1 from "../../assets/images/Contact Us Homepage .jpg";
+import img2 from "../../assets/images/right-up 1.png";
 const Reachus = () => {
   return (
     <section className="Reachus">
@@ -20,8 +20,8 @@ const Reachus = () => {
                 Have more questions?Don’t hesitate <br></br>to reach us
               </h2>
               <p>
-                329 Queensberry Street, North <br></br>Melbourne VIC3051,
-                Australia.
+                Land # 6401-1 & 6401-2 - Emirates road - Al Sajaah - Emirates
+                Industrial City - Sharjah.
               </p>
               <div>
                 <ContactButtons />

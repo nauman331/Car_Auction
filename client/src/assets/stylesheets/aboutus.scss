@@ -50,6 +50,7 @@
   }
 }
 .item {
+  width: 340px;
   .quote {
     display: flex;
     justify-content: end;
@@ -62,7 +63,7 @@
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     border: none;
     border-radius: 16px;
-    padding: 24px 26px;
+    padding: 24px 26px 20px;
     background-color: #ffffff;
     .title-text {
       /* Great Work */

@@ -7,27 +7,27 @@ import img3 from "../../assets/images/monetary_17011743.svg";
 const features = [
   {
     image: img,
-    title: "Special Financing Offers",
+    title: "Exclusive Auction",
     description:
-      "Our stress-free finance department that can find financial solutions to save you money.",
+      "Access unique and limited-time offers on a variety of vehicles. Get the best value through our exclusive online and in-person auctions.",
   },
   {
     image: img1,
-    title: "Trusted Car Dealership",
+    title: "Pre-Auction Preview",
     description:
-      "Our stress-free finance department that can find financial solutions to save you money.",
+      "Preview top-quality cars with pre-auction Details. We bring all details to you before the bidding starts.",
   },
   {
     image: img2,
-    title: "Transparent Pricing",
+    title: "Easy Bidding Process",
     description:
-      "Our stress-free finance department that can find financial solutions to save you money.",
+      "Join our simple, user-friendly bidding platform. Place your bid and track your progress with ease.",
   },
   {
     image: img3,
-    title: "Expert Car Service",
+    title: "No Hidden Fees",
     description:
-      "Our stress-free finance department that can find financial solutions to save you money.",
+      "Bid with confidence knowing there are no hidden fees. What you see is what you pay, with full transparency at every step.",
   },
 ];
 
