@@ -47,15 +47,6 @@ const BuyfilterForm = () => {
     }
   };
 
-  const resetFilters = (e) => {
-    e.preventDefault();
-    setFormData({});
-    setSelectedTransmissions([]);
-    setSelectedFuelTypes([]);
-    setMinPrice(100);
-    setMaxPrice(100000);
-  };
-
   useEffect(() => {
     applyFilter();
   }, [formData, minPrice, maxPrice, selectedTransmissions, selectedFuelTypes]);
@@ -123,9 +114,6 @@ const BuyfilterForm = () => {
           <div className="row">
             <div className=" col-xl-3 col-lg-3 col-md-4 col-sm-12 col-12 mb-4">
               <form className="form_section">
-                <div className="data p-3">
-                  <button onClick={resetFilters}>Reset Filters</button>
-                </div>
                 <div className="data">
                   <div className="datainput">
                     <select name="carMake" onChange={handleChange}>
@@ -296,9 +284,8 @@ const BuyfilterForm = () => {
                       className="slider-track"
                       style={{
                         left: `${((minPrice - 100) / (100000 - 100)) * 100}%`,
-                        right: `${
-                          100 - ((maxPrice - 100) / (100000 - 100)) * 100
-                        }%`,
+                        right: `${100 - ((maxPrice - 100) / (100000 - 100)) * 100
+                          }%`,
                       }}
                     ></div>
                   </div>

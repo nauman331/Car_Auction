@@ -20,7 +20,6 @@ const CarFilterForm = ({ sellingType }) => {
   const [maxPrice, setMaxPrice] = useState(100000);
   const [cars, setCars] = useState([]);
   const [filteredCars, setFilteredCars] = useState([]);
-  const [resetLabel, setResetLabel] = useState(false);
 
   const applyFilter = async () => {
     const filterData = {
@@ -80,16 +79,6 @@ const CarFilterForm = ({ sellingType }) => {
       setAuctionTitle(selectedAuction);
     }
   }, [selectedAuction]);
-
-  const resetFilters = (e) => {
-    e.preventDefault();
-    setFormData({});
-    setSelectedTransmissions([]);
-    setSelectedFuelTypes([]);
-    setMinPrice(100);
-    setMaxPrice(100000);
-    setResetLabel(true);
-  };
 
   const handleFilterChange = (selectedAuction) => {
     setAuctionTitle(selectedAuction);
@@ -172,13 +161,6 @@ const CarFilterForm = ({ sellingType }) => {
           <div className="row">
             <div className=" col-xl-3 col-lg-3 col-md-4 col-sm-12 col-12 mb-4">
               <form className="form_section">
-                {
-                  (formData.priceMin !== 100 || formData.priceMax !== 100000 || selectedFuelTypes.length > 0 || selectedTransmissions.length > 0)
-                  &&
-                  <div className="data p-3">
-                    <button onClick={resetFilters}>Reset Filters</button>
-                  </div>
-                }
                 <div className="data">
                   <div className="datainput">
                     {location.pathname === "/auction-vehicle" && (
@@ -194,20 +176,13 @@ const CarFilterForm = ({ sellingType }) => {
 
                 <div className="data">
                   <div className="datainput">
-                    <select name="carMake" onChange={handleChange}>
-                      {resetLabel ? (
-                        <option value="">
-                          Select Car Make
-                        </option>
-                      ) : (
-                        <option
-                          value={SelectedFilters?.carMake?.label || ""}
-
-                        >
-                          {SelectedFilters?.carMake?.label || "Select Car Make"}
-                        </option>
-                      )}
-
+                    <select name="carMake"
+                      onChange={handleChange}
+                      value={formData.carMake || ""}
+                    >
+                      <option value="">
+                        Select Car Make
+                      </option>
                       {generateOptions("vehicle-make", "vehicleMake").map(
                         (option) => (
                           <option key={option.value} value={option.value}>
@@ -221,20 +196,13 @@ const CarFilterForm = ({ sellingType }) => {
                 </div>
                 <div className="data">
                   <div className="datainput">
-                    <select name="carModal" onChange={handleChange}>
-                      {resetLabel ? (
-                        <option value="">
-                          Select Car Modal
-                        </option>
-                      ) : (
-                        <option
-                          value={SelectedFilters?.carModal?.label || ""}
-
-                        >
-                          {SelectedFilters?.carModal?.label ||
-                            "Select Car Modal"}
-                        </option>
-                      )}
+                    <select name="carModal"
+                      onChange={handleChange}
+                      value={formData.carModal || ""}
+                    >
+                      <option value="">
+                        Select Car Modal
+                      </option>
                       {generateOptions("vehicle-modal", "vehicleModal").map(
                         (option) => (
                           <option key={option.value} value={option.value}>
@@ -302,20 +270,13 @@ const CarFilterForm = ({ sellingType }) => {
                 </div>
                 <div className="data">
                   <div className="datainput">
-                    <select name="driveType" onChange={handleChange}>
-                      {resetLabel ? (
-                        <option value="">
-                          Select Drive Type
-                        </option>
-                      ) : (
-                        <option
-                          value={SelectedFilters?.driveType?.label || ""}
-
-                        >
-                          {SelectedFilters?.driveType?.label ||
-                            "Select Drive Type"}
-                        </option>
-                      )}
+                    <select name="driveType"
+                    value={formData.driveType || ""}
+                    onChange={handleChange}>
+                      <option value=""
+                      >
+                        Select Drive Type
+                      </option>
 
                       {generateOptions("drive-type", "driveType").map(
                         (option) => (
