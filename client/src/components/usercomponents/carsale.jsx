@@ -13,7 +13,7 @@ import { useParams } from "react-router-dom";
 import { backendURL } from "../../utils/Exports";
 import LoadingSpinner from "../usercomponents/LoadingSpinner";
 import toast from "react-hot-toast";
-import Relatedlistening from "./related-listening";
+// import Relatedlistening from "./related-listening";
 import { useDispatch } from "react-redux";
 import { setBidData } from "../../store/eventSlice";
 
@@ -128,9 +128,9 @@ function Carsale() {
               <CarAuction car={car} />
             </div>
           </div>
-          <div className="row">
+          {/* <div className="row">
             <Relatedlistening />
-          </div>
+          </div> */}
         </div>
       </div>
 

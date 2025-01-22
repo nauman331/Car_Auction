@@ -11,7 +11,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { backendURL } from "../../utils/Exports";
 import LoadingSpinner from "../usercomponents/LoadingSpinner";
 import toast from "react-hot-toast";
-import Relatedlistening from "./related-listening";
+// import Relatedlistening from "./related-listening";
 import { useSelector } from "react-redux";
 
 function Buysale() {
@@ -156,9 +156,9 @@ function Buysale() {
               />
             </div>
           </div>
-          <div className="row">
+          {/* <div className="row">
             <Relatedlistening />
-          </div>
+          </div> */}
         </div>
       </div>
 

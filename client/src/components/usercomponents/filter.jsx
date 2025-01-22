@@ -271,8 +271,8 @@ const CarFilterForm = ({ sellingType }) => {
                 <div className="data">
                   <div className="datainput">
                     <select name="driveType"
-                    value={formData.driveType || ""}
-                    onChange={handleChange}>
+                      value={formData.driveType || ""}
+                      onChange={handleChange}>
                       <option value=""
                       >
                         Select Drive Type
