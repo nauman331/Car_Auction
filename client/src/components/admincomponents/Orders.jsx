@@ -165,11 +165,7 @@ const Orders = () => {
                   <td>
                     {invoice?.userId?.firstName || "N/A"} {invoice?.userId?.lastName || "N/A"}
                   </td>
-                  <td>
-                    {invoice?.paymentStatus
-                      ? "Full Paid"
-                      : "Pending Amount" || "No Status"}
-                  </td>
+                  <td>{invoice?.statusText || 'No Status'}</td>
                   <td>AED {invoice?.totalAmount || 0}</td>
                 </tr>
               ))}

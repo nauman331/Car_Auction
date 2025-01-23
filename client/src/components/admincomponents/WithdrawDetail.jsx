@@ -17,6 +17,7 @@ const WithdrawDetail = () => {
     const [status, setStatus] = useState(null);
     const [showModal, setShowModal] = useState(false);
     const [selectedWithdraw, setSelectedWithdraw] = useState(null);
+    const [updateLoading, setUpdateLoading] = useState(false)
     const [uploadLoading, setUploadLoading] = useState(false);
 
     if (!user || !withdrawals.length) {
@@ -43,8 +44,12 @@ const WithdrawDetail = () => {
 
         const authorizationToken = `Bearer ${token}`;
         try {
+            setUpdateLoading(true)
             const uploadResponse = await CloudinaryUploader(pdf);
             const cloudinaryUrl = uploadResponse.url;
+            if(!cloudinaryUrl) {
+                return;
+            }
             const response = await fetch(`${backendURL}/wallet/approve-withdraw-request/${user}/${numericInvNumber}`, {
                 method: "PUT",
                 headers: {
@@ -66,6 +71,8 @@ const WithdrawDetail = () => {
         } catch (error) {
             console.error("Error approving withdraw:", error);
             toast.error("Error in approving withdraw");
+        } finally {
+            setUpdateLoading(false)
         }
     };
 
@@ -222,8 +229,8 @@ const WithdrawDetail = () => {
                     <Button variant="secondary" onClick={handleModalClose}>
                         Close
                     </Button>
-                    <Button variant="primary" onClick={handleSubmit} disabled={uploadLoading}>
-                        {uploadLoading ? "Submitting..." : "Submit"}
+                    <Button variant="primary" onClick={handleSubmit} disabled={uploadLoading || updateLoading}>
+                        {uploadLoading || updateLoading ? "Submitting..." : "Submit"}
                     </Button>
                 </Modal.Footer>
             </Modal>

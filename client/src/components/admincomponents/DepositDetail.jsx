@@ -10,7 +10,7 @@ const DepositDetail = () => {
   const navigate = useNavigate();
   const { user, deposits } = location.state || { user: {}, deposits: [] };
   const { token } = useSelector((state) => state.auth);
-
+  const [loading, setLoading] = useState(false)
   const [status, setStatus] = useState(null);
 
   if (!user || !deposits.length) {
@@ -27,6 +27,7 @@ const DepositDetail = () => {
 
     const authorizationToken = `Bearer ${token}`;
     try {
+      setLoading(true)
       const response = await fetch(`${backendURL}/wallet/update-deposite`, {
         method: "PUT",
         headers: {
@@ -49,6 +50,8 @@ const DepositDetail = () => {
     } catch (error) {
       console.error("Error approving deposit:", error);
       toast.error("Error in approving deposit");
+    } finally {
+      setLoading(false)
     }
   };
 
@@ -134,9 +137,11 @@ const DepositDetail = () => {
                 <label htmlFor="status">Select Status</label>
                 <button
                   className="place-bid"
+                  style={{backgroundColor: loading && "#167CB9"}}
+                  disabled={loading}
                   onClick={() => handleUpdateClick(deposit.invNumber)}
                 >
-                  Update
+                  {loading ? "Updating..." : "Update"}
                 </button>
               </div>
             </div>

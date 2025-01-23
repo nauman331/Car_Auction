@@ -16,6 +16,7 @@ const Invoice = () => {
     const { id } = useParams();
     const { token } = useSelector((state) => state.auth);
     const [loading, setLoading] = useState(false);
+    const [updateLoading, setUpdateLoading] = useState(false);
     const [invoice, setInvoice] = useState([]);
     const [status, setStatus] = useState("");
     const invoiceRef = useRef();
@@ -94,6 +95,7 @@ const Invoice = () => {
     const updateStatus = async () => {
         const authorizationToken = `Bearer ${token}`;
         try {
+            setUpdateLoading(true)
             const response = await fetch(`${backendURL}/purchase-invoice/update-invoice/${id}`, {
                 method: "PUT",
                 headers: {
@@ -111,6 +113,8 @@ const Invoice = () => {
             }
         } catch (error) {
             toast.error("Error while updating status");
+        } finally {
+            setUpdateLoading(false)
         }
     };
 
@@ -188,8 +192,11 @@ const Invoice = () => {
                                         id="auctionLot1"
                                     />
                                     <label htmlFor="auctionLot1">Status</label>
-                                    <button className="place-bid" onClick={updateStatus}>
-                                        Update
+                                    <button className="place-bid"
+                                    style={{backgroundColor: updateLoading && "#167CB9"}}
+                                    disabled={updateLoading}
+                                    onClick={updateStatus}>
+                                    {updateLoading ? "Updating..." : "Update"}
                                     </button>
                                 </div>
                             </div>
