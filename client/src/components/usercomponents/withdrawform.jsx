@@ -91,7 +91,7 @@ const WithdrawalForm = () => {
             onChange={handleChange}
             required
           />
-          <label>Account Number</label>
+          <label>Account Number/IBN Number</label>
         </div>
 
         {/* Bank Name */}
