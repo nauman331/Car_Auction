@@ -160,7 +160,7 @@ const Orders = () => {
                   <td>
                     {invoice?.userId?.firstName || ''} {invoice?.userId?.lastName || ''}
                   </td>
-                  <td>{invoice?.paymentStatus ? 'Full Paid' : 'Pending Payment' || 'No Status'}</td>
+                  <td>{invoice?.statusText || 'No Status'}</td>
                   <td>AED {invoice?.totalAmount || 0}</td>
                 </tr>
               ))}

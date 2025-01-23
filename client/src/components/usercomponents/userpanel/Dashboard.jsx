@@ -155,7 +155,7 @@ const Dashboard = () => {
       <div className="chart-and-notification">
         <ChartGraph periodicData={data?.periodicData || []} />
         <div className="notifications">
-          <h6>Bidding Notifications</h6>
+          <h6>Notifications</h6>
           {notifications?.slice(0, 6).map((notification) => (
             <span
               key={notification._id}
