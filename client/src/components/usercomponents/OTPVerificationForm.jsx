@@ -50,7 +50,7 @@ const OTPVerificationForm = () => {
               placeholder="Enter the OTP"
               // className="input"
             />
-            <label>Last Name</label>
+            <label>OTP</label>
           </div>
           {/* <input
             type="text"

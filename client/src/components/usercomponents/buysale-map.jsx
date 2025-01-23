@@ -26,7 +26,8 @@ const BuyCar = ({ car, purchaseCar, buyLoading }) => {
   };
 
   const handleConfirmPurchase = () => {
-    purchaseCar(); // Call the purchase function
+    purchaseCar();
+    setShowConfirmModal(false)
   };
 
   const handleCancelPurchase = () => {

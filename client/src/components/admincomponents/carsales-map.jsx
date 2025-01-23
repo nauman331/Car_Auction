@@ -379,6 +379,7 @@ const CarAuction = ({ car, getCarDetails, backendURL }) => {
 
         </div>
         {
+          !car.isSold ?
           car.sellingType === "auction" ?
             <>
               <div className="bid-controls">
@@ -457,6 +458,12 @@ const CarAuction = ({ car, getCarDetails, backendURL }) => {
                 </button>
               </div>
             </>
+            :
+            <div className="bid-controls">
+            <button className="place-bid">
+              Car has been already Sold
+            </button>
+          </div>
         }
 
 

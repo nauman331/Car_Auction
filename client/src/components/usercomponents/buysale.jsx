@@ -94,7 +94,6 @@ function Buysale() {
       const res_data = await response.json();
       if (response.ok) {
         toast.success(res_data.message);
-        setShowModal(false)
         getCarDetails();
       } else {
         toast.error(res_data.message);
