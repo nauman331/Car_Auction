@@ -1,5 +1,5 @@
- export const socketURL = "https://al-bashayera-car-auction-backend.onrender.com"
- export const backendURL = "https://al-bashayera-car-auction-backend.vercel.app/api";
+ export const socketURL = "wss://abaautoauctions.com/"
+ export const backendURL = "https://abaautoauctions.com/api";
  export const cloudinaryURL = "https://api.cloudinary.com/v1_1/dgdwau5vj/image/upload";
 
 export const categories = [
