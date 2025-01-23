@@ -159,9 +159,8 @@ const Dashboard = () => {
           {notifications?.slice(0, 6).map((notification) => (
             <span
               key={notification._id}
-              className={`notification ${
-                notification.readStatus ? "read" : "unread"
-              }`}
+              className={`notification ${notification.readStatus ? "read" : "unread"
+                }`}
               onClick={() => handleNotificationClick(notification)}
             >
               <div className="icon3">
