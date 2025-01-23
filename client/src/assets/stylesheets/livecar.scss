@@ -6,7 +6,7 @@
   .live-car-title {
     display: flex;
     flex-wrap: wrap;
-
+    background: #050b20;
     .Live-car-image {
       width: 50%;
       img {
@@ -18,7 +18,6 @@
 
     .live-car-bg {
       width: 50%;
-      background: #050b20;
       // padding: 100px 50px 100px 100px;
       .Live-car-text {
         padding: 100px 50px 100px 100px;
