@@ -44,22 +44,20 @@ const Aboutus = () => {
                 <div className="col-xl-7 col-lg-7 col-md-7 col-sm-12 col-12">
                   <div className="about-section2-detail">
                     <p>
-                      Lorem ipsum dolor sit amet consectetur. Convallis integer
-                      enim eget sit urna. Eu duis lectus amet vestibulum varius.
-                      Nibh tellus sit sit at lorem facilisis. Nunc vulputate ac
-                      interdum aliquet vestibulum in tellus.
+                      Welcome to Al Bashayera, where we make buying and selling
+                      vehicles simple and enjoyable.
                     </p>
                     <p>
-                      Sit convallis rhoncus dolor purus amet orci urna. Lobortis
-                      vulputate vestibulum consectetur donec ipsum egestas velit
-                      laoreet justo. Eu dignissim egestas egestas ipsum. Sit est
-                      nunc pellentesque at a aliquam ultrices consequat. Velit
-                      duis velit nec amet eget eu morbi. Libero non diam sit
-                      viverra dignissim. Aliquam tincidunt in cursus euismod eni
+                      We are dedicated to delivering a seamless auction
+                      experience with a focus on transparency, efficiency, and
+                      client satisfaction. Whether you’re here to bid on your
+                      dream car or sell your vehicle, we’re here to assist every
+                      step of the way.
                     </p>
                     <p>
-                      Magna odio sed ornare ultrices. Id lectus mi amet sit at
-                      sit arcu mi nisl. Mauris egestas arcu mauris.
+                      Explore a diverse range of vehicles, trust our
+                      professional team, and enjoy a smooth auction process
+                      designed with you in mind.
                     </p>
                   </div>
                 </div>

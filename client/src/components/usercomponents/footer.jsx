@@ -30,8 +30,9 @@ const Footer = () => {
                 <img src={img2} />
               </div>
               <p>
-                Excepteur sint occaecat cupidatat non proident, sunt <br></br>in
-                culpa qui officia deserunt mollit anim id es
+                Your trusted partner for seamless and transparent auto auctions
+                across the world. Explore, bid, and drive away with
+                confidence—because your satisfaction is our priority.
               </p>
               <ContactButtons />
             </div>
@@ -54,7 +55,7 @@ const Footer = () => {
         <div className="row">
           <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
             <div className="copyright">
-              <p>© 2023 al bashayera.com. All rights reserved.</p>
+              <p>© 2025 Al Bashayera | All rights reserved.</p>
             </div>
           </div>
           <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
@@ -63,7 +64,7 @@ const Footer = () => {
                 <div className="copyright-terms">
                   {/* <p>Terms & Conditions | Privacy policy</p> */}
                   <p>
-                    <a href="/terms">Terms & Conditions</a> |
+                    <a href="/terms">Terms & Conditions</a> |{" "}
                     <a href="/privacy">Privacy Policy</a>
                   </p>
                 </div>

@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import "../../assets/stylesheets/livecar.scss";
-import img1 from "../../assets/images/images.png";
+import img1 from "../../assets/images/autoliveauction.jpg";
 import img2 from "../../assets/images/right-up 1.png";
-import { NavLink } from 'react-router-dom';
-import { backendURL } from "../../utils/Exports"
+import { NavLink } from "react-router-dom";
+import { backendURL } from "../../utils/Exports";
 function Livecar() {
   const [currentCar, setCurrentCar] = useState();
 
@@ -24,7 +24,7 @@ function Livecar() {
   };
 
   useEffect(() => {
-    getCurrentCar()
+    getCurrentCar();
   }, []);
   return (
     <section className="Live-car-section">
@@ -48,10 +48,13 @@ function Livecar() {
             <div className="btn">
               <NavLink
                 className="nav-link"
-                to={currentCar && currentCar._id ? `/auctioncar/${currentCar._id}` : "/auction-vehicle"}
+                to={
+                  currentCar && currentCar._id
+                    ? `/auctioncar/${currentCar._id}`
+                    : "/auction-vehicle"
+                }
               >
-                Join Auction{" "}
-                <img src={img2} />
+                Join Auction <img src={img2} />
               </NavLink>
             </div>
           </div>

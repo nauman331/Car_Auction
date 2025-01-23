@@ -5,7 +5,7 @@ import img1 from "../../assets/images/overview_13794240.svg";
 import img2 from "../../assets/images/auction_563518.svg";
 import img3 from "../../assets/images/monetary_17011743.svg";
 import img4 from "../../assets/images/notification_18087044.svg";
-import img5 from "../../assets/images/monetary_17011743.svg";
+import img5 from "../../assets/images/technical-support_4230715.png";
 
 const features = [
   {
