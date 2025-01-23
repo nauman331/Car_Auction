@@ -108,6 +108,7 @@ const Invoice = () => {
             console.log(res_data)
             if (response.ok) {
                 toast.success(res_data.message);
+                getInvoice()
             } else {
                 toast.error(res_data.message);
             }
