@@ -87,21 +87,25 @@ const PaginatedCards = ({ data, itemsPerPage }) => {
       </div>
 
       {/* Pagination Controls */}
-      <div className="pagination-controls">
-        <button onClick={handlePrev} disabled={currentPage === 1}>
-          <ChevronLeft
-            className={`icon ${currentPage === 1 ? "disabled" : ""}`}
-          />
-        </button>
-        <span>
-          {currentPage} of {totalPages}
-        </span>
-        <button onClick={handleNext} disabled={currentPage === totalPages}>
-          <ChevronRight
-            className={`icon ${currentPage === totalPages ? "disabled" : ""}`}
-          />
-        </button>
-      </div>
+      {
+        totalPages > 1 &&
+        <div className="pagination-controls text-center">
+          <button onClick={handlePrev} disabled={currentPage === 1}>
+            <ChevronLeft
+              className={`icon ${currentPage === 1 ? "disabled" : ""}`}
+            />
+          </button>
+          <span>
+            {currentPage} of {totalPages}
+          </span>
+          <button onClick={handleNext} disabled={currentPage === totalPages}>
+            <ChevronRight
+              className={`icon ${currentPage === totalPages ? "disabled" : ""}`}
+            />
+          </button>
+        </div>
+      }
+
     </div>
   );
 };
