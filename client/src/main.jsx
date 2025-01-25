@@ -10,6 +10,7 @@ import { PersistGate } from "redux-persist/integration/react"
 import { io } from "socket.io-client"
 import { setSocket } from "./store/socketSlice"
 import { socketURL } from "./utils/Exports.jsx"
+import { PayPalScriptProvider } from "@paypal/react-paypal-js"
 
 // Initialize socket.io-client
 const socket = io(socketURL, {
@@ -32,12 +33,19 @@ socket.on("disconnect", () => {
 
 store.dispatch(setSocket(socket))
 
+const initialOptions = {
+  "client-id": "ATBXxkrO205je6XnJrEW8W2xj9RTh4UlgFq8hk-oqdGCgY6IFJrjb-u58cT9NTsJSydHxdmFtQbD4CNt",
+  currency: "USD",
+}
+
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <BrowserRouter>
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
-          <App />
+          <PayPalScriptProvider options={initialOptions}>
+            <App />
+          </PayPalScriptProvider>
         </PersistGate>
       </Provider>
     </BrowserRouter>
