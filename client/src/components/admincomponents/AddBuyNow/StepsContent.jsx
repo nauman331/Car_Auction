@@ -87,9 +87,8 @@ const StepContent = ({ step, formData, setFormData, sellingType, images, setImag
       {
         id: "carModal",
         label: "Model",
-        type: "select",
-        placeholder: "Select Car Model",
-        options: generateOptions("vehicle-modal", "vehicleModal"),
+        type: "text",
+        placeholder: "Enter Car Model",
       },
       {
         id: "year",
@@ -140,9 +139,8 @@ const StepContent = ({ step, formData, setFormData, sellingType, images, setImag
       {
         id: "color",
         label: "Color",
-        type: "select",
-        placeholder: "Select Color",
-        options: generateOptions("vehicle-color", "vehicleColors"),
+        type: "text",
+        placeholder: "Enter Color Of Car",
       },
       {
         id: "noOfDoors",

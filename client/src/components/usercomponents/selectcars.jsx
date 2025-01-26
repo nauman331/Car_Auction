@@ -8,7 +8,7 @@ function SearchBar() {
   const { categories } = useSelector((state) => state.category);
   const [formData, setFormData] = useState({
     carMake: "",
-    carModal: "",
+    doors: "",
     driveType: "",
   });
 
@@ -85,11 +85,11 @@ function SearchBar() {
 
           <Select
             className="select-input"
-            name="carModal"
-            options={generateOptions("vehicle-modal", "vehicleModal")}
-            onChange={handleChange("carModal")}
-            placeholder="Car Model"
-            value={generateOptions("vehicle-modal", "vehicleModal").find(
+            name="doors"
+            options={generateOptions("vehicle-door", "vehicleDoor")}
+            onChange={handleChange("doors")}
+            placeholder="Car Doors"
+            value={generateOptions("vehicle-door", "vehicleDoor").find(
               (option) => option.value === formData.carModal
             )}
             styles={customStyles} // Apply custom styles

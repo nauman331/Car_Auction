@@ -141,7 +141,6 @@ const Signup = () => {
             autoComplete="off"
             onChange={handleInputChange}
             name="address"
-            required
           />
           <label>Address</label>
         </div>

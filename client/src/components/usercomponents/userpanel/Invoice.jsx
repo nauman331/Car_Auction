@@ -12,7 +12,7 @@ import proof from "../../../assets/images/paid.jpg";
 import Logo from "../../../assets/images/Logo.png";
 import Deposit from "./Deposit";
 import { CloudinaryUploader } from "../../../utils/CloudinaryUploader";
-import { PayPalButtons } from "@paypal/react-paypal-js";
+// import { PayPalButtons } from "@paypal/react-paypal-js";
 import { Wallet } from "lucide-react";
 
 const Invoice = () => {
@@ -184,12 +184,12 @@ const Invoice = () => {
                         (invoice?.statusText === "payment pending") &&
                         <Col
                             md={6}
-                            className="d-flex gap-5 flex-wrap align-items-center rounded justify-content-center"
+                            className="d-flex gap-5 align-items-center rounded justify-content-center"
                             style={{ backgroundColor: "#F9FBFC", height: "200px" }}
                             id="no-print"
                         >
                             <button onClick={handleModalOpen}><Wallet />Pay via Bank</button>
-                            <PayPalButtons
+                            {/* <PayPalButtons
                                 createOrder={(data, actions) => {
                                     return actions.order.create({
                                         purchase_units: [
@@ -210,7 +210,7 @@ const Invoice = () => {
                                     console.error("PayPal Checkout Error:", err);
                                     alert("An error occurred during the transaction.");
                                 }}
-                            />
+                            /> */}
                         </Col>
                     }
                 </Row>

@@ -239,7 +239,6 @@ const CarListings = () => {
                     <th>Year</th>
                     <th>Transmission</th>
                     <th>FuelType</th>
-                    <th>Status</th>
                     <th>Action</th>
                   </tr>
                 </thead>
@@ -286,9 +285,6 @@ const CarListings = () => {
                           <td>
                             <small>{car.fuelType && car.fuelType.vehicleFuelTypes || "No Fuel Type"}</small>
                           </td>
-                          <td>
-                            <small>{car.isSold ? "Sold" : "UnSold" || "No Status"}</small>
-                          </td>
 
                           <td className="action-buttons">
                             <button onClick={() => handleDeleteClick(car._id)}>
@@ -303,7 +299,7 @@ const CarListings = () => {
                                     setFormData({
                                       listingTitle: car.listingTitle || "",
                                       carMake: car.carMake?._id || "",
-                                      carModal: car.carModal?._id || "",
+                                      carModal: car.carModal || "",
                                       friendlyLocation: car.friendlyLocation || "",
                                       mapLocation: car.mapLocation || "",
                                       carType: car.carType?._id || "",
@@ -316,7 +312,7 @@ const CarListings = () => {
                                       damage: car.damage?._id || "",
                                       cylinders: car.cylinders?._id || "",
                                       engineSize: car.engineSize?._id || "",
-                                      color: car.color?._id || "",
+                                      color: car.color || "",
                                       vin: car.vin || "",
                                       noOfDoors: car.noOfDoors?._id || "",
                                       videoLink: car.videoLink || "",

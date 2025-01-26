@@ -325,7 +325,7 @@ const CarAuction = ({ car, getCarDetails, backendURL }) => {
                   setFormData({
                     listingTitle: car.listingTitle || "",
                     carMake: car.carMake?._id || "",
-                    carModal: car.carModal?._id || "",
+                    carModal: car.carModal || "",
                     friendlyLocation: car.friendlyLocation || "",
                     mapLocation: car.mapLocation || "",
                     carType: car.carType?._id || "",
@@ -338,7 +338,7 @@ const CarAuction = ({ car, getCarDetails, backendURL }) => {
                     damage: car.damage?._id || "",
                     cylinders: car.cylinders?._id || "",
                     engineSize: car.engineSize?._id || "",
-                    color: car.color?._id || "",
+                    color: car.color || "",
                     vin: car.vin || "",
                     noOfDoors: car.noOfDoors?._id || "",
                     videoLink: car.videoLink || "",

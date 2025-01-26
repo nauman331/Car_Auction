@@ -132,23 +132,6 @@ const BuyfilterForm = () => {
                   </div>
                 </div>
                 <div className="data">
-                  <div className="datainput">
-                    <select name="carModal" onChange={handleChange}>
-                      <option value="" selected>
-                        Select Car Model
-                      </option>
-                      {generateOptions("vehicle-modal", "vehicleModal").map(
-                        (option) => (
-                          <option key={option.value} value={option.value}>
-                            {option.label}
-                          </option>
-                        )
-                      )}
-                    </select>
-                    <label htmlFor="carModal">Model</label>
-                  </div>
-                </div>
-                <div className="data">
                   <div className=" d-flex flex-direction-row gap-2 datadetails">
                     <div className="datainputs">
                       <label htmlFor="yearMin">Min Year</label>
@@ -182,24 +165,6 @@ const BuyfilterForm = () => {
                         )}
                       </select>
                     </div>
-                  </div>
-                </div>
-
-                <div className="data">
-                  <div className="datainput">
-                    <select name="color" onChange={handleChange}>
-                      <option value="" selected>
-                        Select Color
-                      </option>
-                      {generateOptions("vehicle-color", "vehicleColors").map(
-                        (option) => (
-                          <option key={option.value} value={option.value}>
-                            {option.label}
-                          </option>
-                        )
-                      )}
-                    </select>
-                    <label htmlFor="color">Color</label>
                   </div>
                 </div>
                 <div className="data">

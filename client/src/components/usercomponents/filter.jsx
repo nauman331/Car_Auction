@@ -61,14 +61,14 @@ const CarFilterForm = ({ sellingType }) => {
 
   useEffect(() => {
     if (SelectedFilters) {
-      const { carMake, carModal, driveType } = SelectedFilters;
+      const { carMake, doors, driveType } = SelectedFilters;
       const updatedMake = carMake.value;
-      const updatedModal = carModal.value;
+      const updatedDoors = doors.value;
       const updateddriveType = driveType.value;
       setFormData((prevData) => ({
         ...prevData,
         carMake: updatedMake || "",
-        carModal: updatedModal || "",
+        doors: updatedDoors || "",
         driveType: updateddriveType || "",
       }));
     }
@@ -195,26 +195,6 @@ const CarFilterForm = ({ sellingType }) => {
                   </div>
                 </div>
                 <div className="data">
-                  <div className="datainput">
-                    <select name="carModal"
-                      onChange={handleChange}
-                      value={formData.carModal || ""}
-                    >
-                      <option value="">
-                        Select Car Modal
-                      </option>
-                      {generateOptions("vehicle-modal", "vehicleModal").map(
-                        (option) => (
-                          <option key={option.value} value={option.value}>
-                            {option.label}
-                          </option>
-                        )
-                      )}
-                    </select>
-                    <label htmlFor="carModal">Model</label>
-                  </div>
-                </div>
-                <div className="data">
                   <div className=" d-flex flex-direction-row gap-2 datadetails">
                     <div className="datainputs">
                       <label htmlFor="yearMin">Min Year</label>
@@ -248,24 +228,6 @@ const CarFilterForm = ({ sellingType }) => {
                         )}
                       </select>
                     </div>
-                  </div>
-                </div>
-
-                <div className="data">
-                  <div className="datainput">
-                    <select name="color" onChange={handleChange}>
-                      <option value="">
-                        Select Color
-                      </option>
-                      {generateOptions("vehicle-color", "vehicleColors").map(
-                        (option) => (
-                          <option key={option.value} value={option.value}>
-                            {option.label}
-                          </option>
-                        )
-                      )}
-                    </select>
-                    <label htmlFor="color">Color</label>
                   </div>
                 </div>
                 <div className="data">
@@ -406,7 +368,10 @@ const CarFilterForm = ({ sellingType }) => {
                 </div>
                 <div className="data">
                   <div className="datainput">
-                    <select name="doors" onChange={handleChange}>
+                    <select name="doors"
+                      onChange={handleChange}
+                      value={formData.doors || ""}
+                    >
                       <option value="">
                         Select Doors
                       </option>
