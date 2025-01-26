@@ -71,7 +71,7 @@ const CarAuction = ({ car }) => {
     <>
       <div className="car-auction">
         <h1>{car.listingTitle || "No Title"} <span className="action-buttons"></span></h1>
-        <p className="lot-info">Lot No. {car.lotNo}</p>
+        <p className="lot-info">Car Model. {car.carModal || "No Model"}</p>
         <p className="car-details">
           {car.mileage || "No Mileage"} kms <p className="dots"></p>{car.fuelType?.vehicleFuelTypes || "No Fuel Type"}
           <p className="dots"></p> {car.transmission?.vehicleTransimission || "No Transmission"}
@@ -212,7 +212,7 @@ const CarAuction = ({ car }) => {
                 </span>
                 <p class="label">Color</p>
               </div>
-              <p class="value">{car.color?.vehicleColors || "No Color"}</p>
+              <p class="value">{car.color || "No Color"}</p>
             </li>
             <li>
               <div class="texts">
