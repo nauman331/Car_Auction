@@ -215,7 +215,8 @@ const Invoice = () => {
                                 <th>Wallet Deduction</th>
                                 <th>Pending</th>
                                 <th>VAT(5%)</th>
-                                <th>Total</th>
+                                <th>Car Amount</th>
+                                <th>Total Amount</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -227,7 +228,8 @@ const Invoice = () => {
                                 </td>
                                 <td>AED {invoice?.walletDeduction || 0}</td>
                                 <td>AED {invoice?.pendingAmount || 0}</td>
-                                <td>AED {invoice?.totalAmount * (5 / 100) || 0}</td>
+                                <td>AED {invoice?.vat || 0}</td>
+                                <td>AED {invoice?.carAmount || 0}</td>
                                 <td>AED {invoice?.totalAmount || 0}</td>
                             </tr>
                         </tbody>
