@@ -2,13 +2,12 @@ import React from "react";
 import img1 from "../../assets/images/features-icon.png";
 const FeatureCategory = ({ title, features }) => (
   <div>
-    <h3>{title}</h3>
+    <h3 style={{textTransform: "capitalize"}}>{title || "No Title"}</h3>
     <ul>
       {features.map((feature, index) => (
         <li key={index}>
           <img src={img1} />
-          {/* <img src={require("../images/features-icon.png")} /> */}
-          {feature}
+          {feature || "No feature"}
         </li>
       ))}
     </ul>

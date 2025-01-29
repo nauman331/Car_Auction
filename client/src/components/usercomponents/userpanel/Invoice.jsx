@@ -219,14 +219,14 @@ const Invoice = () => {
                     <Col>
                         <Table responsive>
                             <thead>
-                            <tr>
-                                <th>Vehicle Information</th>
-                                <th>Wallet Deduction</th>
-                                <th>Pending</th>
-                                <th>VAT(5%)</th>
-                                <th>Car Amount</th>
-                                <th>Total Amount</th>
-                            </tr>
+                                <tr>
+                                    <th>Vehicle Information</th>
+                                    <th>Wallet Deduction</th>
+                                    <th>Pending</th>
+                                    <th>VAT(5%)</th>
+                                    <th>Car Amount</th>
+                                    <th>Total Amount</th>
+                                </tr>
                             </thead>
                             <tbody>
                                 <tr>
