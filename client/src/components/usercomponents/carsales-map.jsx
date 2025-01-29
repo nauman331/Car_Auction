@@ -149,7 +149,7 @@ const CarAuction = ({ car }) => {
                 </span>
                 <p class="label">Mileage</p>
               </div>
-              <p class="value">{car.mileage || "No Mileage"}Kms</p>
+              <p class="value">{car.mileage || "No Mileage"} Kms</p>
             </li>
             <li>
               <div class="texts">

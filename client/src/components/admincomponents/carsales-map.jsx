@@ -355,7 +355,7 @@ const CarAuction = ({ car, getCarDetails, backendURL }) => {
               </button>
           }
         </span></h1>
-        <p className="lot-info">Lot No. {car.lotNo}</p>
+        {car.sellingType === "auction" ? <p className="lot-info"> Lot No. {car.lotNo}</p> : <p className="lot-info"> VIN. {car.vin}</p>}
         <p className="car-details">
           {car.mileage || "No Mileage"} kms <p className="dots"></p>{car.fuelType?.vehicleFuelTypes || "No Fuel Type"}
           <p className="dots"></p> {car.transmission?.vehicleTransimission || "No Transmission"}
@@ -506,7 +506,7 @@ const CarAuction = ({ car, getCarDetails, backendURL }) => {
                 </span>
                 <p class="label">Mileage</p>
               </div>
-              <p class="value">{car.mileage || "No Mileage"}Kms</p>
+              <p class="value">{car.mileage || "No Mileage"} Kms</p>
             </li>
             <li>
               <div class="texts">
