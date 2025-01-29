@@ -9,38 +9,58 @@ import {
 import { backendURL } from "../../utils/Exports";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import PhoneInput, { isValidPhoneNumber } from "react-phone-number-input";
+import "react-phone-number-input/style.css";
 
 const Signup = () => {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
+  const [phone, setPhone] = useState("+971"); // Initialize with UAE country code
   const [user, setUser] = useState({
     firstName: "",
     lastName: "",
     email: "",
     password: "",
-    contact: "",
+    contact: "+971", // Initialize with UAE country code
     address: "",
     role: "buyer",
   });
+  const [phoneTouched, setPhoneTouched] = useState(false); // Track if phone input has been interacted with
 
   const togglePasswordVisibility = () => {
     setShowPassword((prevState) => !prevState);
   };
 
   const handleInputChange = (e) => {
-    let name = e.target.name;
-    let value = e.target.value;
+    const { name, value } = e.target;
     setUser({
       ...user,
       [name]: value,
     });
   };
 
+  const handlePhoneChange = (value) => {
+    const newValue = value || "+971"; // Fallback to default if value is undefined/null
+    setPhone(newValue);
+    setUser({
+      ...user,
+      contact: newValue,
+    });
+    setPhoneTouched(true); // Mark phone input as touched
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Validate phone number before submission
+    if (!phone || typeof phone !== "string" || !isValidPhoneNumber(phone)) {
+      toast.error("Please enter a valid phone number");
+      return;
+    }
+
     try {
-      setLoading(true)
+      setLoading(true);
       const response = await fetch(`${backendURL}/user/register`, {
         method: "POST",
         headers: {
@@ -63,13 +83,17 @@ const Signup = () => {
     } catch (error) {
       toast.error("Error in registering a new user");
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   };
+
+  // Check if the phone number is valid
+  const isPhoneValid = phone && typeof phone === "string" && isValidPhoneNumber(phone);
 
   return (
     <>
       <form className="auth-form" onSubmit={handleSubmit}>
+        {/* First Name Input */}
         <div className="wrapper--input">
           <input
             type="text"
@@ -80,6 +104,8 @@ const Signup = () => {
           />
           <label>First Name</label>
         </div>
+
+        {/* Last Name Input */}
         <div className="wrapper--input">
           <input
             type="text"
@@ -90,6 +116,8 @@ const Signup = () => {
           />
           <label>Last Name</label>
         </div>
+
+        {/* Email Input */}
         <div className="wrapper--input input--email">
           <input
             type="email"
@@ -100,6 +128,8 @@ const Signup = () => {
           />
           <label>Email</label>
         </div>
+
+        {/* Password Input */}
         <div className="wrapper--input">
           <input
             type={showPassword ? "text" : "password"}
@@ -126,15 +156,33 @@ const Signup = () => {
             <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
           </span>
         </div>
+
+        {/* Phone Input */}
         <div className="wrapper--input">
-          <input
-            type="tel"
-            name="contact"
-            onChange={handleInputChange}
+          <PhoneInput
+            value={phone} // Controlled by the `phone` state
+            onChange={handlePhoneChange}
+            defaultCountry="AE" // United Arab Emirates country code
+            international
+            withCountryCallingCode
             required
           />
-          <label>Phone</label>
+          <label style={{ left: "45px", display: "flex", alignItems: "center", gap: "5px" }}>
+            Phone
+            {phoneTouched && !isPhoneValid ? (
+              <span style={{ color: "red", fontSize: "10px", textAlign: "center", fontWeight: "bold" }}>
+                (Not Valid Phone)
+              </span>
+            )
+              :
+              <span style={{ color: "green", fontSize: "10px", textAlign: "center", fontWeight: "bold" }}>
+                (Valid Phone)
+              </span>
+            }
+          </label>
         </div>
+
+        {/* Address Input */}
         <div className="wrapper--input">
           <input
             type="text"
@@ -144,10 +192,19 @@ const Signup = () => {
           />
           <label>Address</label>
         </div>
+
+        {/* Privacy Policy Checkbox */}
         <label className="privacy-policy">
           <input type="checkbox" required /> I accept the privacy policy
         </label>
-        <button type="submit" className="btn-primary" disabled={loading} style={{ backgroundColor: loading && "#167CB9" }}>
+
+        {/* Submit Button */}
+        <button
+          type="submit"
+          className="btn-primary"
+          disabled={loading || !isPhoneValid} // Disable if loading or phone is invalid
+          style={{ backgroundColor: loading && "#167CB9" }}
+        >
           {loading ? "Registering..." : "register"}
           <FontAwesomeIcon
             icon={faArrowLeft}

@@ -128,7 +128,7 @@ const Invoice = () => {
                     </Button>
                 </Col>
                 <Col xs={6} sm={4} className="text-end">
-                    <h4>Status: { invoice?.statusText?.charAt(0).toUpperCase() + invoice?.statusText?.slice(1) || ""}</h4>
+                    <h4>Status: {invoice?.statusText?.charAt(0).toUpperCase() + invoice?.statusText?.slice(1) || ""}</h4>
                 </Col>
             </Row>
 
@@ -194,10 +194,10 @@ const Invoice = () => {
                                     />
                                     <label htmlFor="auctionLot1">Status</label>
                                     <button className="place-bid"
-                                    style={{backgroundColor: updateLoading && "#167CB9"}}
-                                    disabled={updateLoading}
-                                    onClick={updateStatus}>
-                                    {updateLoading ? "Updating..." : "Update"}
+                                        style={{ backgroundColor: updateLoading && "#167CB9" }}
+                                        disabled={updateLoading}
+                                        onClick={updateStatus}>
+                                        {updateLoading ? "Updating..." : "Update"}
                                     </button>
                                 </div>
                             </div>
@@ -214,6 +214,7 @@ const Invoice = () => {
                                 <th>Vehicle Information</th>
                                 <th>Wallet Deduction</th>
                                 <th>Pending</th>
+                                <th>VAT(5%)</th>
                                 <th>Total</th>
                             </tr>
                         </thead>
@@ -226,6 +227,7 @@ const Invoice = () => {
                                 </td>
                                 <td>AED {invoice?.walletDeduction || 0}</td>
                                 <td>AED {invoice?.pendingAmount || 0}</td>
+                                <td>AED {invoice?.totalAmount * (5 / 100) || 0}</td>
                                 <td>AED {invoice?.totalAmount || 0}</td>
                             </tr>
                         </tbody>
@@ -246,17 +248,17 @@ const Invoice = () => {
                                 <td className="text-end">AED {invoice?.pendingAmount || 0}</td>
                             </tr>
                         </tbody>
-                    {invoice?.paymentStatus && (
-                        <img
-                            src={proof}
-                            alt="..."
-                            style={{
-                                height: "8rem",
-                                width: "8rem",
-                                float: "right"
-                            }}
-                        />
-                    )}
+                        {invoice?.paymentStatus && (
+                            <img
+                                src={proof}
+                                alt="..."
+                                style={{
+                                    height: "8rem",
+                                    width: "8rem",
+                                    float: "right"
+                                }}
+                            />
+                        )}
                     </Table>
                 </Col>
             </Row>
@@ -264,7 +266,7 @@ const Invoice = () => {
                 <hr />
                 <Col className="d-flex mt-5 align-items-center w-100 justify-content-evenly flex-wrap gap-3">
                     <a href="https://abaautoauctions.com" style={{ textDecoration: "none" }}>
-                    https://abaautoauctions.com
+                        https://abaautoauctions.com
                     </a>
                     <a>Info@abaautoauctions.com</a>
                     <a>+971 509496511</a>
