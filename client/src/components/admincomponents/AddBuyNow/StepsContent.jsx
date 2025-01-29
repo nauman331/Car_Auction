@@ -55,6 +55,12 @@ const StepContent = ({ step, formData, setFormData, sellingType, images, setImag
         type: "text",
         placeholder: "Enter Listing Title",
       },
+      {
+        id: "startCode",
+        label: "Start Code",
+        type: "text",
+        placeholder: "Enter Start Code",
+      },
       sellingType === "auction" && {
         id: "auctionLot",
         label: "Auction",

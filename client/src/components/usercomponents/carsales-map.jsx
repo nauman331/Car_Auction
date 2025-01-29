@@ -16,7 +16,7 @@ import img13 from "../../assets/images/steering-wheel 1.png";
 import { useSelector } from "react-redux";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import { HeartPulse } from "lucide-react";
+import { CirclePlay, HeartPulse } from "lucide-react";
 
 
 const CarAuction = ({ car }) => {
@@ -133,7 +133,15 @@ const CarAuction = ({ car }) => {
               </div>
               <p class="value">{car.damage?.vehicleDamage || "No Vehicle Damage"}</p>
             </li>
-
+            <li>
+              <div class="texts">
+                <span class="icon">
+                  <CirclePlay size={20} />
+                </span>
+                <p class="label">Start Code</p>
+              </div>
+              <p class="value">{car.startCode || "No Start Code"}</p>
+            </li>
             <li>
               <div class="texts">
                 <span class="icon">

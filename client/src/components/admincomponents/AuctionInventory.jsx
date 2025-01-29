@@ -364,6 +364,7 @@ const AuctionInventory = () => {
                                         auctionLot: car.auctionLot?._id || "",
                                         carMake: car.carMake?._id || "",
                                         carModal: car.carModal || "",
+                                        startCode: car.startCode || "",
                                         friendlyLocation: car.friendlyLocation || "",
                                         mapLocation: car.mapLocation || "",
                                         carType: car.carType?._id || "",

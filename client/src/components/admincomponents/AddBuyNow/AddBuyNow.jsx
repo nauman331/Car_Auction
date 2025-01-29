@@ -24,6 +24,7 @@ const AddBuyNow = ({ sellingType }) => {
     carImages: [],
     carMake: "",
     carModal: "",
+    startCode: "",
     vendor: userdata?.id || "",
     friendlyLocation: "",
     mapLocation: "",

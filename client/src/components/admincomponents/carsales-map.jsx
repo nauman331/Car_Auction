@@ -16,7 +16,7 @@ import img13 from "../../assets/images/steering-wheel 1.png";
 import { useSelector, useDispatch } from "react-redux";
 import { removeBidData } from "../../store/eventSlice"
 import toast from "react-hot-toast";
-import { HeartPulse, PencilLine, Trash } from "lucide-react";
+import { CirclePlay, HeartPulse, PencilLine, Trash } from "lucide-react";
 import DeleteModal from "./DeleteModal";
 import EditModal from "./EditModal";
 import { CloudinaryUploader } from "../../utils/CloudinaryUploader";
@@ -326,6 +326,7 @@ const CarAuction = ({ car, getCarDetails, backendURL }) => {
                     listingTitle: car.listingTitle || "",
                     carMake: car.carMake?._id || "",
                     carModal: car.carModal || "",
+                    startCode: car.startCode || "",
                     friendlyLocation: car.friendlyLocation || "",
                     mapLocation: car.mapLocation || "",
                     carType: car.carType?._id || "",
@@ -482,11 +483,20 @@ const CarAuction = ({ car, getCarDetails, backendURL }) => {
             <li>
               <div class="texts">
                 <span class="icon">
-                <HeartPulse size={20} />
+                  <HeartPulse size={20} />
                 </span>
                 <p class="label">Damage</p>
               </div>
               <p class="value">{car.damage?.vehicleDamage || "No Vehicle Damage"}</p>
+            </li>
+            <li>
+              <div class="texts">
+                <span class="icon">
+                  <CirclePlay size={20} />
+                </span>
+                <p class="label">Start Code</p>
+              </div>
+              <p class="value">{car.startCode || "No Start Code"}</p>
             </li>
 
             <li>

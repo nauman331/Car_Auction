@@ -14,7 +14,7 @@ import img11 from "../../assets/images/piston 1.png";
 import img12 from "../../assets/images/color.png";
 import img13 from "../../assets/images/steering-wheel 1.png";
 import { Modal, Button } from "react-bootstrap";
-import { HeartPulse } from "lucide-react";
+import { CirclePlay, HeartPulse } from "lucide-react";
 
 
 const BuyCar = ({ car, purchaseCar, buyLoading }) => {
@@ -83,7 +83,15 @@ const BuyCar = ({ car, purchaseCar, buyLoading }) => {
               </div>
               <p class="value">{car.damage?.vehicleDamage || "No Vehicle Damage"}</p>
             </li>
-
+            <li>
+              <div class="texts">
+                <span class="icon">
+                <CirclePlay size={20}/>
+                </span>
+                <p class="label">Start Code</p>
+              </div>
+              <p class="value">{car.startCode || "No Start Code"}</p>
+            </li>
             <li>
               <div class="texts">
                 <span class="icon">
