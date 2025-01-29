@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { Modal, Carousel } from "react-bootstrap";
+import { Carousel } from "react-bootstrap";
 import "../../assets/stylesheets/carsale.scss";
 import CarAuction from "./carsales-map";
 import FeatureCategory from "../usercomponents/featurescatageories";
 import "../../assets/stylesheets/FeatureCategory.scss";
 import "../../assets/stylesheets/feature.scss";
-import img6 from "../../assets/images/playbutton.png";
-import img3 from "../../assets/images/camera 1.png";
 // import img4 from "../../assets/images/report 1.png";
 // import img5 from "../../assets/images/Car Brochure.png";
 import { useParams } from "react-router-dom";
@@ -22,8 +20,6 @@ function Carsale() {
   const [car, setCar] = useState(null);
   const [featuresData, setFeaturesData] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [showModal, setShowModal] = useState(false);
-  const [showVideoModal, setShowVideoModal] = useState(false);
 
   const getCarDetails = async () => {
     try {
@@ -88,19 +84,36 @@ function Carsale() {
           <div className="row">
             <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 mb-4">
               <div className="carsale-section">
-                <img src={car.carImages[0]} alt="..." />
-                <div className="carsale-btns1">
-                  <button onClick={() => setShowVideoModal(true)}>
-                    <img src={img6} />
-                    <span>Video</span>
-                  </button>
-                </div>
-                <div className="carsale-btns2">
-                  <button onClick={() => setShowModal(true)}>
-                    <img src={img3} />
-                    <p>All Photos</p>
-                  </button>
-                </div>
+                <Carousel interval={2000} pause="hover">
+                  {
+                    car.videoLink && (
+                      <Carousel.Item>
+                        <div className="video-container">
+                          <iframe
+                            width="100%"
+                            height="300px"
+                            style={{ borderRadius: "10px" }}
+                            src={getEmbedUrl(car.videoLink || "")}
+                            title="Car Video"
+                            frameBorder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowFullScreen
+                          ></iframe>
+                        </div>
+                      </Carousel.Item>
+                    )
+                  }
+                  {car.carImages.map((image, index) => (
+                    <Carousel.Item key={index}>
+                      <img
+                        className="d-block w-100"
+                        style={{ height: "300px" }}
+                        src={image}
+                        alt={`Slide ${index + 1}`}
+                      />
+                    </Carousel.Item>
+                  ))}
+                </Carousel>
               </div>
               <div className="car-description">
                 <h2>Description</h2>
@@ -133,51 +146,6 @@ function Carsale() {
           </div>
         </div>
       </div>
-
-      {/* Modal for All Photos */}
-      <Modal show={showModal} onHide={() => setShowModal(false)} centered>
-        <Modal.Header closeButton>
-          <Modal.Title>All Photos</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Carousel interval={2000} pause="hover">
-            {car.carImages.map((image, index) => (
-              <Carousel.Item key={index}>
-                <img
-                  className="d-block w-100"
-                  src={image}
-                  alt={`Slide ${index + 1}`}
-                />
-              </Carousel.Item>
-            ))}
-          </Carousel>
-        </Modal.Body>
-      </Modal>
-
-      {/* Modal for Car Video */}
-      <Modal
-        show={showVideoModal}
-        onHide={() => setShowVideoModal(false)}
-        centered
-        dialogClassName="custom-video-modal-height"
-      >
-        <Modal.Header closeButton>
-          <Modal.Title>Car Video</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <div className="video-container">
-            <iframe
-              width="100%"
-              height="400px"
-              src={getEmbedUrl(car.videoLink || "")}
-              title="Car Video"
-              frameBorder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-            ></iframe>
-          </div>
-        </Modal.Body>
-      </Modal>
     </div>
   );
 }

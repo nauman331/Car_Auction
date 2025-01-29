@@ -16,7 +16,7 @@ import img13 from "../../assets/images/steering-wheel 1.png";
 import { useSelector, useDispatch } from "react-redux";
 import { removeBidData } from "../../store/eventSlice"
 import toast from "react-hot-toast";
-import { PencilLine, Trash } from "lucide-react";
+import { HeartPulse, PencilLine, Trash } from "lucide-react";
 import DeleteModal from "./DeleteModal";
 import EditModal from "./EditModal";
 import { CloudinaryUploader } from "../../utils/CloudinaryUploader";
@@ -479,6 +479,15 @@ const CarAuction = ({ car, getCarDetails, backendURL }) => {
               </div>
               <p class="value">{car.carMake?.vehicleMake || "No Vehicle Make"}</p>
             </li>
+            <li>
+              <div class="texts">
+                <span class="icon">
+                <HeartPulse size={20} />
+                </span>
+                <p class="label">Damage</p>
+              </div>
+              <p class="value">{car.damage?.vehicleDamage || "No Vehicle Damage"}</p>
+            </li>
 
             <li>
               <div class="texts">
@@ -487,7 +496,7 @@ const CarAuction = ({ car, getCarDetails, backendURL }) => {
                 </span>
                 <p class="label">Mileage</p>
               </div>
-              <p class="value">{car.mileage || "No Mileage"}000 miles</p>
+              <p class="value">{car.mileage || "No Mileage"}Kms</p>
             </li>
             <li>
               <div class="texts">
