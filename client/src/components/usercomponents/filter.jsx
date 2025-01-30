@@ -77,6 +77,8 @@ const CarFilterForm = ({ sellingType }) => {
   useEffect(() => {
     if (selectedAuction) {
       setAuctionTitle(selectedAuction);
+    } else {
+      setAuctionTitle("");
     }
   }, [selectedAuction]);
 
@@ -91,6 +93,9 @@ const CarFilterForm = ({ sellingType }) => {
           ?.toLowerCase()
           .includes(auctionTitle?.toLowerCase())
       );
+      setFilteredCars(filtered);
+    } else if (!auctionTitle) {
+      const filtered = cars?.filter((car) => !car.auctionLot);
       setFilteredCars(filtered);
     } else {
       setFilteredCars(cars); // Reset to all cars if no auction title

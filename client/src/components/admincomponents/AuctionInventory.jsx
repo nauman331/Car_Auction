@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import "../../assets/stylesheets/admin/carlisting.scss";
 import { Trash, PencilLine, Search } from "lucide-react";
 import { NavLink } from "react-router-dom";
@@ -37,19 +37,25 @@ const AuctionInventory = () => {
 
   const itemsPerPage = 10;
 
-  const filteredCars =
-    cars.length > 0
-      ? cars.filter(
-        (car) =>
-          (car.auctionLot?._id === selectedAuctionLot || selectedAuctionLot === "") && // Filter by selected auction lot
-          (
-            car.listingTitle?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            car.description?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            car.lotNo?.toString().toLowerCase().includes(searchTerm.toLowerCase()) ||
-            car.vin.includes(searchTerm)
-          )
-      )
+  const filteredCars = useMemo(() => {
+    return cars.length > 0
+      ? cars.filter((car) => {
+        const matchesSearch =
+          car.listingTitle?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          car.description?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          car.lotNo?.toString().toLowerCase().includes(searchTerm.toLowerCase()) ||
+          car.vin.includes(searchTerm);
+
+        const matchesAuctionLot =
+          selectedAuctionLot === "Not in Auction"
+            ? !car.auctionLot // Include cars where auctionLot is null or undefined
+            : car.auctionLot?._id === selectedAuctionLot || selectedAuctionLot === "";
+
+        return matchesSearch && matchesAuctionLot;
+      })
       : [];
+  }, [cars, selectedAuctionLot, searchTerm]);
+
 
   const handleAuctionLotChange = (event) => {
     setSelectedAuctionLot(event.target.value); // Update selected auction lot
@@ -130,11 +136,14 @@ const AuctionInventory = () => {
       setSelectedAuctionLot(nearestAuction._id); // Set the default selected auction lot to the nearest auction
     }
   }, [auctions]);
-  const sortedCarsByLotNo = filteredCars.sort((a, b) => {
-    const lotNoA = a.lotNo ? parseInt(a.lotNo) : 0; // Ensure valid number parsing
-    const lotNoB = b.lotNo ? parseInt(b.lotNo) : 0;
-    return lotNoA - lotNoB;
-  });
+  const sortedCarsByLotNo = useMemo(() => {
+    return filteredCars.sort((a, b) => {
+      const lotNoA = a.lotNo ? parseInt(a.lotNo) : Infinity; // Put undefined lotNo at the end
+      const lotNoB = b.lotNo ? parseInt(b.lotNo) : Infinity;
+      return lotNoA - lotNoB;
+    });
+  }, [filteredCars]);
+  
 
   const sortAuctionsByTime = (auctions) => {
     const currentTime = new Date();
@@ -276,10 +285,12 @@ const AuctionInventory = () => {
                         <option key={item._id} value={item._id}>
                           {item.auctionTitle}
                         </option>
+
                       ))
                     ) : (
                       <option value="">No Auctions Available</option>
                     )}
+                    <option value="Not in Auction">Not Associated</option>
                   </select>
                 </div>
 

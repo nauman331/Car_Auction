@@ -60,6 +60,7 @@ const SortByDropdown = ({ onChange, preselected }) => {
             {option.auctionTitle}
           </option>
         ))}
+        <option value="">Not Associated</option>
       </select>
     </div>
   );
