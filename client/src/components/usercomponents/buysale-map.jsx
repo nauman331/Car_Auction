@@ -20,7 +20,7 @@ import { CirclePlay, HeartPulse } from "lucide-react";
 const BuyCar = ({ car, purchaseCar, buyLoading }) => {
 
   const [showConfirmModal, setShowConfirmModal] = useState(false);
-  
+
 
   const handleBuyNowClick = () => {
     setShowConfirmModal(true);
@@ -39,9 +39,9 @@ const BuyCar = ({ car, purchaseCar, buyLoading }) => {
     <>
       <div className="car-auction">
         <h1>{car.listingTitle || "No Title"} <span className="action-buttons"></span></h1>
-        <p className="lot-info">VIN: {car.vin || "No Model"}</p>
+        <p className="lot-info">VIN: {car.vin || "No Model"} | Model: {car.carModal || "No Model"}</p>
         <p className="car-details">
-          {car.mileage || "No Mileage"} kms <p className="dots"></p>{car.fuelType?.vehicleFuelTypes || "No Fuel Type"}
+          {car.mileage || "No Mileage"} miles <p className="dots"></p>{car.fuelType?.vehicleFuelTypes || "No Fuel Type"}
           <p className="dots"></p> {car.transmission?.vehicleTransimission || "No Transmission"}
         </p>
         <div className="current-bid">
@@ -52,13 +52,13 @@ const BuyCar = ({ car, purchaseCar, buyLoading }) => {
 
         <div className="bid-controls">
           {
-            !car.isSold ? 
-          <button className="place-bid" onClick={handleBuyNowClick}>
-            <img src={img1} />
-            Buy Now
-          </button>
-          : 
-          <h4 style={{ color: "#aaa", margin: "1rem 0" }}>Car is already Sold</h4>
+            !car.isSold ?
+              <button className="place-bid" onClick={handleBuyNowClick}>
+                <img src={img1} />
+                Buy Now
+              </button>
+              :
+              <h4 style={{ color: "#aaa", margin: "1rem 0" }}>Car is already Sold</h4>
           }
         </div>
 
@@ -77,7 +77,7 @@ const BuyCar = ({ car, purchaseCar, buyLoading }) => {
             <li>
               <div class="texts">
                 <span class="icon">
-                <HeartPulse size={20} />
+                  <HeartPulse size={20} />
                 </span>
                 <p class="label">Damage</p>
               </div>
@@ -86,7 +86,7 @@ const BuyCar = ({ car, purchaseCar, buyLoading }) => {
             <li>
               <div class="texts">
                 <span class="icon">
-                <CirclePlay size={20}/>
+                  <CirclePlay size={20} />
                 </span>
                 <p class="label">Start Code</p>
               </div>
@@ -99,7 +99,7 @@ const BuyCar = ({ car, purchaseCar, buyLoading }) => {
                 </span>
                 <p class="label">Mileage</p>
               </div>
-              <p class="value">{car.mileage || "No Mileage"} Kms</p>
+              <p class="value">{car.mileage || "No Mileage"} miles</p>
             </li>
             <li>
               <div class="texts">

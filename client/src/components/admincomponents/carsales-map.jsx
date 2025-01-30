@@ -23,7 +23,6 @@ import { CloudinaryUploader } from "../../utils/CloudinaryUploader";
 import { useNavigate } from "react-router-dom";
 import LoadingSpinner from "../usercomponents/LoadingSpinner";
 import Select from "react-select";
-import { Modal, Button } from 'react-bootstrap';
 
 
 
@@ -355,9 +354,9 @@ const CarAuction = ({ car, getCarDetails, backendURL }) => {
               </button>
           }
         </span></h1>
-        {car.sellingType === "auction" ? <p className="lot-info"> Lot No. {car.lotNo}</p> : <p className="lot-info"> VIN. {car.vin}</p>}
+        {car.sellingType === "auction" ? <p className="lot-info"> Lot No. {car.lotNo} | Model: {car.carModal || "No Model"}</p> : <p className="lot-info"> VIN. {car.vin} | Model: {car.carModal || "No Model"}</p>}
         <p className="car-details">
-          {car.mileage || "No Mileage"} kms <p className="dots"></p>{car.fuelType?.vehicleFuelTypes || "No Fuel Type"}
+          {car.mileage || "No Mileage"} miles<p className="dots"></p>{car.fuelType?.vehicleFuelTypes || "No Fuel Type"}
           <p className="dots"></p> {car.transmission?.vehicleTransimission || "No Transmission"}
         </p>
         <div className="current-bid">
@@ -506,7 +505,7 @@ const CarAuction = ({ car, getCarDetails, backendURL }) => {
                 </span>
                 <p class="label">Mileage</p>
               </div>
-              <p class="value">{car.mileage || "No Mileage"} Kms</p>
+              <p class="value">{car.mileage || "No Mileage"} miles</p>
             </li>
             <li>
               <div class="texts">
@@ -587,7 +586,7 @@ const CarAuction = ({ car, getCarDetails, backendURL }) => {
                 </span>
                 <p class="label">Color</p>
               </div>
-              <p class="value">{car.color?.vehicleColors || "No Color"}</p>
+              <p class="value">{car.color || "No Color"}</p>
             </li>
             <li>
               <div class="texts">
