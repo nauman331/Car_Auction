@@ -48,7 +48,7 @@ const AuctionInventory = () => {
 
         const matchesAuctionLot =
           selectedAuctionLot === "Not in Auction"
-            ? !car.auctionLot // Include cars where auctionLot is null or undefined
+            ? !car.auctionLot
             : car.auctionLot?._id === selectedAuctionLot || selectedAuctionLot === "";
 
         return matchesSearch && matchesAuctionLot;
@@ -280,15 +280,13 @@ const AuctionInventory = () => {
                 <div className="sort-options">
                   <span>Sort By:</span>
                   <select onChange={handleAuctionLotChange} value={selectedAuctionLot}>
-                    {sortedAuctions.length > 0 ? (
+                    {sortedAuctions.length > 0 && (
                       sortedAuctions.map((item) => (
+                        item.statusText !== "Compeleted" &&
                         <option key={item._id} value={item._id}>
                           {item.auctionTitle}
                         </option>
-
                       ))
-                    ) : (
-                      <option value="">No Auctions Available</option>
                     )}
                     <option value="Not in Auction">Not Associated</option>
                   </select>

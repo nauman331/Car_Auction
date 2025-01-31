@@ -56,11 +56,11 @@ const SortByDropdown = ({ onChange, preselected }) => {
     <div className="sort-by-container d-flex justify-content-end">
       <select value={selectedOption} onChange={handleOptionChange}>
         {options.map((option) => (
+          option.statusText !== "Compeleted" &&
           <option key={option._id} value={option.auctionTitle}>
             {option.auctionTitle}
           </option>
         ))}
-        <option value="">Not Associated</option>
       </select>
     </div>
   );
