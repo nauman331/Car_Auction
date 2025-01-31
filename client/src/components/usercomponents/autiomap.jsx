@@ -83,7 +83,7 @@ const ProductGridWithPagination = ({ cars }) => {
                     <ul>
                       <li>
                         <img src={img2} alt="Mileage" />
-                        <h5>{item.mileage || "N/A"} kms</h5>
+                        <h5>{item.mileage || "N/A"} miles</h5>
                       </li>
                       <li>
                         <img src={img3} alt="Fuel Type" />

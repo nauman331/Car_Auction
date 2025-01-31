@@ -143,7 +143,7 @@ const AuctionInventory = () => {
       return lotNoA - lotNoB;
     });
   }, [filteredCars]);
-  
+
 
   const sortAuctionsByTime = (auctions) => {
     const currentTime = new Date();

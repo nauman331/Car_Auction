@@ -1,15 +1,7 @@
 .contact-section {
   margin: 0px 0 20px;
-  h1 {
-    /* Contact Us */
 
-    // font-family: "DM Sans";
-    // font-style: normal;
-    // font-weight: 700;
-    // font-size: 40px;
-    // line-height: 40px;
-    // margin-bottom: 37px;
-    // color: #050b20;
+  h1 {
     font-family: "DM Sans";
     font-style: normal;
     font-weight: 700;
@@ -19,6 +11,7 @@
     color: #050b20;
     margin-bottom: 30px !important;
   }
+
   .map-section {
     width: 100%;
     height: 400px;
@@ -37,6 +30,7 @@
     border: 1px solid blue;
     display: block;
     font-size: 15px;
+
     &[type="text"],
     &[type="password"],
     &[type="tel"],
@@ -55,8 +49,8 @@
       background-color: transparent;
     }
 
-    &:focus ~ label,
-    &.valid ~ label {
+    &:focus~label,
+    &.valid~label {
       border-color: black;
       color: gray;
       font-size: 12px;
@@ -100,8 +94,8 @@
       background-color: transparent;
     }
 
-    &:focus ~ label,
-    &.valid ~ label {
+    &:focus~label,
+    &.valid~label {
       border-color: black;
       color: gray;
       font-size: 12px;
@@ -122,10 +116,12 @@
     background-color: transparent;
   }
 }
+
 .send-message-btn {
   width: 180px;
   margin-top: 60px;
-  a {
+
+  button {
     display: flex;
     align-items: baseline;
     justify-content: baseline;
@@ -139,6 +135,7 @@
     border: 1px solid #ffffff;
     border-radius: 12px;
     background-color: #405ff2;
+
     img {
       max-width: 100%;
       object-fit: cover;
@@ -159,6 +156,7 @@
   margin-left: 80px;
 
   padding: 20px 25px;
+
   h2 {
     font-size: 36px;
     font-weight: 500;
@@ -166,6 +164,7 @@
     color: #19191b;
     // font-family: s"DM Sans" !important;
   }
+
   h5 {
     font-size: 16px;
     line-height: 26px;
@@ -173,12 +172,14 @@
     // font-family: "DM Sans " !important ;
     margin-bottom: 20px;
   }
+
   .data {
     display: flex;
     // align-items: baseline;
     padding-top: 15px;
     border-bottom: 0;
     margin-bottom: 15px;
+
     .information-image {
       img {
         margin-right: 20px;
@@ -186,6 +187,7 @@
         object-fit: contain;
       }
     }
+
     .information-text {
       h5 {
         font-weight: 600;
@@ -196,6 +198,7 @@
         color: #19191b;
         margin-bottom: 0;
       }
+
       p {
         font-weight: 400;
         font-family: "DM Sans" !important;
@@ -207,10 +210,12 @@
       }
     }
   }
+
   .follow-us-section {
     display: flex;
     flex-direction: column;
     margin-top: 40px;
+
     .follow-text {
       h3 {
         font-size: 20px;
@@ -225,6 +230,7 @@
       display: flex;
       gap: 10px;
       margin-top: 20px;
+
       .follow-image {
         border-radius: 50px;
         color: #ffffff;
@@ -235,19 +241,23 @@
         // margin-right: 20px;
         font-size: 15px;
         background-color: transparent;
+
         img {
           max-width: 100%;
           object-fit: cover;
         }
       }
+
       .follow-image:hover {
         background-color: rgb(212, 209, 209);
       }
     }
   }
 }
+
 .ouroffice-information-section {
   margin-top: 80px;
+
   h2 {
     /* Our Offices */
 
@@ -259,6 +269,7 @@
     color: #050b20;
     margin-bottom: 25px;
   }
+
   h3 {
     /* San Francisco */
     font-family: "DM Sans";
@@ -269,6 +280,7 @@
     color: #050b20;
     margin-bottom: 20px;
   }
+
   p {
     font-weight: 400;
     font-family: "DM Sans" !important;
@@ -278,6 +290,7 @@
     color: #19191b;
     margin-bottom: 15px;
   }
+
   a {
     display: flex;
     align-items: baseline;
@@ -296,12 +309,15 @@
       margin-left: 5px;
     }
   }
+
   .office-details {
     display: flex;
     gap: 20px;
+
     .office-mail {
       display: flex;
       align-items: baseline;
+
       .material-icons {
         img {
           width: 20px;
@@ -309,6 +325,7 @@
           margin-right: 10px;
         }
       }
+
       .office-text {
         font-weight: 400;
         font-family: "DM Sans" !important;
@@ -326,6 +343,7 @@
   .navbar-expand-lg .navbar-nav .nav-item .nav-link {
     display: ruby !important;
   }
+
   .ouroffice-information-section .office-details .office-mail .office-text {
     font-size: 13px !important;
   }
@@ -335,19 +353,24 @@
   .footer-section .footertopsection .mobileapp {
     padding: 0 !important;
   }
+
   .footerrightsection h2 {
     font-size: 29px !important;
   }
+
   .footerrightsection {
     margin-left: 40px !important;
   }
+
   .footerrightsection h5 {
     font-size: 14px !important;
   }
+
   .footerrightsection .data .information-image img {
     margin-right: 13px !important;
     width: 18px !important;
   }
+
   .contact-container .contact-button .text {
     font-size: 11px !important;
   }
@@ -357,41 +380,53 @@
   .contact-section h2 {
     font-size: 35px !important;
   }
+
   .footerrightsection {
     margin-left: 0px !important;
     margin-top: 40px !important;
   }
+
   .ouroffice-information-section h2 {
     font-size: 36px !important;
   }
+
   .footer-section .footer-mid-section .footer-information-detail {
     justify-content: start !important;
   }
+
   .footer-text {
     margin-bottom: 40px !important;
   }
+
   .footer-section .footertopsection .Products {
     margin-bottom: 30px !important;
   }
+
   .footer-section .footertopsection .mobileapp .images img {
     max-width: 200px !important;
   }
+
   .footertopsection .images {
     flex-direction: column;
     display: flex;
   }
+
   .footer-section .footertopsection {
     padding-bottom: 40px !important;
   }
+
   .footer-section .copyright-terms {
     justify-content: center !important;
   }
+
   .copyright {
     text-align: center !important;
   }
+
   .main {
     padding-top: 30px !important;
   }
+
   .main {
     border-top-left-radius: 0px !important;
     border-top-right-radius: 0px !important;
@@ -403,17 +438,16 @@
   .header-section {
     padding: 10px 15px !important;
   }
+
   .ouroffice-information-section .office-details {
     gap: 10px !important;
   }
-  .ouroffice-information-section
-    .office-details
-    .office-mail
-    .material-icons
-    img {
+
+  .ouroffice-information-section .office-details .office-mail .material-icons img {
     margin-right: 6px !important;
     width: 16px !important;
   }
+
   .ouroffice-information-section .office-details .office-mail .office-text {
     font-size: 12px !important;
   }

@@ -1,58 +1,9 @@
-// import React from "react";
-// import "../../assets/stylesheets/car.scss";
-
-// import img from "../../assets/images/right-up 1 (3).png";
-// function CarSection() {
-//   const sections = [
-//     {
-//       title: "Are You Looking For a Car?",
-//       description:
-//         "Create an account to start exploring thousands of cars. Find your perfect match easily and also get access to exclusive deals.",
-//       button: "Get Started",
-//     },
-//     {
-//       title: "Do You Want to Sell a Car?",
-//       description:
-//         "Sign up now to list your car and reach potential buyers instantly. Selling your car has never been this simple.",
-//       button: "Get Started",
-//     },
-//   ];
-
-//   return (
-//     <div className="car-section container-carsection">
-//       <div className="row">
-//         {sections.map((section, index) => (
-//           <div
-//             className="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 mb-4"
-//             key={index}
-//           >
-//             <div className="section p-3">
-//               <div className="loooking-text">
-//                 <h2>{section.title}</h2>
-//                 <p>{section.description}</p>
-//                 <div className="btn">
-//                   <a href="#">
-//                     {section.button}
-//                     <img src={img} />
-//                   </a>
-//                 </div>
-//               </div>
-//             </div>
-//           </div>
-//         ))}
-//       </div>
-//     </div>
-//   );
-// }
-
-// export default CarSection;
-
 import React from "react";
 import "../../assets/stylesheets/car.scss";
-
 import img from "../../assets/images/right-up 1 (3).png";
 import img1 from "../../assets/images/are-you-looking-for a car.jpg";
 import img3 from "../../assets/images/sellacar.jpg";
+import { NavLink } from "react-router-dom";
 
 function CarSection() {
   const sections = [
@@ -62,6 +13,7 @@ function CarSection() {
         "Create an account to start exploring thousands of cars. Find your perfect match easily and also get access to exclusive deals.",
       button: "Get Started",
       backgroundImage: img1,
+      link: "/auction-vehicle"
     },
     {
       title: "Do You Want to Sell a Car?",
@@ -69,6 +21,7 @@ function CarSection() {
         "Sign up now to list your car and reach potential buyers instantly. Selling your car has never been this simple.",
       button: "Get Started",
       backgroundImage: img3,
+      link: "/contact-us"
     },
   ];
 
@@ -94,10 +47,10 @@ function CarSection() {
                 <h2>{section.title}</h2>
                 <p>{section.description}</p>
                 <div className="btn">
-                  <a href="#">
+                  <NavLink to={section.link}>
                     {section.button}
                     <img src={img} alt="icon" />
-                  </a>
+                  </NavLink>
                 </div>
               </div>
             </div>

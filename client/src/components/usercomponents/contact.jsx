@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "../../assets/stylesheets/contactus.scss";
 import img4 from "../../assets/images/right-up 1.png";
 import Item from "./contactinformation";
@@ -9,10 +9,20 @@ import img6 from "../../assets/images/facebook1.png";
 import img5 from "../../assets/images/tiktok.png";
 import "../../assets/stylesheets/FeatureCategory.scss";
 import img7 from "../../assets/images/insta1.png";
+import { backendURL } from "../../utils/Exports"
 
 // import OfficeDetails from "../usercomponents/mapaddress";
 import { Link } from "react-router-dom";
+import { toast } from 'react-hot-toast';
 const Form = () => {
+  const [loading, setLoading] = useState(false)
+  const [user, setUser] = useState({
+    firstName: "",
+    lastName: "",
+    contact: "",
+    email: "",
+    comment: ""
+  })
   const carddatas = [
     {
       id: 1,
@@ -41,6 +51,35 @@ const Form = () => {
       [name]: value,
     });
   };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      setLoading(true)
+      const response = await fetch(`${backendURL}/contact`, {
+        method: "POST",
+        body: JSON.stringify(user)
+      })
+      const res_data = await response.json();
+      if (response.ok) {
+        toast.success(res_data.message)
+        setUser({
+          firstName: "",
+          lastName: "",
+          contact: "",
+          email: "",
+          comment: ""
+        })
+      } else {
+        toast.error(res_data.message)
+      }
+    } catch (error) {
+      toast.error("Error while Submitting")
+    } finally {
+      setLoading(false)
+    }
+
+  }
 
   return (
     <div>
@@ -83,7 +122,7 @@ const Form = () => {
                   Fill out the form below, and someone from our team will get
                   back to you shortly.
                 </p>
-                <form>
+                <form onSubmit={handleSubmit}>
                   <div
                     style={{
                       display: "flex",
@@ -98,6 +137,7 @@ const Form = () => {
                         autoComplete="off"
                         onChange={handleInputChange}
                         name="firstName"
+                        value={user.firstName}
                         placeholder="First Name"
                         required
                       />
@@ -107,6 +147,7 @@ const Form = () => {
                       <input
                         type="text"
                         autoComplete="off"
+                        value={user.lastName}
                         onChange={handleInputChange}
                         name="lastName"
                         placeholder="Last Name"
@@ -128,6 +169,7 @@ const Form = () => {
                         type="email"
                         autoComplete="off"
                         name="email"
+                        value={user.email}
                         placeholder="mail@example.com"
                         required
                         onChange={handleInputChange}
@@ -138,6 +180,7 @@ const Form = () => {
                       <input
                         type="tel"
                         name="contact"
+                        value={user.contact}
                         placeholder="(XXX) XXX-XXXX"
                         onChange={handleInputChange}
                         required
@@ -152,13 +195,20 @@ const Form = () => {
                       name="comment"
                       placeholder="Type your comment here..."
                       rows="4"
+                      value={user.comment}
+                      onChange={handleInputChange}
                     />
                     <label> Comment</label>
                   </div>
                   <div className="send-message-btn">
-                    <a href="#">
-                      Send Message <img src={img4} />
-                    </a>
+                    <button type="submit" disabled={loading} style={{ backgroundColor: loading && "167CB9" }}>
+                      {
+                        loading ? "Sending..." : <span>
+                          Send Message <img src={img4} />
+                        </span>
+                      }
+
+                    </button>
                   </div>
                 </form>
               </div>

@@ -52,7 +52,7 @@ const PaginatedCards = ({ data, itemsPerPage }) => {
                   <div className="Content-Section">
                     <h4>{item.listingTitle || "No Title"}</h4>
                     <span className="details">
-                      {item.mileage || "N/A"} kms{" "}
+                      {item.mileage || "N/A"} miles{" "}
                       <span>• {item.fuelType?.vehicleFuelTypes || "N/A"}</span>
                       <span>
                         • {item.transmission?.vehicleTransimission || "N/A"}
