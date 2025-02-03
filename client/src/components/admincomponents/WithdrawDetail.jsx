@@ -160,9 +160,11 @@ const WithdrawDetail = () => {
                             </tr>
                         </tbody>
                     </table>
+                    <div className="next-button">
                     <button onClick={() => handleClearPaymentClick(withdraw)}>
                         Update Status
                     </button>
+                </div>
                 </div>
             </div>
         ));

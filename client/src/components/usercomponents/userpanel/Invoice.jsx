@@ -188,7 +188,7 @@ const Invoice = () => {
                             style={{ backgroundColor: "#F9FBFC", height: "200px" }}
                             id="no-print"
                         >
-                            <button onClick={handleModalOpen}><Wallet />Pay via Bank</button>
+                            <Button variant="primary" className="px-4 py-2" onClick={handleModalOpen}><Wallet />Pay via Bank</Button>
                             {/* <PayPalButtons
                                 createOrder={(data, actions) => {
                                     return actions.order.create({

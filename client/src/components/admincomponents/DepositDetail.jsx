@@ -135,14 +135,15 @@ const DepositDetail = () => {
                   id="status"
                 />
                 <label htmlFor="status">Select Status</label>
+                <div className="next-button">
                 <button
-                  className="place-bid"
                   style={{backgroundColor: loading && "#167CB9"}}
                   disabled={loading}
                   onClick={() => handleUpdateClick(deposit.invNumber)}
                 >
                   {loading ? "Updating..." : "Update"}
                 </button>
+              </div>
               </div>
             </div>
           </div>

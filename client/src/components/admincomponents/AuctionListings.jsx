@@ -8,6 +8,8 @@ import { Modal, Button } from "react-bootstrap";
 import Pagination from "./Pagination";
 import LoadingSpinner from "../usercomponents/LoadingSpinner";
 import FormGrid from "./AddBuyNow/FormGrid";
+import "../../assets/stylesheets/admin/carlisting.scss";
+
 
 const AuctionListings = () => {
   const { token } = useSelector((state) => state.auth);

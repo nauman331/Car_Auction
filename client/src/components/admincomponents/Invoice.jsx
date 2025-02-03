@@ -6,6 +6,7 @@ import LoadingSpinner from "../usercomponents/LoadingSpinner";
 import toast from "react-hot-toast";
 import html2canvas from "html2canvas";
 import "../../assets/stylesheets/admin/carlisting.scss";
+import "../../assets/stylesheets/admin/addbuynow.scss";
 import jsPDF from "jspdf";
 import { Container, Row, Col, Table, Button } from "react-bootstrap";
 import Select from "react-select";
@@ -193,12 +194,14 @@ const Invoice = () => {
                                         id="auctionLot1"
                                     />
                                     <label htmlFor="auctionLot1">Status</label>
-                                    <button className="place-bid"
+                                    <div className="next-button">
+                                    <button 
                                         style={{ backgroundColor: updateLoading && "#167CB9" }}
                                         disabled={updateLoading}
                                         onClick={updateStatus}>
                                         {updateLoading ? "Updating..." : "Update"}
                                     </button>
+                                </div>
                                 </div>
                             </div>
                         </div>

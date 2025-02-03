@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { CloudinaryUploader } from "../../utils/CloudinaryUploader";
 import toast from "react-hot-toast";
 import { setUser } from "../../store/slices/authSlice";
+import "../../assets/stylesheets/admin/addbuynow.scss";
 
 const Profile = () => {
   const dispatch = useDispatch();
