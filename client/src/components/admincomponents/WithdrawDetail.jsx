@@ -7,6 +7,7 @@ import Select from "react-select";
 import Deposit from "../usercomponents/userpanel/Deposit";
 import { Modal, Button } from "react-bootstrap";
 import { CloudinaryUploader } from "../../utils/CloudinaryUploader";
+import "../../assets/stylesheets/admin/addbuynow.scss"
 
 const WithdrawDetail = () => {
     const location = useLocation();

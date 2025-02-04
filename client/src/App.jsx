@@ -11,6 +11,7 @@ import { setBidData, removeBidData } from "./store/eventSlice"
 import { backendURL } from "./utils/Exports";
 import { setUser } from "./store/slices/authSlice"
 import ProtectedRoute from "./utils/ProtectedRoute";
+import LoadingSpinner from "./components/usercomponents/LoadingSpinner"
 
 // Lazy-loaded components
 const Auth = lazy(() => import("./pages/userpages/Auth"));
@@ -174,7 +175,7 @@ function App() {
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<LoadingSpinner />}>
       <ProtectedRoute>
         <Routes>
           {/* Publics routes */}

@@ -2,10 +2,10 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom"; // For navigation
 import { Search } from "lucide-react";
 import { useSelector } from "react-redux";
-import toast from "react-hot-toast";
 import { backendURL } from "../../utils/Exports";
 import Pagination from "./Pagination";
 import LoadingSpinner from "../usercomponents/LoadingSpinner";
+import "../../assets/stylesheets/admin/carlisting.scss"
 
 const Withdrawals = () => {
   const { token } = useSelector((state) => state.auth);
