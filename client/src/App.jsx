@@ -1,57 +1,53 @@
-import {useEffect} from "react"
 import { Routes, Route } from "react-router-dom";
-import { Suspense, lazy } from "react";
+import Auth from "./pages/userpages/Auth";
+import Home from "./pages/userpages/Home";
+import ContactUs from "./pages/userpages/contact-us";
+import Aboutus from "./pages/userpages/about-us";
+import OTPVerificationForm from "./components/usercomponents/OTPVerificationForm";
+import AdminHome from "./pages/adminpages/AdminHome";
+import Dashboard from "./components/admincomponents/Dashboard";
+import AddAuctionForm from "./components/admincomponents/AddAuction";
+import AddBuyNow from "./components/admincomponents/AddBuyNow/AddBuyNow";
+import CarListings from "./components/admincomponents/CarListings";
+import AuctionListings from "./components/admincomponents/AuctionListings";
+import Events from "./pages/userpages/auction-events";
+import Privacypolicy from "./pages/userpages/privacy";
+import Terms from "./pages/userpages/terms";
+import CategoryManagement from "./components/admincomponents/Categories";
+import Withdraw from "./components/usercomponents/withdrawform";
+import Orders from "./components/admincomponents/Orders";
+import AuctionInventory from "./components/admincomponents/AuctionInventory";
+import Profile from "./components/admincomponents/Profile";
+import AllUsers from "./components/admincomponents/AllUsers";
+import ProtectedRoute from "./utils/ProtectedRoute";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./assets/stylesheets/car responsive.scss";
-import { useDispatch, useSelector } from "react-redux";
+import Verificationform from "./components/usercomponents/Verificationform";
+import Deposits from "./components/admincomponents/Deposits";
+import CarSales from "./components/admincomponents/carsale";
+import { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import toast from "react-hot-toast";
-import { setBidData, removeBidData } from "./store/eventSlice"
+import { setBidData, removeBidData } from "./store/eventSlice";
+import UserPanel from "./pages/userpages/UserPanel";
+import Wallet from "./components/usercomponents/userpanel/Wallet";
+import Carsforsale from "./pages/userpages/car";
+import Vehicle from "./pages/userpages/auction-vehicle";
+import BuyfilterForm from "./pages/userpages/buynow-vehicle";
+import Buycarforsale from "./pages/userpages/buycar";
 import { backendURL } from "./utils/Exports";
-import { setUser } from "./store/slices/authSlice"
-import ProtectedRoute from "./utils/ProtectedRoute";
-import LoadingSpinner from "./components/usercomponents/LoadingSpinner"
-
-// Lazy-loaded components
-const Auth = lazy(() => import("./pages/userpages/Auth"));
-const Home = lazy(() => import("./pages/userpages/Home"));
-const ContactUs = lazy(() => import("./pages/userpages/contact-us"));
-const Aboutus = lazy(() => import("./pages/userpages/about-us"));
-const OTPVerificationForm = lazy(() => import("./components/usercomponents/OTPVerificationForm"));
-const AdminHome = lazy(() => import("./pages/adminpages/AdminHome"));
-const Dashboard = lazy(() => import("./components/admincomponents/Dashboard"));
-const AddAuctionForm = lazy(() => import("./components/admincomponents/AddAuction"));
-const AddBuyNow = lazy(() => import("./components/admincomponents/AddBuyNow/AddBuyNow"));
-const CarListings = lazy(() => import("./components/admincomponents/CarListings"));
-const AuctionListings = lazy(() => import("./components/admincomponents/AuctionListings"));
-const Events = lazy(() => import("./pages/userpages/auction-events"));
-const Privacypolicy = lazy(() => import("./pages/userpages/privacy"));
-const Terms = lazy(() => import("./pages/userpages/terms"));
-const CategoryManagement = lazy(() => import("./components/admincomponents/Categories"));
-const Withdraw = lazy(() => import("./components/usercomponents/withdrawform"));
-const Orders = lazy(() => import("./components/admincomponents/Orders"));
-const AuctionInventory = lazy(() => import("./components/admincomponents/AuctionInventory"));
-const Profile = lazy(() => import("./components/admincomponents/Profile"));
-const AllUsers = lazy(() => import("./components/admincomponents/AllUsers"));
-const Verificationform = lazy(() => import("./components/usercomponents/Verificationform"));
-const Deposits = lazy(() => import("./components/admincomponents/Deposits"));
-const CarSales = lazy(() => import("./components/admincomponents/carsale"));
-const UserPanel = lazy(() => import("./pages/userpages/UserPanel"));
-const Wallet = lazy(() => import("./components/usercomponents/userpanel/Wallet"));
-const Carsforsale = lazy(() => import("./pages/userpages/car"));
-const Vehicle = lazy(() => import("./pages/userpages/auction-vehicle"));
-const BuyfilterForm = lazy(() => import("./pages/userpages/buynow-vehicle"));
-const Buycarforsale = lazy(() => import("./pages/userpages/buycar"));
-const DepositDetail = lazy(() => import("./components/admincomponents/DepositDetail"));
-const UserDashboard = lazy(() => import("./components/usercomponents/userpanel/Dashboard"));
-const UserOrders = lazy(() => import("./components/usercomponents/userpanel/Orders"));
-const Invoice = lazy(() => import("./components/admincomponents/Invoice"));
-const UserInvoice = lazy(() => import("./components/usercomponents/userpanel/Invoice"));
-const NotifcationDetails = lazy(() => import("./components/admincomponents/NotificationDetails"));
-const UserDetail = lazy(() => import("./components/admincomponents/UserDetail"));
-const Withdrawals = lazy(() => import("./components/admincomponents/Withdrawals"));
-const WithdrawDetail = lazy(() => import("./components/admincomponents/WithdrawDetail"));
+import { setUser } from "./store/slices/authSlice";
+import DepositDetail from "./components//admincomponents/DepositDetail";
+import UserDashboard from "./components//usercomponents/userpanel/Dashboard";
+import UserOrders from "./components/usercomponents/userpanel/Orders";
+import Invoice from "./components/admincomponents/Invoice";
+import UserInvoice from "./components/usercomponents//userpanel/Invoice";
+import NotifcationDetails from "./components/admincomponents/NotificationDetails";
+import UserDetail from "./components/admincomponents/UserDetail";
+import Withdrawals from "./components/admincomponents/Withdrawals";
+import WithdrawDetail from "./components/admincomponents/WithdrawDetail";
 
 function App() {
   const dispatch = useDispatch();
@@ -175,60 +171,58 @@ function App() {
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <Suspense fallback={<LoadingSpinner />}>
-      <ProtectedRoute>
-        <Routes>
-          {/* Publics routes */}
-          <Route path="/" element={<Home />} />
-          <Route path="/auth" element={<Auth />} />
-          <Route path="/contact-us" element={<ContactUs />} />
-          <Route path="/about-us" element={<Aboutus />} />
-          <Route path="/verifyotp" element={<OTPVerificationForm />} />
-          <Route path="/resetpassword" element={<Verificationform />} />
-          <Route path="/auction-vehicle" element={<Vehicle />} />
-          <Route path="/buynow-vehicle" element={<BuyfilterForm />} />
-          <Route path="/privacy" element={<Privacypolicy />} />
-          <Route path="/terms" element={<Terms />} />
-          <Route path="/auctioncar/:id" element={<Carsforsale />} />
-          <Route path="/auction-events" element={<Events />} />
-          <Route path="/buycar/:id" element={<Buycarforsale />} />
+        <ProtectedRoute>
+          <Routes>
+            {/* Publics routes */}
+            <Route path="/" element={<Home />} />
+            <Route path="/auth" element={<Auth />} />
+            <Route path="/contact-us" element={<ContactUs />} />
+            <Route path="/about-us" element={<Aboutus />} />
+            <Route path="/verifyotp" element={<OTPVerificationForm />} />
+            <Route path="/resetpassword" element={<Verificationform />} />
+            <Route path="/auction-vehicle" element={<Vehicle />} />
+            <Route path="/buynow-vehicle" element={<BuyfilterForm />} />
+            <Route path="/privacy" element={<Privacypolicy />} />
+            <Route path="/terms" element={<Terms />} />
+            <Route path="/auctioncar/:id" element={<Carsforsale />} />
+            <Route path="/auction-events" element={<Events />} />
+            <Route path="/buycar/:id" element={<Buycarforsale />} />
 
-          {/* Admin routes */}
-          <Route path="/admin" element={<AdminHome />}>
-            <Route path="dashboard" element={<Dashboard />} />
-            <Route path="carlistings" element={<CarListings />} />
-            <Route path="addauctionevent" element={<AddAuctionForm />} />
-            <Route path="addbuynow" element={<AddBuyNow sellingType="fixed" />} />
-            <Route path="auctionlistings" element={<AuctionListings />} />
-            <Route path="addauction" element={<AddBuyNow sellingType="auction" />} />
-            <Route path="auctioninventory" element={<AuctionInventory />} />
-            <Route path="managecategories" element={<CategoryManagement />} />
-            <Route path="allusers" element={<AllUsers />} />
-            <Route path="userdetails" element={<UserDetail />} />
-            <Route path="deposits" element={<Deposits />} />
-            <Route path="deposit" element={<DepositDetail />} />
-            <Route path="withdrawals" element={<Withdrawals />} />
-            <Route path="withdraw" element={<WithdrawDetail />} />
-            <Route path="Orders" element={<Orders />} />
-            <Route path="Profile" element={<Profile />} />
-            <Route path="carsales/:id" element={<CarSales />} />
-            <Route path="invoice/:id" element={<Invoice />} />
-            <Route path="notifications" element={<NotifcationDetails />} />
-          </Route>
+            {/* Admin routes */}
+            <Route path="/admin" element={<AdminHome />}>
+              <Route path="dashboard" element={<Dashboard />} />
+              <Route path="carlistings" element={<CarListings />} />
+              <Route path="addauctionevent" element={<AddAuctionForm />} />
+              <Route path="addbuynow" element={<AddBuyNow sellingType="fixed" />} />
+              <Route path="auctionlistings" element={<AuctionListings />} />
+              <Route path="addauction" element={<AddBuyNow sellingType="auction" />} />
+              <Route path="auctioninventory" element={<AuctionInventory />} />
+              <Route path="managecategories" element={<CategoryManagement />} />
+              <Route path="allusers" element={<AllUsers />} />
+              <Route path="userdetails" element={<UserDetail />} />
+              <Route path="deposits" element={<Deposits />} />
+              <Route path="deposit" element={<DepositDetail />} />
+              <Route path="withdrawals" element={<Withdrawals />} />
+              <Route path="withdraw" element={<WithdrawDetail />} />
+              <Route path="Orders" element={<Orders />} />
+              <Route path="Profile" element={<Profile />} />
+              <Route path="carsales/:id" element={<CarSales />} />
+              <Route path="invoice/:id" element={<Invoice />} />
+              <Route path="notifications" element={<NotifcationDetails />} />
+            </Route>
 
-          {/*User Routes*/}
-          <Route path="user" element={<UserPanel />}>
-            <Route path="userdashboard" element={<UserDashboard />} />
-            <Route path="wallet" element={<Wallet />} />
-            <Route path="userprofile" element={<Profile />} />
-            <Route path="orders" element={<UserOrders />} />
-            <Route path="invoice/:id" element={<UserInvoice />} />
-            <Route path="notifications" element={<NotifcationDetails />} />
-            <Route path="withdraw" element={<Withdraw />} />
-          </Route>
-        </Routes>
-          </ProtectedRoute>
-      </Suspense>
+            {/*User Routes*/}
+            <Route path="user" element={<UserPanel />}>
+              <Route path="userdashboard" element={<UserDashboard />} />
+              <Route path="wallet" element={<Wallet />} />
+              <Route path="userprofile" element={<Profile />} />
+              <Route path="orders" element={<UserOrders />} />
+              <Route path="invoice/:id" element={<UserInvoice />} />
+              <Route path="notifications" element={<NotifcationDetails />} />
+              <Route path="withdraw" element={<Withdraw />} />
+            </Route>
+          </Routes>
+        </ProtectedRoute>
     </LocalizationProvider>
   );
 }
