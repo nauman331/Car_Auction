@@ -13,7 +13,7 @@ const PaginatedCards = ({ data, itemsPerPage }) => {
 
   // Filter out sold items and auction cars with null auctionLot
   const filteredData = data.filter(
-    (item) => !item.isSold && !(item.sellingType === "auction" && (item.auctionLot === null || item.auctionLot.statusText === "Compeleted"))
+    (item) => !item.isSold && !(item.sellingType === "auction" && (item.auctionLot === null || item.auctionLot?.statusText === "Compeleted"))
   );
 
   const totalPages = Math.ceil(filteredData.length / itemsPerPage);
