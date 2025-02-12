@@ -13,7 +13,7 @@ const Cardsing = ({ data }) => {
   return (
     <div>
       <div className="row">
-        {data.filter(item => !item.isSold && !(item.sellingType === "auction" && (item.auctionLot == null || item.auctionLot.statusText === "Compeleted"))).map((item) => (
+        {data.filter(item => !item.isSold && !(item.sellingType === "auction" && (item.auctionLot == null || item.auctionLot?.statusText === "Compeleted"))).map((item) => (
           <div key={item._id} className="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12 mb-4 px-2">
             <div className="catagorys-section">
               {/* Image Section */}
