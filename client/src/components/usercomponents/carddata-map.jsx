@@ -35,7 +35,7 @@ const Cardsing = ({ data }) => {
                   <ul>
                     <li>
                       <img src={img2} alt="mileage" />
-                      <h5>{item.mileage || "N/A"} miles</h5>
+                      <h5>{item.mileage || "N/A"}</h5>
                     </li>
                     <li>
                       <img src={img3} alt="fuel" />
