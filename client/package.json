@@ -23,6 +23,7 @@
     "bootstrap": "^5.3.3",
     "chart.js": "^4.4.7",
     "dayjs": "^1.11.13",
+    "framer-motion": "^12.4.2",
     "html2canvas": "^1.4.1",
     "install": "^0.13.0",
     "jspdf": "^2.5.2",

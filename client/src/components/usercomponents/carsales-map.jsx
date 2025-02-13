@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "../../assets/stylesheets/carsalesinfo.scss";
 import img1 from "../../assets/images/placebid.png";
 import img2 from "../../assets/images/body.png";
@@ -17,9 +17,11 @@ import { useSelector } from "react-redux";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { CirclePlay, HeartPulse } from "lucide-react";
+import { Video } from "lucide-react";
+import { motion } from "framer-motion";
 
 
-const CarAuction = ({ car }) => {
+const CarAuction = ({ car, vimeoLive, setVimeoLive }) => {
   const navigate = useNavigate()
   const { socket } = useSelector((state) => state.socket);
   const { token } = useSelector(state => state.auth);
@@ -66,7 +68,13 @@ const CarAuction = ({ car }) => {
     }
   };
 
-
+  const openLive = () => {
+    if (!token) {
+      toast.error("Please login first to View Live Event");
+      return;
+    }
+    setVimeoLive(!vimeoLive)
+  }
 
   return (
     <>
@@ -111,6 +119,61 @@ const CarAuction = ({ car }) => {
             :
             <h4 style={{ color: "#aaa", margin: "1rem 0" }}>Car is already Sold</h4>)
         }
+
+        {
+          currentBidData?.auctionStatus && (currentBidData?.carId === car._id) &&
+          <motion.div
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
+          >
+            <motion.button
+              onClick={openLive}
+              style={{
+                width: "370px",
+                fontSize: "1.1rem",
+                marginLeft: "1rem",
+                fontWeight: "bold",
+                padding: "14px 0",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: "10px",
+                borderRadius: "12px",
+                backgroundColor: "white",
+                color: "#28a745",
+                border: "2px solid #28a745",
+                boxShadow: "0 4px 10px rgba(40, 167, 69, 0.2)",
+                transition: "all 0.3s ease",
+              }}
+              className="live-event-button"
+              whileHover={{
+                backgroundColor: "#28a745",
+                color: "white",
+              }}
+            >
+              <motion.div whileHover={{ color: "white" }}>
+                <Video size={22} strokeWidth={2} />
+              </motion.div>
+              {
+                vimeoLive ? "Hide " : "View "
+              }
+              Live Event
+              <motion.div
+                animate={{ scale: [1, 1.4, 1], opacity: [1, 0.6, 1] }}
+                transition={{ duration: 1.2, repeat: Infinity, ease: "easeInOut" }}
+                style={{
+                  width: "10px",
+                  height: "10px",
+                  backgroundColor: "green",
+                  borderRadius: "50%",
+                }}
+                whileHover={{ backgroundColor: "white" }}
+              />
+            </motion.button>
+          </motion.div>
+        }
+
 
         <div className="car-overview">
           <h3>Car Overview</h3>
