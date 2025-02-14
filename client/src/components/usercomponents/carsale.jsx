@@ -85,52 +85,51 @@ function Carsale() {
           <div className="row">
             <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 mb-4">
               {
-                vimeoLive ?
-                  (
-                    <div style={{ height: "300px", width: "100%", marginBottom: "2rem" }}>
-                      <iframe src="https://vimeo.com/event/4916426/embed"
-                        allow="autoplay; fullscreen; picture-in-picture"
-                        allowfullscreen
-                        frameborder="0"
-                        style={{ width: "100%", height: "100%", borderRadius: "10px" }}></iframe>
-                    </div>
+                vimeoLive &&
+                (
+                  <div style={{ height: "300px", width: "100%", marginBottom: "2rem" }}>
+                    <iframe src="https://vimeo.com/event/4916426/embed"
+                      allow="autoplay; fullscreen; picture-in-picture"
+                      allowfullscreen
+                      frameborder="0"
+                      style={{ width: "100%", height: "100%", borderRadius: "10px" }}></iframe>
+                  </div>
 
-                  ) :
-                  (
-                    <div className="carsale-section">
-                      <Carousel interval={2000} pause="hover">
-                        {car.carImages.map((image, index) => (
-                          <Carousel.Item key={index}>
-                            <img
-                              className="d-block w-100"
-                              style={{ height: "300px" }}
-                              src={image}
-                              alt={`Slide ${index + 1}`}
-                            />
-                          </Carousel.Item>
-                        ))}
-                         {
-                          car.videoLink && (
-                            <Carousel.Item>
-                              <div className="video-container">
-                                <iframe
-                                  width="100%"
-                                  height="300px"
-                                  style={{ borderRadius: "10px" }}
-                                  src={getEmbedUrl(car.videoLink || "")}
-                                  title="Car Video"
-                                  frameBorder="0"
-                                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                  allowFullScreen
-                                ></iframe>
-                              </div>
-                            </Carousel.Item>
-                          )
-                        }
-                      </Carousel>
-                    </div>
-                  )
+                )
               }
+              <div className="carsale-section">
+                <Carousel interval={2000} pause="hover">
+                  {car.carImages.map((image, index) => (
+                    <Carousel.Item key={index}>
+                      <img
+                        className="d-block w-100"
+                        style={{ height: "300px" }}
+                        src={image}
+                        alt={`Slide ${index + 1}`}
+                      />
+                    </Carousel.Item>
+                  ))}
+                  {
+                    car.videoLink && (
+                      <Carousel.Item>
+                        <div className="video-container">
+                          <iframe
+                            width="100%"
+                            height="300px"
+                            style={{ borderRadius: "10px" }}
+                            src={getEmbedUrl(car.videoLink || "")}
+                            title="Car Video"
+                            frameBorder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowFullScreen
+                          ></iframe>
+                        </div>
+                      </Carousel.Item>
+                    )
+                  }
+                </Carousel>
+              </div>
+
               <div className="car-description">
                 <h2>Description</h2>
                 {car.description || "No description available"}
