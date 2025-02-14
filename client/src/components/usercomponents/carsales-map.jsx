@@ -105,10 +105,12 @@ const CarAuction = ({ car, vimeoLive, setVimeoLive }) => {
       toast.error("Please login first to View Live Event");
       return;
     }
-    if (currentBalance < 1) {
+    else if (currentBalance < 1) {
       toast.error("Live can't be opened due to empty wallet");
-    }
+    } 
+    else {
     setVimeoLive(!vimeoLive)
+    }
   }
   if (loading) {
     return <LoadingSpinner />
