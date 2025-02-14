@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import "../../assets/stylesheets/carsalesinfo.scss";
 import img1 from "../../assets/images/placebid.png";
 import img2 from "../../assets/images/body.png";
@@ -19,6 +19,8 @@ import { useNavigate } from "react-router-dom";
 import { CirclePlay, HeartPulse } from "lucide-react";
 import { Video } from "lucide-react";
 import { motion } from "framer-motion";
+import LoadingSpinner from "./LoadingSpinner";
+import { backendURL } from "../../utils/Exports";
 
 
 const CarAuction = ({ car, vimeoLive, setVimeoLive }) => {
@@ -27,7 +29,9 @@ const CarAuction = ({ car, vimeoLive, setVimeoLive }) => {
   const { token } = useSelector(state => state.auth);
   const { currentBidData } = useSelector(state => state.event);
   const [bid, setBid] = useState(car.startingBid || 0);
-  const [bidLoading, setBidLoading] = useState(false)
+  const [bidLoading, setBidLoading] = useState(false);
+  const [currentBalance, setCurrentBalance] = useState(0);
+  const [loading, setLoading] = useState(false)
 
 
   const increaseBid = () => setBid(bid + car.bidMargin);
@@ -68,14 +72,47 @@ const CarAuction = ({ car, vimeoLive, setVimeoLive }) => {
     }
   };
 
+  const getDeposits = useCallback(async () => {
+    const authorizationToken = `Bearer ${token}`;
+    try {
+      setLoading(true);
+      const response = await fetch(`${backendURL}/wallet`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: authorizationToken,
+        },
+      });
+      const res_data = await response.json();
+      if (response.ok) {
+        setCurrentBalance(res_data.currentAmount);
+      } else {
+        console.error(res_data.message);
+      }
+    } catch (error) {
+      console.error("Error in getting deposits:", error);
+    } finally {
+      setLoading(false);
+    }
+  }, [token]);
+
+  useEffect(() => {
+    getDeposits();
+  }, [getDeposits]);
+
   const openLive = () => {
     if (!token) {
       toast.error("Please login first to View Live Event");
       return;
     }
+    if (currentBalance < 1) {
+      toast.error("Live can't be opened due to empty wallet");
+    }
     setVimeoLive(!vimeoLive)
   }
-
+  if (loading) {
+    return <LoadingSpinner />
+  }
   return (
     <>
       <div className="car-auction">

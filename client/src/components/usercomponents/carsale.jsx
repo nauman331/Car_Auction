@@ -21,7 +21,9 @@ function Carsale() {
   const [car, setCar] = useState(null);
   const [featuresData, setFeaturesData] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [vimeoLive, setVimeoLive] = useState(false)
+  const [vimeoLive, setVimeoLive] = useState(false);
+
+
   const getCarDetails = async () => {
     try {
       const response = await fetch(`${backendURL}/car/${id}`, {
@@ -77,6 +79,7 @@ function Carsale() {
     }
   };
 
+
   return (
     <div>
       <div style={{ paddingBottom: 40, backgroundColor: "#050b20" }}></div>
@@ -87,7 +90,7 @@ function Carsale() {
               {
                 vimeoLive &&
                 (
-                  <div style={{ height: "300px", width: "100%", marginBottom: "2rem" }}>
+                  <div style={{ height: "300px", width: "100%", marginBottom: "2rem", border: "2px solid green", borderRadius: "10px" }}>
                     <iframe src="https://vimeo.com/event/4916426/embed"
                       allow="autoplay; fullscreen; picture-in-picture"
                       allowfullscreen
