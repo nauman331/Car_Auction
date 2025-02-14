@@ -11,6 +11,7 @@ import LoadingSpinner from "../usercomponents/LoadingSpinner";
 import toast from "react-hot-toast";
 // import Relatedlistening from "./related-listening";
 import { useSelector } from "react-redux";
+import { Modal } from "react-bootstrap";
 
 function Buysale() {
   const navigate = useNavigate();
@@ -20,6 +21,9 @@ function Buysale() {
   const [featuresData, setFeaturesData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [buyLoading, setBuyLoading] = useState(false);
+
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [showModal, setShowModal] = useState(false);
 
   const getCarDetails = async () => {
     try {
@@ -110,6 +114,20 @@ function Buysale() {
             <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 mb-4">
               <div className="carsale-section">
                 <Carousel interval={2000} pause="hover">
+                  {car.carImages?.map((image, index) => (
+                    <Carousel.Item key={index}>
+                      <img
+                        className="d-block w-100"
+                        style={{ height: "300px", cursor: "pointer" }}
+                        src={image}
+                        alt={`Slide ${index + 1}`}
+                        onClick={() => {
+                          setSelectedImage(image);
+                          setShowModal(true);
+                        }}
+                      />
+                    </Carousel.Item>
+                  ))}
                   {
                     car.videoLink && (
                       <Carousel.Item>
@@ -128,16 +146,6 @@ function Buysale() {
                       </Carousel.Item>
                     )
                   }
-                  {car.carImages?.map((image, index) => (
-                    <Carousel.Item key={index}>
-                      <img
-                        className="d-block w-100"
-                        style={{ height: "300px" }}
-                        src={image}
-                        alt={`Slide ${index + 1}`}
-                      />
-                    </Carousel.Item>
-                  ))}
                 </Carousel>
               </div>
               <div className="car-description">
@@ -174,6 +182,16 @@ function Buysale() {
           </div> */}
         </div>
       </div>
+
+      <Modal show={showModal} onHide={() => setShowModal(false)} centered>
+        <Modal.Body className="p-0">
+          <img
+            src={selectedImage}
+            alt="Full-size"
+            style={{ width: "100%", height: "100%", objectFit: "contain" }}
+          />
+        </Modal.Body>
+      </Modal>
     </div>
   );
 }

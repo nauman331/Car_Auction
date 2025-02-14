@@ -14,6 +14,7 @@ import toast from "react-hot-toast";
 // import Relatedlistening from "./related-listening";
 import { useDispatch } from "react-redux";
 import { setBidData } from "../../store/eventSlice";
+import { Modal } from "react-bootstrap";
 
 function Carsale() {
   const dispatch = useDispatch();
@@ -22,6 +23,9 @@ function Carsale() {
   const [featuresData, setFeaturesData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [vimeoLive, setVimeoLive] = useState(false);
+
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [showModal, setShowModal] = useState(false);
 
 
   const getCarDetails = async () => {
@@ -106,9 +110,13 @@ function Carsale() {
                     <Carousel.Item key={index}>
                       <img
                         className="d-block w-100"
-                        style={{ height: "300px" }}
+                        style={{ height: "300px", cursor: "pointer" }}
                         src={image}
                         alt={`Slide ${index + 1}`}
+                        onClick={() => {
+                          setSelectedImage(image);
+                          setShowModal(true);
+                        }}
                       />
                     </Carousel.Item>
                   ))}
@@ -163,6 +171,16 @@ function Carsale() {
           </div> */}
         </div>
       </div>
+
+      <Modal show={showModal} onHide={() => setShowModal(false)} centered>
+        <Modal.Body className="p-0">
+          <img
+            src={selectedImage}
+            alt="Full-size"
+            style={{ width: "100%", height: "100%", objectFit: "contain" }}
+          />
+        </Modal.Body>
+      </Modal>
     </div>
   );
 }
