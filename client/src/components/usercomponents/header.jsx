@@ -181,7 +181,7 @@ const Header = () => {
                       to="/about-us"
                       style={{
                         textDecoration: "none",
-                        marginLeft: "3rem",
+                        marginLeft: "1rem",
                         color: "black",
                       }}
                     >
@@ -194,7 +194,7 @@ const Header = () => {
                       to="/contact-us"
                       style={{
                         textDecoration: "none",
-                        marginLeft: "2.9rem",
+                        marginLeft: "1rem",
                         color: "black",
                       }}
                     >
