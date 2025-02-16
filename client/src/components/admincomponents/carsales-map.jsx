@@ -412,7 +412,7 @@ const CarAuction = ({ car, getCarDetails, backendURL }) => {
                             { label: "Completed", value: "Completed" },
                             { label: "UnSold", value: "UnSold" },
                           ]}
-                          placeholder="Select Status"
+                          placeholder="Select Bidding Status"
                           onChange={(selectedOption) => {
                             setSelectedStatus(selectedOption?.value);
                           }}

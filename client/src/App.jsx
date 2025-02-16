@@ -70,11 +70,7 @@ function App() {
       }
       new Audio("/notification.wav").play();
       toast.success(response.message, { duration: 5000 });
-      if (currentBidData?.carId === response.carId) {
-        dispatch(setBidData({ ...currentBidData, auctionStatus: true }));
-      } else {
         dispatch(setBidData(response));
-      }
     };
 
     const handleBidPlaced = (response) => {
@@ -109,7 +105,8 @@ function App() {
         new Audio("/notification.wav").play();
         toast.success(response.message, { duration: 5000 });
       }
-      dispatch(setBidData(response));
+      console.log(response);
+      dispatch(removeBidData());
     };
 
     const handleNotifyBidders = (response) => {
