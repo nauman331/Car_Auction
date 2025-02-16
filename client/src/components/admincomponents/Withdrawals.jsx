@@ -145,6 +145,8 @@ const Withdrawals = () => {
                 <thead>
                   <tr>
                     <th>User ID</th>
+                    <th>Name</th>
+                    <th>Bank</th>
                     <th>Pending Requests</th>
                     <th>Pending Amount</th>
                   </tr>
@@ -163,6 +165,8 @@ const Withdrawals = () => {
                           style={{ cursor: "pointer" }}
                         >
                           <td>{user || "N/A"}</td>
+                          <td>{withdrawals[0].accountHolderName || "N/A"}</td>
+                          <td>{withdrawals[0].bankName || "N/A"}</td>
                           <td>{totalRequests || 0}</td>
                           <td>{totalAmount} AED</td>
                         </tr>

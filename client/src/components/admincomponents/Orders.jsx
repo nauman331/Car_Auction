@@ -67,11 +67,11 @@ const Orders = () => {
 
   const getFilteredInvoices = () => {
     return invoices.filter((invoice) => {
-      const title = invoice?.carId?.listingTitle?.toLowerCase() || '';
-      const lotNo = invoice?.carId?.lotNo?.toString() || '';
-      return title.includes(filterText) || lotNo.includes(filterText);
+      const invNumber = String(invoice?.invNumber || "").toLowerCase();
+      return invNumber.includes(filterText);
     });
   };
+
 
   const getSortedInvoices = (filteredInvoices) => {
     if (sortOption === 'paid') {
@@ -107,7 +107,7 @@ const Orders = () => {
             <Search />
             <input
               type="text"
-              placeholder="Search Orders e.g., Lot No"
+              placeholder="Search Orders e.g., Invoice Number"
               value={filterText}
               onChange={handleFilterChange}
             />
