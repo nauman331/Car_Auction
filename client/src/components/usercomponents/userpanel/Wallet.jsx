@@ -65,7 +65,7 @@ const Wallet = () => {
     // Apply search query
     if (searchQuery) {
       filtered = filtered.filter((item) =>
-        item.invNumber?.toLowerCase().includes(searchQuery.toLowerCase())
+        item.invNumber?.toString().includes(searchQuery)
       );
     }
 
@@ -118,7 +118,7 @@ const Wallet = () => {
       setUploadLoading(true);
       const uploadResponse = await CloudinaryUploader(pdf);
       const cloudinaryUrl = uploadResponse.url;
-      if(!cloudinaryUrl){
+      if (!cloudinaryUrl) {
         return;
       }
       const response = await fetch(`${backendURL}/wallet/deposit`, {
