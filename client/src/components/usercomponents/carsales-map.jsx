@@ -222,7 +222,7 @@ const CarAuction = ({ car, vimeoLive, setVimeoLive }) => {
                 <span class="icon">
                   <img src={img2} />
                 </span>
-                <p class="label">Body</p>
+                <p class="label">Make</p>
               </div>
               <p class="value">{car.carMake?.vehicleMake || "No Vehicle Make"}</p>
             </li>
@@ -294,7 +294,7 @@ const CarAuction = ({ car, vimeoLive, setVimeoLive }) => {
                 <span class="icon">
                   <img src={img8} />
                 </span>
-                <p class="label">Condition</p>
+                <p class="label">Car Type</p>
               </div>
               <p class="value">{car.carType?.vehicleType || "No Car Type"}</p>
             </li>
