@@ -290,14 +290,14 @@ const Invoice = () => {
                 </Modal.Header>
                 <Modal.Body>
                     <div>
-                        <h5>Bank Account Details</h5>
-                        <p>
-                            Bank Name: XYZ Bank<br />
-                            Account Number: 1234567890<br />
-                            IBAN: XYZ12345IBAN<br />
-                            SWIFT Code: XYZSWIFT
-                        </p>
-                    </div>
+            <h5>Bank Account Details</h5>
+            <p>
+              <strong>Customer Name:</strong> <i>AL BASHAYERA AUTO USED TRADING AND AUCTIONS LLC SP</i><br />
+              <strong>Account Number:</strong> <i>1015877418001</i><br />
+              <strong>IBAN:</strong> <i>AE210260001015877418001</i><br />
+            </p>
+          </div>
+          <div>
                     <div>
                         <h5>Upload Proof of Payment</h5>
                         <Deposit
