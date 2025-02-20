@@ -297,7 +297,7 @@ const Invoice = () => {
               <strong>IBAN:</strong> <i>AE210260001015877418001</i><br />
             </p>
           </div>
-          <div>
+          
                     <div>
                         <h5>Upload Proof of Payment</h5>
                         <Deposit
