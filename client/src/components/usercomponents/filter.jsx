@@ -43,7 +43,9 @@ const CarFilterForm = ({ sellingType }) => {
       const result = await response.json();
       if (result.success) {
         setCars(result.data);
-        setFilteredCars(result.data);
+        // Sorting cars based on lotNo in increasing order
+        const filteredcar = [...result.data].sort((a, b) => Number(a.lotNo) - Number(b.lotNo));
+        setFilteredCars(filteredcar);
       } else {
         console.log("No cars found with the applied filters.");
       }
@@ -75,12 +77,18 @@ const CarFilterForm = ({ sellingType }) => {
   }, [SelectedFilters]);
 
   useEffect(() => {
-    if (selectedAuction) {
-      setAuctionTitle(selectedAuction);
+    if (auctionTitle) {
+      const filtered = cars?.filter((car) =>
+        car.auctionLot?.auctionTitle
+          ?.toLowerCase()
+          .includes(auctionTitle?.toLowerCase())
+      );
+      setFilteredCars(filtered);
     } else {
-      setAuctionTitle("");
+      setFilteredCars([...cars]); // Keep sorted cars
     }
-  }, [selectedAuction]);
+  }, [auctionTitle, cars]);
+
 
   const handleFilterChange = (selectedAuction) => {
     setAuctionTitle(selectedAuction);
@@ -94,7 +102,7 @@ const CarFilterForm = ({ sellingType }) => {
           .includes(auctionTitle?.toLowerCase())
       );
       setFilteredCars(filtered);
-    }  else {
+    } else {
       setFilteredCars([]); // Reset to all cars if no auction title
     }
   }, [auctionTitle, cars]);

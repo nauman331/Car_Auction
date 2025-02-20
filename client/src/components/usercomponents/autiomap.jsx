@@ -24,14 +24,23 @@ const ProductGridWithPagination = ({ cars }) => {
   }, [location]);
 
   useEffect(() => {
-    const filtered = cars.filter(
-      (car) =>
-        (selectedAuctionTitle === "All" || car.auctionLot?.auctionTitle === selectedAuctionTitle) &&
-        !car.isSold &&
-        car.sellingType === sellingType
-    );
+    const filtered = cars
+      .filter(
+        (car) =>
+          (selectedAuctionTitle === "All" || car.auctionLot?.auctionTitle === selectedAuctionTitle) &&
+          !car.isSold &&
+          car.sellingType === sellingType
+      )
+      .sort((a, b) => {
+        // Ensure auctionLot exists and has a lot number before sorting
+        const lotA = a.lotNo || 0;
+        const lotB = b.lotNo || 0;
+        return lotA - lotB; // Ascending order
+      });
+  
     setFilteredCars(filtered);
   }, [cars, selectedAuctionTitle, sellingType]);
+  
 
   const totalPages = Math.ceil(filteredCars.length / itemsPerPage);
 
