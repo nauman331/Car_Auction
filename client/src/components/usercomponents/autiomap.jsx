@@ -120,7 +120,7 @@ const ProductGridWithPagination = ({ cars }) => {
         <h4 className="text-center my-5">No Cars for Selected Filters. Please Change Filters</h4>
       )}
 
-      {currentPage !== 1 && (
+      {totalPages > 1 && (
         <div className="pagination-controls text-center">
           <button onClick={handlePrev} disabled={currentPage === 1}>
             <ChevronLeft className={`icon ${currentPage === 1 ? "disabled" : ""}`} />

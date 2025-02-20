@@ -4,10 +4,10 @@ import "../../assets/stylesheets/loader.scss";
 
 const StatsRow = () => {
   const stats = [
-    { id: 1, value: 0, suffix: "M", label: "CARS FOR SALE" },
-    { id: 2, value: 0, suffix: "M", label: "DEALER REVIEWS" },
-    { id: 3, value: 0, suffix: "M", label: "VISITS PER DAY" },
-    { id: 4, value: 0, suffix: "M", label: "VISITED DEALERS" },
+    { id: 1, value: 500, suffix: "+", label: "CARS FOR SALE" },
+    { id: 2, value: 100, suffix: "+", label: "REVIEWS" },
+    { id: 3, value: 10, suffix: "K", label: "VISITS PER MONTH" },
+    { id: 4, value: 3, suffix: "", label: "AUCTIONS PER WEEK" },
   ];
 
   return (

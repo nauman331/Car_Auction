@@ -30,17 +30,18 @@ const Home = () => {
       const response = await fetch(`${backendURL}/car`, { method: "GET" });
 
       if (!response.ok) {
-        console.error("Error: Failed to fetch cars. Please try again later.");
+        throw new Error("Failed to fetch cars. Please try again later.");
       }
 
       const res_data = await response.json();
-      setCars(res_data);
+      setCars(res_data.slice(0, 12)); // Only store the first 12 cars
     } catch (error) {
       console.error("Error fetching cars:", error);
     } finally {
       setLoading(false);
     }
   };
+
 
   const fetchCategories = async () => {
     setCategoriesLoading(true);
@@ -88,8 +89,8 @@ const Home = () => {
           <Premium />
           <Reachus />
           <Footer />
-      
-        
+
+
         </div>
       )}
     </>
