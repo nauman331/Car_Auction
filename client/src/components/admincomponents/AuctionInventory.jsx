@@ -20,7 +20,7 @@ const AuctionInventory = () => {
   const { token } = useSelector((state) => state.auth);
   const [auctions, setAuctions] = useState([]);
   const [cars, setCars] = useState([]);
-  const [selectedAuctionLot, setSelectedAuctionLot] = useState("");
+  const [selectedAuctionLot, setSelectedAuctionLot] = useState("notAssociated");
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -47,8 +47,8 @@ const AuctionInventory = () => {
           car.vin.includes(searchTerm);
 
         const matchesAuctionLot =
-          selectedAuctionLot === "Not in Auction"
-            ? !car.auctionLot
+          selectedAuctionLot === "notAssociated"
+            ? car.auctionLot === null
             : car.auctionLot?._id === selectedAuctionLot || selectedAuctionLot === "";
 
         return matchesSearch && matchesAuctionLot;
@@ -133,7 +133,11 @@ const AuctionInventory = () => {
   useEffect(() => {
     if (auctions.length > 0) {
       const nearestAuction = sortAuctionsByTime(auctions)[0]; // Get the nearest auction (first in the sorted array)
-      setSelectedAuctionLot(nearestAuction._id); // Set the default selected auction lot to the nearest auction
+      if (nearestAuction.statusText !== "Compeleted") {
+        setSelectedAuctionLot(nearestAuction._id); // Set the default selected auction lot to the nearest auction
+      }
+      console.log("Auction", nearestAuction);
+
     }
   }, [auctions]);
   const sortedCarsByLotNo = useMemo(() => {
@@ -288,7 +292,7 @@ const AuctionInventory = () => {
                         </option>
                       ))
                     )}
-                    <option value="Not in Auction">Not Associated</option>
+                    <option value="notAssociated">Not Associated</option>
                   </select>
                 </div>
 
