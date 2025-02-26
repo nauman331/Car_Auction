@@ -129,7 +129,7 @@ const Profile = () => {
                 <Image size={24} />
               )}
             </div>
-            <div className="image-box upload">
+            <div className="image-box upload" style={{ backgroundColor: "#050b20", color: "#fff" }}>
               <Upload size={24} />
               <input
                 type="file"
@@ -155,19 +155,19 @@ const Profile = () => {
               id: "address", label: "Address", value: formData.address || "No Address Provided", name: "address"
             }].map(({ id, label, value, type = "text", name }) => (
               <div key={id} className="input-container">
-                  <input
-                    type={type}
-                    id={id}
-                    value={value}
-                    onChange={handleInputChange}
-                    name={name}
-                  />
+                <input
+                  type={type}
+                  id={id}
+                  value={value}
+                  onChange={handleInputChange}
+                  name={name}
+                />
                 <label htmlFor={id}>{label}</label>
               </div>
             ))}
           </div>
           <div className="next-button">
-            <button type="submit" style={{backgroundColor: "#050b20"}}>Save Profile</button>
+            <button type="submit" style={{ backgroundColor: "#050b20" }}>Save Profile</button>
           </div>
         </form>
       </div>

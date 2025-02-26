@@ -6,9 +6,9 @@
 
   .admin-header {
     position: fixed;
-    top: 0%;
-    left: 0%;
-    right: 0%;
+    top: 0;
+    left: 0;
+    right: 0;
     background-color: #050b20;
     color: #ffffff;
     display: flex;
@@ -17,12 +17,20 @@
     padding: 0.2rem 1rem;
     height: 5rem;
     z-index: 1000;
-    margin-top: 0px;
+
     .toggler {
       cursor: pointer;
-      display: none;
+      display: none; // Hides toggler by default
+    }
+
+    .home-icon {
+      color: #ffffff;
+      text-decoration: none;
+      font-size: 1.5rem;
+      cursor: pointer;
     }
   }
+
   aside {
     position: fixed;
     height: 100vh;
@@ -34,6 +42,7 @@
     padding-left: 1rem;
     background-color: #050b20;
     z-index: 999;
+
     .dash-link {
       display: flex;
       align-items: center;
@@ -44,11 +53,13 @@
       color: #ffffff;
       cursor: pointer;
       padding: 0.5rem;
+
       &:hover {
         background-color: #0f1838;
       }
     }
   }
+
   .admin-outlet {
     min-height: calc(90vh - 2rem);
     width: calc(100vw - 18rem);
@@ -58,41 +69,55 @@
     background-color: #ffffff;
     border-radius: 10px;
     z-index: 1;
+
     .dashboard-text {
       margin-left: 20px;
     }
   }
 }
 
+/* MOBILE VIEW */
 @media (max-width: 1350px) {
   .admin-body {
-    padding: 0%;
+    padding: 0;
+
+    .admin-header {
+      .toggler {
+        display: block; // Show toggler in mobile view
+      }
+
+      .home-icon {
+        display: none; // Hide home icon in mobile view
+      }
+    }
+
     .close-adminnav {
       left: -100%;
-      transition: left 1s ease-in-out, width 1s ease-in-out;
+      transition: left 0.5s ease-in-out, width 0.5s ease-in-out;
       top: 2.5rem;
     }
+
     .open-adminnav {
-      left: -5%;
-      transition: left 1s ease-in-out, width 1s ease-in-out;
+      left: 0;
+      transition: left 0.5s ease-in-out, width 0.5s ease-in-out;
       top: 2.5rem;
       width: 80vw;
     }
+
     .admin-outlet {
       width: 100%;
       min-height: 100vh;
-      margin: 5rem 0%;
+      margin: 5rem 0;
       border-radius: 0px;
       padding: 1rem;
     }
+
     aside {
       padding: 3rem;
     }
+
     .admin-header {
       padding: 0.5rem 1rem;
-      .toggler {
-        display: flex;
-      }
     }
   }
 }
