@@ -339,7 +339,7 @@ const AuctionListings = () => {
               >
                 Cancel
               </Button>
-              <Button variant="primary" onClick={handleEditSubmit}>
+              <Button style={{backgroundColor: "#050b20", border: "2px solid #050b20"}} onClick={handleEditSubmit}>
                 Save Changes
               </Button>
             </Modal.Footer>

@@ -17,7 +17,7 @@ const WithdrawalForm = () => {
     bankName: "",
     amount: "",
   });
-  
+
   useEffect(() => {
     if (!balance) {
       navigate("/user/wallet");
@@ -119,8 +119,8 @@ const WithdrawalForm = () => {
         </div>
 
         {/* Submit Button */}
-        <button type="submit" className="submit-button" disabled={loading} style={{backgroundColor: loading && "gray"}}>
-          {loading? "Submitting..." : "Submit"}
+        <button type="submit" className="submit-button" disabled={loading} style={{ backgroundColor: loading ? "gray" : "#050b20" }}>
+          {loading ? "Submitting..." : "Submit"}
         </button>
       </form>
     </div>

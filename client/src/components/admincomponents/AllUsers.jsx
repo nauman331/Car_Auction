@@ -340,7 +340,7 @@ const AllUsers = () => {
                 Cancel
               </Button>
               <Button
-                variant="primary"
+                style={{backgroundColor: "#050b20", border: "2px solid #050b20"}}
                 onClick={handleUpdateUser}
                 disabled={updateloading}
               >

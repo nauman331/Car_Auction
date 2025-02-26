@@ -167,7 +167,7 @@ const Profile = () => {
             ))}
           </div>
           <div className="next-button">
-            <button type="submit">Save Profile</button>
+            <button type="submit" style={{backgroundColor: "#050b20"}}>Save Profile</button>
           </div>
         </form>
       </div>

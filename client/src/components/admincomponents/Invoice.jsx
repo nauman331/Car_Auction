@@ -124,7 +124,7 @@ const Invoice = () => {
         <Container className="my-4" ref={invoiceRef}>
             <Row className="justify-content-between align-items-center mb-4">
                 <Col xs={6} sm={4} id="no-print">
-                    <Button variant="primary" className="px-4 py-2" onClick={printInvoice}>
+                    <Button style={{backgroundColor: "#050b20", border: "2px solid #050b20"}} className="px-4 py-2" onClick={printInvoice}>
                         Print this Invoice ↗
                     </Button>
                 </Col>
@@ -171,7 +171,8 @@ const Invoice = () => {
                             href={encodeURI(invoice?.invSlip)}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="bg-primary text-light px-4 py-2 rounded text-decoration-none"
+                            className="text-light px-4 py-2 rounded text-decoration-none"
+                            style={{backgroundColor: "#050b20", border: "2px solid #050b20"}}
                         >
                             Proof ↗
                         </a> :
@@ -196,7 +197,7 @@ const Invoice = () => {
                                     <label htmlFor="auctionLot1">Status</label>
                                     <div className="next-button">
                                     <button 
-                                        style={{ backgroundColor: updateLoading && "#167CB9" }}
+                                        style={{ backgroundColor: updateLoading ? "gray" : "#050b20" }}
                                         disabled={updateLoading}
                                         onClick={updateStatus}>
                                         {updateLoading ? "Updating..." : "Update"}

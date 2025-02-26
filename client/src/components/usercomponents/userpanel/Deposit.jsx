@@ -38,7 +38,7 @@ const Deposit = ({ setDepositAmount, depositAmount, pdf, setPdf, NoInput }) => {
             </div>
           )
         ) : (
-          <div className="upload-box">
+          <div className="upload-box" style={{ backgroundColor: "#050b20" }}>
             <Upload size={24} />
             <input
               type="file"

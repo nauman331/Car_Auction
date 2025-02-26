@@ -162,7 +162,7 @@ const AddBuyNow = ({ sellingType }) => {
             <button
               onClick={step < steps.length ? () => setStep(step + 1) : handleSubmit}
               disabled={loading}
-              style={{ backgroundColor: loading && "#167CB9" }}
+              style={{ backgroundColor: loading ? "#167CB9" : "#050b20" }}
             >
               {step < steps.length ? `Next: ${steps[step]}` : loading ? "Submitting..." : "Submit"}
             </button>

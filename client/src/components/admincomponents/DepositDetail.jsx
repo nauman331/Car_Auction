@@ -83,7 +83,8 @@ const DepositDetail = () => {
               href={encodeURI(deposit?.inv)}
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-primary text-light px-4 py-2 rounded text-decoration-none"
+              className="text-light px-4 py-2 rounded text-decoration-none"
+              style={{backgroundColor: "#050b20", border: "2px solid #050b20"}}
             >
               Proof ↗
             </a>
@@ -137,7 +138,7 @@ const DepositDetail = () => {
                 <label htmlFor="status">Select Status</label>
                 <div className="next-button">
                 <button
-                  style={{backgroundColor: loading && "#167CB9"}}
+                  style={{backgroundColor: "#050b20"}}
                   disabled={loading}
                   onClick={() => handleUpdateClick(deposit.invNumber)}
                 >

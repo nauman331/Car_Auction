@@ -143,7 +143,9 @@ const Invoice = () => {
             <Container className="my-4" ref={invoiceRef}>
                 <Row className="justify-content-between align-items-center mb-4">
                     <Col xs={6} sm={4} id="no-print">
-                        <Button variant="primary" className="px-4 py-2" onClick={printInvoice}>
+                        <Button className="px-4 py-2" onClick={printInvoice}
+                            style={{ backgroundColor: "#050b20", border: "2px solid #050b20" }}
+                        >
                             Print this Invoice ↗
                         </Button>
                     </Col>
@@ -188,7 +190,7 @@ const Invoice = () => {
                             style={{ backgroundColor: "#F9FBFC", height: "200px" }}
                             id="no-print"
                         >
-                            <Button variant="primary" className="px-4 py-2" onClick={handleModalOpen}><Wallet />Pay via Bank</Button>
+                            <Button style={{ backgroundColor: "#050b20", border: "2px solid #050b20" }} className="px-4 py-2" onClick={handleModalOpen}><Wallet />Pay via Bank</Button>
                             {/* <PayPalButtons
                                 createOrder={(data, actions) => {
                                     return actions.order.create({
@@ -290,14 +292,14 @@ const Invoice = () => {
                 </Modal.Header>
                 <Modal.Body>
                     <div>
-            <h5>Bank Account Details</h5>
-            <p>
-              <strong>Customer Name:</strong> <i>AL BASHAYERA AUTO USED TRADING AND AUCTIONS LLC SP</i><br />
-              <strong>Account Number:</strong> <i>1015877418001</i><br />
-              <strong>IBAN:</strong> <i>AE210260001015877418001</i><br />
-            </p>
-          </div>
-          
+                        <h5>Bank Account Details</h5>
+                        <p>
+                            <strong>Customer Name:</strong> <i>AL BASHAYERA AUTO USED TRADING AND AUCTIONS LLC SP</i><br />
+                            <strong>Account Number:</strong> <i>1015877418001</i><br />
+                            <strong>IBAN:</strong> <i>AE210260001015877418001</i><br />
+                        </p>
+                    </div>
+
                     <div>
                         <h5>Upload Proof of Payment</h5>
                         <Deposit
@@ -311,7 +313,7 @@ const Invoice = () => {
                     <Button variant="secondary" onClick={handleModalClose}>
                         Close
                     </Button>
-                    <Button variant="primary" onClick={handleSubmit} disabled={uploadLoading}>
+                    <Button style={{ backgroundColor: "#050b20", border: "2px solid #050b20" }} onClick={handleSubmit} disabled={uploadLoading}>
                         {uploadLoading ? "Submitting..." : "Submit"}
                     </Button>
                 </Modal.Footer>

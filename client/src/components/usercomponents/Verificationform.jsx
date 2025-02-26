@@ -170,7 +170,7 @@ const Verificationform = () => {
               onChange={(e) => setConfirmPassword(e.target.value)}
             />
           </div> */}
-          <button className="update-password-btn" onClick={updatePassword}>
+          <button style={{backgroundColor: "#050b20", border: "2px solid #050b20"}} onClick={updatePassword}>
             Update Password
           </button>
         </>

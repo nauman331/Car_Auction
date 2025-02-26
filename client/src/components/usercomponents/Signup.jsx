@@ -222,11 +222,10 @@ const Signup = () => {
         {/* Submit Button */}
         <button
           type="submit"
-          className="btn-primary"
           disabled={loading || !isPhoneValid} // Disable if loading or phone is invalid
-          style={{ backgroundColor: loading && "#167CB9" }}
+          style={{ backgroundColor: loading ? "gray" : "#050b20" }}
         >
-          {loading ? "Registering..." : "register"}
+          {loading ? "Registering..." : "Register"}
           <FontAwesomeIcon
             icon={faArrowLeft}
             transform="rotate-140"
