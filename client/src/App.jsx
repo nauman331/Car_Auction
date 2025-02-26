@@ -170,7 +170,7 @@ function App() {
     <LocalizationProvider dateAdapter={AdapterDayjs}>
         <ProtectedRoute>
           <Routes>
-            {/* Publics routes */}
+            {/* Public routes */}
             <Route path="/" element={<Home />} />
             <Route path="/auth" element={<Auth />} />
             <Route path="/contact-us" element={<ContactUs />} />
