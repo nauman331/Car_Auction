@@ -94,7 +94,7 @@ const AddAuctionForm = () => {
           <FormGrid fields={AuctionFields} formData={formData} setFormData={setFormData} />
           </div>
           <div className="next-button">
-            <button onClick={handleUpload}>Upload</button>
+            <button style={{ backgroundColor: "#050b20", border: "2px solid #050b20" }} onClick={handleUpload}>Upload</button>
           </div>
         </div>
       </div>
