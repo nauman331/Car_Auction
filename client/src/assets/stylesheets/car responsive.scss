@@ -38,6 +38,12 @@
   .footer-section .footertopsection .mobileapp {
     padding: 0 !important;
   }
+  .car-auction .bid-controls button {
+    height: 43px !important;
+  }
+  .car-auction .bid-controls .place-bid {
+    width: 137px !important;
+  }
 }
 
 @media only screen and (max-width: 768px) {
@@ -82,7 +88,10 @@
 @media only screen and (max-width: 450px) {
   .car-auction .value {
     position: absolute;
-    left: 103px !important;
+    left: 128px !important;
+  }
+  .car-auction .value {
+    font-size: 11px !important;
   }
   .carsale-section .carsale-btns2 button {
     right: 10px !important;
@@ -95,9 +104,19 @@
     padding: 20px 5px !important;
   }
   .car-auction h1 {
-    font-size: 35px !important;
+    font-size: 30px !important;
   }
   .header-section {
     padding: 10px 15px !important;
+  }
+  .car-auction .bid-controls {
+    flex-direction: column !important;
+    align-items: left !important;
+  }
+  .car-auction .bid-controls .place-bid {
+    width: 100% !important;
+  }
+  .carsale-section img {
+    height:100% !important;
   }
 }

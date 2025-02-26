@@ -104,9 +104,10 @@
   }
   .bid-controls {
     display: flex;
-    align-items: center;
+    // align-items: center;
     gap: 10px;
     margin-bottom: 20px;
+    flex-direction: row;
     button {
       border: none;
       padding: 10px 20px;

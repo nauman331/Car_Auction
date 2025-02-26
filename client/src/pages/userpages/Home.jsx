@@ -17,7 +17,6 @@ import LoadingSpinner from "../../components/usercomponents/LoadingSpinner";
 import { setCategories } from "../../store/slices/categorySlice";
 import { useDispatch } from "react-redux";
 
-
 const Home = () => {
   const dispatch = useDispatch();
   const [cars, setCars] = useState([]);
@@ -41,7 +40,6 @@ const Home = () => {
       setLoading(false);
     }
   };
-
 
   const fetchCategories = async () => {
     setCategoriesLoading(true);
@@ -79,6 +77,7 @@ const Home = () => {
         <div>
           <Herosection />
           <Header />
+
           <Browsebytype />
           <CarTabs cars={cars} />
           <Livecar />
@@ -89,8 +88,6 @@ const Home = () => {
           <Premium />
           <Reachus />
           <Footer />
-
-
         </div>
       )}
     </>

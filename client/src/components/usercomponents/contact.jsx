@@ -9,20 +9,20 @@ import img6 from "../../assets/images/facebook1.png";
 import img5 from "../../assets/images/tiktok.png";
 import "../../assets/stylesheets/FeatureCategory.scss";
 import img7 from "../../assets/images/insta1.png";
-import { backendURL } from "../../utils/Exports"
+import { backendURL } from "../../utils/Exports";
 
 // import OfficeDetails from "../usercomponents/mapaddress";
 import { Link } from "react-router-dom";
-import { toast } from 'react-hot-toast';
+import { toast } from "react-hot-toast";
 const Form = () => {
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
   const [user, setUser] = useState({
     firstName: "",
     lastName: "",
     contact: "",
     email: "",
-    comment: ""
-  })
+    comment: "",
+  });
   const carddatas = [
     {
       id: 1,
@@ -55,34 +55,33 @@ const Form = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      setLoading(true)
+      setLoading(true);
       const response = await fetch(`${backendURL}/contact`, {
         method: "POST",
-         headers: {
-          "Content-Type": "application/json"
-           },
-        body: JSON.stringify(user)
-      })
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(user),
+      });
       const res_data = await response.json();
       if (response.ok) {
-        toast.success(res_data.message)
+        toast.success(res_data.message);
         setUser({
           firstName: "",
           lastName: "",
           contact: "",
           email: "",
-          comment: ""
-        })
+          comment: "",
+        });
       } else {
-        toast.error(res_data.message)
+        toast.error(res_data.message);
       }
     } catch (error) {
-      toast.error("Error while Submitting")
+      toast.error("Error while Submitting");
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-
-  }
+  };
 
   return (
     <div>
@@ -204,13 +203,18 @@ const Form = () => {
                     <label> Comment</label>
                   </div>
                   <div className="send-message-btn">
-                    <button type="submit" disabled={loading} style={{ backgroundColor: loading && "167CB9" }}>
-                      {
-                        loading ? "Sending..." : <span>
+                    <button
+                      type="submit"
+                      disabled={loading}
+                      style={{ backgroundColor: loading && "167CB9" }}
+                    >
+                      {loading ? (
+                        "Sending..."
+                      ) : (
+                        <span>
                           Send Message <img src={img4} />
                         </span>
-                      }
-
+                      )}
                     </button>
                   </div>
                 </form>
@@ -238,13 +242,20 @@ const Form = () => {
                   </div>
                   <div className="follow-us-imagesection">
                     <div className="follow-image">
-                      <img src={img5} style={{ width: "12px" }} />
+                      <a href="https://www.tiktok.com/@albashayeraautoauction?_t=ZS-8u3T6j55U8X&_r=1">
+                        <img src={img5} style={{ width: "12px" }} />
+                      </a>
                     </div>
                     <div className="follow-image">
-                      <img src={img6} />
+                      <a href="facebook.com/share/1DXXBfLc9f/?mibextid=wwXIfr">
+                        <img src={img6} />
+                      </a>
                     </div>
+
                     <div className="follow-image">
-                      <img src={img7} />
+                      <a href="https://www.instagram.com/albashayeraautoauction?igsh=ODZjODYwOTJzZmwx&utm_source=qr">
+                        <img src={img7} />
+                      </a>
                     </div>
                   </div>
                 </div>

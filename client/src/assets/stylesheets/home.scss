@@ -20,6 +20,21 @@
   .Hero-section .hero-text-section h1 {
     font-size: 55px !important;
   }
+  .navbar-expand-lg .navbar-nav .nav-item .nav-link {
+    padding: 0 !important;
+  }
+  .number {
+    display: none !important;
+  }
+  .header-actions .sign-in {
+    padding: 0 !important;
+  }
+  .navbar-toggler {
+    background-color: white !important;
+  }
+  .header-actions .sign-in {
+    justify-content: end !important;
+  }
   .contact-container .contact-button .text {
     font-size: 12px !important;
   }
@@ -84,6 +99,7 @@
   .footer-section .footertopsection .mobileapp {
     padding: 0 !important;
   }
+ 
 }
 
 @media only screen and (max-width: 768px) {
@@ -199,7 +215,7 @@
     width: 100% !important;
   }
   .Live-car-section .live-car-title .live-car-bg {
-    padding: 39px 36px !important;
+    padding: 39px 22px !important;
   }
   // .prenium-brand-section .prenium-brand-text h2 {
   //   font-size: 24px !important;
@@ -219,12 +235,49 @@
   .Hero-section .hero-text-section h1 {
     font-size: 29px !important;
   }
+  .feature-text h2 {
+    line-height: 37px !important;
+  }
+  .header-sections {
+    padding: 10px 11px !important;
+  }
+  .features-section .feature-item {
+    // text-align: center !important;
+  }
+  .brand-btn {
+    display: none !important;
+  }
+  .features-section .feature-item {
+    padding: 0 11px !important;
+  }
+  .loader-section .loader-column .loader-label {
+    font-size: 11px !important;
+  }
+  .loader-section .loader-column .loader-number {
+    font-size: 33px !important;
+  }
+  .loader-section .loader-column .loader-number {
+    margin-bottom: 0 !important;
+  }
+  .btn {
+    --bs-btn-padding-x: 0.75rem;
+    --bs-btn-padding-y: -0.625rem !important;
+  }
+  .Hero-section .hero-text-section {
+    padding: 141px 0 50px 0px !important;
+  }
+  .browsebytype-section .browsebytype-text h1 {
+    font-size: 29px !important;
+  }
   .Hero-section .hero-text-section p {
     font-family: "DM Sans";
     font-style: normal;
     font-weight: 400;
     font-size: 14px !important;
     line-height: 26px !important;
+  }
+  .catageories .card:last-child {
+    display: none !important;
   }
   .Hero-section {
     min-height: 640px !important;
@@ -247,7 +300,7 @@
   }
   .Live-car-section .live-car-title .live-car-bg .Live-car-text h2 {
     font-size: 22px !important;
-    line-height: 43px !important;
+    line-height: 39px !important;
   }
   .Live-car-section .live-car-title .live-car-bg .Live-car-text {
     padding: 0px !important;
@@ -266,6 +319,31 @@
     font-size: 25px !important;
   }
   .prenium-brand-section .prenium-brand-text h2 {
+    font-size: 19px !important;
+  }
+  .features-section .feature-item .text h4 {
+    font-size: 17px !important;
+  }
+  .Reachus .reachus-text h2 {
+    line-height: 29px !important;
+  }
+  .Reachus .reachus-text .reachus-btn {
+    margin-top: 35px !important;
+  }
+  .Reachus {
+    padding-top: 80px;
+    padding-bottom: 61px !important;
+  }
+  .footer-section .copyright p {
+    margin-bottom: 0 !important;
+  }
+  .contact-container .contact-button .text {
+    font-size: 12px !important;
+  }
+  .tab-toggle button.active {
+    margin: 0 !important;
+  }
+  .prenium-brand-section .premium-brands .brand-card h6 {
     font-size: 12px !important;
   }
   .prenium-brand-section .prenium-brand-text .brand-btn a {
@@ -282,7 +360,14 @@
   .prenium-brand-section .prenium-brand-text .brand-btn a img {
     width: 12px !important;
   }
+  .header-sections {
+    padding: 0px 10px 9px !important;
+    // background-color: #050b20;
+    // background-color: #010153;
+    background-color: #050b20 !important;
 
+    width: 100%;
+  }
   .Reachus .reachus-text {
     padding: 10px 0 !important;
   }
@@ -325,5 +410,8 @@
     font-size: 14px !important;
     line-height: 26px;
     color: #ffffff;
+  }
+  .contact-container {
+    margin-bottom: 0 !important;
   }
 }

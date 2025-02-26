@@ -11,8 +11,8 @@ const Footer = () => {
       title: "Quick Links",
       items: [
         { label: "Home", link: "/" },
-        { label: "About Us", link: "/about" },
-        { label: "Contact Us", link: "/contactus" },
+        { label: "About Us", link: "/about-us" },
+        { label: "Contact Us", link: "/contact-us" },
       ],
       // items: ["Home", "About Us", "Contact Us"],
     },
@@ -21,7 +21,7 @@ const Footer = () => {
     <footer className="footer-section">
       <div className="container">
         <div
-          className="row mb-5 py-1 align-item-baseline footer-mid-section"
+          className="row mb-4 py-1 align-item-baseline footer-mid-section"
           style={{ borderBottom: "1px solid #6b6c7e" }}
         >
           <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">

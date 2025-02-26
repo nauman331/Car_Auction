@@ -22,17 +22,15 @@ import { motion } from "framer-motion";
 import LoadingSpinner from "./LoadingSpinner";
 import { backendURL } from "../../utils/Exports";
 
-
 const CarAuction = ({ car, vimeoLive, setVimeoLive }) => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const { socket } = useSelector((state) => state.socket);
-  const { token } = useSelector(state => state.auth);
-  const { currentBidData } = useSelector(state => state.event);
+  const { token } = useSelector((state) => state.auth);
+  const { currentBidData } = useSelector((state) => state.event);
   const [bid, setBid] = useState(car.startingBid || 0);
   const [bidLoading, setBidLoading] = useState(false);
   const [currentBalance, setCurrentBalance] = useState(0);
-  const [loading, setLoading] = useState(false)
-
+  const [loading, setLoading] = useState(false);
 
   const increaseBid = () => setBid(bid + car.bidMargin);
   const decreaseBid = () => {
@@ -41,7 +39,7 @@ const CarAuction = ({ car, vimeoLive, setVimeoLive }) => {
 
   const handlePlaceBid = () => {
     if (!token) {
-      navigate("/auth")
+      navigate("/auth");
     }
     if (bidLoading) return; // Prevent duplicate calls
     setBidLoading(true);
@@ -55,8 +53,8 @@ const CarAuction = ({ car, vimeoLive, setVimeoLive }) => {
         parseFloat(bid) <=
         parseFloat(
           currentBidData?.bidAmount ||
-          currentBidData?.currentBid ||
-          car.startingBid
+            currentBidData?.currentBid ||
+            car.startingBid
         )
       ) {
         toast.error("Bid amount should be greater than the current bid");
@@ -65,10 +63,10 @@ const CarAuction = ({ car, vimeoLive, setVimeoLive }) => {
       }
       socket.emit("placeBid", data);
       setBid(currentBidData?.bidAmount || bid);
-      setBidLoading(false)
+      setBidLoading(false);
     } else {
       console.log("Socket not connected or invalid data");
-      setBidLoading(false)
+      setBidLoading(false);
     }
   };
 
@@ -104,37 +102,51 @@ const CarAuction = ({ car, vimeoLive, setVimeoLive }) => {
     if (!token) {
       toast.error("Please login first to View Live Event");
       return;
-    }
-    else if (currentBalance < 1) {
+    } else if (currentBalance < 1) {
       toast.error("Live can't be opened due to empty wallet");
-    } 
-    else {
-    setVimeoLive(!vimeoLive)
+    } else {
+      setVimeoLive(!vimeoLive);
     }
-  }
+  };
   if (loading) {
-    return <LoadingSpinner />
+    return <LoadingSpinner />;
   }
   return (
     <>
       <div className="car-auction">
-        <h1>{car.listingTitle || "No Title"} <span className="action-buttons"></span></h1>
-        <p className="lot-info">Lot: {car.lotNo || "No Lot"} | Model: {car.carModal || "No Model"}</p>
+        <h1>
+          {car.listingTitle || "No Title"}{" "}
+          <span className="action-buttons"></span>
+        </h1>
+        <p className="lot-info">
+          Lot: {car.lotNo || "No Lot"} | Model: {car.carModal || "No Model"}
+        </p>
         <p className="car-details">
-          {car.mileage || "No Mileage"}<p className="dots"></p>{car.fuelType?.vehicleFuelTypes || "No Fuel Type"}
-          <p className="dots"></p> {car.transmission?.vehicleTransimission || "No Transmission"}
+          {car.mileage || "No Mileage"}
+          <p className="dots"></p>
+          {car.fuelType?.vehicleFuelTypes || "No Fuel Type"}
+          <p className="dots"></p>{" "}
+          {car.transmission?.vehicleTransimission || "No Transmission"}
         </p>
         <div className="current-bid">
           <p>Current Bid</p>
-          <h2>AED {currentBidData && (car._id === currentBidData.carId) ? (currentBidData?.bidAmount || currentBidData?.currentBid || car?.startingBid
-            || "N/A") : car?.startingBid}</h2>
+          <h2>
+            AED{" "}
+            {currentBidData && car._id === currentBidData.carId
+              ? currentBidData?.bidAmount ||
+                currentBidData?.currentBid ||
+                car?.startingBid ||
+                "N/A"
+              : car?.startingBid}
+          </h2>
           <p>Bid Starting Price: {car.startingBid || "N/A"} AED</p>
         </div>
-        {
-          (!car.isSold ?
-            <div className="bid-controls">
+        {!car.isSold ? (
+          <div className="bid-controls">
+            <div className="d-flex gap-2">
               <button onClick={decreaseBid}>-</button>
-              <span>AED
+              <span>
+                AED
                 <input
                   type="number"
                   value={bid || car.startingBid || 0} // Fallback to a valid number
@@ -142,25 +154,41 @@ const CarAuction = ({ car, vimeoLive, setVimeoLive }) => {
                 />
               </span>
               <button onClick={increaseBid}>+</button>
-              {
-                currentBidData?.auctionStatus && (currentBidData?.carId === car._id) ?
-                  <button className="place-bid" onClick={handlePlaceBid} disabled={bidLoading} style={{ backgroundColor: bidLoading && "gray" }}>
-                    <img src={img1} />
-                    {bidLoading ? "Placing Bid..." : "Place Bid"}
-                  </button>
-                  :
-                  <button className="place-bid" style={{ backgroundColor: "grey", cursor: "not-allowed", border: "none" }}>
-                    <img src={img1} />
-                    Place Bid
-                  </button>
-              }
             </div>
-            :
-            <h4 style={{ color: "#aaa", margin: "1rem 0" }}>Car is already Sold</h4>)
-        }
+            <div>
+              {currentBidData?.auctionStatus &&
+              currentBidData?.carId === car._id ? (
+                <button
+                  className="place-bid"
+                  onClick={handlePlaceBid}
+                  disabled={bidLoading}
+                  style={{ backgroundColor: bidLoading && "gray" }}
+                >
+                  <img src={img1} />
+                  {bidLoading ? "Placing Bid..." : "Place Bid"}
+                </button>
+              ) : (
+                <button
+                  className="place-bid"
+                  style={{
+                    backgroundColor: "grey",
+                    cursor: "not-allowed",
+                    border: "none",
+                  }}
+                >
+                  <img src={img1} />
+                  Place Bid
+                </button>
+              )}
+            </div>
+          </div>
+        ) : (
+          <h4 style={{ color: "#aaa", margin: "1rem 0" }}>
+            Car is already Sold
+          </h4>
+        )}
 
-        {
-          currentBidData?.auctionStatus && (currentBidData?.carId === car._id) &&
+        {currentBidData?.auctionStatus && currentBidData?.carId === car._id && (
           <motion.div
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
@@ -169,7 +197,7 @@ const CarAuction = ({ car, vimeoLive, setVimeoLive }) => {
             <motion.button
               onClick={openLive}
               style={{
-                width: "370px",
+                width: "235px",
                 fontSize: "1.1rem",
                 marginLeft: "1rem",
                 fontWeight: "bold",
@@ -194,13 +222,15 @@ const CarAuction = ({ car, vimeoLive, setVimeoLive }) => {
               <motion.div whileHover={{ color: "white" }}>
                 <Video size={22} strokeWidth={2} />
               </motion.div>
-              {
-                vimeoLive ? "Hide " : "View "
-              }
+              {vimeoLive ? "Hide " : "View "}
               Live Event
               <motion.div
                 animate={{ scale: [1, 1.4, 1], opacity: [1, 0.6, 1] }}
-                transition={{ duration: 1.2, repeat: Infinity, ease: "easeInOut" }}
+                transition={{
+                  duration: 1.2,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                }}
                 style={{
                   width: "10px",
                   height: "10px",
@@ -211,8 +241,7 @@ const CarAuction = ({ car, vimeoLive, setVimeoLive }) => {
               />
             </motion.button>
           </motion.div>
-        }
-
+        )}
 
         <div className="car-overview">
           <h3>Car Overview</h3>
@@ -224,7 +253,9 @@ const CarAuction = ({ car, vimeoLive, setVimeoLive }) => {
                 </span>
                 <p class="label">Make</p>
               </div>
-              <p class="value">{car.carMake?.vehicleMake || "No Vehicle Make"}</p>
+              <p class="value">
+                {car.carMake?.vehicleMake || "No Vehicle Make"}
+              </p>
             </li>
             <li>
               <div class="texts">
@@ -233,7 +264,9 @@ const CarAuction = ({ car, vimeoLive, setVimeoLive }) => {
                 </span>
                 <p class="label">Damage</p>
               </div>
-              <p class="value">{car.damage?.vehicleDamage || "No Vehicle Damage"}</p>
+              <p class="value">
+                {car.damage?.vehicleDamage || "No Vehicle Damage"}
+              </p>
             </li>
             <li>
               <div class="texts">
@@ -260,7 +293,9 @@ const CarAuction = ({ car, vimeoLive, setVimeoLive }) => {
                 </span>
                 <p class="label">Fuel Type</p>
               </div>
-              <p class="value">{car.fuelType?.vehicleFuelTypes || "No Fuel Type"}</p>
+              <p class="value">
+                {car.fuelType?.vehicleFuelTypes || "No Fuel Type"}
+              </p>
             </li>
             <li>
               <div class="texts">
@@ -278,7 +313,9 @@ const CarAuction = ({ car, vimeoLive, setVimeoLive }) => {
                 </span>
                 <p class="label">Transmission</p>
               </div>
-              <p class="value">{car.transmission?.vehicleTransimission || "No Transmission"}</p>
+              <p class="value">
+                {car.transmission?.vehicleTransimission || "No Transmission"}
+              </p>
             </li>
             <li>
               <div class="texts">
@@ -305,7 +342,9 @@ const CarAuction = ({ car, vimeoLive, setVimeoLive }) => {
                 </span>
                 <p class="label">Engine Size</p>
               </div>
-              <p class="value">{car.engineSize?.vehicleEngineSize || "No Engine Size"}</p>
+              <p class="value">
+                {car.engineSize?.vehicleEngineSize || "No Engine Size"}
+              </p>
             </li>
             <li>
               <div class="texts">
@@ -348,14 +387,11 @@ const CarAuction = ({ car, vimeoLive, setVimeoLive }) => {
 
         <div className="location">
           <h2>Location</h2>
-          <p>
-            {car.friendlyLocation || car.mapLocation || "No Location"}
-          </p>
+          <p>{car.friendlyLocation || car.mapLocation || "No Location"}</p>
         </div>
       </div>
     </>
   );
 };
-
 
 export default CarAuction;

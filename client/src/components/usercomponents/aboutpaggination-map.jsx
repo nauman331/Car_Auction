@@ -29,7 +29,10 @@ const PaginatedCards = ({ data, itemsPerPage }) => {
       {/* Render cards */}
       <div className="row">
         {currentItems.map((card, index) => (
-          <div key={index} className="col-xl-4 col-lg-4 col-md-6 col-sm-12 p-2">
+          <div
+            key={index}
+            className="col-xl-4 col-lg-4 col-md-6 col-sm-12 p-2 mb-4"
+          >
             <Slider
               image={card.image}
               text={card.text}

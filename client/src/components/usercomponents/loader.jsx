@@ -16,7 +16,7 @@ const StatsRow = () => {
         {stats.map((stat) => (
           <div
             key={stat.id}
-            className="loader-column col-xl-3 col-lg-3  col-md-3  col-sm-6  col-12 col-12"
+            className="loader-column col-xl-3 col-lg-3  col-md-3  col-sm-3  col-3 col-6"
           >
             <h2 className="loader-number">
               <CountUp

@@ -50,7 +50,8 @@
   }
 }
 .item {
-  width: 340px;
+  // // width: 340px;
+  // height: 200px;
   .quote {
     display: flex;
     justify-content: end;
@@ -60,6 +61,7 @@
     color: rgb(184, 181, 181);
   }
   .cards {
+    height: 310px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     border: none;
     border-radius: 16px;
@@ -93,8 +95,10 @@
         }
       }
       .txts {
-        font-size: 15px;
-        font-weight: 600;
+        h5 {
+          font-size: 15px;
+          font-weight: 600;
+        }
       }
     }
     .texts {
@@ -211,5 +215,40 @@
 @media only screen and (max-width: 450px) {
   .header-section {
     padding: 10px 15px !important;
+  }
+  .item .cards .texts {
+    font-size: 12px !important;
+    font-weight: 500;
+    line-height: 19px !important;
+    margin-top: 20px;
+  }
+  .item .cards .card-section .imgss {
+    border-radius: 30px !important;
+    width: 41px !important;
+    height: 53px !important;
+  }
+  .item .cards .card-section .txts h5 {
+    font-size: 12px !important;
+    font-weight: 600;
+  }
+  .item .cards {
+    padding: 24px 23px 20px !important;
+  }
+  .item .cards {
+    height: 100% !important;
+  }
+  .recentlyadd-section {
+    padding: 0px 0 10px !important;
+  }
+  .recentlyadd-section h2 {
+    line-height: 30px !important;
+  }
+  .pagination-controls {
+    margin-top: 30px;
+    margin-bottom: 30px !important;
+  }
+  .aboutus-section .about-section2 .about-section2-text h2 {
+    font-size: 26px !important;
+    line-height: 36px !important;
   }
 }

@@ -108,3 +108,27 @@
     }
   }
 }
+.about-section2-detail {
+  h1 {
+    font-family: "DM Sans";
+    font-style: normal;
+    font-weight: 700;
+    font-size: 30px;
+    line-height: 45px;
+
+    color: #050b20;
+    margin-bottom: 10px !important;
+  }
+}
+@media only screen and (max-width: 766px) {
+  .about-section2-detail h1 {
+    font-size: 25px !important;
+    line-height: 35px !important;
+  }
+}
+@media only screen and (max-width: 450px) {
+  .about-section2-detail h1 {
+    font-size: 18px !important;
+    line-height: 29px !important;
+  }
+}

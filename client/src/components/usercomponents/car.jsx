@@ -13,7 +13,7 @@ function CarSection() {
         "Create an account to start exploring thousands of cars. Find your perfect match easily and also get access to exclusive deals.",
       button: "Get Started",
       backgroundImage: img1,
-      link: "/auction-vehicle"
+      link: "/auction-vehicle",
     },
     {
       title: "Do You Want to Sell a Car?",
@@ -21,7 +21,7 @@ function CarSection() {
         "Sign up now to list your car and reach potential buyers instantly. Selling your car has never been this simple.",
       button: "Get Started",
       backgroundImage: img3,
-      link: "/contact-us"
+      link: "/contact-us",
     },
   ];
 
@@ -36,7 +36,8 @@ function CarSection() {
             <div
               className="section p-3"
               style={{
-                backgroundImage: `url(${section.backgroundImage})`,
+                backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${section.backgroundImage})`,
+                // backgroundImage: `url(${section.backgroundImage})`,
                 backgroundSize: "cover",
                 backgroundPosition: "center",
                 height: "350px",

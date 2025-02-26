@@ -5,6 +5,7 @@
     width: 100%;
     object-fit: cover;
     border-radius: 12px;
+    min-height: 455px !important;
   }
 
   .carsale-btns1 {
@@ -129,3 +130,10 @@
     }
   }
 }
+
+// .carsale-section img {
+//   /* width: 100%; */
+//   object-fit: cover;
+//   border-radius: 12px;
+//   min-height: 455px !important;
+// }

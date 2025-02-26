@@ -91,27 +91,31 @@ const AuctionCard = () => {
                   <div className="card-body">
                     {/* Details Section */}
                     <div className="d-flex justify-content-between align-items-center mb-3 gap-1 card-text">
-                      <span
-                        className="d-flex align-items-center"
-                        style={{ fontSize: "12px" }}
-                      >
-                        <img src={img1} />
-                        {auction.location?.auctionLocation || "N/A"}
-                      </span>
-                      <span
-                        className="d-flex align-items-center"
-                        style={{ fontSize: "12px" }}
-                      >
-                        <img src={img2} />
-                        No of Cars {auction.totalVehicles || 0}
-                      </span>
-                      <NavLink
-                        to="/auction-vehicle"
-                        className="btn  btn-sm w-20 text-white"
-                        style={{ fontSize: "12px", backgroundColor: "#333" }}
-                      >
-                        View All
-                      </NavLink>
+                      <div className="">
+                        <span
+                          className="d-flex align-items-center"
+                          style={{ fontSize: "12px" }}
+                        >
+                          <img src={img1} />
+                          {auction.location?.auctionLocation || "N/A"}
+                        </span>
+                        <span
+                          className="d-flex align-items-center"
+                          style={{ fontSize: "12px" }}
+                        >
+                          <img src={img2} />
+                          No of Cars {auction.totalVehicles || 0}
+                        </span>
+                      </div>
+                      <div>
+                        <NavLink
+                          to="/auction-vehicle"
+                          className="btn  btn-sm w-20 text-white"
+                          style={{ fontSize: "12px", backgroundColor: "#333" }}
+                        >
+                          View All
+                        </NavLink>
+                      </div>
                     </div>
                     {/* Join Auction Button */}
 

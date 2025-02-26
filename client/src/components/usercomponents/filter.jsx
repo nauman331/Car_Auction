@@ -44,7 +44,9 @@ const CarFilterForm = ({ sellingType }) => {
       if (result.success) {
         setCars(result.data);
         // Sorting cars based on lotNo in increasing order
-        const filteredcar = [...result.data].sort((a, b) => Number(a.lotNo) - Number(b.lotNo));
+        const filteredcar = [...result.data].sort(
+          (a, b) => Number(a.lotNo) - Number(b.lotNo)
+        );
         setFilteredCars(filteredcar);
       } else {
         console.log("No cars found with the applied filters.");
@@ -88,7 +90,6 @@ const CarFilterForm = ({ sellingType }) => {
       setFilteredCars([...cars]); // Keep sorted cars
     }
   }, [auctionTitle, cars]);
-
 
   const handleFilterChange = (selectedAuction) => {
     setAuctionTitle(selectedAuction);
@@ -169,7 +170,7 @@ const CarFilterForm = ({ sellingType }) => {
             </div>
           </div>
           <div className="row">
-            <div className=" col-xl-3 col-lg-3 col-md-4 col-sm-12 col-12 mb-4">
+            <div className=" col-xl-3 col-lg-3 col-md-4 col-sm-12 col-12 mb-4 order-2 order-md-1">
               <form className="form_section">
                 <div className="data">
                   <div className="datainput">
@@ -186,13 +187,12 @@ const CarFilterForm = ({ sellingType }) => {
 
                 <div className="data">
                   <div className="datainput">
-                    <select name="carMake"
+                    <select
+                      name="carMake"
                       onChange={handleChange}
                       value={formData.carMake || ""}
                     >
-                      <option value="">
-                        Select Car Make
-                      </option>
+                      <option value="">Select Car Make</option>
                       {generateOptions("vehicle-make", "vehicleMake").map(
                         (option) => (
                           <option key={option.value} value={option.value}>
@@ -210,9 +210,7 @@ const CarFilterForm = ({ sellingType }) => {
                       <label htmlFor="yearMin">Min Year</label>
 
                       <select name="yearMin" onChange={handleChange}>
-                        <option value="">
-                          Min Year
-                        </option>
+                        <option value="">Min Year</option>
                         {generateOptions("vehicle-year", "vehicleYear").map(
                           (option) => (
                             <option key={option.value} value={option.value}>
@@ -226,9 +224,7 @@ const CarFilterForm = ({ sellingType }) => {
                     <div className="datainputs">
                       <label htmlFor="yearMax">Max Year</label>
                       <select name="yearMax" onChange={handleChange}>
-                        <option value="">
-                          Max Year
-                        </option>
+                        <option value="">Max Year</option>
                         {generateOptions("vehicle-year", "vehicleYear").map(
                           (option) => (
                             <option key={option.value} value={option.value}>
@@ -242,13 +238,12 @@ const CarFilterForm = ({ sellingType }) => {
                 </div>
                 <div className="data">
                   <div className="datainput">
-                    <select name="driveType"
+                    <select
+                      name="driveType"
                       value={formData.driveType || ""}
-                      onChange={handleChange}>
-                      <option value=""
-                      >
-                        Select Drive Type
-                      </option>
+                      onChange={handleChange}
+                    >
+                      <option value="">Select Drive Type</option>
 
                       {generateOptions("drive-type", "driveType").map(
                         (option) => (
@@ -326,8 +321,9 @@ const CarFilterForm = ({ sellingType }) => {
                       className="slider-track"
                       style={{
                         left: `${((minPrice - 100) / (100000 - 100)) * 100}%`,
-                        right: `${100 - ((maxPrice - 100) / (100000 - 100)) * 100
-                          }%`,
+                        right: `${
+                          100 - ((maxPrice - 100) / (100000 - 100)) * 100
+                        }%`,
                       }}
                     ></div>
                   </div>
@@ -378,13 +374,12 @@ const CarFilterForm = ({ sellingType }) => {
                 </div>
                 <div className="data">
                   <div className="datainput">
-                    <select name="doors"
+                    <select
+                      name="doors"
                       onChange={handleChange}
                       value={formData.doors || ""}
                     >
-                      <option value="">
-                        Select Doors
-                      </option>
+                      <option value="">Select Doors</option>
                       {generateOptions("vehicle-door", "vehicleDoor").map(
                         (option) => (
                           <option key={option.value} value={option.value}>
@@ -399,9 +394,7 @@ const CarFilterForm = ({ sellingType }) => {
                 <div className="data">
                   <div className="datainput">
                     <select name="cylinders" onChange={handleChange}>
-                      <option value="">
-                        Select Cylinders
-                      </option>
+                      <option value="">Select Cylinders</option>
                       {generateOptions(
                         "vehicle-cylinder",
                         "vehicleCylinders"
@@ -416,7 +409,7 @@ const CarFilterForm = ({ sellingType }) => {
                 </div>
               </form>
             </div>
-            <div className="col-xl-9 col-lg-9 col-md-8 col-sm-12 col-12">
+            <div className="col-xl-9 col-lg-9 col-md-8 col-sm-12 col-12 order-1 order-md-2">
               <div>
                 <ProductGridWithPagination
                   cars={filteredCars}

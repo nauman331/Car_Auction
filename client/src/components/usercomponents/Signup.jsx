@@ -76,8 +76,8 @@ const Signup = () => {
       } else {
         toast.error(
           res_data?.errors?.[0]?.msg ||
-          res_data?.message ||
-          "Unknown error occurred."
+            res_data?.message ||
+            "Unknown error occurred."
         );
       }
     } catch (error) {
@@ -88,7 +88,8 @@ const Signup = () => {
   };
 
   // Check if the phone number is valid
-  const isPhoneValid = phone && typeof phone === "string" && isValidPhoneNumber(phone);
+  const isPhoneValid =
+    phone && typeof phone === "string" && isValidPhoneNumber(phone);
 
   return (
     <>
@@ -167,18 +168,38 @@ const Signup = () => {
             withCountryCallingCode
             required
           />
-          <label style={{ left: "45px", display: "flex", alignItems: "center", gap: "5px" }}>
+          <label
+            style={{
+              left: "45px",
+              display: "flex",
+              alignItems: "center",
+              gap: "5px",
+            }}
+          >
             Phone
             {phoneTouched && !isPhoneValid ? (
-              <span style={{ color: "red", fontSize: "10px", textAlign: "center", fontWeight: "bold" }}>
+              <span
+                style={{
+                  color: "red",
+                  fontSize: "10px",
+                  textAlign: "center",
+                  fontWeight: "bold",
+                }}
+              >
                 (Not Valid Phone)
               </span>
-            )
-              :
-              <span style={{ color: "green", fontSize: "10px", textAlign: "center", fontWeight: "bold" }}>
+            ) : (
+              <span
+                style={{
+                  color: "green",
+                  fontSize: "10px",
+                  textAlign: "center",
+                  fontWeight: "bold",
+                }}
+              >
                 (Valid Phone)
               </span>
-            }
+            )}
           </label>
         </div>
 

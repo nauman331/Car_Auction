@@ -112,7 +112,7 @@ const BuyfilterForm = () => {
             </div>
           </div>
           <div className="row">
-            <div className=" col-xl-3 col-lg-3 col-md-4 col-sm-12 col-12 mb-4">
+            <div className=" col-xl-3 col-lg-3 col-md-4 col-sm-12 col-12 mb-4 order-2 order-md-1">
               <form className="form_section">
                 <div className="data">
                   <div className="datainput">
@@ -249,8 +249,9 @@ const BuyfilterForm = () => {
                       className="slider-track"
                       style={{
                         left: `${((minPrice - 100) / (100000 - 100)) * 100}%`,
-                        right: `${100 - ((maxPrice - 100) / (100000 - 100)) * 100
-                          }%`,
+                        right: `${
+                          100 - ((maxPrice - 100) / (100000 - 100)) * 100
+                        }%`,
                       }}
                     ></div>
                   </div>
@@ -336,7 +337,7 @@ const BuyfilterForm = () => {
                 </div>
               </form>
             </div>
-            <div className="col-xl-9 col-lg-9 col-md-8 col-sm-12 col-12">
+            <div className="col-xl-9 col-lg-9 col-md-8 col-sm-12 col-12 order-1 order-md-2">
               <div>
                 <ProductGridWithPagination cars={cars} />
               </div>
