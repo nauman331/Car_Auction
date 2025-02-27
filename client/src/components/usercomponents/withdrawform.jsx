@@ -119,7 +119,7 @@ const WithdrawalForm = () => {
         </div>
 
         {/* Submit Button */}
-        <button type="submit" className="submit-button" disabled={loading} style={{ backgroundColor: loading ? "gray" : "#050b20" }}>
+        <button type="submit" className="submit-button" disabled={loading} style={{ backgroundColor: loading ? "gray" : "#405FF2" }}>
           {loading ? "Submitting..." : "Submit"}
         </button>
       </form>

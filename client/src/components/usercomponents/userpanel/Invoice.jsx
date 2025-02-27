@@ -144,7 +144,7 @@ const Invoice = () => {
                 <Row className="justify-content-between align-items-center mb-4">
                     <Col xs={6} sm={4} id="no-print">
                         <Button className="px-4 py-2" onClick={printInvoice}
-                            style={{ backgroundColor: "#050b20", border: "2px solid #050b20" }}
+                            style={{ backgroundColor: "#405FF2", border: "2px solid #405FF2" }}
                         >
                             Print this Invoice ↗
                         </Button>
@@ -165,7 +165,7 @@ const Invoice = () => {
                     </Col>
                     <Col className="text-end">
                         <h5 className="fw-bold">
-                            Invoice # <span style={{ color: "#050B20", fontSize: "15px" }}>{invoice?.invNumber || "N/A"}</span>
+                            Invoice # <span style={{ color: "#405FF2", fontSize: "15px" }}>{invoice?.invNumber || "N/A"}</span>
                         </h5>
                     </Col>
                 </Row>
@@ -190,7 +190,7 @@ const Invoice = () => {
                             style={{ backgroundColor: "#F9FBFC", height: "200px" }}
                             id="no-print"
                         >
-                            <Button style={{ backgroundColor: "#050b20", border: "2px solid #050b20" }} className="px-4 py-2" onClick={handleModalOpen}><Wallet />Pay via Bank</Button>
+                            <Button style={{ backgroundColor: "#405FF2", border: "2px solid #405FF2" }} className="px-4 py-2" onClick={handleModalOpen}><Wallet />Pay via Bank</Button>
                             {/* <PayPalButtons
                                 createOrder={(data, actions) => {
                                     return actions.order.create({
@@ -313,7 +313,7 @@ const Invoice = () => {
                     <Button variant="secondary" onClick={handleModalClose}>
                         Close
                     </Button>
-                    <Button style={{ backgroundColor: "#050b20", border: "2px solid #050b20" }} onClick={handleSubmit} disabled={uploadLoading}>
+                    <Button style={{ backgroundColor: "#405FF2", border: "2px solid #405FF2" }} onClick={handleSubmit} disabled={uploadLoading}>
                         {uploadLoading ? "Submitting..." : "Submit"}
                     </Button>
                 </Modal.Footer>

@@ -99,7 +99,7 @@ const Login = () => {
           </label>
           <NavLink to="/resetpassword">Forgotten password?</NavLink>
         </div>
-        <button type="submit" className="btn-primary" disabled={loading} style={{ backgroundColor: loading ? "gray" : "#050b20" }}>
+        <button type="submit" className="btn-primary" disabled={loading} style={{ backgroundColor: loading ? "gray" : "#405FF2" }}>
           {loading ? "Logging In..." : "Log In"}
           <FontAwesomeIcon
             icon={faArrowLeft}

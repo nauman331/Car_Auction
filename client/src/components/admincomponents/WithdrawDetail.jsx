@@ -162,7 +162,7 @@ const WithdrawDetail = () => {
                         </tbody>
                     </table>
                     <div className="next-button">
-                    <button style={{backgroundColor: "#050b20", border: "2px solid #050b20"}} onClick={() => handleClearPaymentClick(withdraw)}>
+                    <button style={{backgroundColor: "#405FF2", border: "2px solid #405FF2"}} onClick={() => handleClearPaymentClick(withdraw)}>
                         Update Status
                     </button>
                 </div>
@@ -232,7 +232,7 @@ const WithdrawDetail = () => {
                     <Button variant="secondary" onClick={handleModalClose}>
                         Close
                     </Button>
-                    <Button style={{backgroundColor: "#050b20", border: "2px solid #050b20"}} onClick={handleSubmit} disabled={uploadLoading || updateLoading}>
+                    <Button style={{backgroundColor: "#405FF2", border: "2px solid #405FF2"}} onClick={handleSubmit} disabled={uploadLoading || updateLoading}>
                         {uploadLoading || updateLoading ? "Submitting..." : "Submit"}
                     </Button>
                 </Modal.Footer>

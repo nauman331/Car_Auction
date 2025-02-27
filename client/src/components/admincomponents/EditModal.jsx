@@ -41,7 +41,7 @@ const EditModal = ({
             <div className="navigation-buttons">
               <div className="next-button">
                 <Button
-                style={{backgroundColor: "#050b20"}}
+                style={{backgroundColor: "#405FF2"}}
                   onClick={step < steps.length ? () => setStep(step + 1) : submitHandler}
                   disabled={loading}
                 >

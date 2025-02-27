@@ -129,7 +129,7 @@ const Profile = () => {
                 <Image size={24} />
               )}
             </div>
-            <div className="image-box upload" style={{ backgroundColor: "#050b20", color: "#fff" }}>
+            <div className="image-box upload" style={{ backgroundColor: "#405FF2", color: "#fff" }}>
               <Upload size={24} />
               <input
                 type="file"
@@ -167,7 +167,7 @@ const Profile = () => {
             ))}
           </div>
           <div className="next-button">
-            <button type="submit" style={{ backgroundColor: "#050b20" }}>Save Profile</button>
+            <button type="submit" style={{ backgroundColor: "#405FF2" }}>Save Profile</button>
           </div>
         </form>
       </div>

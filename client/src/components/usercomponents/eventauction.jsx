@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 const Eventauction = () => {
   return (
     <>
-      <div style={{ paddingBottom: 40, backgroundColor: "#050b20" }}></div>
+      <div style={{ paddingBottom: 40, backgroundColor: "#405FF2" }}></div>
       <div className="mb-5 main">
         <div className="container">
           <div className="Breadcrumb-section">

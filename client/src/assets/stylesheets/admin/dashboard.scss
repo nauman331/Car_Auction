@@ -16,8 +16,8 @@
     justify-content: space-between;
     padding: 1rem;
 
-    @each $index, $bg, $color in (1, #e9f2ff, #050b20), (2, #ffe9f3, #050b20),
-      (3, #eef1fb, #050b20), (4, #f9fbfc, #050b20)
+    @each $index, $bg, $color in (1, #e9f2ff, #405FF2), (2, #ffe9f3, #405FF2),
+      (3, #eef1fb, #405FF2), (4, #f9fbfc, #405FF2)
     {
       .icon#{$index} {
         background-color: $bg;
@@ -68,7 +68,7 @@
         background-color: #eef1fb;
         font-weight: bold;
         .icon3 {
-          color: #050b20;
+          color: #405FF2;
           padding: 0.5rem;
           border-radius: 50%;
         }
@@ -79,7 +79,7 @@
         font-weight: normal;
         .icon3 {
           background-color: #eef1fb;
-          color: #050b20;
+          color: #405FF2;
           padding: 0.5rem;
           border-radius: 50%;
         }
@@ -87,8 +87,8 @@
     }
     button {
       background-color: transparent;
-      border: 1px solid #050b20;
-      color: #050b20;
+      border: 1px solid #405FF2;
+      color: #405FF2;
       width: 100%;
       padding: 0.2rem;
       border-radius: 10px;

@@ -69,7 +69,7 @@ const MediaUpload = ({
           ))}
 
         {/* Upload button */}
-        <button type="button" className="image-box upload" style={{backgroundColor: "#050b20"}}>
+        <button type="button" className="image-box upload" style={{backgroundColor: "#405FF2"}}>
           <Upload size={24} />
           <input
             accept="image/*"

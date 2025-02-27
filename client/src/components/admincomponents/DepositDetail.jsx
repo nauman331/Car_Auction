@@ -84,7 +84,7 @@ const DepositDetail = () => {
               target="_blank"
               rel="noopener noreferrer"
               className="text-light px-4 py-2 rounded text-decoration-none"
-              style={{backgroundColor: "#050b20", border: "2px solid #050b20"}}
+              style={{backgroundColor: "#405FF2", border: "2px solid #405FF2"}}
             >
               Proof ↗
             </a>
@@ -138,7 +138,7 @@ const DepositDetail = () => {
                 <label htmlFor="status">Select Status</label>
                 <div className="next-button">
                 <button
-                  style={{backgroundColor: "#050b20"}}
+                  style={{backgroundColor: "#405FF2"}}
                   disabled={loading}
                   onClick={() => handleUpdateClick(deposit.invNumber)}
                 >

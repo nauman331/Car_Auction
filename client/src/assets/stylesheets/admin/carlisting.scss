@@ -12,7 +12,7 @@
   }
   .add-vehicle-button {
     padding: 10px 20px;
-    background-color: #050b20;
+    background-color: #405FF2;
     color: #fff !important;
     border: none;
     border-radius: 10px;
@@ -88,7 +88,7 @@
       thead th {
         text-align: left;
         background-color: #e9f2ff;
-        color: #050b20;
+        color: #405FF2;
         font-weight: 400;
         padding: 10px;
         font-size: 0.9rem;
@@ -186,21 +186,21 @@
       cursor: pointer;
       &:first-child,
       &:last-child {
-        border: 1px solid #050b20;
+        border: 1px solid #405FF2;
         background-color: #f0f0f0;
         width: 60px;
         border-radius: 20px;
         padding: 0;
       }
       &.active {
-        background-color: #050b20;
+        background-color: #405FF2;
         color: #fff;
-        border-color: #050b20;
+        border-color: #405FF2;
       }
 
       &:hover {
         background-color: #f0f0f0;
-        color: #050b20;
+        color: #405FF2;
       }
     }
 

@@ -391,7 +391,7 @@ const CarAuction = ({ car, getCarDetails, backendURL }) => {
                   <button onClick={increaseBid}>+</button>
                   {
                     currentBidData?.auctionStatus && (currentBidData?.carId === car._id) ?
-                      <button className="place-bid" onClick={handlePlaceBid} disabled={bidLoading} style={{ backgroundColor: bidLoading ? "gray" : "#050b20" }}>
+                      <button className="place-bid" onClick={handlePlaceBid} disabled={bidLoading} style={{ backgroundColor: bidLoading ? "gray" : "#405FF2" }}>
                         <img src={img1} />
                         {bidLoading ? "Placing Bid..." : "Place Bid"}
                       </button>
@@ -421,7 +421,7 @@ const CarAuction = ({ car, getCarDetails, backendURL }) => {
                           id="auctionLot"
                         />
                         <label htmlFor="auctionLot">Select Status</label>
-                        <button className="place-bid" style={{backgroundColor: "#050b20", border: "2px solid #050b20"}} onClick={handleUpdateStatus}>
+                        <button className="place-bid" style={{backgroundColor: "#405FF2", border: "2px solid #405FF2"}} onClick={handleUpdateStatus}>
                           Update
                         </button>
                       </div>
@@ -442,7 +442,7 @@ const CarAuction = ({ car, getCarDetails, backendURL }) => {
                           id="auctionLot"
                         />
                         <label htmlFor="auctionLot">Select Auction</label>
-                        <button onClick={updateAuctionLot} className="place-bid" style={{backgroundColor: "#050b20", border: "2px solid #050b20"}}>
+                        <button onClick={updateAuctionLot} className="place-bid" style={{backgroundColor: "#405FF2", border: "2px solid #405FF2"}}>
                           Update
                         </button>
                       </div>

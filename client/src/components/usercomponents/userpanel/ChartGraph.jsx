@@ -21,11 +21,11 @@ const ChartGraph = ({ periodicData }) => {
       {
         label: "Total Sales",
         data: new Array(12).fill(0), // Default empty data for all months
-        borderColor: "#050b20",
+        borderColor: "#405FF2",
         backgroundColor: "rgba(64, 95, 242, 0.1)",
         tension: 0.4, // Smooth curve
         borderWidth: 3,
-        pointBorderColor: "#050b20",
+        pointBorderColor: "#405FF2",
         pointBackgroundColor: "#fff",
         pointHoverRadius: 6,
         pointRadius: 4,
@@ -68,10 +68,10 @@ const ChartGraph = ({ periodicData }) => {
       },
       tooltip: {
         backgroundColor: "#fff",
-        titleColor: "#050b20",
-        bodyColor: "#050b20",
+        titleColor: "#405FF2",
+        bodyColor: "#405FF2",
         borderWidth: 1,
-        borderColor: "#050b20",
+        borderColor: "#405FF2",
         cornerRadius: 5,
         displayColors: false,
         callbacks: {

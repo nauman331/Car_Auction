@@ -198,9 +198,9 @@ const Wallet = () => {
                 fontWeight: "600",
                 padding: "10px 20px",
                 transition: "all 0.3s ease",
-                backgroundColor: activeTab === "deposits" ? "#050b20" : "#fff",
-                border: activeTab === "deposits" ? "2px solid #fff" : "2px solid #050b20",
-                color: activeTab === "deposits" ? "#fff" : "#050b20",
+                backgroundColor: activeTab === "deposits" ? "#405FF2" : "#fff",
+                border: activeTab === "deposits" ? "2px solid #fff" : "2px solid #405FF2",
+                color: activeTab === "deposits" ? "#fff" : "#405FF2",
               }}
               onClick={() => handleTabChange("deposits")}
             >
@@ -212,9 +212,9 @@ const Wallet = () => {
                 fontWeight: "600",
                 padding: "10px 20px",
                 transition: "all 0.3s ease",
-                color: activeTab === "withdrawals" ? "#fff" : "#050b20",
-                backgroundColor: activeTab === "withdrawals" ? "#050b20" : "#fff",
-                border: activeTab === "withdrawals" ? "2px solid #fff" : "2px solid #050b20"
+                color: activeTab === "withdrawals" ? "#fff" : "#405FF2",
+                backgroundColor: activeTab === "withdrawals" ? "#405FF2" : "#fff",
+                border: activeTab === "withdrawals" ? "2px solid #fff" : "2px solid #405FF2"
               }}
               onClick={() => handleTabChange("withdrawals")}
             >
@@ -317,7 +317,7 @@ const Wallet = () => {
           <Button variant="secondary" onClick={handleModalClose}>
             Close
           </Button>
-          <Button style={{ backgroundColor: "#050b20", border: "2px solid #050b20" }} onClick={handleSubmit} disabled={uploadLoading}>
+          <Button style={{ backgroundColor: "#405FF2", border: "2px solid #405FF2" }} onClick={handleSubmit} disabled={uploadLoading}>
             {uploadLoading ? "Submitting..." : "Submit"}
           </Button>
         </Modal.Footer>

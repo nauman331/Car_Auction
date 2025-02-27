@@ -223,7 +223,7 @@ const Signup = () => {
         <button
           type="submit"
           disabled={loading || !isPhoneValid} // Disable if loading or phone is invalid
-          style={{ backgroundColor: loading ? "gray" : "#050b20" }}
+          style={{ backgroundColor: loading ? "gray" : "#405FF2" }}
         >
           {loading ? "Registering..." : "Register"}
           <FontAwesomeIcon

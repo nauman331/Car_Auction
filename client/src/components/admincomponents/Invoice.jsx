@@ -124,7 +124,7 @@ const Invoice = () => {
         <Container className="my-4" ref={invoiceRef}>
             <Row className="justify-content-between align-items-center mb-4">
                 <Col xs={6} sm={4} id="no-print">
-                    <Button style={{backgroundColor: "#050b20", border: "2px solid #050b20"}} className="px-4 py-2" onClick={printInvoice}>
+                    <Button style={{backgroundColor: "#405FF2", border: "2px solid #405FF2"}} className="px-4 py-2" onClick={printInvoice}>
                         Print this Invoice ↗
                     </Button>
                 </Col>
@@ -142,7 +142,7 @@ const Invoice = () => {
                 </Col>
                 <Col className="text-end">
                     <h5 className="fw-bold">
-                        Invoice # <span style={{ color: "#050B20", fontSize: "15px" }}>{invoice?.invNumber || "N/A"}</span>
+                        Invoice # <span style={{ color: "#405FF2", fontSize: "15px" }}>{invoice?.invNumber || "N/A"}</span>
                     </h5>
                 </Col>
             </Row>
@@ -172,7 +172,7 @@ const Invoice = () => {
                             target="_blank"
                             rel="noopener noreferrer"
                             className="text-light px-4 py-2 rounded text-decoration-none"
-                            style={{backgroundColor: "#050b20", border: "2px solid #050b20"}}
+                            style={{backgroundColor: "#405FF2", border: "2px solid #405FF2"}}
                         >
                             Proof ↗
                         </a> :
@@ -197,7 +197,7 @@ const Invoice = () => {
                                     <label htmlFor="auctionLot1">Status</label>
                                     <div className="next-button">
                                     <button 
-                                        style={{ backgroundColor: updateLoading ? "gray" : "#050b20" }}
+                                        style={{ backgroundColor: updateLoading ? "gray" : "#405FF2" }}
                                         disabled={updateLoading}
                                         onClick={updateStatus}>
                                         {updateLoading ? "Updating..." : "Update"}
