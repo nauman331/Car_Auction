@@ -77,7 +77,6 @@ const Home = () => {
         <div>
           <Herosection />
           <Header />
-
           <Browsebytype />
           <CarTabs cars={cars} />
           <Livecar />
