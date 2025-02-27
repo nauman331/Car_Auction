@@ -230,22 +230,22 @@ const AuctionListings = () => {
                 <tbody>
                   {getDisplayedAuctions().map((auction, index) => (
                     <tr key={index}>
-                      <td>
+                      <td data-label="Name">
                         <div className="car-info">
                           <p>{auction.auctionTitle || "No Title"}</p>
                         </div>
                       </td>
-                      <td>
+                      <td data-label="Location">
                         {auction.location?.auctionLocation || "No Location"}
                       </td>
-                      <td>{auction.totalVehicles || "No Vehicles"}</td>
-                      <td>
+                      <td data-label="Total Vehicles">{auction.totalVehicles || "No Vehicles"}</td>
+                      <td data-label="Date">
                         {new Date(auction.auctionDate).toLocaleDateString() ||
                           "No Date"}
                         <br />
                         <small>{auction.auctionTime || "No Time"}</small>
                       </td>
-                      <td>{auction.statusText || "No Status"}</td>
+                      <td data-label="Status">{auction.statusText || "No Status"}</td>
                       <td className="action-buttons">
                         <button
                           onClick={() => {

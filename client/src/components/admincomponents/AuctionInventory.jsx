@@ -315,10 +315,11 @@ const AuctionInventory = () => {
                         car.sellingType === "auction" && (
                           <tr key={index}>
                             <td
+                              data-label="Car Info"
                               style={{ cursor: "pointer" }}
                               onClick={() => navigate(`/admin/carsales/${car._id}`)}
                             >
-                              <div className="car-info">
+                              <div className="car-info" >
                                 <div className="car-image">
                                   <img
                                     src={car.carImages[0]}
@@ -336,18 +337,18 @@ const AuctionInventory = () => {
                                 </div>
                               </div>
                             </td>
-                            <td>
+                            <td data-label="Lot No">
                               <small>{car.lotNo || "No Lot No"}</small>
                             </td>
-                            <td>
+                            <td data-label="Starting Price">
                               <small>{car.startingBid || "No Starting Price"}</small>
                             </td>
-                            <td>
+                            <td data-label="Auction">
                               <small>
                                 {car.auctionLot?.auctionTitle || "No Auction"}
                               </small>
                             </td>
-                            <td>
+                            <td data-label="Status">
                               <small>
                                 {
                                   car.isSold

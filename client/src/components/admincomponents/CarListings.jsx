@@ -234,7 +234,7 @@ const CarListings = () => {
               <table className="car-table">
                 <thead>
                   <tr>
-                    <th>Make</th>
+                    <th>Car Info</th>
                     <th>Model</th>
                     <th>Year</th>
                     <th>Transmission</th>
@@ -248,6 +248,7 @@ const CarListings = () => {
                       car.sellingType === "fixed" && (
                         <tr key={index}>
                           <td
+                          data-label="Car Info"
                             style={{ cursor: "pointer" }}
                             onClick={() => navigate(`/admin/carsales/${car._id}`)}
                           >
@@ -273,16 +274,16 @@ const CarListings = () => {
                               </div>
                             </div>
                           </td>
-                          <td>
-                            <small>{car.carModal && car.carModal.vehicleModal || "No Model"}</small>
+                          <td data-label="Model">
+                            <small>{car.carModal || "No Model"}</small>
                           </td>
-                          <td>
+                          <td data-label="Year">
                             <small>{car.year && car.year.vehicleYear || "No Year"}</small>
                           </td>
-                          <td>
+                          <td data-label="Transmission"> 
                             <small>{car.transmission && car.transmission.vehicleTransimission || "No Transmission"}</small>
                           </td>
-                          <td>
+                          <td data-label="Fuel Type">
                             <small>{car.fuelType && car.fuelType.vehicleFuelTypes || "No Fuel Type"}</small>
                           </td>
 

@@ -164,11 +164,11 @@ const Withdrawals = () => {
                           onClick={() => handleRowClick(user, withdrawals)}
                           style={{ cursor: "pointer" }}
                         >
-                          <td>{user || "N/A"}</td>
-                          <td>{withdrawals[0].accountHolderName || "N/A"}</td>
-                          <td>{withdrawals[0].bankName || "N/A"}</td>
-                          <td>{totalRequests || 0}</td>
-                          <td>{totalAmount} AED</td>
+                          <td data-label="User ID">{user || "N/A"}</td>
+                          <td data-label="Full Name">{withdrawals[0].accountHolderName || "N/A"}</td>
+                          <td data-label="Bank Name">{withdrawals[0].bankName || "N/A"}</td>
+                          <td data-label="Pending Requests">{totalRequests || 0}</td>
+                          <td data-label="Pending Amount">{totalAmount} AED</td>
                         </tr>
                       );
                     })

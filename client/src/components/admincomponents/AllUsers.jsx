@@ -221,7 +221,7 @@ const AllUsers = () => {
                 <tbody>
                   {getDisplayedUsers().map((user, index) => (
                     <tr key={index}>
-                      <td>
+                      <td data-label="Profile">
                         <div className="car-info">
                           <div className="car-image">
                             <img
@@ -237,16 +237,17 @@ const AllUsers = () => {
                         </div>
                       </td>
                       <td 
+                      data-label="User ID"
                       style={{ cursor: "pointer", marginBottom: "10px" }}
                       onClick={() => handleUserClick(user)}
                       >{user._id || "No User ID"}</td>
-                        <td>{user.firstName || "No Name"}</td>
-                      <td>
+                        <td data-label="Name">{user.firstName || "No Name"}</td>
+                      <td data-label="Joining Date">
                         {new Date(user.createdAt).toLocaleDateString() ||
                           "No Date"}
                       </td>
-                      <td>{user.role || "No Role"}</td>
-                      <td>
+                      <td data-label="Role">{user.role || "No Role"}</td>
+                      <td data-label="Status">
                         {user.isVerified
                           ? "Verified"
                           : "Not Verified" || "No Status"}

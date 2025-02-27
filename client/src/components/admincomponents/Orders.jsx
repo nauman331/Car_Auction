@@ -141,7 +141,7 @@ const Orders = () => {
                   onClick={() => navigate(`/admin/invoice/${invoice?.invNumber}`)}
                   style={{ cursor: "pointer" }}
                 >
-                  <td>
+                  <td data-label="Vehicle Info">
                     <div className="car-info">
                       <div className="car-image">
                         <img
@@ -160,13 +160,13 @@ const Orders = () => {
                       </div>
                     </div>
                   </td>
-                  <td>AED {invoice?.paidAmount || 0}</td>
-                  <td>AED {invoice?.pendingAmount || 0}</td>
-                  <td>
+                  <td data-label="Paid Amount">AED {invoice?.paidAmount || 0}</td>
+                  <td data-label="Pending Amount">AED {invoice?.pendingAmount || 0}</td>
+                  <td data-label="Buyer">
                     {invoice?.userId?.firstName || "N/A"} {invoice?.userId?.lastName || "N/A"}
                   </td>
-                  <td>{invoice?.statusText || 'No Status'}</td>
-                  <td>AED {invoice?.totalAmount || 0}</td>
+                  <td data-label="Payment Status">{invoice?.statusText || 'No Status'}</td>
+                  <td data-label="Total">AED {invoice?.totalAmount || 0}</td>
                 </tr>
               ))}
             </tbody>
