@@ -1,5 +1,6 @@
 import React from "react";
 import img1 from "../../assets/images/features-icon.png";
+
 const FeatureCategory = ({ title, features }) => (
   <div>
     {features.length > 0 &&

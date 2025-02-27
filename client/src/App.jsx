@@ -109,7 +109,7 @@ function App() {
         toast.success(response.message, { duration: 5000 });
       }
       dispatch(removeBidData());
-      if (location.pathname.includes(response.carId)) {
+      if (`/auctioncar/${response.carId}` === location.pathname) {
         navigate("/")
       }
 
@@ -124,9 +124,11 @@ function App() {
       new Audio("/notification.wav").play();
       toast.success(response.message, { duration: 5000 });
       dispatch(removeBidData());
-      if (location.pathname.includes(response.carId)) {
+      if (`/auctioncar/${response.carId}` === location.pathname) {
         navigate("/")
       }
+
+
     };
 
     if (socket) {

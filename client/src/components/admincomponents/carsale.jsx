@@ -115,25 +115,33 @@ function Carsale() {
                   ))}
                 </Carousel>
               </div>
-              <div className="car-description">
-                <h2>Description</h2>
-                {car.description || "No description available"}
-              </div>
-              <div className="features-sections">
-                <h2>Features</h2>
-                <div className="features-details">
-                  {Array.isArray(featuresData) && featuresData.length > 0 ? (
-                    featuresData.map((data, index) => (
-                      <FeatureCategory
-                        title={data.category}
-                        key={index}
-                        features={data.features}
-                      />
-                    ))
-                  ) : (
-                    <p>No features available</p>
-                  )}
+              {
+                car.description &&
+                <div className="car-description ">
+                  <h2>Description</h2>
+                  {car.description || "No description available"}
                 </div>
+              }
+              <div className="features-sections order-2">
+                {Array.isArray(featuresData) && featuresData.length > 0 && (
+                  <>
+                    {featuresData.some(data => data.features?.length > 0) && (
+                      <>
+                        <h2>Features</h2>
+                        <div className="features-details">
+                          {featuresData.map((data, index) => (
+                            <FeatureCategory
+                              title={data.category}
+                              key={index}
+                              features={data.features}
+                            />
+                          ))}
+                        </div>
+                      </>
+                    )}
+
+                  </>
+                )}
               </div>
             </div>
             <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 mb-4 px-2">
