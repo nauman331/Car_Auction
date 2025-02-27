@@ -48,6 +48,7 @@ import NotifcationDetails from "./components/admincomponents/NotificationDetails
 import UserDetail from "./components/admincomponents/UserDetail";
 import Withdrawals from "./components/admincomponents/Withdrawals";
 import WithdrawDetail from "./components/admincomponents/WithdrawDetail";
+import PageNotFound from "./pages/userpages/page-not-found";
 
 function App() {
   const dispatch = useDispatch();
@@ -223,6 +224,7 @@ function App() {
               <Route path="notifications" element={<NotifcationDetails />} />
               <Route path="withdraw" element={<Withdraw />} />
             </Route>
+            <Route path="/*" element={<PageNotFound />} />
           </Routes>
         </ProtectedRoute>
     </LocalizationProvider>

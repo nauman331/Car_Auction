@@ -136,7 +136,6 @@ const AuctionInventory = () => {
       if (nearestAuction.statusText !== "Compeleted") {
         setSelectedAuctionLot(nearestAuction._id); // Set the default selected auction lot to the nearest auction
       }
-      console.log("Auction", nearestAuction);
 
     }
   }, [auctions]);

@@ -20,7 +20,7 @@ import { ArrowBigRight, CirclePlay, HeartPulse, PencilLine, Trash } from "lucide
 import DeleteModal from "./DeleteModal";
 import EditModal from "./EditModal";
 import { CloudinaryUploader } from "../../utils/CloudinaryUploader";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import LoadingSpinner from "../usercomponents/LoadingSpinner";
 import Select from "react-select";
 
@@ -29,6 +29,7 @@ import Select from "react-select";
 const CarAuction = ({ car, getCarDetails, backendURL }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const location = useLocation();
   const { socket } = useSelector((state) => state.socket);
   const { token } = useSelector(state => state.auth);
   const { currentBidData } = useSelector(state => state.event);
@@ -83,17 +84,20 @@ const CarAuction = ({ car, getCarDetails, backendURL }) => {
     }
   };
   const comingNext = () => {
-    if(!comingCar) {
+    if (!comingCar) {
       toast.error("Missing Details")
       return;
     }
-    console.log(comingCar)
-    navigate(`/admin/carsales/${comingCar}`, {replace: true})
+    if (location.pathname.includes(comingCar)) {
+      toast.error("This is last car from same auction");
+      return;
+    }
+    navigate(`/admin/carsales/${comingCar}`, { replace: true })
   }
 
 
   useEffect(() => {
-      nextCar();
+    nextCar();
   }, [carLotData.auctionLot, carLotNumber.lotNo]);
 
 
@@ -399,11 +403,11 @@ const CarAuction = ({ car, getCarDetails, backendURL }) => {
           {
             car.sellingType === "auction" ? (
               <>
-                <button style={{float: "right"}}
-                onClick={comingNext}
+                <button style={{ float: "right" }}
+                  onClick={comingNext}
                 >Next <ArrowBigRight /></button>
                 <p>Current Bid</p>
-                
+
                 <h2>AED {currentBidData && (car._id === currentBidData.carId) ? (currentBidData?.bidAmount || currentBidData?.currentBid || car?.startingBid
                   || "N/A") : car?.startingBid}</h2>
                 <p>Bid Starting Price: {car.startingBid || "N/A"} AED</p>
