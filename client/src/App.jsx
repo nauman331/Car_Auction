@@ -73,7 +73,7 @@ function App() {
       }
       new Audio("/notification.wav").play();
       toast.success(response.message, { duration: 5000 });
-        dispatch(setBidData(response));
+      dispatch(setBidData(response));
     };
 
     const handleBidPlaced = (response) => {
@@ -109,10 +109,10 @@ function App() {
         toast.success(response.message, { duration: 5000 });
       }
       dispatch(removeBidData());
-      if(location.pathname === `/auctioncar/${response.carId}`){
+      if (location.pathname.includes(response.carId)) {
         navigate("/")
       }
-      
+
     };
 
     const handleNotifyBidders = (response) => {
@@ -124,6 +124,9 @@ function App() {
       new Audio("/notification.wav").play();
       toast.success(response.message, { duration: 5000 });
       dispatch(removeBidData());
+      if (location.pathname.includes(response.carId)) {
+        navigate("/")
+      }
     };
 
     if (socket) {
@@ -174,59 +177,59 @@ function App() {
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <ProtectedRoute>
-          <Routes>
-            {/* Public routes */}
-            <Route path="/" element={<Home />} />
-            <Route path="/auth" element={<Auth />} />
-            <Route path="/contact-us" element={<ContactUs />} />
-            <Route path="/about-us" element={<Aboutus />} />
-            <Route path="/verifyotp" element={<OTPVerificationForm />} />
-            <Route path="/resetpassword" element={<Verificationform />} />
-            <Route path="/auction-vehicle" element={<Vehicle />} />
-            <Route path="/buynow-vehicle" element={<BuyfilterForm />} />
-            <Route path="/privacy" element={<Privacypolicy />} />
-            <Route path="/terms" element={<Terms />} />
-            <Route path="/auctioncar/:id" element={<Carsforsale />} />
-            <Route path="/auction-events" element={<Events />} />
-            <Route path="/buycar/:id" element={<Buycarforsale />} />
+      <ProtectedRoute>
+        <Routes>
+          {/* Public routes */}
+          <Route path="/" element={<Home />} />
+          <Route path="/auth" element={<Auth />} />
+          <Route path="/contact-us" element={<ContactUs />} />
+          <Route path="/about-us" element={<Aboutus />} />
+          <Route path="/verifyotp" element={<OTPVerificationForm />} />
+          <Route path="/resetpassword" element={<Verificationform />} />
+          <Route path="/auction-vehicle" element={<Vehicle />} />
+          <Route path="/buynow-vehicle" element={<BuyfilterForm />} />
+          <Route path="/privacy" element={<Privacypolicy />} />
+          <Route path="/terms" element={<Terms />} />
+          <Route path="/auctioncar/:id" element={<Carsforsale />} />
+          <Route path="/auction-events" element={<Events />} />
+          <Route path="/buycar/:id" element={<Buycarforsale />} />
 
-            {/* Admin routes */}
-            <Route path="/admin" element={<AdminHome />}>
-              <Route path="dashboard" element={<Dashboard />} />
-              <Route path="carlistings" element={<CarListings />} />
-              <Route path="addauctionevent" element={<AddAuctionForm />} />
-              <Route path="addbuynow" element={<AddBuyNow sellingType="fixed" />} />
-              <Route path="auctionlistings" element={<AuctionListings />} />
-              <Route path="addauction" element={<AddBuyNow sellingType="auction" />} />
-              <Route path="auctioninventory" element={<AuctionInventory />} />
-              <Route path="managecategories" element={<CategoryManagement />} />
-              <Route path="allusers" element={<AllUsers />} />
-              <Route path="userdetails" element={<UserDetail />} />
-              <Route path="deposits" element={<Deposits />} />
-              <Route path="deposit" element={<DepositDetail />} />
-              <Route path="withdrawals" element={<Withdrawals />} />
-              <Route path="withdraw" element={<WithdrawDetail />} />
-              <Route path="Orders" element={<Orders />} />
-              <Route path="Profile" element={<Profile />} />
-              <Route path="carsales/:id" element={<CarSales />} />
-              <Route path="invoice/:id" element={<Invoice />} />
-              <Route path="notifications" element={<NotifcationDetails />} />
-            </Route>
+          {/* Admin routes */}
+          <Route path="/admin" element={<AdminHome />}>
+            <Route path="dashboard" element={<Dashboard />} />
+            <Route path="carlistings" element={<CarListings />} />
+            <Route path="addauctionevent" element={<AddAuctionForm />} />
+            <Route path="addbuynow" element={<AddBuyNow sellingType="fixed" />} />
+            <Route path="auctionlistings" element={<AuctionListings />} />
+            <Route path="addauction" element={<AddBuyNow sellingType="auction" />} />
+            <Route path="auctioninventory" element={<AuctionInventory />} />
+            <Route path="managecategories" element={<CategoryManagement />} />
+            <Route path="allusers" element={<AllUsers />} />
+            <Route path="userdetails" element={<UserDetail />} />
+            <Route path="deposits" element={<Deposits />} />
+            <Route path="deposit" element={<DepositDetail />} />
+            <Route path="withdrawals" element={<Withdrawals />} />
+            <Route path="withdraw" element={<WithdrawDetail />} />
+            <Route path="Orders" element={<Orders />} />
+            <Route path="Profile" element={<Profile />} />
+            <Route path="carsales/:id" element={<CarSales />} />
+            <Route path="invoice/:id" element={<Invoice />} />
+            <Route path="notifications" element={<NotifcationDetails />} />
+          </Route>
 
-            {/*User Routes*/}
-            <Route path="user" element={<UserPanel />}>
-              <Route path="userdashboard" element={<UserDashboard />} />
-              <Route path="wallet" element={<Wallet />} />
-              <Route path="userprofile" element={<Profile />} />
-              <Route path="orders" element={<UserOrders />} />
-              <Route path="invoice/:id" element={<UserInvoice />} />
-              <Route path="notifications" element={<NotifcationDetails />} />
-              <Route path="withdraw" element={<Withdraw />} />
-            </Route>
-            <Route path="/*" element={<PageNotFound />} />
-          </Routes>
-        </ProtectedRoute>
+          {/*User Routes*/}
+          <Route path="user" element={<UserPanel />}>
+            <Route path="userdashboard" element={<UserDashboard />} />
+            <Route path="wallet" element={<Wallet />} />
+            <Route path="userprofile" element={<Profile />} />
+            <Route path="orders" element={<UserOrders />} />
+            <Route path="invoice/:id" element={<UserInvoice />} />
+            <Route path="notifications" element={<NotifcationDetails />} />
+            <Route path="withdraw" element={<Withdraw />} />
+          </Route>
+          <Route path="/*" element={<PageNotFound />} />
+        </Routes>
+      </ProtectedRoute>
     </LocalizationProvider>
   );
 }
