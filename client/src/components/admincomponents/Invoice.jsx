@@ -121,164 +121,174 @@ const Invoice = () => {
     };
 
     return (
-        <Container className="my-4" ref={invoiceRef}>
-            <Row className="justify-content-between align-items-center mb-4">
-                <Col xs={6} sm={4} id="no-print">
-                    <Button style={{backgroundColor: "#405FF2", border: "2px solid #405FF2"}} className="px-4 py-2" onClick={printInvoice}>
-                        Print this Invoice ↗
-                    </Button>
-                </Col>
-                <Col xs={6} sm={4} className="text-end">
-                    <h4>Status: {invoice?.statusText?.charAt(0).toUpperCase() + invoice?.statusText?.slice(1) || ""}</h4>
-                </Col>
-            </Row>
+        <Container fluid className="my-4" ref={invoiceRef}>
+    <Row className="justify-content-between align-items-center mb-4">
+        <Col xs={12} sm={4} id="no-print">
+            <Button 
+                style={{ backgroundColor: "#405FF2", border: "2px solid #405FF2", width: "100%" }} 
+                className="px-4 py-2" 
+                onClick={printInvoice}
+            >
+                Print Invoice ↗
+            </Button>
+        </Col>
+        <Col xs={12} sm={4} className="text-center text-sm-end mt-3 mt-sm-0">
+            <h5 className="fw-bold">
+                Status: {invoice?.statusText?.charAt(0).toUpperCase() + invoice?.statusText?.slice(1) || ""}
+            </h5>
+        </Col>
+    </Row>
 
-            <Row>
-                <Col>
-                    <img src={Logo} alt="..."
-                        style={{ height: "5rem", width: "8rem" }}
-                        className="mb-5"
-                    />
-                </Col>
-                <Col className="text-end">
-                    <h5 className="fw-bold">
-                        Invoice # <span style={{ color: "#405FF2", fontSize: "15px" }}>{invoice?.invNumber || "N/A"}</span>
-                    </h5>
-                </Col>
-            </Row>
+    <Row className="align-items-center">
+        <Col xs={6}>
+            <img 
+                src={Logo} 
+                alt="..." 
+                style={{ height: "4rem", width: "6rem" }} 
+                className="mb-3"
+            />
+        </Col>
+        <Col xs={6} className="text-end">
+            <h6 className="fw-bold">
+                Invoice # <span style={{ color: "#405FF2", fontSize: "13px" }}>{invoice?.invNumber || "N/A"}</span>
+            </h6>
+        </Col>
+    </Row>
 
-            <Row className="mt-3">
-                <Col md={6}>
-                    <p className="mb-1 fw-bold">Invoice Date:</p>
-                    <p>{new Date(invoice?.createdAt).toLocaleDateString() || ""}</p>
+    <Row className="mt-3">
+        <Col xs={12} md={6}>
+            <p className="mb-1 fw-bold">Invoice Date:</p>
+            <p>{new Date(invoice?.createdAt).toLocaleDateString() || ""}</p>
 
-                    <p className="mb-1 fw-bold">Customer Details:</p>
-                    <p>
-                        {invoice?.userId?.firstName || ""} {invoice?.userId?.lastName || ""}
-                        <br />
-                        {invoice?.userId?._id || ""}
-                    </p>
-                </Col>
+            <p className="mb-1 fw-bold">Customer Details:</p>
+            <p>
+                {invoice?.userId?.firstName || ""} {invoice?.userId?.lastName || ""}
+                <br />
+                {invoice?.userId?._id || ""}
+            </p>
+        </Col>
 
-                <Col
-                    md={6}
-                    className="d-flex align-items-center rounded justify-content-center gap-4 flex-column"
-                    style={{ backgroundColor: "#F9FBFC", height: "200px" }}
-                    id="no-print"
+        <Col 
+            xs={12} 
+            md={6} 
+            className="d-flex align-items-center rounded justify-content-center gap-4 flex-column p-3"
+            style={{ backgroundColor: "#F9FBFC", minHeight: "180px" }} 
+            id="no-print"
+        >
+            {invoice?.invSlip ? (
+                <a
+                    href={encodeURI(invoice?.invSlip)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-light px-3 py-2 rounded text-decoration-none"
+                    style={{ backgroundColor: "#405FF2", border: "2px solid #405FF2" }}
                 >
-                    {
-                        invoice.invSlip ? <a
-                            href={encodeURI(invoice?.invSlip)}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-light px-4 py-2 rounded text-decoration-none"
-                            style={{backgroundColor: "#405FF2", border: "2px solid #405FF2"}}
-                        >
-                            Proof ↗
-                        </a> :
-                            <h6>Remaining Payment Proof Not Uploaded Yet</h6>
-                    }
-                    <div className="form-container" style={{ border: "none", padding: "0px", margin: "0" }}>
-                        <div className="form-section">
-                            <div className="form-grid">
-                                <div
-                                    className="input-container d-flex align-items-center gap-3"
-                                    id="auction-container1"
-                                >
-                                    <Select
-                                        options={statusOptions}
-                                        placeholder="Select Status"
-                                        value={status}
-                                        onChange={(selectedOption) => setStatus(selectedOption)}
-                                        className="react-select-container"
-                                        classNamePrefix="react-select"
-                                        id="auctionLot1"
-                                    />
-                                    <label htmlFor="auctionLot1">Status</label>
-                                    <div className="next-button">
-                                    <button 
-                                        style={{ backgroundColor: updateLoading ? "gray" : "#405FF2" }}
-                                        disabled={updateLoading}
-                                        onClick={updateStatus}>
-                                        {updateLoading ? "Updating..." : "Update"}
-                                    </button>
-                                </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </Col>
-            </Row>
+                    View Proof ↗
+                </a>
+            ) : (
+                <h6 className="text-center">Proof Not Uploaded</h6>
+            )}
 
-            <Row className="mt-4">
-                <Col>
-                    <Table responsive>
-                        <thead>
-                            <tr>
-                                <th>Vehicle Information</th>
-                                <th>Wallet Deduction</th>
-                                <th>Pending</th>
-                                <th>VAT(5%)</th>
-                                <th>Car Amount</th>
-                                <th>Total Amount</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>
-                                    {invoice?.carId?.listingTitle || "N/A"}
-                                    <br />
-                                    <small>VIN: {invoice?.carId?.vin || 0}</small>
-                                </td>
-                                <td>AED {invoice?.walletDeduction || 0}</td>
-                                <td>AED {invoice?.pendingAmount || 0}</td>
-                                <td>AED {invoice?.vat || 0}</td>
-                                <td>AED {invoice?.carAmount || 0}</td>
-                                <td>AED {invoice?.totalAmount || 0}</td>
-                            </tr>
-                        </tbody>
-                    </Table>
-                </Col>
-            </Row>
+            <Select
+                options={statusOptions}
+                placeholder="Select Status"
+                value={status}
+                onChange={(selectedOption) => setStatus(selectedOption)}
+                className="react-select-container w-100"
+                classNamePrefix="react-select"
+                id="auctionLot1"
+            />
+            <button 
+                style={{ backgroundColor: updateLoading ? "gray" : "#405FF2", width: "100%" }} 
+                disabled={updateLoading} 
+                onClick={updateStatus}
+                className="text-light px-3 py-2 border-0 rounded"
+            >
+                {updateLoading ? "Updating..." : "Update"}
+            </button>
+        </Col>
+    </Row>
 
-            <Row className="justify-content-end mt-3" >
-                <Col xs={12} md={6} lg={4}>
-                    <Table>
-                        <tbody>
-                            <tr>
-                                <td className="fw-bold">Total Paid:</td>
-                                <td className="text-end">AED {invoice?.paidAmount || 0}</td>
-                            </tr>
-                            <tr>
-                                <td className="fw-bold">Total Due:</td>
-                                <td className="text-end">AED {invoice?.pendingAmount || 0}</td>
-                            </tr>
-                        </tbody>
-                        {invoice?.paymentStatus && (
-                            <img
-                                src={proof}
-                                alt="..."
-                                style={{
-                                    height: "8rem",
-                                    width: "8rem",
-                                    float: "right"
-                                }}
-                            />
-                        )}
-                    </Table>
-                </Col>
-            </Row>
-            <Row className="mt-5 text-center">
-                <hr />
-                <Col className="d-flex mt-5 align-items-center w-100 justify-content-evenly flex-wrap gap-3">
-                    <a href="https://abaautoauctions.com" style={{ textDecoration: "none" }}>
-                        https://abaautoauctions.com
-                    </a>
-                    <a>Info@abaautoauctions.com</a>
-                    <a>+971 509496511</a>
-                </Col>
-            </Row>
-        </Container>
+    {/* Responsive Table */}
+    <Row className="mt-4">
+    <Col>
+        <Table className="table-sm text-center d-none d-md-table">
+            <thead>
+                <tr>
+                    <th style={{ width: "20%" }}>Vehicle</th>
+                    <th style={{ width: "15%" }}>Wallet Deduction</th>
+                    <th style={{ width: "15%" }}>Pending</th>
+                    <th style={{ width: "10%" }}>VAT(5%)</th>
+                    <th style={{ width: "15%" }}>Car Amount</th>
+                    <th style={{ width: "15%" }}>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{invoice?.carId?.listingTitle || "N/A"}<br /><small>VIN: {invoice?.carId?.vin || 0}</small></td>
+                    <td>AED {invoice?.walletDeduction || 0}</td>
+                    <td>AED {invoice?.pendingAmount || 0}</td>
+                    <td>AED {invoice?.vat || 0}</td>
+                    <td>AED {invoice?.carAmount || 0}</td>
+                    <td>AED {invoice?.totalAmount || 0}</td>
+                </tr>
+            </tbody>
+        </Table>
+
+        {/* Mobile-Friendly Stacked Format */}
+        <div className="d-block d-md-none">
+            <div className="border p-3 mb-2">
+                <p><strong>Vehicle:</strong> {invoice?.carId?.listingTitle || "N/A"}</p>
+                <p><strong>VIN:</strong> {invoice?.carId?.vin || 0}</p>
+                <p><strong>Wallet Deduction:</strong> AED {invoice?.walletDeduction || 0}</p>
+                <p><strong>Pending:</strong> AED {invoice?.pendingAmount || 0}</p>
+                <p><strong>VAT (5%):</strong> AED {invoice?.vat || 0}</p>
+                <p><strong>Car Amount:</strong> AED {invoice?.carAmount || 0}</p>
+                <p><strong>Total:</strong> AED {invoice?.totalAmount || 0}</p>
+            </div>
+        </div>
+    </Col>
+</Row>
+
+
+    <Row className="justify-content-end mt-3">
+        <Col xs={12} md={6} lg={4}>
+            <Table>
+                <tbody>
+                    <tr>
+                        <td className="fw-bold">Total Paid:</td>
+                        <td className="text-end">AED {invoice?.paidAmount || 0}</td>
+                    </tr>
+                    <tr>
+                        <td className="fw-bold">Total Due:</td>
+                        <td className="text-end">AED {invoice?.pendingAmount || 0}</td>
+                    </tr>
+                </tbody>
+            </Table>
+            {invoice?.paymentStatus && (
+                <div className="text-end">
+                    <img 
+                        src={proof} 
+                        alt="Payment Proof" 
+                        style={{ height: "6rem", width: "6rem" }} 
+                    />
+                </div>
+            )}
+        </Col>
+    </Row>
+
+    <Row className="mt-5 text-center">
+        <hr />
+        <Col className="d-flex flex-column flex-md-row align-items-center justify-content-evenly gap-3">
+            <a href="https://abaautoauctions.com" style={{ textDecoration: "none" }}>
+                https://abaautoauctions.com
+            </a>
+            <a href="mailto:Info@abaautoauctions.com">Info@abaautoauctions.com</a>
+            <a href="tel:+971509496511">+971 509496511</a>
+        </Col>
+    </Row>
+</Container>
+
     );
 };
 

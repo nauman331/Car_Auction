@@ -141,6 +141,7 @@ const Invoice = () => {
     return (
         <>
             <Container className="my-4" ref={invoiceRef}>
+                {/* Header Row */}
                 <Row className="justify-content-between align-items-center mb-4">
                     <Col xs={6} sm={4} id="no-print">
                         <Button className="px-4 py-2" onClick={printInvoice}
@@ -154,14 +155,10 @@ const Invoice = () => {
                     </Col>
                 </Row>
 
+                {/* Logo & Invoice Number */}
                 <Row>
                     <Col>
-                        <img
-                            src={Logo}
-                            alt="..."
-                            style={{ height: "5rem", width: "8rem" }}
-                            className="mb-5"
-                        />
+                        <img src={Logo} alt="Logo" style={{ height: "5rem", width: "8rem" }} className="mb-5" />
                     </Col>
                     <Col className="text-end">
                         <h5 className="fw-bold">
@@ -170,6 +167,7 @@ const Invoice = () => {
                     </Col>
                 </Row>
 
+                {/* Invoice Details & Payment Option */}
                 <Row className="mt-3">
                     <Col md={6}>
                         <p className="mb-1 fw-bold">Invoice Date:</p>
@@ -177,66 +175,40 @@ const Invoice = () => {
 
                         <p className="mb-1 fw-bold">Customer Details:</p>
                         <p>
-                            {invoice?.userId?.firstName || ""} {invoice?.userId?.lastName || ""}
-                            <br />
+                            {invoice?.userId?.firstName || ""} {invoice?.userId?.lastName || ""} <br />
                             {invoice?.userId?._id || ""}
                         </p>
                     </Col>
-                    {
-                        (invoice?.statusText === "payment pending") &&
-                        <Col
-                            md={6}
-                            className="d-flex gap-5 align-items-center rounded justify-content-center"
-                            style={{ backgroundColor: "#F9FBFC", height: "200px" }}
-                            id="no-print"
-                        >
-                            <Button style={{ backgroundColor: "#405FF2", border: "2px solid #405FF2" }} className="px-4 py-2" onClick={handleModalOpen}><Wallet />Pay via Bank</Button>
-                            {/* <PayPalButtons
-                                createOrder={(data, actions) => {
-                                    return actions.order.create({
-                                        purchase_units: [
-                                            {
-                                                amount: {
-                                                    value: "20.00", // Replace with the amount to be charged
-                                                },
-                                            },
-                                        ],
-                                    });
-                                }}
-                                onApprove={(data, actions) => {
-                                    return actions.order.capture().then((details) => {
-                                        alert("Transaction completed by " + details.payer.name.given_name);
-                                    });
-                                }}
-                                onError={(err) => {
-                                    console.error("PayPal Checkout Error:", err);
-                                    alert("An error occurred during the transaction.");
-                                }}
-                            /> */}
+
+                    {invoice?.statusText === "payment pending" && (
+                        <Col md={6} className="d-flex gap-5 align-items-center rounded justify-content-center"
+                            style={{ backgroundColor: "#F9FBFC", height: "200px" }} id="no-print">
+                            <Button style={{ backgroundColor: "#405FF2", border: "2px solid #405FF2" }} className="px-4 py-2"
+                                onClick={handleModalOpen}>
+                                <Wallet /> Pay via Bank
+                            </Button>
                         </Col>
-                    }
+                    )}
                 </Row>
 
+                {/* Table for Desktop */}
                 <Row className="mt-4">
                     <Col>
-                        <Table responsive>
+                        <Table className="table-sm text-center d-none d-md-table">
                             <thead>
                                 <tr>
-                                    <th>Vehicle Information</th>
-                                    <th>Wallet Deduction</th>
-                                    <th>Pending</th>
-                                    <th>VAT(5%)</th>
-                                    <th>Car Amount</th>
-                                    <th>Total Amount</th>
+                                    <th style={{ width: "20%" }}>Vehicle</th>
+                                    <th style={{ width: "15%" }}>Wallet Deduction</th>
+                                    <th style={{ width: "15%" }}>Pending</th>
+                                    <th style={{ width: "10%" }}>VAT(5%)</th>
+                                    <th style={{ width: "15%" }}>Car Amount</th>
+                                    <th style={{ width: "15%" }}>Total</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>
-                                        {invoice?.carId?.listingTitle || "N/A"}
-                                        <br />
-                                        <small>VIN: {invoice?.carId?.vin || 0}</small>
-                                    </td>
+                                    <td>{invoice?.carId?.listingTitle || "N/A"}<br />
+                                        <small>VIN: {invoice?.carId?.vin || 0}</small></td>
                                     <td>AED {invoice?.walletDeduction || 0}</td>
                                     <td>AED {invoice?.pendingAmount || 0}</td>
                                     <td>AED {invoice?.vat || 0}</td>
@@ -245,9 +217,23 @@ const Invoice = () => {
                                 </tr>
                             </tbody>
                         </Table>
+
+                        {/* Mobile-Friendly Stacked Format */}
+                        <div className="d-block d-md-none">
+                            <div className="border p-3 mb-2">
+                                <p><strong>Vehicle:</strong> {invoice?.carId?.listingTitle || "N/A"}</p>
+                                <p><strong>VIN:</strong> {invoice?.carId?.vin || 0}</p>
+                                <p><strong>Wallet Deduction:</strong> AED {invoice?.walletDeduction || 0}</p>
+                                <p><strong>Pending:</strong> AED {invoice?.pendingAmount || 0}</p>
+                                <p><strong>VAT (5%):</strong> AED {invoice?.vat || 0}</p>
+                                <p><strong>Car Amount:</strong> AED {invoice?.carAmount || 0}</p>
+                                <p><strong>Total:</strong> AED {invoice?.totalAmount || 0}</p>
+                            </div>
+                        </div>
                     </Col>
                 </Row>
 
+                {/* Payment Summary */}
                 <Row className="justify-content-end mt-3">
                     <Col xs={12} md={6} lg={4}>
                         <Table>
@@ -261,19 +247,16 @@ const Invoice = () => {
                                     <td className="text-end">AED {invoice?.pendingAmount || 0}</td>
                                 </tr>
                             </tbody>
-                            {invoice?.paymentStatus && (
-                                <img
-                                    src={proof}
-                                    alt="..."
-                                    style={{
-                                        height: "8rem",
-                                        width: "8rem",
-                                    }}
-                                />
-                            )}
                         </Table>
+
+                        {/* Payment Proof Image */}
+                        {invoice?.paymentStatus && (
+                            <img src={proof} alt="Payment Proof" style={{ height: "8rem", width: "8rem" }} />
+                        )}
                     </Col>
                 </Row>
+
+                {/* Footer */}
                 <Row className="mt-5 text-center">
                     <hr />
                     <Col className="d-flex mt-5 align-items-center w-100 justify-content-evenly flex-wrap gap-3">
@@ -285,6 +268,7 @@ const Invoice = () => {
                     </Col>
                 </Row>
             </Container>
+
 
             <Modal show={showModal} onHide={handleModalClose}>
                 <Modal.Header closeButton>
