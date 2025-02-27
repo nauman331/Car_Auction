@@ -16,7 +16,7 @@ import img13 from "../../assets/images/steering-wheel 1.png";
 import { useSelector, useDispatch } from "react-redux";
 import { removeBidData } from "../../store/eventSlice"
 import toast from "react-hot-toast";
-import { CirclePlay, HeartPulse, PencilLine, Trash } from "lucide-react";
+import { ArrowBigRight, CirclePlay, HeartPulse, PencilLine, Trash } from "lucide-react";
 import DeleteModal from "./DeleteModal";
 import EditModal from "./EditModal";
 import { CloudinaryUploader } from "../../utils/CloudinaryUploader";
@@ -47,19 +47,55 @@ const CarAuction = ({ car, getCarDetails, backendURL }) => {
   const [selectedAuctionLot, setSelectedAuctionLot] = useState(car.auctionLot?._id || "");
   const [auctions, setAuctions] = useState([]);
   const [selectedStatus, setSelectedStatus] = useState(null);
+  const [comingCar, setComingCar] = useState("");
 
 
   const carPriceData =
     car.sellingType === "auction"
       ? { startingBid: car.startingBid || "", bidMargin: car.bidMargin || "" }
       : { price: car.price || "", discountedPrice: car.discountedPrice || "" };
-  const carLotData = car.sellingType === "auction" && { auctionLot: car.auctionLot?._id || "" };
-  const carLotNumber = car.sellingType === "auction" && { lotNo: car.lotNo || "" };
 
+  const carLotData = car.sellingType === "auction" ? { auctionLot: car.auctionLot?._id || "" } : { auctionLot: "" };
+  const carLotNumber = car.sellingType === "auction" ? { lotNo: car.lotNo || "" } : { lotNo: "" };
   const increaseBid = () => setBid(bid + car.bidMargin);
   const decreaseBid = () => {
     if (bid > car.startingBid) setBid(bid - car.bidMargin);
   };
+
+  const nextCar = async () => {
+    try {
+      // Validate data before making request
+      if (!carLotData.auctionLot || !carLotNumber.lotNo) {
+        console.warn("Missing required auction data. Skipping fetch.");
+        return;
+      }
+
+      const response = await fetch(`${backendURL}/car/unsold/${carLotData.auctionLot}/${carLotNumber.lotNo}`, {
+        method: "GET",
+      });
+
+      const res_data = await response.json();
+      const cartocome = res_data.allCars[0]._id;
+      setComingCar(cartocome)
+    } catch (error) {
+      console.error("Error fetching next car:", error);
+      toast.error("Error while going to next car");
+    }
+  };
+  const comingNext = () => {
+    if(!comingCar) {
+      toast.error("Missing Details")
+      return;
+    }
+    console.log(comingCar)
+    navigate(`/admin/carsales/${comingCar}`, {replace: true})
+  }
+
+
+  useEffect(() => {
+      nextCar();
+  }, [carLotData.auctionLot, carLotNumber.lotNo]);
+
 
   const handleStartBid = () => {
     if (socket && token && car._id) {
@@ -363,7 +399,11 @@ const CarAuction = ({ car, getCarDetails, backendURL }) => {
           {
             car.sellingType === "auction" ? (
               <>
+                <button style={{float: "right"}}
+                onClick={comingNext}
+                >Next <ArrowBigRight /></button>
                 <p>Current Bid</p>
+                
                 <h2>AED {currentBidData && (car._id === currentBidData.carId) ? (currentBidData?.bidAmount || currentBidData?.currentBid || car?.startingBid
                   || "N/A") : car?.startingBid}</h2>
                 <p>Bid Starting Price: {car.startingBid || "N/A"} AED</p>
@@ -421,7 +461,7 @@ const CarAuction = ({ car, getCarDetails, backendURL }) => {
                           id="auctionLot"
                         />
                         <label htmlFor="auctionLot">Select Status</label>
-                        <button className="place-bid" style={{backgroundColor: "#405FF2", border: "2px solid #405FF2"}} onClick={handleUpdateStatus}>
+                        <button className="place-bid" style={{ backgroundColor: "#405FF2", border: "2px solid #405FF2" }} onClick={handleUpdateStatus}>
                           Update
                         </button>
                       </div>
@@ -442,7 +482,7 @@ const CarAuction = ({ car, getCarDetails, backendURL }) => {
                           id="auctionLot"
                         />
                         <label htmlFor="auctionLot">Select Auction</label>
-                        <button onClick={updateAuctionLot} className="place-bid" style={{backgroundColor: "#405FF2", border: "2px solid #405FF2"}}>
+                        <button onClick={updateAuctionLot} className="place-bid" style={{ backgroundColor: "#405FF2", border: "2px solid #405FF2" }}>
                           Update
                         </button>
                       </div>

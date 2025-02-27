@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import Auth from "./pages/userpages/Auth";
 import Home from "./pages/userpages/Home";
 import ContactUs from "./pages/userpages/contact-us";
@@ -54,6 +54,8 @@ function App() {
   const { socket } = useSelector((state) => state.socket);
   const { currentBidData } = useSelector((state) => state.event);
   const { token, userdata } = useSelector((state) => state.auth);
+  const location = useLocation();
+  const navigate = useNavigate()
 
   const handleToast = (response) => {
     if (userdata?.id === response?.user) {
@@ -105,8 +107,11 @@ function App() {
         new Audio("/notification.wav").play();
         toast.success(response.message, { duration: 5000 });
       }
-      console.log(response);
       dispatch(removeBidData());
+      if(location.pathname === `/auctioncar/${response.carId}`){
+        navigate("/")
+      }
+      
     };
 
     const handleNotifyBidders = (response) => {
