@@ -1,4 +1,4 @@
-import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import Auth from "./pages/userpages/Auth";
 import Home from "./pages/userpages/Home";
 import ContactUs from "./pages/userpages/contact-us";
@@ -55,7 +55,6 @@ function App() {
   const { socket } = useSelector((state) => state.socket);
   const { currentBidData } = useSelector((state) => state.event);
   const { token, userdata } = useSelector((state) => state.auth);
-  const location = useLocation();
   const navigate = useNavigate()
 
   const handleToast = (response) => {
@@ -96,7 +95,8 @@ function App() {
     };
 
     const handleAuctionStatusChanged = (response) => {
-      console.log(response);
+      const currentPath = window.location.pathname.replace(/\/$/, "");
+      const expectedPath = `/auctioncar/${String(response.carId)}`.replace(/\/$/, "");
       if (!response.isOk) {
         handleToast(response);
         return;
@@ -109,27 +109,34 @@ function App() {
         toast.success(response.message, { duration: 5000 });
       }
       dispatch(removeBidData());
-      if (`/auctioncar/${response.carId}` === location.pathname) {
-        navigate("/")
+      if (currentPath.startsWith("/auctioncar/") && currentPath === expectedPath) {
+        setTimeout(() => {
+          navigate("/");
+        }, 0);
       }
 
     };
 
     const handleNotifyBidders = (response) => {
-      console.log(response);
+      const currentPath = window.location.pathname.replace(/\/$/, "");
+      const expectedPath = `/auctioncar/${String(response.carId)}`.replace(/\/$/, "");
       if (!response.isOk) {
         handleToast(response);
         return;
       }
+
       new Audio("/notification.wav").play();
       toast.success(response.message, { duration: 5000 });
       dispatch(removeBidData());
-      if (`/auctioncar/${response.carId}` === location.pathname) {
-        navigate("/")
+
+      if (currentPath.startsWith("/auctioncar/") && currentPath === expectedPath) {
+        setTimeout(() => {
+          navigate("/");
+        }, 0);
       }
-
-
     };
+
+
 
     if (socket) {
       socket.on("connect", () => console.log("Socket connected"));
