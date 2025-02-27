@@ -98,11 +98,12 @@ function App() {
       console.log(response);
       const currentPath = window.location.pathname.replace(/\/$/, "");
       const expectedPath = `/auctioncar/${String(response.carId)}`.replace(/\/$/, "");
-      const navigatingcar = response.nextCar._id;
+
       if (!response.isOk) {
         handleToast(response);
         return;
       }
+
       if (userdata.id === response.userId) {
         new Audio("/notification.wav").play();
         toast.success(response.winnerMessage, { duration: 5000 });
@@ -110,22 +111,35 @@ function App() {
         new Audio("/notification.wav").play();
         toast.success(response.message, { duration: 5000 });
       }
+
       dispatch(removeBidData());
 
+      if (!response.nextCar || !response.nextCar._id) {
+        if (currentPath.startsWith("/auctioncar/") && currentPath === expectedPath) {
+          setTimeout(() => {
+            navigate("/", { replace: true });
+            return;
+          }, 0);
+        }
+      }
+
+      const navigatingCar = String(response.nextCar._id);
 
       if (currentPath.startsWith("/auctioncar/") && currentPath === expectedPath) {
         setTimeout(() => {
-          if (response.carId === navigatingcar) {
+          if (String(response.carId) === navigatingCar) {
+            console.log("Navigating to Homepage");
             navigate("/", { replace: true });
           } else {
-            navigate(`/auctioncar/${navigatingcar}`, { replace: true });
+            console.log(`Navigating to /auctioncar/${navigatingCar}`);
+            navigate(`/auctioncar/${navigatingCar}`, { replace: true });
           }
         }, 0);
       }
     };
 
-    const handleNotifyBidders = (response) => {
 
+    const handleNotifyBidders = (response) => {
       const currentPath = window.location.pathname.replace(/\/$/, "");
       const expectedPath = `/auctioncar/${String(response.carId)}`.replace(/\/$/, "");
 
@@ -139,21 +153,34 @@ function App() {
       dispatch(removeBidData());
 
       if (!response.nextCar || !response.nextCar._id) {
-        return;
+        if (!response.nextCar || !response.nextCar._id) {
+          if (currentPath.startsWith("/auctioncar/") && currentPath === expectedPath) {
+            setTimeout(() => {
+              navigate("/", { replace: true });
+              return;
+            }, 0);
+          }
+        }
       }
 
-      const navigatingCar = response.nextCar._id;
+      const navigatingCar = String(response.nextCar._id);
+
+      console.log("Current Car ID:", response.carId);
+      console.log("Navigating Car ID:", navigatingCar);
 
       if (currentPath.startsWith("/auctioncar/") && currentPath === expectedPath) {
         setTimeout(() => {
-          if (response.carId === navigatingCar) {
+          if (String(response.carId) === navigatingCar) {
+            console.log("Navigating to Homepage");
             navigate("/", { replace: true });
           } else {
+            console.log(`Navigating to /auctioncar/${navigatingCar}`);
             navigate(`/auctioncar/${navigatingCar}`, { replace: true });
           }
         }, 0);
       }
     };
+
 
 
 
