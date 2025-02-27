@@ -76,20 +76,15 @@ const CarAuction = ({ car, getCarDetails, backendURL }) => {
       });
 
       const res_data = await response.json();
-      const cartocome = res_data.allCars[0]._id;
+      const cartocome = res_data.nextCar._id;
       setComingCar(cartocome)
     } catch (error) {
       console.error("Error fetching next car:", error);
-      toast.error("Error while going to next car");
     }
   };
   const comingNext = () => {
-    if (!comingCar) {
-      toast.error("Missing Details")
-      return;
-    }
     if (location.pathname.includes(comingCar)) {
-      toast.error("This is last car from same auction");
+      toast.error("No next car is available");
       return;
     }
     navigate(`/admin/carsales/${comingCar}`, { replace: true })
