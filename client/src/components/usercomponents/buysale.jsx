@@ -107,7 +107,7 @@ function Buysale() {
 
   return (
     <div>
-      <div style={{ paddingBottom: 40, backgroundColor: "#405FF2" }}></div>
+      <div style={{ paddingBottom: 40, backgroundColor: "#050b20" }}></div>
       <div className="mb-5 main">
         <div className="container">
           <div className="row">
