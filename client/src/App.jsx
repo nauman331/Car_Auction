@@ -1,4 +1,4 @@
-import { Routes, Route, useNavigate } from "react-router-dom";
+import { Routes, Route, useNavigate, replace } from "react-router-dom";
 import Auth from "./pages/userpages/Auth";
 import Home from "./pages/userpages/Home";
 import ContactUs from "./pages/userpages/contact-us";
@@ -95,8 +95,10 @@ function App() {
     };
 
     const handleAuctionStatusChanged = (response) => {
+      console.log(response);
       const currentPath = window.location.pathname.replace(/\/$/, "");
       const expectedPath = `/auctioncar/${String(response.carId)}`.replace(/\/$/, "");
+      const navigatingcar = response.nextCar._id;
       if (!response.isOk) {
         handleToast(response);
         return;
@@ -109,17 +111,24 @@ function App() {
         toast.success(response.message, { duration: 5000 });
       }
       dispatch(removeBidData());
+
+
       if (currentPath.startsWith("/auctioncar/") && currentPath === expectedPath) {
         setTimeout(() => {
-          navigate("/");
+          if (response.carId === navigatingcar) {
+            navigate("/", { replace: true });
+          } else {
+            navigate(`/auctioncar/${navigatingcar}`, { replace: true });
+          }
         }, 0);
       }
-
     };
 
     const handleNotifyBidders = (response) => {
+
       const currentPath = window.location.pathname.replace(/\/$/, "");
       const expectedPath = `/auctioncar/${String(response.carId)}`.replace(/\/$/, "");
+
       if (!response.isOk) {
         handleToast(response);
         return;
@@ -129,12 +138,23 @@ function App() {
       toast.success(response.message, { duration: 5000 });
       dispatch(removeBidData());
 
+      if (!response.nextCar || !response.nextCar._id) {
+        return;
+      }
+
+      const navigatingCar = response.nextCar._id;
+
       if (currentPath.startsWith("/auctioncar/") && currentPath === expectedPath) {
         setTimeout(() => {
-          navigate("/");
+          if (response.carId === navigatingCar) {
+            navigate("/", { replace: true });
+          } else {
+            navigate(`/auctioncar/${navigatingCar}`, { replace: true });
+          }
         }, 0);
       }
     };
+
 
 
 
