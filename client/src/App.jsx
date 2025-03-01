@@ -1,4 +1,4 @@
-import { Routes, Route, useNavigate, replace } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import Auth from "./pages/userpages/Auth";
 import Home from "./pages/userpages/Home";
 import ContactUs from "./pages/userpages/contact-us";

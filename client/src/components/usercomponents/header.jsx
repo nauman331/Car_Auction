@@ -205,11 +205,9 @@ const Header = () => {
               </li>
             </ul>
             <div className="header-actions">
-              <div className="number">
                 <a href="tel:+75960044042" className="phone">
                   <img src={img4} /> +971 509496511
                 </a>
-              </div>
 
               {token ? (
                 userdata?.role === "admin" ||

@@ -210,15 +210,13 @@ const Header = () => {
               </li>
             </ul>
             <div className="header-actions">
-              <div className="number">
-                <a href="tel:+75960044042" className="phone">
-                  <img src={img4} /> +971 509496511
-                </a>
-              </div>
+              <a href="tel:+75960044042" className="phone">
+                <img src={img4} /> +971 509496511
+              </a>
 
               {token ? (
                 userdata?.role === "admin" ||
-                userdata?.role === "superadmin" ? (
+                  userdata?.role === "superadmin" ? (
                   <NavLink to="/admin/profile" className="sign-in">
                     <img
                       src={userdata?.avatarImage}
