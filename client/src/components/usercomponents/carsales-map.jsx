@@ -33,9 +33,7 @@ const CarAuction = ({ car, vimeoLive, setVimeoLive }) => {
   const [loading, setLoading] = useState(false);
 
   const increaseBid = () => setBid(bid + car.bidMargin);
-  const decreaseBid = () => {
-    if (bid > car.startingBid) setBid(bid - car.bidMargin);
-  };
+  const decreaseBid = () => setBid(bid - car.bidMargin);
 
   const handlePlaceBid = () => {
     if (!token) {
@@ -149,8 +147,7 @@ const CarAuction = ({ car, vimeoLive, setVimeoLive }) => {
                 AED
                 <input
                   type="number"
-                  value={currentBidData?.carId === car._id ? (currentBidData?.bidAmount || currentBidData?.currentBid || car?.startingBid
-                    || bid) : car?.startingBid}
+                  value={bid}
                   onChange={(e) => setBid(parseFloat(e.target.value) || 0)}
                 />
               </span>

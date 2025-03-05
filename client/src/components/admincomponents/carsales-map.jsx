@@ -59,9 +59,7 @@ const CarAuction = ({ car, getCarDetails, backendURL }) => {
   const carLotData = car.sellingType === "auction" ? { auctionLot: car.auctionLot?._id || "" } : { auctionLot: "" };
   const carLotNumber = car.sellingType === "auction" ? { lotNo: car.lotNo || "" } : { lotNo: "" };
   const increaseBid = () => setBid(bid + car.bidMargin);
-  const decreaseBid = () => {
-    if (bid > car.startingBid) setBid(bid - car.bidMargin);
-  };
+  const decreaseBid = () => setBid(bid - car.bidMargin);
 
   const nextCar = async () => {
     try {
@@ -424,8 +422,7 @@ const CarAuction = ({ car, getCarDetails, backendURL }) => {
                 <div className="bid-controls">
                   <button onClick={decreaseBid}>-</button>
                   <span>AED
-                    <input type="number" value={currentBidData?.carId === car._id ? (currentBidData?.bidAmount || currentBidData?.currentBid || car?.startingBid
-                  || bid) : car?.startingBid}
+                    <input type="number" value={bid}
                       onChange={(e) => setBid(parseFloat(e.target.value))}
                     /></span>
                   <button onClick={increaseBid}>+</button>
