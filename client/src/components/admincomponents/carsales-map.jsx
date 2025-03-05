@@ -85,12 +85,13 @@ const CarAuction = ({ car, getCarDetails, backendURL }) => {
       toast.error("No next car is available");
       return;
     }
-    navigate(`/admin/carsales/${comingCar}`, { replace: true })
+    navigate(`/admin/carsales/${comingCar}`, { replace: true });
   }
 
 
   useEffect(() => {
     nextCar();
+    setBid(car.startingBid)
   }, [carLotData.auctionLot, carLotNumber.lotNo]);
 
 
@@ -401,8 +402,10 @@ const CarAuction = ({ car, getCarDetails, backendURL }) => {
                 >Next <ArrowBigRight /></button>
                 <h5>Current Bid</h5>
 
-                <h1>AED {currentBidData?.carId === car._id ? (currentBidData?.bidAmount || currentBidData?.currentBid || car?.startingBid
-                  || "N/A") : car?.startingBid}</h1>
+                <h1>AED {currentBidData?.carId === car._id ? 
+                currentBidData?.bidAmount || 
+                currentBidData?.currentBid 
+                : car?.startingBid}</h1>
                 <p>Bid Starting Price: {car.startingBid || "N/A"} AED</p>
               </>
             ) : (

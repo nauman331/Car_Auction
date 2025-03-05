@@ -106,6 +106,10 @@ const CarAuction = ({ car, vimeoLive, setVimeoLive }) => {
       setVimeoLive(!vimeoLive);
     }
   };
+  useEffect(() => {
+    setBid(car.startingBid)
+  }, [car])
+  
   if (loading) {
     return <LoadingSpinner />;
   }
@@ -132,9 +136,7 @@ const CarAuction = ({ car, vimeoLive, setVimeoLive }) => {
             AED{" "}
             {currentBidData?.carId === car._id ?
               currentBidData?.bidAmount ||
-              currentBidData?.currentBid ||
-              car?.startingBid ||
-              "N/A"
+              currentBidData?.currentBid
               : car?.startingBid}
           </h1>
           <p>Bid Starting Price: {car.startingBid || "N/A"} AED</p>
