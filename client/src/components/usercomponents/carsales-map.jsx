@@ -53,8 +53,8 @@ const CarAuction = ({ car, vimeoLive, setVimeoLive }) => {
         parseFloat(bid) <=
         parseFloat(
           currentBidData?.bidAmount ||
-            currentBidData?.currentBid ||
-            car.startingBid
+          currentBidData?.currentBid ||
+          car.startingBid
         )
       ) {
         toast.error("Bid amount should be greater than the current bid");
@@ -132,11 +132,11 @@ const CarAuction = ({ car, vimeoLive, setVimeoLive }) => {
           <p>Current Bid</p>
           <h2>
             AED{" "}
-            {currentBidData && car._id === currentBidData.carId
-              ? currentBidData?.bidAmount ||
-                currentBidData?.currentBid ||
-                car?.startingBid ||
-                "N/A"
+            {currentBidData?.carId === car._id ?
+              currentBidData?.bidAmount ||
+              currentBidData?.currentBid ||
+              car?.startingBid ||
+              "N/A"
               : car?.startingBid}
           </h2>
           <p>Bid Starting Price: {car.startingBid || "N/A"} AED</p>
@@ -149,15 +149,15 @@ const CarAuction = ({ car, vimeoLive, setVimeoLive }) => {
                 AED
                 <input
                   type="number"
-                  value={bid || car.startingBid || 0} // Fallback to a valid number
-                  onChange={(e) => setBid(parseFloat(e.target.value) || 0)} // Ensure state is valid
+                  value={bid || car.startingBid || 0} 
+                  onChange={(e) => setBid(parseFloat(e.target.value) || 0)}
                 />
               </span>
               <button onClick={increaseBid}>+</button>
             </div>
             <div>
               {currentBidData?.auctionStatus &&
-              currentBidData?.carId === car._id ? (
+                currentBidData?.carId === car._id ? (
                 <button
                   className="place-bid"
                   onClick={handlePlaceBid}
