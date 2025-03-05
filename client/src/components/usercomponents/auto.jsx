@@ -14,12 +14,16 @@ const SortByDropdown = ({ onChange, preselected }) => {
         const res_data = await response.json();
 
         if (response.ok) {
-          const sortedOptions = res_data.map((auction) => ({
-            ...auction,
-            fullAuctionDate: new Date(`${auction.auctionDate} ${auction.auctionTime}`),
-          })).sort((a, b) => a.fullAuctionDate - b.fullAuctionDate);
+          const sortedOptions = res_data
+            .map((auction) => ({
+              ...auction,
+              fullAuctionDate: new Date(`${auction.auctionDate} ${auction.auctionTime}`),
+            }))
+            .sort((a, b) => a.fullAuctionDate - b.fullAuctionDate)
+            .filter(auction => auction.statusText?.toLowerCase() !== "compeleted"); // Apply filter here
 
           setOptions(sortedOptions);
+
 
           // If preselected is available, set it once
           if (preselected && !initialized) {
@@ -55,15 +59,17 @@ const SortByDropdown = ({ onChange, preselected }) => {
   return (
     <div className="sort-by-container d-flex justify-content-end">
       <select value={selectedOption} onChange={handleOptionChange}>
-        {options.map((option) => (
-          option.statusText !== "Compeleted" &&
-          <option key={option._id} value={option.auctionTitle}>
-            {option.auctionTitle}
-          </option>
-        ))}
+        {options
+          .filter(option => option.statusText !== "Completed")
+          .map((option) => (
+            <option key={option._id} value={option.auctionTitle}>
+              {option.auctionTitle}
+            </option>
+          ))}
       </select>
     </div>
   );
+
 };
 
 export default SortByDropdown;
