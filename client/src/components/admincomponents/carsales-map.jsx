@@ -401,10 +401,10 @@ const CarAuction = ({ car, getCarDetails, backendURL }) => {
                 <button style={{ float: "right" }}
                   onClick={comingNext}
                 >Next <ArrowBigRight /></button>
-                <p>Current Bid</p>
+                <h5>Current Bid</h5>
 
-                <h2>AED {currentBidData?.carId === car._id ? (currentBidData?.bidAmount || currentBidData?.currentBid || car?.startingBid
-                  || "N/A") : car?.startingBid}</h2>
+                <h1>AED {currentBidData?.carId === car._id ? (currentBidData?.bidAmount || currentBidData?.currentBid || car?.startingBid
+                  || "N/A") : car?.startingBid}</h1>
                 <p>Bid Starting Price: {car.startingBid || "N/A"} AED</p>
               </>
             ) : (
@@ -424,7 +424,8 @@ const CarAuction = ({ car, getCarDetails, backendURL }) => {
                 <div className="bid-controls">
                   <button onClick={decreaseBid}>-</button>
                   <span>AED
-                    <input type="number" value={bid}
+                    <input type="number" value={currentBidData?.carId === car._id ? (currentBidData?.bidAmount || currentBidData?.currentBid || car?.startingBid
+                  || bid) : car?.startingBid}
                       onChange={(e) => setBid(parseFloat(e.target.value))}
                     /></span>
                   <button onClick={increaseBid}>+</button>

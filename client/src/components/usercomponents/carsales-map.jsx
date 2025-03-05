@@ -129,8 +129,8 @@ const CarAuction = ({ car, vimeoLive, setVimeoLive }) => {
           {car.transmission?.vehicleTransimission || "No Transmission"}
         </p>
         <div className="current-bid">
-          <p>Current Bid</p>
-          <h2>
+          <h5>Current Bid</h5>
+          <h1>
             AED{" "}
             {currentBidData?.carId === car._id ?
               currentBidData?.bidAmount ||
@@ -138,7 +138,7 @@ const CarAuction = ({ car, vimeoLive, setVimeoLive }) => {
               car?.startingBid ||
               "N/A"
               : car?.startingBid}
-          </h2>
+          </h1>
           <p>Bid Starting Price: {car.startingBid || "N/A"} AED</p>
         </div>
         {!car.isSold ? (
@@ -149,7 +149,8 @@ const CarAuction = ({ car, vimeoLive, setVimeoLive }) => {
                 AED
                 <input
                   type="number"
-                  value={bid || car.startingBid || 0} 
+                  value={currentBidData?.carId === car._id ? (currentBidData?.bidAmount || currentBidData?.currentBid || car?.startingBid
+                    || bid) : car?.startingBid}
                   onChange={(e) => setBid(parseFloat(e.target.value) || 0)}
                 />
               </span>
