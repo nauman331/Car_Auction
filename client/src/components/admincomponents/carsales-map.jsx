@@ -402,8 +402,7 @@ const CarAuction = ({ car, getCarDetails, backendURL }) => {
                 >Next <ArrowBigRight /></button>
                 <h5>Current Bid</h5>
 
-                <h1>AED {currentBidData?.carId === car._id ? 
-                currentBidData?.bidAmount || 
+                <h1>AED {currentBidData?.carId === car._id && currentBidData?.currentBid ? 
                 currentBidData?.currentBid 
                 : car?.startingBid}</h1>
                 <p>Bid Starting Price: {car.startingBid || "N/A"} AED</p>
