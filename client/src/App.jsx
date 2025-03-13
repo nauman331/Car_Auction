@@ -82,7 +82,7 @@ function App() {
         return;
       }
       new Audio("/notification.wav").play();
-      toast.success("Pay Attention to the Price of Current Car!", { duration: 5000 });
+      // toast.success("Pay Attention to the Price of Current Car!", { duration: 5000 });
       dispatch(setColor(response))
     };
 

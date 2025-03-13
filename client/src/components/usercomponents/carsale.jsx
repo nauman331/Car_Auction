@@ -12,14 +12,12 @@ import { backendURL } from "../../utils/Exports";
 import LoadingSpinner from "../usercomponents/LoadingSpinner";
 import toast from "react-hot-toast";
 // import Relatedlistening from "./related-listening";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setBidData } from "../../store/eventSlice";
 import { Modal } from "react-bootstrap";
 
 function Carsale() {
   const dispatch = useDispatch();
-  const { currentCarColor } = useSelector(state => state.color);
-  const { currentBidData } = useSelector(state => state.event);
   const { id } = useParams();
   const [car, setCar] = useState(null);
   const [featuresData, setFeaturesData] = useState([]);
@@ -147,44 +145,6 @@ function Carsale() {
                     </Carousel.Item>
                   )}
                 </Carousel>
-              </div>
-              <div className="current-bid">
-                {
-                  currentCarColor?.carId === car._id && currentCarColor.color === "green" ?
-                    (
-                      <h1
-                        style={{
-                          backgroundColor: "#ccffcc",
-                          textAlign: "center",
-                          marginTop: "1rem",
-                          padding: "1rem",
-                          color: "#006400",
-                          fontSize: "5rem"
-                        }}
-                      > AED
-                        {currentBidData?.carId === car._id && currentBidData?.currentBid ?
-                          currentBidData?.currentBid
-                          : car?.startingBid}</h1>
-                    )
-                    :
-                    (
-                      <h1
-                        style={{
-                          backgroundColor:
-                            "#ffcccc",
-                          textAlign: "center",
-                          marginTop: "1rem",
-                          padding: "1rem",
-                          color: "#b30000",
-                          fontSize: "5rem"
-                        }}
-                      > AED
-                        {currentBidData?.carId === car._id && currentBidData?.currentBid ?
-                          currentBidData?.currentBid
-                          : car?.startingBid}</h1>
-                    )
-                }
-
               </div>
               {
                 car.description &&

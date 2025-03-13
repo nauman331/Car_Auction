@@ -33,6 +33,7 @@ const CarAuction = ({ car, getCarDetails, backendURL }) => {
   const { socket } = useSelector((state) => state.socket);
   const { token } = useSelector(state => state.auth);
   const { currentBidData } = useSelector(state => state.event);
+  const { currentCarColor } = useSelector(state => state.color);
   const [bid, setBid] = useState(car.startingBid || 0);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [carIdToDelete, setCarIdToDelete] = useState(null);
@@ -412,17 +413,33 @@ const CarAuction = ({ car, getCarDetails, backendURL }) => {
         </p>
         <div className="current-bid">
           {
-            car.sellingType === "auction" && (
+            car.sellingType === "auction" ? (
               <>
                 <button style={{ float: "right" }}
                   onClick={comingNext}
                 >Next <ArrowBigRight /></button>
-                <div className="current-bid">
-                  <h5>Bid Starting Price</h5>
-                  <h1>
-                    {car.startingBid || "N/A"} AED
-                  </h1>
-                </div>
+
+                <h5>Current Bid</h5>
+                <h1
+                  style={{
+                    backgroundColor: currentCarColor?.carId === car._id && currentCarColor.color === "green" ? "#ccffcc" : "#ffcccc",
+                    textAlign: "center",
+                    padding: "1rem",
+                    color: currentCarColor?.carId === car._id && currentCarColor.color === "green" ? "#006400" : "#b30000",
+                    fontSize: "3.5rem",
+                    width: "70%",
+                    borderRadius: "10px"
+                  }}
+                >AED {currentBidData?.carId === car._id && currentBidData?.bidAmount ?
+                  currentBidData?.bidAmount
+                  : car?.startingBid}</h1>
+                <p className="mt-4">Bid Starting Price: {car.startingBid || "N/A"} AED</p>
+              </>
+            ) : (
+              <>
+                <p>Discounted Price</p>
+                <h2>AED {car.discountedPrice ? car.discountedPrice : car.price || "N/A"}</h2>
+                {car.discountedPrice && <p>Original Price: {car.price || "N/A"} AED</p>}
               </>
             )
           }

@@ -27,6 +27,7 @@ const CarAuction = ({ car, vimeoLive, setVimeoLive }) => {
   const { socket } = useSelector((state) => state.socket);
   const { token } = useSelector((state) => state.auth);
   const { currentBidData } = useSelector((state) => state.event);
+  const { currentCarColor } = useSelector(state => state.color);
   const [bid, setBid] = useState(car.startingBid || 0);
   const [bidLoading, setBidLoading] = useState(false);
   const [currentBalance, setCurrentBalance] = useState(0);
@@ -131,10 +132,21 @@ const CarAuction = ({ car, vimeoLive, setVimeoLive }) => {
           {car.transmission?.vehicleTransimission || "No Transmission"}
         </p>
         <div className="current-bid">
-          <h5>Bid Starting Price</h5>
-          <h1>
-          {car.startingBid || "N/A"} AED
-          </h1>
+          <h5>Current Bid</h5>
+          <h1
+            style={{
+              backgroundColor: currentCarColor?.carId === car._id && currentCarColor.color === "green" ? "#ccffcc" : "#ffcccc",
+              textAlign: "center",
+              padding: "1rem",
+              color: currentCarColor?.carId === car._id && currentCarColor.color === "green" ? "#006400" : "#b30000",
+              fontSize: "3.5rem",
+              width: "70%",
+              borderRadius: "10px"
+            }}
+          >AED {currentBidData?.carId === car._id && currentBidData?.bidAmount ?
+            currentBidData?.bidAmount
+            : car?.startingBid}</h1>
+          <p className="mt-4">Bid Starting Price: {car.startingBid || "N/A"} AED</p>
         </div>
         {!car.isSold ? (
           <div className="bid-controls">
