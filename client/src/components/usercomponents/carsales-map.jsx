@@ -131,13 +131,10 @@ const CarAuction = ({ car, vimeoLive, setVimeoLive }) => {
           {car.transmission?.vehicleTransimission || "No Transmission"}
         </p>
         <div className="current-bid">
-          <h5>Current Bid</h5>
+          <h5>Bid Starting Price</h5>
           <h1>
-            {currentBidData?.carId === car._id && currentBidData?.currentBid ?
-              currentBidData?.currentBid
-              : car?.startingBid}
+          {car.startingBid || "N/A"} AED
           </h1>
-          <p>Bid Starting Price: {car.startingBid || "N/A"} AED</p>
         </div>
         {!car.isSold ? (
           <div className="bid-controls">

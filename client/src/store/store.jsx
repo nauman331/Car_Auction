@@ -1,5 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import authReducer from "./slices/authSlice";
+import colorReducer from "./slices/colorSlice";
 import categoryReducer from "./slices/categorySlice";
 import socketReducer from "./socketSlice";
 import eventReducer from "./eventSlice";
@@ -9,6 +10,10 @@ import storage from "redux-persist/lib/storage"; // defaults to localStorage
 // Config for redux-persist
 const authPersistConfig = {
   key: "auth",
+  storage,
+};
+const colorPersistConfig = {
+  key: "color",
   storage,
 };
 
@@ -24,6 +29,7 @@ const socketEventPersistConfig = {
 
 // Persisted reducers
 const persistedAuthReducer = persistReducer(authPersistConfig, authReducer);
+const persistedColorReducer = persistReducer(colorPersistConfig, colorReducer);
 const persistedCategoryReducer = persistReducer(categoryPersistConfig, categoryReducer);
 const persistedSocketEventReducer = persistReducer(socketEventPersistConfig, eventReducer);
 
@@ -31,6 +37,7 @@ const persistedSocketEventReducer = persistReducer(socketEventPersistConfig, eve
 const store = configureStore({
   reducer: {
     auth: persistedAuthReducer, // Persisted auth reducer
+    color: persistedColorReducer,
     category: persistedCategoryReducer, // Persisted category reducer
     socket: socketReducer,
     event: persistedSocketEventReducer, // Persisted socketData reducer

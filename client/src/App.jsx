@@ -31,6 +31,7 @@ import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import toast from "react-hot-toast";
 import { setBidData, removeBidData } from "./store/eventSlice";
+import { setColor } from "./store/slices/colorSlice"
 import UserPanel from "./pages/userpages/UserPanel";
 import Wallet from "./components/usercomponents/userpanel/Wallet";
 import Carsforsale from "./pages/userpages/car";
@@ -73,6 +74,16 @@ function App() {
       new Audio("/notification.wav").play();
       toast.success(response.message, { duration: 5000 });
       dispatch(setBidData(response));
+    };
+    const handlePriceColorChange = (response) => {
+      console.log("Price color response:", response);
+      if (!response.isOk) {
+        handleToast(response);
+        return;
+      }
+      new Audio("/notification.wav").play();
+      toast.success("Pay Attention to the Price of Current Car!", { duration: 5000 });
+      dispatch(setColor(response))
     };
 
     const handleBidPlaced = (response) => {
@@ -192,12 +203,14 @@ function App() {
       socket.on("bidPlaced", handleBidPlaced);
       socket.on("auctionStatusChanged", handleAuctionStatusChanged);
       socket.on("notifybidders", handleNotifyBidders);
+      socket.on("colorChanged", handlePriceColorChange);
 
       return () => {
         socket.off("auctionOpened", handleAuctionOpened);
         socket.off("bidPlaced", handleBidPlaced);
         socket.off("auctionStatusChanged", handleAuctionStatusChanged);
         socket.off("notifybidders", handleNotifyBidders);
+        socket.off("colorChanged", handlePriceColorChange);
       };
     }
   };

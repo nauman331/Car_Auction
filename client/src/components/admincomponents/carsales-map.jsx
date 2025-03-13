@@ -48,6 +48,7 @@ const CarAuction = ({ car, getCarDetails, backendURL }) => {
   const [selectedAuctionLot, setSelectedAuctionLot] = useState(car.auctionLot?._id || "");
   const [auctions, setAuctions] = useState([]);
   const [selectedStatus, setSelectedStatus] = useState(null);
+  const [selectedColor, setSelectedColor] = useState("");
   const [comingCar, setComingCar] = useState("");
 
 
@@ -156,6 +157,22 @@ const CarAuction = ({ car, getCarDetails, backendURL }) => {
       };
       socket.emit("markUnsaved", data);
       getCarDetails();
+    } else {
+      console.log("Socket not connected or invalid data");
+    }
+  }
+  const handlePriceColorChange = () => {
+    if (!selectedColor) {
+      toast.error("please select price of color first");
+      return;
+    }
+    if (socket && token && car._id) {
+      const data = {
+        carId: car._id,
+        token,
+        color: selectedColor
+      };
+      socket.emit("changeColor", data);
     } else {
       console.log("Socket not connected or invalid data");
     }
@@ -395,23 +412,17 @@ const CarAuction = ({ car, getCarDetails, backendURL }) => {
         </p>
         <div className="current-bid">
           {
-            car.sellingType === "auction" ? (
+            car.sellingType === "auction" && (
               <>
                 <button style={{ float: "right" }}
                   onClick={comingNext}
                 >Next <ArrowBigRight /></button>
-                <h5>Current Bid</h5>
-
-                <h1>AED {currentBidData?.carId === car._id && currentBidData?.currentBid ? 
-                currentBidData?.currentBid 
-                : car?.startingBid}</h1>
-                <p>Bid Starting Price: {car.startingBid || "N/A"} AED</p>
-              </>
-            ) : (
-              <>
-                <p>Discounted Price</p>
-                <h2>AED {car.discountedPrice ? car.discountedPrice : car.price || "N/A"}</h2>
-                {car.discountedPrice && <p>Original Price: {car.price || "N/A"} AED</p>}
+                <div className="current-bid">
+                  <h5>Bid Starting Price</h5>
+                  <h1>
+                    {car.startingBid || "N/A"} AED
+                  </h1>
+                </div>
               </>
             )
           }
@@ -461,6 +472,31 @@ const CarAuction = ({ car, getCarDetails, backendURL }) => {
                         />
                         <label htmlFor="auctionLot">Select Status</label>
                         <button className="place-bid" style={{ backgroundColor: "#405FF2", border: "2px solid #405FF2" }} onClick={handleUpdateStatus}>
+                          Update
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="form-container" style={{ border: "none", padding: "0px" }}>
+                  <div className="form-section" >
+                    <div className="form-grid">
+                      <div className="input-container" id="auction-container" >
+                        <Select
+                          options={[
+                            { label: "Red", value: "green" },
+                            { label: "Green", value: "red" },
+                          ]}
+                          placeholder="Select Price color"
+                          onChange={(selectedOption) => {
+                            setSelectedColor(selectedOption?.value);
+                          }}
+                          className="react-select-container"
+                          classNamePrefix="react-select"
+                          id="auctionLot"
+                        />
+                        <label htmlFor="auctionLot">Select Status</label>
+                        <button className="place-bid" style={{ backgroundColor: "#405FF2", border: "2px solid #405FF2" }} onClick={handlePriceColorChange}>
                           Update
                         </button>
                       </div>
