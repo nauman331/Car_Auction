@@ -82,6 +82,11 @@ const AddBuyNow = ({ sellingType }) => {
       // Upload images and get URLs
       const uploadedImages = await handleImageSubmit();
 
+ setFormData(prev => ({
+      ...prev,
+      carImages: []  // Ensures old images don’t persist
+    }));
+      
       // Build formData with the uploaded images
       const updatedFormData = {
         ...formData,
