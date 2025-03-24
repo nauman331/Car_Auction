@@ -99,12 +99,12 @@ const CarAuction = ({ car, getCarDetails, backendURL }) => {
 
   const handleStartBid = () => {
     if (socket && token && car._id) {
-      if (currentBidData?.auctionStatus && (currentBidData.carId !== car._id)) {
-        toast.error("Please close the bidding on the current car before starting a new one.");
+            if(!car.auctionLot || !car.lotNo) {
+        toast.error("Please edit auctionLot and LotNo of car first");
         return;
       }
-      if(!car.auctionLot || !car.lotNo) {
-        toast.error("Please edit auctionLot and LotNo of car first");
+      if (currentBidData?.auctionStatus && (currentBidData.carId !== car._id)) {
+        toast.error("Please close the bidding on the current car before starting a new one.");
         return;
       }
       const data = {
