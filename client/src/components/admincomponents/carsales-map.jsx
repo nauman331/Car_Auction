@@ -103,6 +103,10 @@ const CarAuction = ({ car, getCarDetails, backendURL }) => {
         toast.error("Please close the bidding on the current car before starting a new one.");
         return;
       }
+      if(!car.auctionLot || !car.lotNo) {
+        toast.error("Please edit auctionLot and LotNo of car first");
+        return;
+      }
       const data = {
         carId: car._id,
         token,
