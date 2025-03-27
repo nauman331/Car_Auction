@@ -79,14 +79,14 @@ const AddBuyNow = ({ sellingType }) => {
   const handleSubmit = async () => {
     setLoading(true);
     try {
-      // Upload images and get URLs
-      const uploadedImages = await handleImageSubmit();
 
- setFormData(prev => ({
+      setFormData(prev => ({
       ...prev,
       carImages: []  // Ensures old images don’t persist
     }));
-      
+      // Upload images and get URLs
+      const uploadedImages = await handleImageSubmit();
+
       // Build formData with the uploaded images
       const updatedFormData = {
         ...formData,
@@ -104,8 +104,8 @@ const AddBuyNow = ({ sellingType }) => {
 
       if (response.ok) {
         toast.success("Car Added Successfully!");
-        setFormData({ ...baseData, sellingType, ...auctionData });
         setImages([]);
+        setFormData({ ...baseData, sellingType, ...auctionData });
         if (sellingType === "fixed") {
           navigate("/admin/carlistings")
         } else if (sellingType === "auction") {
