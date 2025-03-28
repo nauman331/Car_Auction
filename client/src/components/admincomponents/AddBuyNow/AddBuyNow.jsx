@@ -60,68 +60,64 @@ const AddBuyNow = ({ sellingType }) => {
   }, [token, userdata, navigate]);
 
   const handleImageSubmit = async () => {
-    let uploadedImages = [];
-    for (let i = 0; i < images.length; i++) {
-      try {
-        const data = await CloudinaryUploader(images[i]);
-        uploadedImages.push(data.url);
-      } catch (uploadError) {
-        console.error(`Error uploading file ${images[i].name}:`, uploadError);
-        toast.error(`Error uploading file ${images[i].name}`);
-      }
-    }
+  try {
+    const uploadedImages = await Promise.all(
+      images.map(async (image) => {
+        const data = await CloudinaryUploader(image);
+        return data.url; // Har uploaded image ka URL return hoga
+      })
+    );
+
     if (uploadedImages.length === 0) {
       throw new Error("No images uploaded");
     }
+
     return uploadedImages;
-  };
+  } catch (uploadError) {
+    console.error("Error uploading images:", uploadError);
+    toast.error("Error uploading images");
+    return [];
+  }
+};
 
   const handleSubmit = async () => {
-    setLoading(true);
-    try {
+  setLoading(true);
+  try {
+    // Pehle formData ko reset karo taake purani images na rahein
+    const freshFormData = { ...baseData, sellingType, ...auctionData };
 
-      setFormData(prev => ({
-      ...prev,
-      carImages: []  // Ensures old images don’t persist
-    }));
-      // Upload images and get URLs
-      const uploadedImages = await handleImageSubmit();
+    // Upload images
+    const uploadedImages = await handleImageSubmit();
+    freshFormData.carImages = uploadedImages; // Yeh line ensure karegi ke sirf naye images set hon
 
-      // Build formData with the uploaded images
-      const updatedFormData = {
-        ...formData,
-        carImages: uploadedImages,
-      };
+    // Send updated formData
+    const response = await fetch(`${backendURL}/car/`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+      body: JSON.stringify(freshFormData),
+    });
 
-      // Send the updated formData
-      const response = await fetch(`${backendURL}/car/`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
-        body: JSON.stringify(updatedFormData),
-      });
+    const res_data = await response.json();
 
-      const res_data = await response.json();
-
-      if (response.ok) {
-        toast.success("Car Added Successfully!");
-        setImages([]);
-        setFormData({ ...baseData, sellingType, ...auctionData });
-        if (sellingType === "fixed") {
-          navigate("/admin/carlistings")
-        } else if (sellingType === "auction") {
-          navigate("/admin/auctioninventory")
-        }
-
+    if (response.ok) {
+      toast.success("Car Added Successfully!");
+      setImages([]);  // Images array ko reset karna zaroori hai
+      setFormData({ ...baseData, sellingType, ...auctionData }); // Form reset karein
+      if (sellingType === "fixed") {
+        navigate("/admin/carlistings");
       } else {
-        toast.error(res_data?.errors?.[0]?.msg || res_data?.message || "Unknown error occurred.");
+        navigate("/admin/auctioninventory");
       }
-    } catch (error) {
-      console.error("Error during submission:", error);
-      toast.error(error.message || "An error occurred. Please try again.");
-    } finally {
-      setLoading(false);
+    } else {
+      toast.error(res_data?.errors?.[0]?.msg || res_data?.message || "Unknown error occurred.");
     }
-  };
+  } catch (error) {
+    console.error("Error during submission:", error);
+    toast.error(error.message || "An error occurred. Please try again.");
+  } finally {
+    setLoading(false);
+  }
+};
 
 
 
