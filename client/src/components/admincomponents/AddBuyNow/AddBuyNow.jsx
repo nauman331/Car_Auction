@@ -83,14 +83,14 @@ const AddBuyNow = ({ sellingType }) => {
   const handleSubmit = async () => {
   setLoading(true);
   try {
-    // Pehle formData ko reset karo taake purani images na rahein
-    const freshFormData = { ...baseData, sellingType, ...auctionData };
+    // Pehle current formData ko safe rakho
+    const freshFormData = { ...formData }; 
 
     // Upload images
     const uploadedImages = await handleImageSubmit();
-    freshFormData.carImages = uploadedImages; // Yeh line ensure karegi ke sirf naye images set hon
+    freshFormData.carImages = uploadedImages; 
 
-    // Send updated formData
+    // Send updated formData to API
     const response = await fetch(`${backendURL}/car/`, {
       method: "POST",
       headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
@@ -101,8 +101,11 @@ const AddBuyNow = ({ sellingType }) => {
 
     if (response.ok) {
       toast.success("Car Added Successfully!");
-      setImages([]);  // Images array ko reset karna zaroori hai
-      setFormData({ ...baseData, sellingType, ...auctionData }); // Form reset karein
+
+      // ✅ Yeh sirf successful submission ke baad chalega
+      setImages([]);  
+      setFormData({ ...baseData, sellingType, ...auctionData }); 
+
       if (sellingType === "fixed") {
         navigate("/admin/carlistings");
       } else {
@@ -118,7 +121,6 @@ const AddBuyNow = ({ sellingType }) => {
     setLoading(false);
   }
 };
-
 
 
   const fetchCategories = async () => {
