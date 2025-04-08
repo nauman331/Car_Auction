@@ -59,7 +59,7 @@ function App() {
   const navigate = useNavigate()
 
   const handleToast = (response) => {
-    if (userdata?.id === response?.user) {
+    if (userdata?.id === response?.user || userdata?.id === response?.id) {
       toast.error(response.message);
     }
   };

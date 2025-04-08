@@ -99,13 +99,13 @@ const CarAuction = ({ car, getCarDetails, backendURL }) => {
 
   const handleStartBid = () => {
     if (socket && token && car._id) {
-            if(!car.auctionLot || !car.lotNo) {
+      if (!car.auctionLot || !car.lotNo) {
         toast.error("Please edit auctionLot and LotNo of car first");
         return;
       }
-      if (currentBidData?.auctionStatus && (currentBidData.carId !== car._id)) {
-        toast.error("Please close the bidding on the current car before starting a new one.");
-        return;
+      if (car.auctionStatus) {
+        toast.error("Car is already Ongoing");
+        return
       }
       const data = {
         carId: car._id,
@@ -133,7 +133,24 @@ const CarAuction = ({ car, getCarDetails, backendURL }) => {
         return;
       }
       socket.emit("placeBid", data);
-      setBid(currentBidData?.bidAmount)
+      setBid(Number(currentBidData?.bidAmount) || bid)
+      setBidLoading(false)
+    } else {
+      console.log("Socket not connected or invalid data");
+      setBidLoading(false);
+    }
+  };
+  const handleEmergencyPlaceBid = () => {
+    if (bidLoading) return;
+    setBidLoading(true);
+    if (socket && token && car?._id) {
+      const data = {
+        carId: car._id,
+        token,
+        bidAmount: parseFloat(bid),
+      };
+      socket.emit("placeBid", data);
+      setBid(Number(currentBidData?.bidAmount) || bid)
       setBidLoading(false)
     } else {
       console.log("Socket not connected or invalid data");
@@ -434,7 +451,7 @@ const CarAuction = ({ car, getCarDetails, backendURL }) => {
                     width: "70%",
                     borderRadius: "10px"
                   }}
-                >AED {currentBidData?.carId === car._id && (currentBidData?.bidAmount || currentBidData?.currentBid)  ?
+                >AED {currentBidData?.carId === car._id && (currentBidData?.bidAmount || currentBidData?.currentBid) ?
                   currentBidData?.bidAmount || currentBidData?.currentBid
                   : car?.startingBid}</h1>
                 <p className="mt-4">Bid Starting Price: {car.startingBid || "N/A"} AED</p>
@@ -473,6 +490,50 @@ const CarAuction = ({ car, getCarDetails, backendURL }) => {
                       </button>
                   }
                 </div>
+                <hr />
+                <h4>For Emergency Use Only</h4>
+                {
+                  !car.isSold ? (
+                    car.sellingType === "auction" ? (
+                      <>
+                        <div className="bid-controls">
+                          <button onClick={decreaseBid}>-</button>
+                          <span>
+                            AED
+                            <input
+                              type="number"
+                              value={bid}
+                              onChange={(e) => setBid(parseFloat(e.target.value))}
+                            />
+                          </span>
+                          <button onClick={increaseBid}>+</button>
+                          {
+                            currentBidData?.auctionStatus && (currentBidData?.carId === car._id) ? (
+                              <button
+                                className="place-bid"
+                                onClick={handleEmergencyPlaceBid}
+                                disabled={bidLoading}
+                                style={{ backgroundColor: bidLoading ? "gray" : "#405FF2" }}
+                              >
+                                <img src={img1} alt="Place bid" />
+                                {bidLoading ? "Placing Bid..." : "Place Bid"}
+                              </button>
+                            ) : (
+                              <button
+                                className="place-bid"
+                                style={{ backgroundColor: "grey", cursor: "not-allowed", border: "none" }}
+                              >
+                                <img src={img1} alt="Disabled" />
+                                Place Bid
+                              </button>
+                            )
+                          }
+                        </div>
+                      </>
+                    ) : null
+                  ) : null
+                }
+                <hr />
                 <div className="form-container" style={{ border: "none", padding: "0px" }}>
                   <div className="form-section" >
                     <div className="form-grid">
@@ -545,6 +606,7 @@ const CarAuction = ({ car, getCarDetails, backendURL }) => {
                     </div>
                   </div>
                 </div>
+
               </>
               :
               <>
