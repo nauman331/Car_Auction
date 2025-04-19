@@ -1,14 +1,12 @@
 import toast from "react-hot-toast";
 import { cloudinaryURL } from "./Exports";
-export const CloudinaryUploader = async (file) => {
-  const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'application/pdf'];
 
-  // Validate file type
-  if (!allowedTypes.includes(file.type)) {
-    toast.error('Invalid file type! Allowed Types are, jpeg, png, gif, webp, pdf');
+export const CloudinaryUploader = async (file) => {
+  // Validate file type: allow all images and PDF
+  if (!(file.type.startsWith('image/') || file.type === 'application/pdf')) {
+    toast.error('Invalid file type! Only image files and PDFs are allowed.');
     return { url: null };
   }
-
 
   const formData = new FormData();
   formData.append('file', file);
@@ -32,11 +30,12 @@ export const CloudinaryUploader = async (file) => {
       return { url: null };
     }
 
-
-
-    return { publicId: data.public_id, url: data.secure_url };
+    return {
+      publicId: data.public_id,
+      url: data.secure_url,
+    };
   } catch (error) {
-    toast.error('Upload error:');
-    throw error;
+    toast.error('Upload error occurred. Please check your network or file.');
+    return { url: null };
   }
 };
