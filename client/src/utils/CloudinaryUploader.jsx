@@ -5,8 +5,10 @@ export const CloudinaryUploader = async (file) => {
 
   // Validate file type
   if (!allowedTypes.includes(file.type)) {
-    toast.error('Invalid file type');
+    toast.error('Invalid file type! Allowed Types are, jpeg, png, gif, webp, pdf');
+    return { url: null };
   }
+
 
   const formData = new FormData();
   formData.append('file', file);
@@ -20,13 +22,17 @@ export const CloudinaryUploader = async (file) => {
 
     if (!response.ok) {
       toast.error('Cloudinary upload failed. Try again!');
+      return { url: null };
     }
 
     const data = await response.json();
 
     if (!data.secure_url) {
       toast.error('No secure URL returned from Cloudinary. Try again!');
+      return { url: null };
     }
+
+
 
     return { publicId: data.public_id, url: data.secure_url };
   } catch (error) {

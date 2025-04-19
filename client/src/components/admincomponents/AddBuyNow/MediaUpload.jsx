@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import { Upload, Trash2, Link2 } from "lucide-react";
 
 const MediaUpload = ({
@@ -9,10 +9,15 @@ const MediaUpload = ({
   existingImages = [],   // Default to an empty array
   setExistingImages = () => { }, // Default to a no-op function
 }) => {
+
+  const fileInputRef = useRef(null);
   // Handle new image uploads
   const handleFileChange = (e) => {
-    const selectedFiles = Array.from(e.target.files || []); // Ensure `e.target.files` is always handled safely
-    setImages((prevImages) => [...prevImages, ...selectedFiles]);
+    const selectedFiles = Array.from(e.target.files || []);
+    setImages((prev) => [...prev, ...selectedFiles]);
+  
+    // Reset input value so same file can be selected again
+    e.target.value = null;
   };
 
   // Delete a new image (not uploaded yet)
@@ -72,6 +77,7 @@ const MediaUpload = ({
         <button type="button" className="image-box upload" style={{backgroundColor: "#405FF2"}}>
           <Upload size={24} />
           <input
+          ref={fileInputRef}
             accept="image/*"
             type="file"
             multiple
