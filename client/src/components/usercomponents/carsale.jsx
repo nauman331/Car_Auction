@@ -114,17 +114,13 @@ function Carsale() {
               )}
               <div className="carsale-section">
                 <Carousel interval={2000} pause="hover">
-                  {car.carImages.map((image, index) => (
+                  {car.carImages.slice(0, 8).map((image, index) => (
                     <Carousel.Item key={index}>
                       <img
                         className="d-block w-100"
-                        style={{ height: "300px", cursor: "pointer" }}
+                        style={{ height: "300px" }}
                         src={image}
                         alt={`Slide ${index + 1}`}
-                        onClick={() => {
-                          setSelectedImage(image);
-                          setShowModal(true);
-                        }}
                       />
                     </Carousel.Item>
                   ))}
@@ -146,17 +142,16 @@ function Carsale() {
                   )}
                 </Carousel>
               </div>
-              {
-                car.description &&
+              {car.description && (
                 <div className="car-description ">
                   <h2>Description</h2>
                   {car.description || "No description available"}
                 </div>
-              }
+              )}
               <div className="features-sections order-2">
                 {Array.isArray(featuresData) && featuresData.length > 0 && (
                   <>
-                    {featuresData.some(data => data.features?.length > 0) && (
+                    {featuresData.some((data) => data.features?.length > 0) && (
                       <>
                         <h2>Features</h2>
                         <div className="features-details">
@@ -170,11 +165,9 @@ function Carsale() {
                         </div>
                       </>
                     )}
-
                   </>
                 )}
               </div>
-
             </div>
             <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 mb-4 px-2 order-1">
               <CarAuction

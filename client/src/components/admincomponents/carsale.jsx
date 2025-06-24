@@ -14,7 +14,6 @@ import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { setBidData } from "../../store/eventSlice";
 
-
 function Carsale() {
   const dispatch = useDispatch();
   const { id } = useParams();
@@ -86,25 +85,23 @@ function Carsale() {
             <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 mb-4">
               <div className="carsale-section">
                 <Carousel interval={2000} pause="hover">
-                  {
-                    car.videoLink && (
-                      <Carousel.Item>
-                        <div className="video-container">
-                          <iframe
-                            width="100%"
-                            height="300px"
-                            style={{ borderRadius: "10px" }}
-                            src={getEmbedUrl(car.videoLink || "")}
-                            title="Car Video"
-                            frameBorder="0"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                            allowFullScreen
-                          ></iframe>
-                        </div>
-                      </Carousel.Item>
-                    )
-                  }
-                  {car.carImages.map((image, index) => (
+                  {car.videoLink && (
+                    <Carousel.Item>
+                      <div className="video-container">
+                        <iframe
+                          width="100%"
+                          height="300px"
+                          style={{ borderRadius: "10px" }}
+                          src={getEmbedUrl(car.videoLink || "")}
+                          title="Car Video"
+                          frameBorder="0"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                          allowFullScreen
+                        ></iframe>
+                      </div>
+                    </Carousel.Item>
+                  )}
+                  {car.carImages.slice(0, 8).map((image, index) => (
                     <Carousel.Item key={index}>
                       <img
                         className="d-block w-100"
@@ -116,17 +113,16 @@ function Carsale() {
                   ))}
                 </Carousel>
               </div>
-              {
-                car.description &&
+              {car.description && (
                 <div className="car-description ">
                   <h2>Description</h2>
                   {car.description || "No description available"}
                 </div>
-              }
+              )}
               <div className="features-sections order-2">
                 {Array.isArray(featuresData) && featuresData.length > 0 && (
                   <>
-                    {featuresData.some(data => data.features?.length > 0) && (
+                    {featuresData.some((data) => data.features?.length > 0) && (
                       <>
                         <h2>Features</h2>
                         <div className="features-details">
@@ -140,7 +136,6 @@ function Carsale() {
                         </div>
                       </>
                     )}
-
                   </>
                 )}
               </div>
