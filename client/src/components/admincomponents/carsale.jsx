@@ -101,7 +101,7 @@ function Carsale() {
                       </div>
                     </Carousel.Item>
                   )}
-                  {car.carImages.slice(0, 8).map((image, index) => (
+                  {car.carImages.slice(0, 10).map((image, index) => (
                     <Carousel.Item key={index}>
                       <img
                         className="d-block w-100"
