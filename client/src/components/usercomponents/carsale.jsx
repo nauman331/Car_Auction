@@ -23,6 +23,7 @@ function Carsale() {
   const [featuresData, setFeaturesData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [vimeoLive, setVimeoLive] = useState(false);
+  const [vimeoLink, setVimeoLink] = useState("");
 
   const [selectedImage, setSelectedImage] = useState(null);
   const [showModal, setShowModal] = useState(false);
@@ -55,8 +56,24 @@ function Carsale() {
     }
   };
 
+  const getVimeoLink = async () => {
+    try {
+      const response = await fetch(`${backendURL}/vimeo/vimeo-link`, {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      });
+      if (!response.ok) throw new Error("Failed to fetch Vimeo link");
+      const data = await response.json();
+      setVimeoLink(data.link || "");
+    } catch (error) {
+      setVimeoLink("");
+      // Optionally show a toast or log error
+    }
+  };
+
   useEffect(() => {
     getCarDetails();
+    getVimeoLink();
   }, [id]);
 
   if (loading) {
@@ -89,7 +106,7 @@ function Carsale() {
         <div className="container">
           <div className="row">
             <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 mb-4 ">
-              {vimeoLive && (
+              {vimeoLive && vimeoLink && (
                 <div
                   style={{
                     height: "300px",
@@ -100,10 +117,10 @@ function Carsale() {
                   }}
                 >
                   <iframe
-                    src="https://vimeo.com/event/5225409/embed"
+                    src={vimeoLink || "https://vimeo.com/event/5225409/embed"}
                     allow="autoplay; fullscreen; picture-in-picture"
-                    allowfullscreen
-                    frameborder="0"
+                    allowFullScreen
+                    frameBorder="0"
                     style={{
                       width: "100%",
                       height: "100%",

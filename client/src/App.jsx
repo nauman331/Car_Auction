@@ -27,11 +27,11 @@ import "./assets/stylesheets/car responsive.scss";
 import Verificationform from "./components/usercomponents/Verificationform";
 import Deposits from "./components/admincomponents/Deposits";
 import CarSales from "./components/admincomponents/carsale";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import toast from "react-hot-toast";
 import { setBidData, removeBidData } from "./store/eventSlice";
-import { setColor } from "./store/slices/colorSlice"
+import { setColor } from "./store/slices/colorSlice";
 import UserPanel from "./pages/userpages/UserPanel";
 import Wallet from "./components/usercomponents/userpanel/Wallet";
 import Carsforsale from "./pages/userpages/car";
@@ -50,13 +50,14 @@ import UserDetail from "./components/admincomponents/UserDetail";
 import Withdrawals from "./components/admincomponents/Withdrawals";
 import WithdrawDetail from "./components/admincomponents/WithdrawDetail";
 import PageNotFound from "./pages/userpages/page-not-found";
+import ViemoLink from "./components/admincomponents/ViemoLink";
 
 function App() {
   const dispatch = useDispatch();
   const { socket } = useSelector((state) => state.socket);
   const { currentBidData } = useSelector((state) => state.event);
   const { token, userdata } = useSelector((state) => state.auth);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const handleToast = (response) => {
     if (userdata?.id === response?.user || userdata?.id === response?.id) {
@@ -82,8 +83,7 @@ function App() {
         return;
       }
       new Audio("/notification.wav").play();
-      // toast.success("Pay Attention to the Price of Current Car!", { duration: 5000 });
-      dispatch(setColor(response))
+      dispatch(setColor(response));
     };
 
     const handleBidPlaced = (response) => {
@@ -108,7 +108,10 @@ function App() {
     const handleAuctionStatusChanged = (response) => {
       console.log(response);
       const currentPath = window.location.pathname.replace(/\/$/, "");
-      const expectedPath = `/auctioncar/${String(response.carId)}`.replace(/\/$/, "");
+      const expectedPath = `/auctioncar/${String(response.carId)}`.replace(
+        /\/$/,
+        ""
+      );
 
       if (!response.isOk) {
         handleToast(response);
@@ -126,7 +129,10 @@ function App() {
       dispatch(removeBidData());
 
       if (!response.nextCar || !response.nextCar._id) {
-        if (currentPath.startsWith("/auctioncar/") && currentPath === expectedPath) {
+        if (
+          currentPath.startsWith("/auctioncar/") &&
+          currentPath === expectedPath
+        ) {
           setTimeout(() => {
             navigate("/", { replace: true });
             return;
@@ -136,7 +142,10 @@ function App() {
 
       const navigatingCar = String(response.nextCar._id);
 
-      if (currentPath.startsWith("/auctioncar/") && currentPath === expectedPath) {
+      if (
+        currentPath.startsWith("/auctioncar/") &&
+        currentPath === expectedPath
+      ) {
         setTimeout(() => {
           if (String(response.carId) === navigatingCar) {
             console.log("Navigating to Homepage");
@@ -149,10 +158,12 @@ function App() {
       }
     };
 
-
     const handleNotifyBidders = (response) => {
       const currentPath = window.location.pathname.replace(/\/$/, "");
-      const expectedPath = `/auctioncar/${String(response.carId)}`.replace(/\/$/, "");
+      const expectedPath = `/auctioncar/${String(response.carId)}`.replace(
+        /\/$/,
+        ""
+      );
 
       if (!response.isOk) {
         handleToast(response);
@@ -165,7 +176,10 @@ function App() {
 
       if (!response.nextCar || !response.nextCar._id) {
         if (!response.nextCar || !response.nextCar._id) {
-          if (currentPath.startsWith("/auctioncar/") && currentPath === expectedPath) {
+          if (
+            currentPath.startsWith("/auctioncar/") &&
+            currentPath === expectedPath
+          ) {
             setTimeout(() => {
               navigate("/", { replace: true });
               return;
@@ -179,7 +193,10 @@ function App() {
       console.log("Current Car ID:", response.carId);
       console.log("Navigating Car ID:", navigatingCar);
 
-      if (currentPath.startsWith("/auctioncar/") && currentPath === expectedPath) {
+      if (
+        currentPath.startsWith("/auctioncar/") &&
+        currentPath === expectedPath
+      ) {
         setTimeout(() => {
           if (String(response.carId) === navigatingCar) {
             console.log("Navigating to Homepage");
@@ -191,10 +208,6 @@ function App() {
         }, 0);
       }
     };
-
-
-
-
 
     if (socket) {
       socket.on("connect", () => console.log("Socket connected"));
@@ -268,9 +281,16 @@ function App() {
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="carlistings" element={<CarListings />} />
             <Route path="addauctionevent" element={<AddAuctionForm />} />
-            <Route path="addbuynow" element={<AddBuyNow sellingType="fixed" />} />
+            <Route path="vimeolink" element={<ViemoLink />} />
+            <Route
+              path="addbuynow"
+              element={<AddBuyNow sellingType="fixed" />}
+            />
             <Route path="auctionlistings" element={<AuctionListings />} />
-            <Route path="addauction" element={<AddBuyNow sellingType="auction" />} />
+            <Route
+              path="addauction"
+              element={<AddBuyNow sellingType="auction" />}
+            />
             <Route path="auctioninventory" element={<AuctionInventory />} />
             <Route path="managecategories" element={<CategoryManagement />} />
             <Route path="allusers" element={<AllUsers />} />

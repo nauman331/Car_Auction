@@ -1,6 +1,6 @@
 import { NavLink } from "react-router-dom";
 import "../../assets/stylesheets/admin/leftadminnav.scss";
-import img2 from "../../assets/images/project logo light (1).svg"
+import img2 from "../../assets/images/project logo light (1).svg";
 import {
   LayoutDashboard,
   Car,
@@ -16,6 +16,7 @@ import {
   Gavel,
   HandCoins,
   House,
+  ListVideo,
 } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
@@ -23,15 +24,28 @@ import { logOut } from "../../store/slices/authSlice";
 
 const menuItems = [
   { to: "/admin/dashboard", icon: <LayoutDashboard />, label: "Dashboard" },
-  { to: "/admin/auctionlistings", icon: <Gavel />, label: "Auctions Management" },
-  { to: "/admin/auctioninventory", icon: <CarFront />, label: "Auction Inventory" },
+  {
+    to: "/admin/auctionlistings",
+    icon: <Gavel />,
+    label: "Auctions Management",
+  },
+  {
+    to: "/admin/auctioninventory",
+    icon: <CarFront />,
+    label: "Auction Inventory",
+  },
   { to: "/admin/carlistings", icon: <Car />, label: "Buy Now Inventory" },
-  { to: "/admin/managecategories", icon: <ListTodo />, label: "Category Options" },
+  {
+    to: "/admin/managecategories",
+    icon: <ListTodo />,
+    label: "Category Options",
+  },
   { to: "/admin/orders", icon: <ShoppingCart />, label: "Orders" },
   { to: "/admin/deposits", icon: <Wallet />, label: "Deposits" },
   { to: "/admin/withdrawals", icon: <HandCoins />, label: "Withdrawals" },
   { to: "/admin/allusers", icon: <Users />, label: "Users" },
   { to: "/admin/profile", icon: <SquareUser />, label: "My Profile" },
+  { to: "/admin/vimeolink", icon: <ListVideo />, label: "Vimeo Link" },
 ];
 
 const AdminNav = () => {
@@ -71,7 +85,11 @@ const AdminNav = () => {
           />
         </div>
         {isMobile ? (
-          open ? <X onClick={() => setOpen(false)} className="toggler" /> : <Menu onClick={() => setOpen(true)} className="toggler" />
+          open ? (
+            <X onClick={() => setOpen(false)} className="toggler" />
+          ) : (
+            <Menu onClick={() => setOpen(true)} className="toggler" />
+          )
         ) : (
           <NavLink to="/" className="home-icon">
             <House />
@@ -80,7 +98,12 @@ const AdminNav = () => {
       </header>
       <aside className={open ? "open-adminnav" : "close-adminnav"}>
         {menuItems.map(({ to, icon, label }, index) => (
-          <NavLink to={to} className="dash-link" key={index} onClick={handleNavLinkClick}>
+          <NavLink
+            to={to}
+            className="dash-link"
+            key={index}
+            onClick={handleNavLinkClick}
+          >
             {icon}
             <span>{label}</span>
           </NavLink>
