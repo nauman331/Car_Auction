@@ -45,7 +45,7 @@ const menuItems = [
   { to: "/admin/withdrawals", icon: <HandCoins />, label: "Withdrawals" },
   { to: "/admin/allusers", icon: <Users />, label: "Users" },
   { to: "/admin/profile", icon: <SquareUser />, label: "My Profile" },
-  { to: "/admin/vimeolink", icon: <ListVideo />, label: "Vimeo Link" },
+  { to: "/admin/vimeolink", icon: <ListVideo />, label: "Vimeo & Buyer Vivew" },
 ];
 
 const AdminNav = () => {
@@ -112,7 +112,6 @@ const AdminNav = () => {
           <LogOut style={{ transform: "rotate(180deg)" }} />
           <span>Log Out</span>
         </small>
-
         {isMobile && (
           <NavLink to="/" className="dash-link" onClick={handleNavLinkClick}>
             <House />

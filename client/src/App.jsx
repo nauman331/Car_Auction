@@ -27,7 +27,8 @@ import "./assets/stylesheets/car responsive.scss";
 import Verificationform from "./components/usercomponents/Verificationform";
 import Deposits from "./components/admincomponents/Deposits";
 import CarSales from "./components/admincomponents/carsale";
-import { useEffect, useState } from "react";
+import CarSalesBuyer from "./components/admincomponents/carSaleBuyer";
+import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import toast from "react-hot-toast";
 import { setBidData, removeBidData } from "./store/eventSlice";
@@ -108,10 +109,12 @@ function App() {
     const handleAuctionStatusChanged = (response) => {
       console.log(response);
       const currentPath = window.location.pathname.replace(/\/$/, "");
-      const expectedPath = `/auctioncar/${String(response.carId)}`.replace(
-        /\/$/,
-        ""
-      );
+      const expectedAuctionPath = `/auctioncar/${String(
+        response.carId
+      )}`.replace(/\/$/, "");
+      const expectedBuyerPath = `/carsalesbuyer/${String(
+        response.carId
+      )}`.replace(/\/$/, "");
 
       if (!response.isOk) {
         handleToast(response);
@@ -128,11 +131,16 @@ function App() {
 
       dispatch(removeBidData());
 
+      // Handle both /auctioncar/ and /carsalesbuyer/ paths
+      const isAuctionPath =
+        currentPath.startsWith("/auctioncar/") &&
+        currentPath === expectedAuctionPath;
+      const isBuyerPath =
+        currentPath.startsWith("/carsalesbuyer/") &&
+        currentPath === expectedBuyerPath;
+
       if (!response.nextCar || !response.nextCar._id) {
-        if (
-          currentPath.startsWith("/auctioncar/") &&
-          currentPath === expectedPath
-        ) {
+        if (isAuctionPath || isBuyerPath) {
           setTimeout(() => {
             navigate("/", { replace: true });
             return;
@@ -140,19 +148,19 @@ function App() {
         }
       }
 
-      const navigatingCar = String(response.nextCar._id);
+      const navigatingCar = String(response.nextCar?._id);
 
-      if (
-        currentPath.startsWith("/auctioncar/") &&
-        currentPath === expectedPath
-      ) {
+      if (isAuctionPath || isBuyerPath) {
         setTimeout(() => {
           if (String(response.carId) === navigatingCar) {
             console.log("Navigating to Homepage");
             navigate("/", { replace: true });
           } else {
-            console.log(`Navigating to /auctioncar/${navigatingCar}`);
-            navigate(`/auctioncar/${navigatingCar}`, { replace: true });
+            const nextPath = isAuctionPath
+              ? `/auctioncar/${navigatingCar}`
+              : `/carsalesbuyer/${navigatingCar}`;
+            console.log(`Navigating to ${nextPath}`);
+            navigate(nextPath, { replace: true });
           }
         }, 0);
       }
@@ -160,10 +168,12 @@ function App() {
 
     const handleNotifyBidders = (response) => {
       const currentPath = window.location.pathname.replace(/\/$/, "");
-      const expectedPath = `/auctioncar/${String(response.carId)}`.replace(
-        /\/$/,
-        ""
-      );
+      const expectedAuctionPath = `/auctioncar/${String(
+        response.carId
+      )}`.replace(/\/$/, "");
+      const expectedBuyerPath = `/carsalesbuyer/${String(
+        response.carId
+      )}`.replace(/\/$/, "");
 
       if (!response.isOk) {
         handleToast(response);
@@ -174,36 +184,39 @@ function App() {
       toast.success(response.message, { duration: 5000 });
       dispatch(removeBidData());
 
+      // Handle both /auctioncar/ and /carsalesbuyer/ paths
+      const isAuctionPath =
+        currentPath.startsWith("/auctioncar/") &&
+        currentPath === expectedAuctionPath;
+      const isBuyerPath =
+        currentPath.startsWith("/carsalesbuyer/") &&
+        currentPath === expectedBuyerPath;
+
       if (!response.nextCar || !response.nextCar._id) {
-        if (!response.nextCar || !response.nextCar._id) {
-          if (
-            currentPath.startsWith("/auctioncar/") &&
-            currentPath === expectedPath
-          ) {
-            setTimeout(() => {
-              navigate("/", { replace: true });
-              return;
-            }, 0);
-          }
+        if (isAuctionPath || isBuyerPath) {
+          setTimeout(() => {
+            navigate("/", { replace: true });
+            return;
+          }, 0);
         }
       }
 
-      const navigatingCar = String(response.nextCar._id);
+      const navigatingCar = String(response.nextCar?._id);
 
       console.log("Current Car ID:", response.carId);
       console.log("Navigating Car ID:", navigatingCar);
 
-      if (
-        currentPath.startsWith("/auctioncar/") &&
-        currentPath === expectedPath
-      ) {
+      if (isAuctionPath || isBuyerPath) {
         setTimeout(() => {
           if (String(response.carId) === navigatingCar) {
             console.log("Navigating to Homepage");
             navigate("/", { replace: true });
           } else {
-            console.log(`Navigating to /auctioncar/${navigatingCar}`);
-            navigate(`/auctioncar/${navigatingCar}`, { replace: true });
+            const nextPath = isAuctionPath
+              ? `/auctioncar/${navigatingCar}`
+              : `/carsalesbuyer/${navigatingCar}`;
+            console.log(`Navigating to ${nextPath}`);
+            navigate(nextPath, { replace: true });
           }
         }, 0);
       }
@@ -275,6 +288,7 @@ function App() {
           <Route path="/auctioncar/:id" element={<Carsforsale />} />
           <Route path="/auction-events" element={<Events />} />
           <Route path="/buycar/:id" element={<Buycarforsale />} />
+          <Route path="/carsalesbuyer/:id" element={<CarSalesBuyer />} />
 
           {/* Admin routes */}
           <Route path="/admin" element={<AdminHome />}>
