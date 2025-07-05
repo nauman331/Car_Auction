@@ -7,6 +7,7 @@ import Loader from "../usercomponents/LoadingSpinner";
 const ViemoLink = () => {
   const { token } = useSelector((state) => state.auth);
   const [vimeoLink, setVimeoLink] = useState("");
+  const [id, setId] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [editValue, setEditValue] = useState("");
@@ -28,12 +29,14 @@ const ViemoLink = () => {
         throw new Error("Failed to fetch Vimeo link");
       }
       const data = await response.json();
-      setVimeoLink(data.link || "");
-      setEditValue(data.link || "");
+      setId(data._id || "");
+      setVimeoLink(data.url || "");
+      setEditValue(data.url || "");
     } catch (error) {
       setError(error.message);
       setVimeoLink("");
       setEditValue("");
+      setId("");
     } finally {
       setIsLoading(false);
     }
@@ -53,10 +56,10 @@ const ViemoLink = () => {
     setIsLoading(true);
     setError(null);
     try {
-      const response = await fetch(`${backendURL}/vimeo/vimeo-link`, {
+      const response = await fetch(`${backendURL}/vimeo/vimeo-link/${id}`, {
         method: "PUT",
         headers,
-        body: JSON.stringify({ link: editValue }),
+        body: JSON.stringify({ url: editValue }),
       });
       const data = await response.json();
       if (!response.ok) {
@@ -64,29 +67,6 @@ const ViemoLink = () => {
       }
       toast.success("Vimeo link updated");
       setVimeoLink(editValue);
-    } catch (error) {
-      setError(error.message);
-      toast.error(error.message);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const handleDelete = async () => {
-    setIsLoading(true);
-    setError(null);
-    try {
-      const response = await fetch(`${backendURL}/vimeo/vimeo-link`, {
-        method: "DELETE",
-        headers,
-      });
-      const data = await response.json();
-      if (!response.ok) {
-        throw new Error(data.message || "Failed to delete Vimeo link");
-      }
-      toast.success("Vimeo link deleted");
-      setVimeoLink("");
-      setEditValue("");
     } catch (error) {
       setError(error.message);
       toast.error(error.message);
@@ -125,16 +105,6 @@ const ViemoLink = () => {
             >
               {vimeoLink ? "Update" : "Add"} Link
             </button>
-            {vimeoLink && (
-              <button
-                type="button"
-                style={{ backgroundColor: "#F25F5C" }}
-                onClick={handleDelete}
-                disabled={isLoading}
-              >
-                Delete Link
-              </button>
-            )}
           </div>
         </form>
         {isLoading && <Loader />}

@@ -64,10 +64,9 @@ function Carsale() {
       });
       if (!response.ok) throw new Error("Failed to fetch Vimeo link");
       const data = await response.json();
-      setVimeoLink(data.link || "");
+      setVimeoLink(data.url || "");
     } catch (error) {
       setVimeoLink("");
-      // Optionally show a toast or log error
     }
   };
 
@@ -117,7 +116,7 @@ function Carsale() {
                   }}
                 >
                   <iframe
-                    src={vimeoLink || "https://vimeo.com/event/5225409/embed"}
+                    src={vimeoLink}
                     allow="autoplay; fullscreen; picture-in-picture"
                     allowFullScreen
                     frameBorder="0"
