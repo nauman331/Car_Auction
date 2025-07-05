@@ -27,7 +27,7 @@ const CarAuction = ({ car, vimeoLive, setVimeoLive }) => {
   const { socket } = useSelector((state) => state.socket);
   const { token } = useSelector((state) => state.auth);
   const { currentBidData } = useSelector((state) => state.event);
-  const { currentCarColor } = useSelector(state => state.color);
+  const { currentCarColor } = useSelector((state) => state.color);
   const [bid, setBid] = useState(car.startingBid || 0);
   const [bidLoading, setBidLoading] = useState(false);
   const [currentBalance, setCurrentBalance] = useState(0);
@@ -52,8 +52,8 @@ const CarAuction = ({ car, vimeoLive, setVimeoLive }) => {
         parseFloat(bid) <=
         parseFloat(
           currentBidData?.bidAmount ||
-          currentBidData?.currentBid ||
-          car.startingBid
+            currentBidData?.currentBid ||
+            car.startingBid
         )
       ) {
         toast.error("Bid amount should be greater than the current bid");
@@ -108,8 +108,8 @@ const CarAuction = ({ car, vimeoLive, setVimeoLive }) => {
     }
   };
   useEffect(() => {
-    setBid(car.startingBid)
-  }, [car])
+    setBid(car.startingBid);
+  }, [car]);
 
   if (loading) {
     return <LoadingSpinner />;
@@ -135,18 +135,57 @@ const CarAuction = ({ car, vimeoLive, setVimeoLive }) => {
           <h5>Current Bid</h5>
           <h1
             style={{
-              backgroundColor: currentCarColor?.carId === car._id && currentCarColor.color === "green" ? "#ccffcc" : "#ffcccc",
+              backgroundColor:
+                currentCarColor?.carId === car._id &&
+                currentCarColor.color === "green"
+                  ? "#ccffcc"
+                  : "#ffcccc",
               textAlign: "center",
               padding: "1rem",
-              color: currentCarColor?.carId === car._id && currentCarColor.color === "green" ? "#006400" : "#b30000",
+              color:
+                currentCarColor?.carId === car._id &&
+                currentCarColor.color === "green"
+                  ? "#006400"
+                  : "#b30000",
               fontSize: "3.5rem",
               width: "70%",
-              borderRadius: "10px"
+              borderRadius: "10px",
             }}
-          >AED {currentBidData?.carId === car._id && (currentBidData?.bidAmount || currentBidData?.currentBid) ?
-            currentBidData?.bidAmount || currentBidData?.currentBid
-            : car?.startingBid}</h1>
-          <p className="mt-4">Bid Starting Price: {car.startingBid || "N/A"} AED</p>
+          >
+            AED{" "}
+            {currentBidData?.carId === car._id &&
+            (currentBidData?.bidAmount || currentBidData?.currentBid)
+              ? currentBidData?.bidAmount || currentBidData?.currentBid
+              : car?.startingBid}
+          </h1>
+
+          <h3
+            style={{
+              backgroundColor: "#cce5ff",
+              color: "#004085",
+              textAlign: "center",
+              padding: "1rem",
+              marginTop: "1rem",
+              width: "70%",
+              borderRadius: "10px",
+            }}
+          >
+            Bid Placed:{" "}
+            {currentBidData?.carId === car._id
+              ? currentBidData?.bidhistory?.length > 0
+                ? currentBidData.bidhistory[
+                    currentBidData.bidhistory.length - 1
+                  ]?.bidType
+                : currentBidData?.bids?.length > 0
+                ? currentBidData.bids[currentBidData.bids.length - 1]
+                    ?.bidType || "None"
+                : "None"
+              : "None"}
+          </h3>
+
+          <p className="mt-4">
+            Bid Starting Price: {car.startingBid || "N/A"} AED
+          </p>
         </div>
         {!car.isSold ? (
           <div className="bid-controls">
@@ -164,7 +203,7 @@ const CarAuction = ({ car, vimeoLive, setVimeoLive }) => {
             </div>
             <div>
               {currentBidData?.auctionStatus &&
-                currentBidData?.carId === car._id ? (
+              currentBidData?.carId === car._id ? (
                 <button
                   className="place-bid"
                   onClick={handlePlaceBid}
