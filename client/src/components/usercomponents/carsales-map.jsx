@@ -168,6 +168,7 @@ const CarAuction = ({ car, vimeoLive, setVimeoLive }) => {
               marginTop: "1rem",
               width: "70%",
               borderRadius: "10px",
+              textTransform: "capitalize",
             }}
           >
             Bid Placed:{" "}
@@ -175,10 +176,11 @@ const CarAuction = ({ car, vimeoLive, setVimeoLive }) => {
               ? currentBidData?.bidhistory?.length > 0
                 ? currentBidData.bidhistory[
                     currentBidData.bidhistory.length - 1
-                  ]?.bidType
+                  ]?.bidType?.toUpperCase()
                 : currentBidData?.bids?.length > 0
-                ? currentBidData.bids[currentBidData.bids.length - 1]
-                    ?.bidType || "None"
+                ? currentBidData.bids[
+                    currentBidData.bids.length - 1
+                  ]?.bidType?.toUpperCase() || "None"
                 : "None"
               : "None"}
           </h3>

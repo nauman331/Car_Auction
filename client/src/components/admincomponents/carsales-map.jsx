@@ -511,6 +511,7 @@ const CarAuction = ({ car, getCarDetails, backendURL }) => {
                   marginTop: "1rem",
                   width: "70%",
                   borderRadius: "10px",
+                  textTransform: "capitalize",
                 }}
               >
                 Bid Placed:{" "}
@@ -521,9 +522,9 @@ const CarAuction = ({ car, getCarDetails, backendURL }) => {
                       ]?.bidType
                     : currentBidData?.bids?.length > 0
                     ? currentBidData.bids[currentBidData.bids.length - 1]
-                        ?.bidType || "None"
-                    : "None"
-                  : "None"}
+                        ?.bidType || "none"
+                    : "none"
+                  : "none"}
               </h3>
 
               <p className="mt-4">
