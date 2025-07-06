@@ -1,32 +1,22 @@
 import React, { useEffect, useState } from "react";
 import { Carousel } from "react-bootstrap";
-import "../../assets/stylesheets/carsale.scss";
 import CarAuction from "./carSaleMapBuyer";
-import FeatureCategory from "../usercomponents/featurescatageories";
-import "../../assets/stylesheets/FeatureCategory.scss";
-import "../../assets/stylesheets/feature.scss";
-// import img4 from "../../assets/images/report 1.png";
-// import img5 from "../../assets/images/Car Brochure.png";
+import "../../assets/stylesheets/carsale.scss";
 import { useParams } from "react-router-dom";
 import { backendURL } from "../../utils/Exports";
 import LoadingSpinner from "../usercomponents/LoadingSpinner";
 import toast from "react-hot-toast";
-// import Relatedlistening from "./related-listening";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setBidData } from "../../store/eventSlice";
-import { Modal } from "react-bootstrap";
 
 function Carsale() {
   const dispatch = useDispatch();
   const { id } = useParams();
-  const [car, setCar] = useState(null);
-  const [featuresData, setFeaturesData] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [vimeoLive, setVimeoLive] = useState(false);
-  const [vimeoLink, setVimeoLink] = useState("");
+  const { currentBidData } = useSelector((state) => state.event);
+  const { currentCarColor } = useSelector((state) => state.color);
 
-  const [selectedImage, setSelectedImage] = useState(null);
-  const [showModal, setShowModal] = useState(false);
+  const [car, setCar] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   const getCarDetails = async () => {
     try {
@@ -41,13 +31,6 @@ function Carsale() {
       if (res_data.currentBid) {
         dispatch(setBidData(res_data.currentBid));
       }
-      setFeaturesData(
-        Object.keys(res_data.car?.features).map((key) => ({
-          category: key,
-          features: res_data.car?.features[key],
-        }))
-      );
-
       setLoading(false);
     } catch (error) {
       console.error("Error fetching car details:", error);
@@ -56,23 +39,8 @@ function Carsale() {
     }
   };
 
-  const getVimeoLink = async () => {
-    try {
-      const response = await fetch(`${backendURL}/vimeo/vimeo-link`, {
-        method: "GET",
-        headers: { "Content-Type": "application/json" },
-      });
-      if (!response.ok) throw new Error("Failed to fetch Vimeo link");
-      const data = await response.json();
-      setVimeoLink(data.url || "");
-    } catch (error) {
-      setVimeoLink("");
-    }
-  };
-
   useEffect(() => {
     getCarDetails();
-    getVimeoLink();
   }, [id]);
 
   if (loading) {
@@ -100,34 +68,10 @@ function Carsale() {
 
   return (
     <div>
-      <div style={{ paddingBottom: 40, backgroundColor: "#050b20" }}></div>
       <div className="mb-5 main">
         <div className="container">
           <div className="row">
             <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 mb-4 ">
-              {vimeoLive && vimeoLink && (
-                <div
-                  style={{
-                    height: "300px",
-                    width: "100%",
-                    marginBottom: "2rem",
-                    border: "2px solid green",
-                    borderRadius: "10px",
-                  }}
-                >
-                  <iframe
-                    src={vimeoLink}
-                    allow="autoplay; fullscreen; picture-in-picture"
-                    allowFullScreen
-                    frameBorder="0"
-                    style={{
-                      width: "100%",
-                      height: "100%",
-                      borderRadius: "10px",
-                    }}
-                  ></iframe>
-                </div>
-              )}
               <div className="carsale-section">
                 <Carousel interval={2000} pause="hover">
                   {car.carImages.slice(0, 10).map((image, index) => (
@@ -158,56 +102,87 @@ function Carsale() {
                   )}
                 </Carousel>
               </div>
-              {car.description && (
-                <div className="car-description ">
-                  <h2>Description</h2>
-                  {car.description || "No description available"}
-                </div>
-              )}
-              <div className="features-sections order-2">
-                {Array.isArray(featuresData) && featuresData.length > 0 && (
-                  <>
-                    {featuresData.some((data) => data.features?.length > 0) && (
-                      <>
-                        <h2>Features</h2>
-                        <div className="features-details">
-                          {featuresData.map((data, index) => (
-                            <FeatureCategory
-                              title={data.category}
-                              key={index}
-                              features={data.features}
-                            />
-                          ))}
-                        </div>
-                      </>
-                    )}
-                  </>
-                )}
+              <h1
+                style={{
+                  fontFamily: "DM Sans",
+                  fontStyle: "normal",
+                  fontWeight: 700,
+                  fontSize: "40px",
+                  lineHeight: "45px",
+                  color: "#050b20",
+                  margin: "1rem auto",
+                }}
+              >
+                {car.listingTitle || "No Title"}{" "}
+              </h1>
+              <div className="current-bid">
+                <h5>Current Bid</h5>
+                <h1
+                  style={{
+                    backgroundColor:
+                      currentCarColor?.carId === car._id &&
+                      currentCarColor.color === "green"
+                        ? "#ccffcc"
+                        : "#ffcccc",
+                    textAlign: "center",
+                    padding: "1rem",
+                    color:
+                      currentCarColor?.carId === car._id &&
+                      currentCarColor.color === "green"
+                        ? "#006400"
+                        : "#b30000",
+                    fontSize: "3.5rem",
+                    borderRadius: "10px",
+                    width: "100%",
+                  }}
+                >
+                  AED{" "}
+                  {currentBidData?.carId === car._id &&
+                  (currentBidData?.bidAmount || currentBidData?.currentBid)
+                    ? currentBidData?.bidAmount || currentBidData?.currentBid
+                    : car?.startingBid}
+                </h1>
+
+                <h3
+                  style={{
+                    backgroundColor: "#cce5ff",
+                    color: "#004085",
+                    textAlign: "center",
+                    padding: "1rem",
+                    marginTop: "1rem",
+                    width: "100%",
+                    borderRadius: "10px",
+                  }}
+                >
+                  Bid Placed:{" "}
+                  {currentBidData?.carId === car._id
+                    ? currentBidData?.bidhistory?.length > 0
+                      ? currentBidData.bidhistory[
+                          currentBidData.bidhistory.length - 1
+                        ]?.bidType
+                      : currentBidData?.bids?.length > 0
+                      ? currentBidData.bids[currentBidData.bids.length - 1]
+                          ?.bidType || "None"
+                      : "None"
+                    : "None"}
+                </h3>
+
+                <p className="mt-4">
+                  Bid Starting Price: {car.startingBid || "N/A"} AED
+                </p>
               </div>
+              {car.isSold && (
+                <h4 style={{ color: "#aaa", margin: "1rem 0" }}>
+                  Car is already Sold
+                </h4>
+              )}
             </div>
             <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 mb-4 px-2 order-1">
-              <CarAuction
-                car={car}
-                vimeoLive={vimeoLive}
-                setVimeoLive={setVimeoLive}
-              />
+              <CarAuction car={car} />
             </div>
           </div>
-          {/* <div className="row">
-            <Relatedlistening />
-          </div> */}
         </div>
       </div>
-
-      <Modal show={showModal} onHide={() => setShowModal(false)} centered>
-        <Modal.Body className="p-0">
-          <img
-            src={selectedImage}
-            alt="Full-size"
-            style={{ width: "100%", height: "100%", objectFit: "contain" }}
-          />
-        </Modal.Body>
-      </Modal>
     </div>
   );
 }

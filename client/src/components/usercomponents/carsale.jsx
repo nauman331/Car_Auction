@@ -117,9 +117,8 @@ function Carsale() {
                 >
                   <iframe
                     src={vimeoLink}
-                    allow="autoplay; fullscreen; picture-in-picture"
+                    allow="autoplay; fullscreen;"
                     allowFullScreen
-                    frameBorder="0"
                     style={{
                       width: "100%",
                       height: "100%",
