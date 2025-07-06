@@ -23,7 +23,6 @@ const CarAuction = ({ car }) => {
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
-
           borderBottom: "2px solid #f0f0f0",
           marginTop: "3rem",
         }}
